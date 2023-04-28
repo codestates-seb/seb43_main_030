@@ -12,9 +12,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
-#  sql:
-#    init:
-#      data-locations: classpath*:db/h2/data.sql
+  sql:
+    init:
+      data-locations: classpath*:db/h2/data.sql
 logging:
   level:
     org:
