@@ -7,14 +7,14 @@ spring:
     url: jdbc:h2:mem:test
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-  sql:
-    init:
-      data-locations: classpath*:db/h2/data.sql
+#  sql:
+#    init:
+#      data-locations: classpath*:db/h2/data.sql
 logging:
   level:
     org:
