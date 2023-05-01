@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,9 +51,14 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     }
 
     private void setAuthenticationToContext(Map<String, Object> claims){
-        String username = (String) claims.get("username");
+        String email = (String) claims.get("email");
+        Long userId = Long.valueOf(String.valueOf(claims.get("userId")));
+        Map<String, Object> map = new HashMap<>();
+        map.put("email", email);
+        map.put("userId", userId);
+
         List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List) claims.get("roles"));
-        Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(map, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 

@@ -8,10 +8,7 @@ import com.kids.SEB_main_030.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -36,4 +33,5 @@ public class UserController {
         URI location = UriCreator.createUri(USER_DEFAULT_URL, user.getUserId());
         return ResponseEntity.created(location).build();
     }
+
 }

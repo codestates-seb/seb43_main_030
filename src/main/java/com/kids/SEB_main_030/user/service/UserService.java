@@ -5,9 +5,12 @@ import com.kids.SEB_main_030.exception.CustomException;
 import com.kids.SEB_main_030.exception.LogicException;
 import com.kids.SEB_main_030.user.entity.User;
 import com.kids.SEB_main_030.user.repository.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Map;
 
 @Transactional
 @Service
@@ -34,4 +37,10 @@ public class UserService {
             throw new LogicException(CustomException.USER_EXISTS);
         });
     }
+
+    public Long findSecurityContextHolderUserId() {
+        Map principal = (Map) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return (Long) principal.get("userId");
+    }
+
 }
