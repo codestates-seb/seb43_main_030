@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Table(name = "users")
 @NoArgsConstructor
@@ -25,6 +27,8 @@ public class User extends Auditable {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private UserStatus userStatus = UserStatus.USER_ACTIVE;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
     public enum UserStatus{
         USER_ACTIVE("활동중"),
         USER_WITHDRAWAL("회원 탈퇴");

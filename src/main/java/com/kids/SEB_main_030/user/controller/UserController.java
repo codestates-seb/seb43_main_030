@@ -30,7 +30,7 @@ public class UserController {
         this.mapper = mapper;
     }
 
-    @PostMapping("/join")
+    @PostMapping
     public ResponseEntity postUser(@Valid @RequestBody UserPostDto userPostDto){
         User user = userService.createUser(mapper.userPostDtoToUser(userPostDto));
         URI location = UriCreator.createUri(USER_DEFAULT_URL, user.getUserId());
