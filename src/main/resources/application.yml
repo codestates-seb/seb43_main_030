@@ -5,6 +5,7 @@ spring:
       path: /h2
   datasource:
     url: jdbc:h2:mem:test
+
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -12,9 +13,23 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
   sql:
     init:
       data-locations: classpath*:db/h2/data.sql
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: net1645@gmail.com
+    password: ${GOOGLE_APP_KEY}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 logging:
   level:
     org:

@@ -18,7 +18,7 @@ import java.net.URI;
 @RequestMapping("/api/users")
 @RestController
 public class UserController {
-    private final static String USER_DEFAULT_URL = "/users";
+    private final static String USER_DEFAULT_URL = "/api/users";
     private final UserService userService;
     private final UserMapper mapper;
 

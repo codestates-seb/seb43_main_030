@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public class UserPatchDto {
-    private String nickName;
+    private String password;
 }

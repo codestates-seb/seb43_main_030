@@ -9,6 +9,6 @@ import lombok.Setter;
 public class UserResponseDto {
     private long userId;
     private String email;
-    private String nickName;
+    private long currentProfileId;
     private User.UserStatus userStatus;
 }

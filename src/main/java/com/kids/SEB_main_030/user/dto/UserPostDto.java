@@ -10,6 +10,6 @@ public class UserPostDto {
     @NotBlank(message = "이메일을 입력하세요.")
     @Email(message = "이메일 형식이 아닙니다.")
     private String email;
-    private String nickName;
+    @NotBlank(message = "비밀번호를 입력하세요.")
     private String password;
 }
