@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PersonProfileResponseDto {
+    private long profileId;
     private String name;
     private String imageUrl;
 }

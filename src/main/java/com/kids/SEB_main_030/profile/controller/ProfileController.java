@@ -50,13 +50,26 @@ public class ProfileController {
         return new ResponseEntity(new SingleResponseDto<>(mapper.profileToDogProfileDto(profile)),HttpStatus.OK);
     }
 
-//    @GetMapping
-//    public ResponseEntity getProfiles(){
-//        List<Profile> profiles = profileService.findProfiles();
-//        return new ResponseEntity<>(mapper.profilesToReponseDtos(profiles), HttpStatus.OK);
-//    }
-//    @PatchMapping("/{profile-id}")
-//    public ResponseEntity patchProfile(@Valid @RequestBody ProfilePatchDto patchDto){
-//
-//    }
+    @GetMapping
+    public ResponseEntity getProfiles(){
+        List<Profile> profiles = profileService.findProfiles();
+        return new ResponseEntity<>(mapper.profilesToReponseDtos(profiles), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{profile-id}")
+    public ResponseEntity deleteProfile(@PathVariable("profile-id") long profileId){
+        profileService.deleteProfile(profileId);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @PatchMapping("/{profile-id}")
+    public ResponseEntity patchProfile(@Valid @RequestBody ProfilePatchDto patchDto,
+                                       @PathVariable("profile-id") long profileId){
+        Profile profile = mapper.profilePatchToProfile(patchDto);
+        Profile result = profileService.updateProfile(profile, profileId);
+        if (result.getType().equals(Profile.type.PERSON)){
+            return new ResponseEntity(new SingleResponseDto<>(mapper.profileToPersonProfileDto(result)),HttpStatus.OK);
+        }
+        return new ResponseEntity(new SingleResponseDto<>(mapper.profileToDogProfileDto(result)),HttpStatus.OK);
+    }
 }

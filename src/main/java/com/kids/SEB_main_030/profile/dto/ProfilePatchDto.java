@@ -8,10 +8,8 @@ import javax.validation.constraints.NotBlank;
 @Getter
 public class ProfilePatchDto {
     private String name;
-    private Profile.type type;
+    private Boolean checkPerson;
     private String gender;
-    private String birth;
     private String breed;
-    private String age;
     private String imageUrl;
 }

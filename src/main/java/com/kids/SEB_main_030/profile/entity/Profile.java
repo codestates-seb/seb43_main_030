@@ -22,7 +22,7 @@ public class Profile {
     private String gender;
     private String breed;
     private String imageUrl;
-    private boolean usingProfile;
+    private boolean checkPerson;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")

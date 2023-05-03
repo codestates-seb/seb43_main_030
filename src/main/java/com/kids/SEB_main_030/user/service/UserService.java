@@ -67,8 +67,6 @@ public class UserService {
         Profile profile = new Profile();
         profile.setType(Profile.type.PERSON);
         profile.setName(initName());
-        profile.setUsingProfile(true);
-
         return profileRepository.save(profile);
     }
 
