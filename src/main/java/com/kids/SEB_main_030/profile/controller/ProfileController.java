@@ -72,4 +72,10 @@ public class ProfileController {
         }
         return new ResponseEntity(new SingleResponseDto<>(mapper.profileToDogProfileDto(result)),HttpStatus.OK);
     }
+
+    @PostMapping("/{profile-id}")
+    public ResponseEntity selectProfile(@PathVariable("profile-id") long profileId){
+        profileService.selectProfile(profileId);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 }

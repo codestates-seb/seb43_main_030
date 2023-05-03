@@ -79,6 +79,11 @@ public class ProfileService {
         profileRepository.delete(profile);
     }
 
+    public void selectProfile(long profileId){
+        Profile profile = verifyProfile(profileId);
+        checkProfileOwner(profile);
+        profile.getUser().setCurrentProfileId(profileId);
+    }
     public void checkProfileOwner(Profile profile){
         // 로그인 유저의 프로필 정보인지 한번 더 검증
         if (profile.getUser().getUserId() != userService.findSecurityContextHolderUserId()){
