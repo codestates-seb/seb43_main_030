@@ -9,7 +9,9 @@ public enum CustomException {
     NO_PERMISSION(403, "동작을 수행할 수 없습니다."),
     PROFILE_NOT_FOUND(404,"프로필을 찾을 수 없습니다."),
     PROFILE_CANNOT_DELETE(405, "사용중인 프로필은 삭제할 수 없습니다."),
-    PROFILE_CANNOT_ADD(405,"프로필을 더이상 추가할 수 없습니다.");
+    PROFILE_CANNOT_ADD(405,"프로필을 더이상 추가할 수 없습니다."),
+    KINDERGARTEN_NOT_FOUND(404,"유치원을 찾을 수 없습니다.");
+
     @Getter
     private int status;
 
