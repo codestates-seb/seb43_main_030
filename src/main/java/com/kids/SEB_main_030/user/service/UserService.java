@@ -6,6 +6,7 @@ import com.kids.SEB_main_030.profile.service.ProfileService;
 import com.kids.SEB_main_030.security.utils.CustomAuthorityUtils;
 import com.kids.SEB_main_030.exception.CustomException;
 import com.kids.SEB_main_030.exception.LogicException;
+import com.kids.SEB_main_030.user.dto.UserPatchDto;
 import com.kids.SEB_main_030.user.entity.User;
 import com.kids.SEB_main_030.user.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,7 +35,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
         this.authorityUtils = authorityUtils;
     }
-
+    // Todo 회원 가입 이메일 인증 , 비밀번호 찾기
     public User createUser(User user){
         verifyExistsEmail(user.getEmail());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -46,7 +47,22 @@ public class UserService {
 
         return userRepository.save(user);
     }
-
+    //Todo 회원 탈퇴 로직 상세
+    public void removeUser(){
+        Long userId = findSecurityContextHolderUserId();
+        User findUser = findVerifiedUser(userId);
+        findUser.setUserStatus(User.UserStatus.USER_WITHDRAWAL);
+    }
+    public void modifyPassword(UserPatchDto patchDto){
+        long userId = findSecurityContextHolderUserId();
+        User findUser = findVerifiedUser(userId);
+        // 현재 비밀번호와 다르거나 비밀번호 확인란이 다른 경우
+        if (!passwordEncoder.matches(patchDto.getCurPassword(), findUser.getPassword()) ||
+                !patchDto.getPassword1().equals(patchDto.getPassword2())){
+            throw new LogicException(CustomException.INPUT_NOT_EQUALS);
+        }
+        findUser.setPassword(passwordEncoder.encode(patchDto.getPassword1()));
+    }
     private void verifyExistsEmail(String email){
         userRepository.findByEmail(email).ifPresent(e -> {
             throw new LogicException(CustomException.USER_EXISTS);

@@ -1,11 +1,13 @@
 package com.kids.SEB_main_030.user.controller;
 
+import com.kids.SEB_main_030.user.dto.UserPatchDto;
 import com.kids.SEB_main_030.user.dto.UserPostDto;
 import com.kids.SEB_main_030.user.entity.User;
 import com.kids.SEB_main_030.user.mapper.UserMapper;
 import com.kids.SEB_main_030.user.service.UserService;
 import com.kids.SEB_main_030.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -34,4 +36,15 @@ public class UserController {
         return ResponseEntity.created(location).build();
     }
 
+    @PatchMapping
+    public ResponseEntity patchUser(@Valid @RequestBody UserPatchDto userPatchDto){
+        userService.modifyPassword(userPatchDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public ResponseEntity deleteUser(){
+        userService.removeUser();
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 }
