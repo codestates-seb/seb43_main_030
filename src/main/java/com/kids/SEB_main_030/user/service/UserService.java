@@ -63,6 +63,12 @@ public class UserService {
         return (Long) principal.get("userId");
     }
 
+    public Long findCurrentProfileId(){
+        Long userId = findSecurityContextHolderUserId();
+        User user = findVerifiedUser(userId);
+        return user.getCurrentProfileId();
+    }
+
     private Profile initProfile(){
         Profile profile = new Profile();
         profile.setType(Profile.type.PERSON);
