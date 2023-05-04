@@ -1,0 +1,64 @@
+@tailwind utilities;
+
+@layer utilities {
+  .btn-small-default {
+    @apply h-32 p-8 bg-yellow-500 rounded-md text-14 flex justify-center items-center;
+  }
+  .btn-small-default:hover {
+    @apply bg-yellow-800;
+  }
+  .btn-small-disabled {
+    @apply h-32 p-8  bg-yellow-200 rounded-md text-14 flex justify-center items-center text-white;
+  }
+
+  .btn-medium-default {
+    @apply h-40 p-12 bg-yellow-500 rounded-md text-14 flex justify-center items-center;
+  }
+
+  .btn-medium-default:hover {
+    @apply bg-yellow-800;
+  }
+  .btn-medium-disabled {
+    @apply h-40 px-20 py-8 bg-yellow-200 rounded-md text-14 flex justify-center items-center text-white;
+  }
+
+  .btn-large-default {
+    @apply h-48 px-18 py-14 bg-yellow-500 rounded-md text-16 flex justify-center items-center;
+  }
+  .btn-large-default:hover {
+    @apply bg-yellow-800;
+  }
+  .btn-large-disabled {
+    @apply h-48 px-18 py-14 bg-yellow-200 rounded-md text-16 flex justify-center items-center text-white;
+  }
+
+  .btn-pagination-default {
+    @apply w-23 h-22 px-8 py-3 rounded-md text-black-500 flex justify-center items-center bg-white;
+  }
+  .btn-pagination-default:hover {
+    @apply text-yellow-500 font-bold;
+  }
+  .btn-pagination-default:active {
+    @apply text-black-900 bg-yellow-500 font-normal;
+  }
+
+  .btn-text-default {
+    @apply p-4 text-14 flex justify-center items-center;
+  }
+  .btn-text-default:hover {
+    @apply underline underline-offset-2;
+  }
+  .btn-text-disabled {
+    @apply p-4 text-14 text-black-100 flex justify-center items-center;
+  }
+
+  .btn-border-medium {
+    @apply p-12 text-14 border border-solid rounded-md border-black-070 flex justify-center items-center;
+  }
+  .btn-border-medium:hover {
+    @apply bg-black-025 
+  }
+  .btn-border-disabled {
+    @apply p-12 text-14 border border-solid rounded-md border-black-070 bg-black-025 flex justify-center items-center text-black-070;
+  }
+}
