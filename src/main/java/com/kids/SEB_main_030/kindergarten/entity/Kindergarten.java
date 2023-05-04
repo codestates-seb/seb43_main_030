@@ -1,10 +1,14 @@
 package com.kids.SEB_main_030.kindergarten.entity;
 
+import com.kids.SEB_main_030.post.entity.Like;
+import com.kids.SEB_main_030.post.entity.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -26,4 +30,8 @@ public class Kindergarten {
     private String openHours;
     private String closeHours;
     private String phoneNumber;
+
+    // Post 와 매핑 (유치원 데이터 삭제시 관련 게시물도 삭제)
+    @OneToMany(mappedBy = "kindergarten", cascade = CascadeType.REMOVE)
+    private List<Post> posts = new ArrayList<>();
 }
