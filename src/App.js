@@ -1,5 +1,6 @@
 import './App.css';
 import './styles/utilities.css';
+import DropDownMenu from './components/DropDownMenu';
 
 function App() {
   return (
@@ -35,6 +36,33 @@ function App() {
       <button className="btn-border-disabled" type="button">
         btn이름
       </button>
+
+      {/* input-text */}
+      <div className="input-array">
+        <input type="text" className="input-default" placeholder="안녕하세요" />
+      </div>
+
+      <div className="input-array">
+        <input type="text" className="input-error" placeholder="error 입력" />
+        <p className="input-error-text">에러메시지 에러메시지</p>
+      </div>
+
+      <div className="input-array">
+        <input type="text" className="input-comp" placeholder="comp 입력" />
+        <p className="input-comp-text">완료메시지 완료메시지</p>
+      </div>
+
+      {/* input - btn */}
+      <div className="input-array">
+        <div className="search-input-outline">
+          <input type="text" className="search-input" placeholder="comp 입력" />
+          <button type="button"></button>
+        </div>
+      </div>
+
+      <div className="tab-default">공지</div>
+      <div className="pin-default">왈독애견유치원</div>
+      <DropDownMenu />
     </div>
   );
 }
