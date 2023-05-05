@@ -2,95 +2,102 @@
 
 @layer utilities {
   .btn-small-default {
-    @apply h-32 p-8 bg-yellow-500 rounded-md text-14 flex justify-center items-center;
-  }
-  .btn-small-default:hover {
-    @apply bg-yellow-800;
-  }
-  .btn-small-disabled {
-    @apply h-32 p-8  bg-yellow-200 rounded-md text-14 flex justify-center items-center text-white;
+    @apply flex h-32 items-center justify-center rounded-md bg-yellow-500 p-8 text-14 hover:bg-yellow-800 disabled:bg-yellow-200 disabled:text-white;
   }
 
   .btn-medium-default {
-    @apply h-40 p-12 bg-yellow-500 rounded-md text-14 flex justify-center items-center;
-  }
-
-  .btn-medium-default:hover {
-    @apply bg-yellow-800;
-  }
-  .btn-medium-disabled {
-    @apply h-40 px-20 py-8 bg-yellow-200 rounded-md text-14 flex justify-center items-center text-white;
+    @apply flex h-40 items-center justify-center rounded-md bg-yellow-500 p-12 text-14 hover:bg-yellow-800 disabled:bg-yellow-200 disabled:text-white;
   }
 
   .btn-large-default {
-    @apply h-48 px-18 py-14 bg-yellow-500 rounded-md text-16 flex justify-center items-center;
-  } 
-  .btn-large-default:hover {
+    @apply flex h-48 items-center justify-center rounded-md bg-yellow-500 px-18 py-14 text-16;
+  }
+  /* .btn-large-default:hover {
     @apply bg-yellow-800;
-  }
-  .btn-large-disabled {
-    @apply h-48 px-18 py-14 bg-yellow-200 rounded-md text-16 flex justify-center items-center text-white;
-  }
+  } */
+  /* .btn-large-disabled {
+    @apply flex h-48 items-center justify-center rounded-md bg-yellow-200 px-18 py-14 text-16 text-white;
+  } */
 
   .btn-pagination-default {
-    @apply w-24 h-24 px-8 py-3 rounded-md text-black-500 flex justify-center items-center bg-white;
+    @apply flex h-24 w-24 items-center justify-center rounded-md bg-white px-8 py-3 text-black-500 active:bg-yellow-500 active:font-normal active:text-black-900;
   }
-  .btn-pagination-default:hover {
-    @apply text-yellow-500 font-bold;
+  /* .btn-pagination-default:hover {
+    @apply font-bold text-yellow-500;
   }
   .btn-pagination-default:active {
-    @apply text-black-900 bg-yellow-500 font-normal;
-  }
+    @apply bg-yellow-500 font-normal text-black-900;
+  } */
 
   .btn-text-default {
-    @apply p-4 text-14 flex justify-center items-center;
+    @apply flex items-center justify-center p-4 text-14;
   }
-  .btn-text-default:hover {
+  /* .btn-text-default:hover {
     @apply underline underline-offset-2;
   }
   .btn-text-disabled {
-    @apply p-4 text-14 text-black-100 flex justify-center items-center;
-  }
+    @apply flex items-center justify-center p-4 text-14 text-black-100;
+  } */
 
   .btn-border-medium {
-    @apply p-12 text-14 border border-solid rounded-md border-black-070 flex justify-center items-center;
+    @apply flex items-center justify-center rounded-md border border-solid border-black-070 p-12 text-14;
   }
-  .btn-border-medium:hover {
-    @apply bg-black-025 
+  /* .btn-border-medium:hover {
+    @apply bg-black-025;
+  } */
+  /* .btn-border-disabled {
+    @apply flex items-center justify-center rounded-md border border-solid border-black-070 bg-black-025 p-12 text-14 text-black-070;
+  } */
+  .input-default {
+    @apply h-50  w-242 rounded-lg border-2 border-solid border-black-070 px-18 py-16 text-14;
   }
-  .btn-border-disabled {
-    @apply p-12 text-14 border border-solid rounded-md border-black-070 bg-black-025 flex justify-center items-center text-black-070;
-  }
-  .input-default{
-    @apply text-14 px-18 py-16 border-2 border-solid border-black-070 rounded-lg w-242 ;
-  }
-  .input-default:focus{
-    @apply outline-none border-yellow-500;
-  }
-  .input-array{
+  /* .input-default:focus {
+    @apply border-yellow-500 outline-none;
+  } */
+  .input-array {
     @apply flex flex-col;
   }
-  .input-error{
-    @apply text-14 px-18 py-16 border-2 border-solid border-red-400 rounded-lg w-242 ;
+  .input-error {
+    @apply h-50 w-242 rounded-lg border-2 border-solid border-red-400 px-18 py-16 text-14;
   }
-  .input-error:focus{
+  /* .input-error:focus {
     @apply outline-none;
+  } */
+  .input-error-text {
+    @apply mt-1 text-left text-12 text-red-400;
   }
-  .input-error-text{
-    @apply text-12 text-left text-red-400;
+  .input-comp {
+    @apply h-50 w-242 rounded-lg border-2 border-solid border-blue-500 px-18 py-16 text-14;
   }
-  .input-comp{
-    @apply text-14 px-18 py-16 border-2 border-solid border-blue-500 rounded-lg w-242 ;
-  }
-  .input-comp:focus{
+  /* .input-comp:focus {
     @apply outline-none;
+  } */
+  .input-comp-text {
+    @apply mt-1 text-left text-12 text-blue-500;
   }
-  .input-comp-text{
-    @apply text-12 text-left text-blue-500;
+  /* .input-comp-text:focus {
+    @apply border-yellow-500;
+  } */
+  /* input btn */
+  .search-input-outline {
+    @apply flex w-242 justify-between rounded-lg border-2 border-solid border-black-070 py-8 pl-18 pr-8;
+  }
+  .search-input-outline-focus {
+    @apply flex w-242 justify-between rounded-lg border-2 border-solid border-yellow-500 py-8 pl-18 pr-8;
+  }
+
+  .search-input {
+    @apply text-14; /* 얘는 css 속성 하나밖에 안 가지니까 일단은? 컴포넌트 안에 공통으로 넣어줄 수 있을 거 같아요 */
+  }
+  /* .search-input:focus {
+    @apply outline-none;
+  } */
+  .search-input-btn {
+    @apply flex h-32 w-32 items-center justify-center rounded-lg bg-yellow-500 text-10;
   }
 
   .tab-default {
-    @apply inline h-39 text-16 py-10;
+    @apply inline h-39 py-10 text-16;
   }
 
   .tab-default:active {
@@ -98,10 +105,10 @@
   }
 
   .pin-default {
-    @apply max-w-200 border-2 border-black-900 px-16 py-8 rounded-[50px];
+    @apply max-w-200 rounded-[50px] border-2 border-black-900 px-16 py-8; /* rounded 픽셀도 tailwind.config.js 에서 정의가능해요  */
   }
 
   .pin-default:active {
-    @apply bg-black-900 text-white font-bold;
+    @apply bg-black-900 font-bold text-white;
   }
 }
