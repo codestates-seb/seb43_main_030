@@ -12,15 +12,15 @@ import cls from '../../utils/tailwind';
 // 그리고 다른 컴포넌트에서 사용되는 버튼이라면 따로 추가해주는 것도 괜찮을것같아요 ex. Pagination 컴포넌트에서만 사용되는 버튼인 경우, 디자인 요소뿐만 아니라 비즈니스로직도 달라지는 등 완전히 재사용하기가 어려운 경우
 function SampleButton(props) {
   /* className, onClick, 버튼에 표시되어야하는 text 또는 icon 등이 포함된 엘리먼트가 될 수 있겟죠? */
-  const { classNames, onClick, children } = props;
+  const { className, onClick, children } = props;
 
   return (
     <button
       type="button"
       onClick={onClick}
       className={cls(
-        'flex items-center justify-center rounded-md bg-yellow-500 hover:bg-yellow-800 disabled:bg-yellow-200 disabled:text-white',
-        classNames,
+        'flex items-center justify-center rounded-md disabled:text-white',
+        className,
         // 이런 식으로 여러 css 속성들을 병렬적으로 표기해야할 때 cls 함수를 사용하면 됩니다.
       )}
     >

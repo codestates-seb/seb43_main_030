@@ -2,82 +2,52 @@
 
 @layer utilities {
   .btn-small-default {
-    @apply flex h-32 items-center justify-center rounded-md bg-yellow-500 p-8 text-14 hover:bg-yellow-800 disabled:bg-yellow-200 disabled:text-white;
+    @apply h-32 bg-yellow-500 p-8 text-14 bg-yellow-500 hover:bg-yellow-800 disabled:bg-yellow-200;
   }
 
   .btn-medium-default {
-    @apply flex h-40 items-center justify-center rounded-md bg-yellow-500 p-12 text-14 hover:bg-yellow-800 disabled:bg-yellow-200 disabled:text-white;
+    @apply h-40 bg-yellow-500 p-12 text-14 bg-yellow-500 hover:bg-yellow-800 disabled:bg-yellow-200;
   }
 
   .btn-large-default {
-    @apply flex h-48 items-center justify-center rounded-md bg-yellow-500 px-18 py-14 text-16;
+    @apply h-48 bg-yellow-500 px-18 py-14 text-16 hover:bg-yellow-800 disabled:bg-yellow-200;
   }
-  /* .btn-large-default:hover {
-    @apply bg-yellow-800;
-  } */
-  /* .btn-large-disabled {
-    @apply flex h-48 items-center justify-center rounded-md bg-yellow-200 px-18 py-14 text-16 text-white;
-  } */
 
   .btn-pagination-default {
-    @apply flex h-24 w-24 items-center justify-center rounded-md bg-white px-8 py-3 text-black-500 active:bg-yellow-500 active:font-normal active:text-black-900;
+    @apply h-24 w-24 bg-white px-8 py-3 text-black-500 active:bg-yellow-500 active:font-normal active:text-black-900;
   }
-  /* .btn-pagination-default:hover {
-    @apply font-bold text-yellow-500;
-  }
-  .btn-pagination-default:active {
-    @apply bg-yellow-500 font-normal text-black-900;
-  } */
 
   .btn-text-default {
-    @apply flex items-center justify-center p-4 text-14;
+    @apply p-4 text-14 hover:underline hover:underline-offset-2 disabled:text-black-100;
   }
-  /* .btn-text-default:hover {
-    @apply underline underline-offset-2;
-  }
-  .btn-text-disabled {
-    @apply flex items-center justify-center p-4 text-14 text-black-100;
-  } */
 
   .btn-border-medium {
-    @apply flex items-center justify-center rounded-md border border-solid border-black-070 p-12 text-14;
+    @apply border border-solid border-black-070 p-12 text-14 hover:bg-black-025 disabled:text-black-070;
   }
-  /* .btn-border-medium:hover {
-    @apply bg-black-025;
-  } */
-  /* .btn-border-disabled {
-    @apply flex items-center justify-center rounded-md border border-solid border-black-070 bg-black-025 p-12 text-14 text-black-070;
-  } */
+
+  /* input */
   .input-default {
-    @apply h-50  w-242 rounded-lg border-2 border-solid border-black-070 px-18 py-16 text-14;
+    @apply border-black-070 outline-none focus:outline-none border-yellow-500;
   }
-  /* .input-default:focus {
-    @apply border-yellow-500 outline-none;
-  } */
+
   .input-array {
     @apply flex flex-col;
   }
   .input-error {
     @apply h-50 w-242 rounded-lg border-2 border-solid border-red-400 px-18 py-16 text-14;
   }
-  /* .input-error:focus {
-    @apply outline-none;
-  } */
+
   .input-error-text {
     @apply mt-1 text-left text-12 text-red-400;
   }
   .input-comp {
     @apply h-50 w-242 rounded-lg border-2 border-solid border-blue-500 px-18 py-16 text-14;
   }
-  /* .input-comp:focus {
-    @apply outline-none;
-  } */
+ 
   .input-comp-text {
     @apply mt-1 text-left text-12 text-blue-500;
   }
-  /* .input-comp-text:focus {
-    @apply border-yellow-500;
-  } */
+ 
   /* input btn */
   .search-input-outline {
     @apply flex w-242 justify-between rounded-lg border-2 border-solid border-black-070 py-8 pl-18 pr-8;
@@ -89,9 +59,7 @@
   .search-input {
     @apply text-14; /* 얘는 css 속성 하나밖에 안 가지니까 일단은? 컴포넌트 안에 공통으로 넣어줄 수 있을 거 같아요 */
   }
-  /* .search-input:focus {
-    @apply outline-none;
-  } */
+
   .search-input-btn {
     @apply flex h-32 w-32 items-center justify-center rounded-lg bg-yellow-500 text-10;
   }

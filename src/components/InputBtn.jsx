@@ -23,7 +23,7 @@ function InputBtn() {
           onFocus={() => setFocus(false)}
           onBlur={() => setFocus(true)}
         >
-          <Search />
+          <Search placeholder="placeholder" />
         </button>
       </div>
     </div>
