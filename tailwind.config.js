@@ -43,6 +43,9 @@ module.exports = {
       height: px0To1000,
       padding: px0To1000,
       fontSize: px0To1000,
+      boxShadow: {
+        'dropDown-shadow': '0px 0px 10px rgba(0, 0, 0, 0.08)',
+      },
     },
   },
   plugins: [],

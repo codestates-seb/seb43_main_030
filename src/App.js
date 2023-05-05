@@ -56,7 +56,7 @@ function App() {
       <div className="input-array">
         <div className="search-input-outline">
           <input type="text" className="search-input" placeholder="comp 입력" />
-          <button type="button"></button>
+          <button type="button">ddd</button>
         </div>
       </div>
 
