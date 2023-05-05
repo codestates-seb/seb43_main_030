@@ -63,6 +63,7 @@ function App() {
         <p className="input-comp-text">완료메시지 완료메시지</p>
       </div>
       <InputBtn />
+
       <div className="tab-default">공지</div>
       <div className="pin-default">왈독애견유치원</div>
       <DropDownMenu />

@@ -68,6 +68,7 @@ module.exports = {
     // 만약에 정적 이미지 파일 경로를 정의하고 싶을 때
     backgroundImage: {
       landing_image: `url(${STATIC_URL}/images/.,..)`, // 요런 식으로 동적 경로 설정이 가능합니다. (당장 적용하실 필요는 없고 이런 방법이 있다정도만 알아두세용) 넹!
+
     },
   },
   plugins: [require('tailwind-children')],
