@@ -1,3 +1,4 @@
+// tailwind 적용 해볼게요
 {
   "env": {
     "browser": true,
@@ -8,8 +9,11 @@
     "airbnb",
     "airbnb/hooks",
     "eslint:recommended",
-    "plugin:prettier/recommended",
-    "prettier"
+    "plugin:tailwindcss/recommended",
+    "prettier",
+    "plugin:prettier/recommended"
+
+    // prettier 관련 설정 extends 는 제일 마지막에 와야합니다
   ],
   "overrides": [],
   "parserOptions": {
@@ -23,5 +27,12 @@
     "react/react-in-jsx-scope": "off",
     "no-unused-vars": "warn",
     "no-console": "warn"
+  },
+  "settings": {
+    "tailwindcss": {
+      "config": "tailwind.config.js",
+      // className을 넘길 때 다른 propName도 className으로 처리하게 수정하는 옵션입니다
+      "callees": ["cls", "classnames"] // 필요에 따라 여러분이 수정해서 쓰시면 됩니다.
+    }
   }
 }
