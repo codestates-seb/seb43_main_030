@@ -1,6 +1,10 @@
 @tailwind utilities;
 
 @layer utilities {
+  .flex-center {
+    @apply flex justify-center items-center;
+  }
+  
   .btn-small-default {
     @apply h-32 bg-yellow-500 p-8 text-14 bg-yellow-500 hover:bg-yellow-800 disabled:bg-yellow-200;
   }

@@ -4,6 +4,7 @@ import DropDownMenu from './components/DropDownMenu';
 import InputBtn from './components/InputBtn';
 import SampleButton from './components/Button/Sample';
 import SampleInput from './components/Input/Sample';
+import Header from './components/PcHeader';
 
 function App() {
   return (
@@ -30,10 +31,10 @@ function App() {
         <p className="input-comp-text">완료메시지 완료메시지</p>
       </div>
       <InputBtn className="a" />
-
       <div className="tab-default">공지</div>
       <div className="pin-default">왈독애견유치원</div>
       <DropDownMenu />
+      <Header />
     </div>
   );
 }
