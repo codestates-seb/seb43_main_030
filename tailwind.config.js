@@ -67,6 +67,7 @@ module.exports = {
       fontSize: px0To64, // font사이즈는 1000까지 쓸 일이 없으므로 1000개의 클래스명을 만들어줄 이유가 없습니다.
       boxShadow: {
         dropDownShadow: '0px 0px 10px rgba(0, 0, 0, 0.08)',
+        pinShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
       },
     },
     // 만약에 정적 이미지 파일 경로를 정의하고 싶을 때

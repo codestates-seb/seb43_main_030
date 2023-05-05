@@ -65,18 +65,10 @@
   }
 
   .tab-default {
-    @apply inline h-39 py-10 text-16;
-  }
-
-  .tab-default:active {
-    @apply border-b-4 border-yellow-500;
+    @apply inline h-39 py-10 text-16 active:border-b-4 active:border-yellow-500;
   }
 
   .pin-default {
-    @apply max-w-200 rounded-[50px] border-2 border-black-900 px-16 py-8; /* rounded 픽셀도 tailwind.config.js 에서 정의가능해요  */
-  }
-
-  .pin-default:active {
-    @apply bg-black-900 font-bold text-white;
+    @apply max-w-200 rounded-[50px] border-2 border-black-900 px-16 py-8 active:bg-black-900 active:font-bold active:text-white hover:font-bold hover:shadow-pinShadow; /* rounded 픽셀도 tailwind.config.js 에서 정의가능해요  */
   }
 }
