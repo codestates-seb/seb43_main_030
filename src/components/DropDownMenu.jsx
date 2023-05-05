@@ -17,7 +17,7 @@ function DropDownMenu() {
           const activeClass = activeIndex === idx ? 'font-bold' : '';
           return (
             <li
-              className={`li profile${idx} cursor-pointer py-12 text-14 last:border-b ${activeClass}`}
+              className={`li profile${idx} cursor-pointer py-12 text-14 last:border-b ${activeClass} rounded-lg hover:bg-black-025`}
               onClick={profileActive}
               role="presentation"
             >
