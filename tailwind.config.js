@@ -43,6 +43,7 @@ module.exports = {
         'black-050': '#F1F2F3',
         'black-070': '#E3E5E8',
         'black-100': '#D6D9DC',
+        'black-150': '#D8DBDE',
         'black-200': '#BABFC4',
         'black-350': '#9199A1',
         'black-500': '#6A737C',
