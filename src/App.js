@@ -1,6 +1,7 @@
 import './App.css';
 import './styles/utilities.css';
 import DropDownMenu from './components/DropDownMenu';
+import InputBtn from './components/InputBtn';
 
 function App() {
   return (
@@ -51,15 +52,7 @@ function App() {
         <input type="text" className="input-comp" placeholder="comp 입력" />
         <p className="input-comp-text">완료메시지 완료메시지</p>
       </div>
-
-      {/* input - btn */}
-      <div className="input-array">
-        <div className="search-input-outline">
-          <input type="text" className="search-input" placeholder="comp 입력" />
-          <button type="button"></button>
-        </div>
-      </div>
-
+      <InputBtn />
       <div className="tab-default">공지</div>
       <div className="pin-default">왈독애견유치원</div>
       <DropDownMenu />
