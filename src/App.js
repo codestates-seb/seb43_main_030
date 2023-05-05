@@ -2,16 +2,26 @@ import './App.css';
 import './styles/utilities.css';
 import DropDownMenu from './components/DropDownMenu';
 import InputBtn from './components/InputBtn';
+import SampleButton from './components/Button/Sample';
 
 function App() {
   return (
     <div className="App">
+      <SampleButton className="flex h-32 items-center justify-center rounded-md  bg-yellow-800 p-8 text-14">
+        버튼
+      </SampleButton>
+      <SampleButton className="btn-small-default bg-yellow-800">
+        버튼
+      </SampleButton>
+      <SampleButton className="btn-small-default bg-yellow-800">
+        버튼
+      </SampleButton>
       <button className="btn-small-default bg-yellow-800" type="button">
         버튼
       </button>
-      <button className="btn-small-disabled" type="button">
+      <SampleButton className="flex h-32  items-center justify-center rounded-md bg-yellow-200 p-8 text-14 text-white">
         버튼
-      </button>
+      </SampleButton>
       <button className="btn-medium-default" type="button">
         버튼
       </button>
