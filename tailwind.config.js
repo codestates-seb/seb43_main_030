@@ -24,6 +24,7 @@ const STATIC_URL = () => {
 // 이렇게 STATIC_URL 주소를 선언하는 이유가 뭘까여
 
 module.exports = {
+  mode: 'jit',
   content: ['./src/**/*.{js,jsx}', './public/index.html'],
   theme: {
     extend: {
@@ -64,11 +65,13 @@ module.exports = {
       padding: px0To1000, // 1000패딩까지 쓸 일이 없겠죠? 새로 변수를 선언해줍시다. (생성되는 클래스네임 개수를 줄이기위해서)
       borderRadius: px0To30,
       fontSize: px0To64, // font사이즈는 1000까지 쓸 일이 없으므로 1000개의 클래스명을 만들어줄 이유가 없습니다.
+      boxShadow: {
+        dropDownShadow: '0px 0px 10px rgba(0, 0, 0, 0.08)',
+      },
     },
     // 만약에 정적 이미지 파일 경로를 정의하고 싶을 때
     backgroundImage: {
       landing_image: `url(${STATIC_URL}/images/.,..)`, // 요런 식으로 동적 경로 설정이 가능합니다. (당장 적용하실 필요는 없고 이런 방법이 있다정도만 알아두세용) 넹!
-
     },
   },
   plugins: [require('tailwind-children')],
