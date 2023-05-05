@@ -24,7 +24,7 @@
 
   .btn-large-default {
     @apply h-48 px-18 py-14 bg-yellow-500 rounded-md text-16 flex justify-center items-center;
-  } 
+  }
   .btn-large-default:hover {
     @apply bg-yellow-800;
   }
@@ -56,37 +56,57 @@
     @apply p-12 text-14 border border-solid rounded-md border-black-070 flex justify-center items-center;
   }
   .btn-border-medium:hover {
-    @apply bg-black-025 
+    @apply bg-black-025;
   }
   .btn-border-disabled {
     @apply p-12 text-14 border border-solid rounded-md border-black-070 bg-black-025 flex justify-center items-center text-black-070;
   }
-  .input-default{
-    @apply text-14 px-18 py-16 border-2 border-solid border-black-070 rounded-lg w-242 ;
+  .input-default {
+    @apply h-50  text-14 px-18 py-16 border-2 border-solid border-black-070 rounded-lg w-242;
   }
-  .input-default:focus{
+  .input-default:focus {
     @apply outline-none border-yellow-500;
   }
-  .input-array{
+  .input-array {
     @apply flex flex-col;
   }
-  .input-error{
-    @apply text-14 px-18 py-16 border-2 border-solid border-red-400 rounded-lg w-242 ;
+  .input-error {
+    @apply h-50 text-14 px-18 py-16 border-2 border-solid border-red-400 rounded-lg w-242;
   }
-  .input-error:focus{
+  .input-error:focus {
     @apply outline-none;
   }
-  .input-error-text{
-    @apply text-12 text-left text-red-400;
+  .input-error-text {
+    @apply mt-1 text-12 text-left text-red-400;
   }
-  .input-comp{
-    @apply text-14 px-18 py-16 border-2 border-solid border-blue-500 rounded-lg w-242 ;
+  .input-comp {
+    @apply h-50 text-14 px-18 py-16 border-2 border-solid border-blue-500 rounded-lg w-242;
   }
-  .input-comp:focus{
+  .input-comp:focus {
     @apply outline-none;
   }
-  .input-comp-text{
-    @apply text-12 text-left text-blue-500;
+  .input-comp-text {
+    @apply mt-1 text-12 text-left text-blue-500;
+  }
+  .input-comp-text:focus {
+    @apply border-yellow-500;
+  }
+  /* input btn */
+  .search-input-outline {
+    @apply flex justify-between py-8 pl-18 pr-8 border-2 border-solid border-black-070 rounded-lg w-242;
+  }
+  .search-input-outline-focus {
+    @apply flex justify-between py-8 pl-18 pr-8 border-2 border-solid border-yellow-500 rounded-lg w-242;
+  }
+
+  .search-input {
+    @apply text-14;
+  }
+  .search-input:focus {
+    @apply outline-none;
+  }
+  .search-input-btn {
+    @apply w-32 h-32 flex justify-center items-center bg-yellow-500 rounded-lg text-10;
   }
 
   .tab-default {
