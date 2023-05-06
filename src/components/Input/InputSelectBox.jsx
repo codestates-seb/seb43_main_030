@@ -3,7 +3,7 @@ import { ReactComponent as ArrowOpen } from '../../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../../images/arrow-close.svg';
 
 function InputSelectBox() {
-  const profiles = ['쫑이콩이맘', '쫑이', '콩이'];
+  const profiles = ['1', '2', '3'];
   const [activeIndex, setActiveIndex] = useState(null);
   const [selectUser, setSelectUser] = useState('선택해주세요.');
   const [focus, setFocus] = useState(false);
@@ -14,7 +14,7 @@ function InputSelectBox() {
     const index = Number(event.target.className.split(' ')[1].slice(-1));
     setActiveIndex(index);
     setSelectUser(profiles[index]);
-    setErrorCheck(false); // 선택된 값이 있을 때는 에러 메시지를 숨기도록 상태 변경
+    setErrorCheck(false);
     setFocus(false);
   };
 
@@ -28,15 +28,13 @@ function InputSelectBox() {
   const wrapperRef = useRef(null);
 
   useEffect(() => {
-    // 해당 컴포넌트 외부를 클릭했을 때 실행되는 함수
     function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        setFocus(false); // focus 값을 false로 변경하여 영역 닫기
+        setFocus(false);
       }
     }
-    // 이벤트 리스너 등록
+
     document.addEventListener('mousedown', handleClickOutside);
-    // 컴포넌트 언마운트 시 이벤트 리스너 해제
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };

@@ -6,23 +6,6 @@ const px0To1000 = Object.fromEntries(pixels);
 const px0To64 = Object.fromEntries(pixels.slice(0, 64 + 1));
 const px0To30 = Object.fromEntries(pixels.slice(0, 30 + 1));
 
-/* 팁 하나 더 놓고 갈게요 */
-
-const isDev = [undefined, 'development'].includes(process.env.NODE_ENV);
-const PRODUCTION_STATIC_URL = ''; // 배포된 서버 주소
-const LOCAL_STATIC_URL = ''; // 로컬주소
-const STATIC_URL = () => {
-  if (process.env.STATIC_URL) {
-    return process.env.STATIC_URL;
-  }
-  if (isDev) {
-    return LOCAL_STATIC_URL;
-  }
-  return PRODUCTION_STATIC_URL;
-};
-
-// 이렇게 STATIC_URL 주소를 선언하는 이유가 뭘까여
-
 module.exports = {
   mode: 'jit',
   content: ['./src/**/*.{js,jsx}', './public/index.html'],
@@ -63,19 +46,16 @@ module.exports = {
       maxHeight: px0To1000,
       width: px0To1000,
       height: px0To1000,
-      padding: px0To1000, // 1000패딩까지 쓸 일이 없겠죠? 새로 변수를 선언해줍시다. (생성되는 클래스네임 개수를 줄이기위해서)
+      padding: px0To1000,
       borderRadius: px0To30,
-      fontSize: px0To64, // font사이즈는 1000까지 쓸 일이 없으므로 1000개의 클래스명을 만들어줄 이유가 없습니다.
+      fontSize: px0To64,
       boxShadow: {
         dropDownShadow: '0px 0px 10px rgba(0, 0, 0, 0.08)',
         pinShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
       },
     },
-    // 만약에 정적 이미지 파일 경로를 정의하고 싶을 때
-    backgroundImage: {
-      landing_image: `url(${STATIC_URL}/images/.,..)`, // 요런 식으로 동적 경로 설정이 가능합니다. (당장 적용하실 필요는 없고 이런 방법이 있다정도만 알아두세용) 넹!
-    },
   },
+  // eslint-disable-next-line global-require
   plugins: [require('tailwind-children')],
   '@tailwind base': {
     '*': {

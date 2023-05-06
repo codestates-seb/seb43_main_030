@@ -5,6 +5,59 @@
     @apply flex items-center justify-center;
   }
 
+  .btn-size-s {
+    @apply h-32 px-8 py-12 text-14;
+  }
+
+  .btn-size-m {
+    @apply h-40 p-12 text-14;
+  }
+
+  .btn-size-l {
+    @apply h-48 px-14 py-20 text-16;
+  }
+
+  .btn-icon {
+    @apply h-32 w-32 p-8;
+  }
+
+  .color-yellow {
+    @apply bg-yellow-500 text-black-900 hover:bg-yellow-800;
+  }
+  .color-yellow:disabled {
+    @apply bg-yellow-200 text-white;
+  }
+
+  .color-white {
+    @apply bg-none text-black-900 hover:bg-black-025;
+  }
+  .color-white:disabled {
+    @apply bg-black-025 text-black-070;
+  }
+
+  .color-black {
+    @apply bg-black-900  text-white hover:bg-black-070;
+  }
+  .color-black:disabled {
+    @apply bg-black-050 text-black-150;
+  }
+
+  .border-gray {
+    @apply border-2 border-solid border-black-070 text-black-900 hover:bg-black-025;
+  }
+  .border-gray:disabled {
+    @apply bg-black-025 text-black-070;
+  }
+
+  .border-yellow {
+    @apply border-2 border-solid border-yellow-500 text-black-900 hover:bg-yellow-100;
+  }
+  .border-yellow:disabled {
+    @apply bg-yellow-100 text-yellow-200;
+  }
+  /* ㄴㅇㄹㄴㄹㄴㅇ */
+  /* ㄴㅇㅇㄹㄹㄴㅇㄹㄴㄹ */
+  /* ㄴㅇㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴ */
   .btn-small-default {
     @apply h-32 bg-yellow-500 bg-yellow-500 p-8 text-14 hover:bg-yellow-800 disabled:bg-yellow-200;
   }
