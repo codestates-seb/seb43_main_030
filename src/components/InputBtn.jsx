@@ -7,7 +7,9 @@ function InputBtn() {
     <div className="input-array">
       <div
         className={
-          focus ? 'search-input-outline' : 'search-input-outline-focus'
+          focus
+            ? 'search-input-outline border-black-070'
+            : 'search-input-outline border-yellow-500'
         }
       >
         <input
@@ -19,11 +21,13 @@ function InputBtn() {
         />
         <button
           type="button"
-          className="search-input-btn"
+          className={
+            focus ? 'search-input-btn' : 'search-input-btn bg-black-025'
+          }
           onFocus={() => setFocus(false)}
           onBlur={() => setFocus(true)}
         >
-          <Search placeholder="placeholder" />
+          <Search />
         </button>
       </div>
     </div>
