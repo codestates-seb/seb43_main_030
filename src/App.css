@@ -1,8 +1,6 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities; 
-
-/* 위의 tailwindcss 속성은 한 번만 정의하면 됩니다 (글로벌 CSS 파일에) */
+@tailwind utilities;
 
 .App {
   text-align: center;

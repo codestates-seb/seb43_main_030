@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import InputBtn from './InputBtn';
-import SampleButton from './Button/Sample';
+import SampleButton from './Button/Button';
 import SampleInput from './Input/Sample';
 import { ReactComponent as Search } from '../images/search.svg';
 import { ReactComponent as ArrowOpen } from '../images/arrow-open.svg';

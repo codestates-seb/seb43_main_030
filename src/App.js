@@ -2,7 +2,7 @@ import './App.css';
 import './styles/utilities.css';
 import DropDownMenu from './components/DropDownMenu';
 import InputBtn from './components/InputBtn';
-import SampleButton from './components/Button/Sample';
+import Button from './components/Button/Button';
 import SampleInput from './components/Input/Sample';
 import InputSelectBox from './components/Input/InputSelectBox';
 import Header from './components/PcHeader';
@@ -10,14 +10,21 @@ import Header from './components/PcHeader';
 function App() {
   return (
     <div className="App">
-      <SampleButton className="btn-small-default">버튼</SampleButton>
-      <SampleButton className="btn-medium-default">버튼</SampleButton>
-      <SampleButton className="btn-large-default">버튼</SampleButton>
-      <SampleButton className="btn-pagination-default">1</SampleButton>
-      <SampleButton className="btn-text-default">수정</SampleButton>
-      <SampleButton className="btn-border-medium">btn이름</SampleButton>
-
-      {/* input-text */}
+      <Button className="btn-size-s color-yellow ">버튼</Button>
+      <Button className="btn-size-m color-yellow">버튼</Button>
+      <Button className="btn-size-l color-yellow">버튼</Button>
+      <Button className="btn-pagination-default">1</Button>
+      <Button className="btn-text-default">수정</Button>
+      <Button className="btn-size-m border-gray">btn이름</Button>
+      <Button className="btn-size-m border-yellow">btn이름</Button>
+      <Button className="btn-icon color-yellow" icon="search" />
+      {/* ToDo : 지도 아이콘 사이즈 작게 수정 필요 */}
+      <Button className="btn-size-m color-yellow" icon="map">
+        btn이름
+      </Button>
+      <Button className="btn-size-l color-yellow" icon="map">
+        btn이름
+      </Button>
 
       <SampleInput
         placeholder="placeholder"
