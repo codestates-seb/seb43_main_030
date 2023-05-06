@@ -16,6 +16,7 @@ public class CustomAuthorityUtils {
 
     private final List<String> ADMIN_ROLES_STRING = List.of("ADMIN", "USER");
     private final List<String> USER_ROLES_STRING = List.of("USER");
+    private final List<String> GUEST_STRING = List.of("GUEST");
 
 
     public List<String> createAuthorities(String email){
@@ -30,6 +31,10 @@ public class CustomAuthorityUtils {
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toList());
         return authorities;
+    }
+
+    public List<String> createGuestRoles(){
+        return GUEST_STRING;
     }
 
 }

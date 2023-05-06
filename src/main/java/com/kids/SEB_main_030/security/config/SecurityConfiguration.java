@@ -1,22 +1,24 @@
 package com.kids.SEB_main_030.security.config;
 
+
 import com.kids.SEB_main_030.security.filter.JwtAuthenticationFilter;
 import com.kids.SEB_main_030.security.filter.JwtVerificationFilter;
-import com.kids.SEB_main_030.security.handler.UserAccessDeniedHandler;
-import com.kids.SEB_main_030.security.handler.UserAuthenticationEntryPoint;
-import com.kids.SEB_main_030.security.handler.UserAuthenticationFailureHandler;
-import com.kids.SEB_main_030.security.handler.UserAuthenticationSuccessHandler;
+import com.kids.SEB_main_030.security.handler.*;
 import com.kids.SEB_main_030.security.jwt.JwtTokenizer;
 import com.kids.SEB_main_030.security.utils.CustomAuthorityUtils;
+import com.kids.SEB_main_030.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -24,15 +26,14 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
+@RequiredArgsConstructor
+@EnableWebSecurity
 @Configuration
 public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
-
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils) {
-        this.jwtTokenizer = jwtTokenizer;
-        this.authorityUtils = authorityUtils;
-    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -41,7 +42,7 @@ public class SecurityConfiguration {
                 .and()
                 .csrf().disable()
                 // cors 설정에서 withDefaults 일 경우 corsConfigurationSource라는 이름으로 등록된 Bean을 이용
-                .cors(Customizer.withDefaults())
+                .cors(withDefaults())
                 // 세션 생성 X
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -51,9 +52,10 @@ public class SecurityConfiguration {
                 .authenticationEntryPoint(new UserAuthenticationEntryPoint())
                 .accessDeniedHandler(new UserAccessDeniedHandler())
                 .and()
-                .apply(new CustomFilterConfigurer())
-                .and()
-                .authorizeHttpRequests(i -> i.anyRequest().permitAll());
+                .apply(new CustomFilterConfigurer());
+
+        http
+                .authorizeHttpRequests().anyRequest().permitAll();
 
         return http.build();
     }

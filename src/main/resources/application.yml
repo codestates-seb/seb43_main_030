@@ -1,4 +1,7 @@
 spring:
+  profiles:
+    include: oauth
+
   h2:
     console:
       enabled: true
@@ -44,9 +47,11 @@ server:
 
 jwt:
   key: ${JWT_SECRET_KEY}
-  access-token-expiration-minutes: 30
-  refresh-token-expiration-minutes: 420
+  access-token-expiration-minutes: 60
+  refresh-token-expiration-minutes: 11760
 
 mail:
   address:
     admin: admin@gmail.com
+
+

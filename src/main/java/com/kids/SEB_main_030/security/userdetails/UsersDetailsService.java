@@ -3,25 +3,26 @@ package com.kids.SEB_main_030.security.userdetails;
 import com.kids.SEB_main_030.security.utils.CustomAuthorityUtils;
 import com.kids.SEB_main_030.exception.CustomException;
 import com.kids.SEB_main_030.exception.LogicException;
+import com.kids.SEB_main_030.user.entity.Role;
 import com.kids.SEB_main_030.user.entity.User;
 import com.kids.SEB_main_030.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class UsersDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
     private final CustomAuthorityUtils authorityUtils;
-
-    public UsersDetailsService(UserRepository userRepository, CustomAuthorityUtils authorityUtils) {
-        this.userRepository = userRepository;
-        this.authorityUtils = authorityUtils;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -34,12 +35,18 @@ public class UsersDetailsService implements UserDetailsService {
             setUserId(user.getUserId());
             setEmail(user.getEmail());
             setPassword(user.getPassword());
-            setRoles(user.getRoles());
+            setRole(user.getRole());
         }
 
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
-            return authorityUtils.createAuthorities(this.getRoles());
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            if (getRole() == Role.USER) {
+                authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+            } else if (getRole() == Role.GUEST) {
+                authorities.add(new SimpleGrantedAuthority("ROLE_GUEST"));
+            }
+            return authorities;
         }
 
         @Override

@@ -45,7 +45,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication authResult) throws ServletException, IOException {
         User user = (User) authResult.getPrincipal();
-
         String accessToken = delegateAccessToken(user);
         String refreshToken = delegateRefreshToken(user);
 
@@ -67,7 +66,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Map<String, Object> claims = new HashMap<>();
         claims.put("email", user.getEmail());
         claims.put("userId", user.getUserId());
-        claims.put("roles", user.getRoles());
+        claims.put("roles", user.getRole());
 
         String subject = user.getEmail();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
