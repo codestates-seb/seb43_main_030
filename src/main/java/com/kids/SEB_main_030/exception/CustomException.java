@@ -14,7 +14,8 @@ public enum CustomException {
     KINDERGARTEN_NOT_FOUND(404,"유치원을 찾을 수 없습니다."),
     COMMUNITY_CATEGORY_BAD_REQUEST(400, "카테고리 값이 다릅니다."),
     POST_NOT_FOUND(404, "게시물을 찾을 수 없습니다."),
-    NO_AUTHORITY(403, "본인이 작성한 게시물이 아닙니다.");
+    NO_AUTHORITY(403, "본인이 작성한 게시물이 아닙니다."),
+    REVIEW_NOT_FOUND(404,"리뷰를 찾을 수 없습니다.");
     @Getter
     private int status;
 
