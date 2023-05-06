@@ -55,10 +55,9 @@
   .border-yellow:disabled {
     @apply bg-yellow-100 text-yellow-200;
   }
-  /* ㄴㅇㄹㄴㄹㄴㅇ */
-  /* ㄴㅇㅇㄹㄹㄴㅇㄹㄴㄹ */
-  /* ㄴㅇㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴ */
-  .btn-small-default {
+
+  /* ToDo : 컬러 + 사이즈 조합으로 변경함, 협의 후 삭제 */
+  /* .btn-small-default {
     @apply h-32 bg-yellow-500 bg-yellow-500 p-8 text-14 hover:bg-yellow-800 disabled:bg-yellow-200;
   }
 
@@ -70,16 +69,16 @@
     @apply h-48 bg-yellow-500 px-18 py-14 text-16 hover:bg-yellow-800 disabled:bg-yellow-200;
   }
 
+  .btn-border-medium {
+    @apply border border-solid border-black-070 p-12 text-14 hover:bg-black-025 disabled:text-black-070;
+  } */
+
   .btn-pagination-default {
     @apply h-24 w-24 bg-white px-8 py-3 text-black-500 active:bg-yellow-500 active:font-normal active:text-black-900;
   }
 
   .btn-text-default {
     @apply p-4 text-14 hover:underline hover:underline-offset-2 disabled:text-black-100;
-  }
-
-  .btn-border-medium {
-    @apply border border-solid border-black-070 p-12 text-14 hover:bg-black-025 disabled:text-black-070;
   }
 
   /* input */
@@ -107,7 +106,7 @@
   }
 
   .search-input {
-    @apply text-14 outline-none; /* 얘는 css 속성 하나밖에 안 가지니까 일단은? 컴포넌트 안에 공통으로 넣어줄 수 있을 거 같아요 */
+    @apply text-14 outline-none;
   }
 
   .search-input-btn {
@@ -120,5 +119,9 @@
 
   .pin-default {
     @apply max-w-200 rounded-[50px] border-2 border-black-900 px-16 py-8 hover:font-bold hover:shadow-pinShadow active:bg-black-900 active:font-bold active:text-white; /* rounded 픽셀도 tailwind.config.js 에서 정의가능해요  */
+  }
+
+  .upload-image {
+    @apply flex cursor-pointer items-center justify-center rounded-lg bg-black-050;
   }
 }
