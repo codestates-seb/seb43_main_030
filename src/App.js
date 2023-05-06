@@ -4,6 +4,7 @@ import DropDownMenu from './components/DropDownMenu';
 import InputBtn from './components/InputBtn';
 import SampleButton from './components/Button/Sample';
 import SampleInput from './components/Input/Sample';
+import InputSelectBox from './components/Input/InputSelectBox';
 import Header from './components/PcHeader';
 
 function App() {
@@ -17,20 +18,28 @@ function App() {
       <SampleButton className="btn-border-medium">btn이름</SampleButton>
 
       {/* input-text */}
-      <div className="input-array">
-        <SampleInput placeholder="placeholder" type="text" />
-      </div>
 
-      <div className="input-array">
-        <input type="text" className="input-error" placeholder="error 입력" />
-        <p className="input-error-text">에러메시지 에러메시지</p>
-      </div>
+      <SampleInput
+        placeholder="placeholder"
+        type="text"
+        className="input-default"
+      />
 
-      <div className="input-array">
-        <input type="text" className="input-comp" placeholder="comp 입력" />
-        <p className="input-comp-text">완료메시지 완료메시지</p>
-      </div>
-      <InputBtn className="a" />
+      <SampleInput
+        placeholder="placeholder"
+        type="text"
+        className="border-red-400"
+        isError="에러메시지이이"
+      />
+
+      <SampleInput
+        placeholder="placeholder"
+        type="text"
+        className="border-blue-500"
+        isComp="완료메시지이"
+      />
+      <InputSelectBox />
+      <InputBtn />
       <div className="tab-default">공지</div>
       <div className="pin-default">왈독애견유치원</div>
       <DropDownMenu />
