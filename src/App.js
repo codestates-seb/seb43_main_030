@@ -14,6 +14,7 @@ import TextArea from './components/TextArea';
 import UploadImage from './components/UploadImage';
 import MainCard from './components/Card/MainCard';
 import MapCard from './components/Card/MapCard';
+import MapCardM from './components/Card/MapCardM';
 
 function App() {
   return (
@@ -74,6 +75,7 @@ function App() {
 
       <MainCard />
       <MapCard />
+      <MapCardM />
     </div>
   );
 }
