@@ -15,6 +15,8 @@ import UploadImage from './components/UploadImage';
 import MainCard from './components/Card/MainCard';
 import MapCard from './components/Card/MapCard';
 import MapCardM from './components/Card/MapCardM';
+import ToastAlertPost from './components/ToastAlert/ToastAlertPost';
+import ToastAlertToken from './components/ToastAlert/ToastAlertToken';
 
 function App() {
   return (
@@ -76,6 +78,9 @@ function App() {
       <MainCard />
       <MapCard />
       <MapCardM />
+
+      <ToastAlertPost />
+      <ToastAlertToken />
     </div>
   );
 }
