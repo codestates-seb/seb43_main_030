@@ -13,6 +13,7 @@ import MHeader from './components/Header/MHeader';
 import TextArea from './components/TextArea';
 import UploadImage from './components/UploadImage';
 import MainCard from './components/Card/MainCard';
+import MapCard from './components/Card/MapCard';
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
       <InputRadio type="radio" className="h-20 w-20" />
 
       <MainCard />
+      <MapCard />
     </div>
   );
 }
