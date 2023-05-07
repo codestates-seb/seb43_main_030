@@ -11,6 +11,7 @@ import InputRadio from './components/Input/InputRadio';
 import Header from './components/PcHeader';
 import TextArea from './components/TextArea';
 import UploadImage from './components/UploadImage';
+import RatingStar from './components/RatingStar';
 
 function App() {
   return (
@@ -67,6 +68,7 @@ function App() {
       <UploadImage className="upload-image h-64 w-64" />
       <InputCheck type="checkbox" />
       <InputRadio type="radio" className="h-20 w-20" />
+      <RatingStar />
     </div>
   );
 }
