@@ -93,7 +93,7 @@
     @apply mt-1 text-left text-12;
   }
   .input-array {
-    @apply flex w-full mr-100 ml-100 flex-col;
+    @apply flex w-full mr-80 ml-80 flex-col;
   }
 
   .input-comp {
