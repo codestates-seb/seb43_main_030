@@ -17,7 +17,7 @@ public class User{
     private Long userId;
     @Column(nullable = false, updatable = false, unique = true)
     private String email;
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String password;
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)

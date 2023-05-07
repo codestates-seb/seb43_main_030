@@ -2,11 +2,13 @@ package com.kids.SEB_main_030.security.filter;
 
 import com.kids.SEB_main_030.security.jwt.JwtTokenizer;
 import com.kids.SEB_main_030.security.utils.CustomAuthorityUtils;
+import com.kids.SEB_main_030.user.entity.Role;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -15,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,8 +60,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         map.put("email", email);
         map.put("userId", userId);
 
-        List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List) claims.get("roles"));
-        Authentication authentication = new UsernamePasswordAuthenticationToken(map, null, authorities);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(map, null, null);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 

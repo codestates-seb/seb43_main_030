@@ -1,7 +1,6 @@
 package com.kids.SEB_main_030.review.controller;
 
 import com.kids.SEB_main_030.dto.SingleResponseDto;
-import com.kids.SEB_main_030.profile.service.ProfileService;
 import com.kids.SEB_main_030.review.dto.ReviewPatchDto;
 import com.kids.SEB_main_030.review.dto.ReviewPostDto;
 import com.kids.SEB_main_030.review.entity.Review;
@@ -9,7 +8,6 @@ import com.kids.SEB_main_030.review.mapper.ReviewMapper;
 import com.kids.SEB_main_030.review.service.ReviewService;
 import com.kids.SEB_main_030.user.service.UserService;
 import com.kids.SEB_main_030.utils.UriCreator;
-import org.aspectj.weaver.patterns.TypePatternQuestions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

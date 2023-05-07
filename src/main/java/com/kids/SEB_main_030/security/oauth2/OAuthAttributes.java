@@ -6,11 +6,11 @@ import com.kids.SEB_main_030.security.oauth2.userinfo.OAuth2UserInfo;
 import com.kids.SEB_main_030.user.entity.Role;
 import com.kids.SEB_main_030.user.entity.SocialType;
 import com.kids.SEB_main_030.user.entity.User;
+import com.kids.SEB_main_030.user.repository.UserRepository;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * 각 소셜별로 받아오는 데이터가 다르므로 데이터를 처리하는 DTO 클래스
@@ -19,6 +19,7 @@ import java.util.UUID;
 public class OAuthAttributes {
     private String nameAttributeKey;
     private OAuth2UserInfo oauth2UserInfo;
+    private UserRepository userRepository;
 
     @Builder
     public OAuthAttributes(String nameAttributeKey, OAuth2UserInfo oauth2UserInfo) {
@@ -54,6 +55,7 @@ public class OAuthAttributes {
         user.setSocialId(oAuth2UserInfo.getId());
         user.setEmail(oAuth2UserInfo.getEmail());
         user.setRole(Role.GUEST);
+
         return user;
     }
 }

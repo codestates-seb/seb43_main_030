@@ -4,7 +4,6 @@ import com.kids.SEB_main_030.post.entity.Like;
 import com.kids.SEB_main_030.post.entity.Post;
 import com.kids.SEB_main_030.post.repository.LikeRepository;
 import com.kids.SEB_main_030.profile.entity.Profile;
-import com.kids.SEB_main_030.user.entity.User;
 import com.kids.SEB_main_030.user.service.UserService;
 import org.springframework.stereotype.Service;
 

@@ -37,7 +37,7 @@ public class ReviewService {
     }
     public Review updateReview(Review review,Long reviewId){
         Review findReview = findVerifiedReview(reviewId);
-        if(findReview.getProfile().getProfileId()==userService.findCurrentProfileId()){
+        if(findReview.getProfile().getProfileId()== userService.findCurrentProfileId()){
             Optional.ofNullable(review.getContents()).ifPresent(contents->findReview.setContents(contents));
             Optional.ofNullable(review.getRatedReview()).ifPresent(ratedReview->findReview.setRatedReview(ratedReview));
         }else throw new LogicException(CustomException.NO_AUTHORITY);

@@ -5,20 +5,20 @@ import com.kids.SEB_main_030.security.filter.JwtAuthenticationFilter;
 import com.kids.SEB_main_030.security.filter.JwtVerificationFilter;
 import com.kids.SEB_main_030.security.handler.*;
 import com.kids.SEB_main_030.security.jwt.JwtTokenizer;
+import com.kids.SEB_main_030.security.oauth2.handler.OAuth2LoginFailureHandler;
+import com.kids.SEB_main_030.security.oauth2.handler.OAuth2LoginSuccessHandler;
+import com.kids.SEB_main_030.security.oauth2.service.CustomOAuth2UserService;
 import com.kids.SEB_main_030.security.utils.CustomAuthorityUtils;
-import com.kids.SEB_main_030.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -34,6 +34,9 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+    private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -56,6 +59,12 @@ public class SecurityConfiguration {
 
         http
                 .authorizeHttpRequests().anyRequest().permitAll();
+
+        http
+                .oauth2Login()
+                .successHandler(oAuth2LoginSuccessHandler)
+                .failureHandler(oAuth2LoginFailureHandler)
+                .userInfoEndpoint().userService(customOAuth2UserService);
 
         return http.build();
     }

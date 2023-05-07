@@ -2,7 +2,6 @@ package com.kids.SEB_main_030.post.service;
 
 import com.kids.SEB_main_030.exception.CustomException;
 import com.kids.SEB_main_030.exception.LogicException;
-import com.kids.SEB_main_030.post.controller.PostController;
 import com.kids.SEB_main_030.post.entity.Post;
 import com.kids.SEB_main_030.post.repository.PostRepository;
 import com.kids.SEB_main_030.profile.entity.Profile;
