@@ -93,7 +93,7 @@
     @apply mt-1 text-left text-12;
   }
   .input-array {
-    @apply flex flex-col;
+    @apply flex w-full mr-100 ml-100 flex-col;
   }
 
   .input-comp {
@@ -102,7 +102,7 @@
 
   /* input btn */
   .search-input-outline {
-    @apply flex w-242 justify-between rounded-lg border-2 border-solid py-8 pl-18 pr-8;
+    @apply flex justify-between rounded-lg border-2 border-solid py-8 pl-18 pr-8;
   }
 
   .search-input {
@@ -118,7 +118,7 @@
   }
 
   .pin-default {
-    @apply max-w-200 rounded-[50px] border-2 border-black-900 px-16 py-8 hover:font-bold hover:shadow-pinShadow active:bg-black-900 active:font-bold active:text-white;
+    @apply max-w-200 rounded-[3.125rem] border-2 border-black-900 px-16 py-8 hover:font-bold hover:shadow-pinShadow active:bg-black-900 active:font-bold active:text-white;
   }
 
   .upload-image {
