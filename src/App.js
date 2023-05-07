@@ -62,7 +62,10 @@ function App() {
       <InputSelectBox />
       <InputBtn />
       <div className="tab-default">공지</div>
-      <div className="pin-default">왈독애견유치원</div>
+      <div className="pin-default">
+        <span className="mr-4 min-h-24 min-w-24">🐶</span>
+        왈독애견유치원
+      </div>
       <DropDownMenu />
       <Header />
       <MHeader />
