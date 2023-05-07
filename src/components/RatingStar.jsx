@@ -8,7 +8,7 @@ function RatingStar() {
   };
 
   return (
-    <div className="item s-center flex h-50 w-200 justify-center">
+    <div className="flex">
       <Star
         onClick={() => {
           handleClick(1);

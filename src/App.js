@@ -12,6 +12,9 @@ import Header from './components/PcHeader';
 import TextArea from './components/TextArea';
 import UploadImage from './components/UploadImage';
 import RatingStar from './components/RatingStar';
+import ListNotice from './components/List/ListNotice';
+import ListReview from './components/List/ListReview';
+import ListCommunity from './components/List/ListCommunity';
 
 function App() {
   return (
@@ -69,6 +72,9 @@ function App() {
       <InputCheck type="checkbox" />
       <InputRadio type="radio" className="h-20 w-20" />
       <RatingStar />
+      <ListNotice />
+      <ListReview />
+      <ListCommunity />
     </div>
   );
 }
