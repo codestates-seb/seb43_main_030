@@ -8,7 +8,8 @@ import InputError from './components/Input/InputError';
 import InputSelectBox from './components/Input/InputSelectBox';
 import InputCheck from './components/Input/InputCheck';
 import InputRadio from './components/Input/InputRadio';
-import Header from './components/PcHeader';
+import Header from './components/Header/PcHeader';
+import MHeader from './components/Header/MHeader';
 import TextArea from './components/TextArea';
 import UploadImage from './components/UploadImage';
 
@@ -59,6 +60,7 @@ function App() {
       <div className="pin-default">왈독애견유치원</div>
       <DropDownMenu />
       <Header />
+      <MHeader />
       <TextArea
         placeholder="placeholder"
         maxLength={200}
