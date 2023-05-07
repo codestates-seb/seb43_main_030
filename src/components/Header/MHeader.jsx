@@ -4,7 +4,7 @@ import { ReactComponent as Menu } from '../../images/menu.svg';
 import DropDownMenuM from '../DropDownMenuM';
 
 function MHeader() {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [nickname, setNickname] = useState('쫑이콩이맘');
   const [dropDown, setDropDown] = useState(false);
 
@@ -35,11 +35,20 @@ function MHeader() {
         isLogin ? (
           <DropDownMenuM />
         ) : (
-          <ul>
-            <li>리스트보기</li>
-            <li>로그인</li>
-            <li>로그아웃</li>
-          </ul>
+          <div className="absolute right-0 top-[64px] flex w-full flex-col items-start justify-center rounded-[10px] border-b border-black-050 px-24 py-8 shadow-headerShadow">
+            <ul className="menu w-full px-8 text-left">
+              <li className="li flex h-58 cursor-pointer items-center pb-12 pt-12 text-14">
+                리스트보기
+              </li>
+              <div className="h-1 w-full border-b" />
+              <li className="li flex h-58 cursor-pointer items-center pb-12 pt-12 text-14">
+                로그인
+              </li>
+              <li className="liflex h-58 cursor-pointer items-center pb-12 pt-12 text-14">
+                로그아웃
+              </li>
+            </ul>
+          </div>
         )
       ) : null}
     </div>
