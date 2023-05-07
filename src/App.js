@@ -6,6 +6,8 @@ import Button from './components/Button/Button';
 import Input from './components/Input/Input';
 import InputError from './components/Input/InputError';
 import InputSelectBox from './components/Input/InputSelectBox';
+import InputCheck from './components/Input/InputCheck';
+import InputRadio from './components/Input/InputRadio';
 import Header from './components/PcHeader';
 import TextArea from './components/TextArea';
 import UploadImage from './components/UploadImage';
@@ -63,6 +65,8 @@ function App() {
         className="h-130 w-328"
       />
       <UploadImage className="upload-image h-64 w-64" />
+      <InputCheck type="checkbox" />
+      <InputRadio type="radio" className="h-20 w-20" />
     </div>
   );
 }

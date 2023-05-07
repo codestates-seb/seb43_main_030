@@ -118,10 +118,17 @@
   }
 
   .pin-default {
-    @apply max-w-200 rounded-[50px] border-2 border-black-900 px-16 py-8 hover:font-bold hover:shadow-pinShadow active:bg-black-900 active:font-bold active:text-white; /* rounded 픽셀도 tailwind.config.js 에서 정의가능해요  */
+    @apply max-w-200 rounded-[50px] border-2 border-black-900 px-16 py-8 hover:font-bold hover:shadow-pinShadow active:bg-black-900 active:font-bold active:text-white;
   }
 
   .upload-image {
     @apply flex cursor-pointer items-center justify-center rounded-lg bg-black-050;
+  }
+  .checkbox-button {
+    @apply h-20 w-20 rounded-md border border-solid border-black-070 bg-center bg-no-repeat hover:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:bg-[url('../images/check.svg')];
+  }
+
+  .radio-button {
+    @apply h-20  w-20 rounded-full border border-solid border-black-070 bg-center bg-no-repeat hover:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:bg-[url('../images/circle.svg')];
   }
 }
