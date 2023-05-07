@@ -12,6 +12,9 @@ import Header from './components/Header/PcHeader';
 import MHeader from './components/Header/MHeader';
 import TextArea from './components/TextArea';
 import UploadImage from './components/UploadImage';
+import MainCard from './components/Card/MainCard';
+import MapCard from './components/Card/MapCard';
+import MapCardM from './components/Card/MapCardM';
 
 function App() {
   return (
@@ -69,6 +72,10 @@ function App() {
       <UploadImage className="upload-image h-64 w-64" />
       <InputCheck type="checkbox" />
       <InputRadio type="radio" className="h-20 w-20" />
+
+      <MainCard />
+      <MapCard />
+      <MapCardM />
     </div>
   );
 }
