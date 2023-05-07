@@ -12,9 +12,6 @@ function Input(props) {
     labelText,
   } = props;
 
-  const renderClassNames = () => {
-    // 특정 인자값을 받았을 때 케이스에 따라 다른 className을 리턴하게 하는 함수를 만들 수도 있구요
-  };
   return (
     <div className="input-array">
       {/* label이 있을 경우 labelText props작성 */}
