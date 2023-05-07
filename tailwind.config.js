@@ -39,6 +39,8 @@ module.exports = {
         'blue-500': '#2094F3',
 
         'red-400': '#DE4F54',
+
+        'green-400': '#25B865',
       },
       minWidth: px0To1000,
       minHeight: px0To1000,
