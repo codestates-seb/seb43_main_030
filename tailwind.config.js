@@ -49,6 +49,7 @@ module.exports = {
       width: px0To1000,
       height: px0To1000,
       padding: px0To1000,
+      margin: px0To1000,
       borderRadius: px0To30,
       fontSize: px0To64,
       margin: px0To1000,
