@@ -4,6 +4,7 @@ import com.kids.SEB_main_030.exception.CustomException;
 import com.kids.SEB_main_030.exception.LogicException;
 import com.kids.SEB_main_030.post.dto.PostDto;
 import com.kids.SEB_main_030.post.entity.Post;
+import com.kids.SEB_main_030.profile.entity.Profile;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface PostMapper {
+
+    PostDto.Response postToPostResponseDto(Post post);
 
     default Post postPostDtoToPost(PostDto.Post post) {
         if ( post == null ) {
@@ -36,9 +39,33 @@ public interface PostMapper {
         return response;
     }
 
-    Post postPatchDtoToPost(PostDto.Patch patch);
+    default PostDto.DetailPageResponse postToDetailPageResponse(Post post, int likes, Profile profile) {
+        PostDto.DetailPageResponse detailPageResponse = new PostDto.DetailPageResponse();
+        detailPageResponse.setPostId(post.getPostId());
+        detailPageResponse.setTitle(post.getTitle());
+        detailPageResponse.setContent(post.getContent());
+        detailPageResponse.setCategory(post.getCategory().toString());
+        detailPageResponse.setName(profile.getName());
+        detailPageResponse.setLikes(likes);
+        detailPageResponse.setCreatedAt(post.getCreatedAt());
+        return detailPageResponse;
+    }
 
-    PostDto.Response postToPostResponseDto(Post post);
+    default Post postPatchDtoToPost(PostDto.Patch patch) {
+        if ( patch == null ) {
+            return null;
+        }
+
+        Post post = new Post();
+
+        post.setPostId( patch.getPostId() );
+        post.setTitle( patch.getTitle() );
+        post.setContent( patch.getContent() );
+        post.setCategory(categoryToEnum(patch.getCategory()));
+
+        return post;
+    };
+
 
     default List<PostDto.CardViewResponse> postsToPostCardViewResponseDtos(List<Post> posts, List<Integer> likes) {
         List<PostDto.CardViewResponse> responses = new ArrayList<>();

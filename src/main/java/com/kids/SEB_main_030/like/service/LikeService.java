@@ -1,30 +1,27 @@
-package com.kids.SEB_main_030.post.service;
+package com.kids.SEB_main_030.like.service;
 
-import com.kids.SEB_main_030.post.entity.Like;
+import com.kids.SEB_main_030.like.entity.Like;
 import com.kids.SEB_main_030.post.entity.Post;
-import com.kids.SEB_main_030.post.repository.LikeRepository;
+import com.kids.SEB_main_030.like.repository.LikeRepository;
+import com.kids.SEB_main_030.post.service.PostService;
 import com.kids.SEB_main_030.profile.entity.Profile;
-import com.kids.SEB_main_030.user.service.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional
 @Service
 public class LikeService {
 
     private final LikeRepository likeRepository;
     private final PostService postService;
-    private final UserService userService;
-
-
 
     public LikeService(LikeRepository likeRepository,
-                       PostService postService,
-                       UserService userService) {
+                       PostService postService) {
         this.likeRepository = likeRepository;
         this.postService = postService;
-        this.userService = userService;
     }
 
     // 좋아요 갯수 카운트
@@ -41,17 +38,26 @@ public class LikeService {
         return likes;
     }
 
-    public void saveLike(Long postId) {
-        Post post = postService.findVerifiedPost(postId);
+    public void likeToggle(Long postId) {
         Profile profile = postService.getProfileByUserId();
+        Post post = postService.findPost(postId);
+        int likeCnt = likeRepository.findByLikeCountByPostIdOrProfileId(profile, post);
+
+        if (likeCnt > 0) {
+            removeLike(profile, post);
+        } else {
+            saveLike(profile, post);
+        }
+    }
+
+    private void saveLike(Profile profile, Post post) {
         Like like = new Like();
         like.setPost(post);
         like.setProfile(profile);
-
         likeRepository.save(like);
     }
 
-    public void removeLike(Long likeId) {
-        likeRepository.deleteById(likeId);
+    private void removeLike(Profile profile, Post post) {
+        likeRepository.deleteLikeByPostIdOrProfileId(profile, post);
     }
 }

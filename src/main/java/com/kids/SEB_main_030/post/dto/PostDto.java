@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 public class PostDto {
 
@@ -37,11 +38,14 @@ public class PostDto {
     }
 
     @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Response {
         private long postId;
         private String title;
         private String content;
-        private String views;
+        private Integer views;
     }
 
     @Getter
@@ -55,6 +59,24 @@ public class PostDto {
         private String content;
 //        private String image;
         private Integer views;
+        private int likes;
+
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class DetailPageResponse {
+        // 유효성 추가하기
+        private long postId;
+        private String title;
+        private String content;
+        private String category;
+        //        private String postImage;
+        // private String profileImage;
+        private String name;
+        private LocalDateTime createdAt;
         private int likes;
 
     }

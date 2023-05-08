@@ -54,4 +54,14 @@ mail:
   address:
     admin: admin@gmail.com
 
-
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    s3:
+      bucket: perpett
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

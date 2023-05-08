@@ -1,5 +1,6 @@
-package com.kids.SEB_main_030.post.entity;
+package com.kids.SEB_main_030.like.entity;
 
+import com.kids.SEB_main_030.post.entity.Post;
 import com.kids.SEB_main_030.profile.entity.Profile;
 import com.kids.SEB_main_030.user.entity.User;
 import lombok.Getter;
