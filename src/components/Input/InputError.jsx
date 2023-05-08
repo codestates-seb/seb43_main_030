@@ -36,7 +36,7 @@ function InputError(props) {
   }, [wrapperRef, clickCount]);
 
   return (
-    <div ref={wrapperRef}>
+    <div ref={wrapperRef} className="flex flex-col">
       {labelText && (
         <label
           htmlFor="input"
