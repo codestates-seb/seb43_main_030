@@ -12,6 +12,10 @@ import InputRadio from './components/Input/InputRadio';
 import MHeader from './components/Header/MHeader';
 import TextArea from './components/TextArea';
 import UploadImage from './components/UploadImage';
+import RatingStar from './components/RatingStar';
+import ListNotice from './components/List/ListNotice';
+import ListReview from './components/List/ListReview';
+import ListCommunity from './components/List/ListCommunity';
 import MainCard from './components/Card/MainCard';
 import MapCard from './components/Card/MapCard';
 import MapCardM from './components/Card/MapCardM';
@@ -86,6 +90,11 @@ function App() {
     //   <MainCard />
     //   <MapCard />
     //   <MapCardM />
+
+      <RatingStar />
+      <ListNotice />
+      <ListReview />
+      <ListCommunity />
 
     //   <ToastAlert text="게시물을 등록하였습니다." bgColor="bg-green-400" />
     //   <ToastAlert
