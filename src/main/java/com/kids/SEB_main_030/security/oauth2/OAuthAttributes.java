@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * 각 소셜별로 받아오는 데이터가 다르므로 데이터를 처리하는 DTO 클래스
@@ -52,9 +53,8 @@ public class OAuthAttributes {
         User user = new User();
         user.setSocialType(socialType);
         user.setSocialId(oAuth2UserInfo.getId());
-        user.setEmail(oAuth2UserInfo.getEmail());
         user.setRole(Role.GUEST);
-
+        user.setEmail(oAuth2UserInfo.getEmail());
         return user;
     }
 }

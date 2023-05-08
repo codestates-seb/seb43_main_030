@@ -22,7 +22,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UsersDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
-    private final CustomAuthorityUtils authorityUtils;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
