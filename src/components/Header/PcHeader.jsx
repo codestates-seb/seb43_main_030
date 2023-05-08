@@ -8,7 +8,7 @@ import { ReactComponent as ArrowClose } from '../../images/arrow-close.svg';
 import { ReactComponent as Logo } from '../../images/logo-txt.svg';
 
 function Header() {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [nickname, setNickname] = useState('쫑이콩이맘');
   const [dropDown, setDropDown] = useState(false);
 
@@ -41,9 +41,9 @@ function Header() {
             {dropDown ? <DropDownMenu /> : null}
           </div>
         ) : (
-          <div className="flex h-42 w-152 items-center justify-between">
-            <Button className="btn-medium-default text-14">로그인</Button>
-            <Button className="btn-border-medium text-14">회원가입</Button>
+          <div className="flex shrink-0 items-center justify-between">
+            <Button className="color-yellow btn-size-m mr-12">로그인</Button>
+            <Button className="border-gray btn-size-m">회원가입</Button>
           </div>
         )}
       </div>

@@ -75,7 +75,7 @@
 
   .btn-border-medium {
     @apply border border-solid border-black-070 p-12 text-14 hover:bg-black-025 disabled:text-black-070;
-  } */
+  }  */
 
   .btn-pagination-default {
     @apply h-24 w-24 bg-white px-8 py-3 text-black-500 active:bg-yellow-500 active:font-normal active:text-black-900;
@@ -97,7 +97,7 @@
     @apply mt-1 text-left text-12;
   }
   .input-array {
-    @apply flex w-full mr-[3.3%] ml-[3.3%] flex-col;
+    @apply flex w-[72%] mr-[3.3%] ml-[3.3%] flex-col;
   }
 
   .input-comp {
