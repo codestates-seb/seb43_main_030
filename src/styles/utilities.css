@@ -5,6 +5,10 @@
     @apply flex items-center justify-center;
   }
 
+  .text-max {
+    @apply overflow-hidden text-ellipsis whitespace-nowrap
+  }
+
   .btn-size-s {
     @apply h-32 px-8 py-12 text-14;
   }
@@ -93,7 +97,7 @@
     @apply mt-1 text-left text-12;
   }
   .input-array {
-    @apply flex w-full mr-80 ml-80 flex-col;
+    @apply flex w-full mr-[3.3%] ml-[3.3%] flex-col;
   }
 
   .input-comp {
@@ -118,7 +122,7 @@
   }
 
   .pin-default {
-    @apply max-w-200 rounded-[3.125rem] border-2 border-black-900 px-16 py-8 hover:font-bold hover:shadow-pinShadow active:bg-black-900 active:font-bold active:text-white;
+    @apply inline-block max-w-[260px] rounded-[3.125rem] border-2 border-black-900 px-16 py-8 hover:font-bold hover:shadow-pinShadow active:bg-black-900 active:font-bold active:text-white;
   }
 
   .upload-image {

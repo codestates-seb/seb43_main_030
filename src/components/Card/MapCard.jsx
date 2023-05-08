@@ -1,4 +1,5 @@
 import Dog from '../../images/dog.jpeg';
+import { ReactComponent as StarOn } from '../../images/star-on.svg';
 
 function MapCard() {
   return (
@@ -8,7 +9,10 @@ function MapCard() {
         <div className="text-left text-18 font-bold">
           놀펫강아지유치원애견호텔서울애견유치원성북본원
         </div>
-        <div className="mb-8 text-14">⭐️ 4.3 (12)</div>
+        <div className="flex-center mb-8 text-14">
+          <StarOn className="mr-4 inline-block" />
+          4.3 (12)
+        </div>
       </div>
       <button
         className="absolute right-[3.31%] top-[3.29%] h-32 w-32 rounded-md bg-black-600 text-12 text-white opacity-80"

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import InputBtn from '../InputBtn';
 import { ReactComponent as Menu } from '../../images/menu.svg';
+import { ReactComponent as LogoSymbol } from '../../images/logo-symbol.svg';
 import DropDownMenuM from '../DropDownMenuM';
 
 function MHeader() {
@@ -18,7 +19,9 @@ function MHeader() {
         dropDown ? '' : 'shadow-headerShadow'
       } relative mb-500 flex h-64 w-744 items-center justify-between border-b border-black-050 px-24 py-8`}
     >
-      <div className="flex-center h-48 min-w-48 bg-yellow-500">로고</div>
+      <div className="flex-center w-48">
+        <LogoSymbol />
+      </div>
       <InputBtn className="max-h-48 w-796" />
       {dropDown ? (
         <button

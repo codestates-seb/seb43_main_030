@@ -33,14 +33,18 @@ function DropDownMenu() {
 
   return (
     <div className="absolute right-0 top-[80px] flex h-284 w-226 flex-col items-start justify-center rounded-[10px] px-12 py-16 shadow-dropDownShadow">
-      <ul className="profile w-202 py-12 text-left">
+      <ul className="profile w-202 py-2 text-left">
         <li className="px-8 pb-8 text-12 text-black-350">프로필</li>
         {renderProfile()}
-        <div className="mb-4 mt-2 h-1 border-b" />
+        <div className="mt-2 h-1 border-b" />
       </ul>
-      <ul className="menu px-8 text-left">
-        <li className="cursor-pointer pb-12 text-14">마이페이지</li>
-        <li className="cursor-pointer pb-12 pt-12  text-14">로그아웃</li>
+      <ul className="w-202 text-left">
+        <li className="flex cursor-pointer items-center justify-start rounded-md px-8 pb-12 pt-12 text-14 hover:bg-black-025">
+          마이페이지
+        </li>
+        <li className="cursor-pointer items-center justify-start rounded-md px-8 pb-12 pt-12 text-14 hover:bg-black-025">
+          로그아웃
+        </li>
       </ul>
     </div>
   );

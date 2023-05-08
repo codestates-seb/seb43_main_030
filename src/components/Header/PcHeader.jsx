@@ -5,6 +5,7 @@ import DropDownMenu from '../DropDownMenu';
 import { ReactComponent as Search } from '../../images/search.svg';
 import { ReactComponent as ArrowOpen } from '../../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../../images/arrow-close.svg';
+import { ReactComponent as Logo } from '../../images/logo-txt.svg';
 
 function Header() {
   const [isLogin, setIsLogin] = useState(true);
@@ -16,32 +17,36 @@ function Header() {
   }
 
   return (
-    <div className="relative flex h-80 w-full items-center justify-between border-b border-black-050 px-80 py-16 shadow-headerShadow">
-      <div className="flex-center min-h-42 min-w-80 bg-yellow-500">로고</div>
-      <InputBtn />
-      {isLogin ? (
-        <div className="mr-12 flex h-48 w-150 items-center justify-between p-8">
-          <Search className="min-h-32 min-w-32 rounded-md border" />
-          <span className="ml-12 mr-12 min-w-88 text-14">{nickname}</span>
-          {dropDown ? (
-            <ArrowClose
-              className="h-6 min-w-10 cursor-pointer"
-              onClick={() => onDropDown()}
-            />
-          ) : (
-            <ArrowOpen
-              className="h-6 min-w-10 cursor-pointer"
-              onClick={() => onDropDown()}
-            />
-          )}
-          {dropDown ? <DropDownMenu /> : null}
+    <div className="flex-center w-full shadow-headerShadow">
+      <div className="relative flex h-80 w-[100%] max-w-[1440px] items-center justify-between border-b border-black-050 px-[4.5%] py-16">
+        <div className="flex-center w-120">
+          <Logo />
         </div>
-      ) : (
-        <div className="flex h-42 w-152 items-center justify-between">
-          <Button className="btn-medium-default text-14">로그인</Button>
-          <Button className="btn-border-medium text-14">회원가입</Button>
-        </div>
-      )}
+        <InputBtn />
+        {isLogin ? (
+          <div className="mr-12 flex h-48 w-150 items-center justify-between p-8">
+            <Search className="min-h-32 min-w-32 rounded-md border" />
+            <span className="ml-12 mr-12 min-w-88 text-14">{nickname}</span>
+            {dropDown ? (
+              <ArrowClose
+                className="h-6 min-w-10 cursor-pointer"
+                onClick={() => onDropDown()}
+              />
+            ) : (
+              <ArrowOpen
+                className="h-6 min-w-10 cursor-pointer"
+                onClick={() => onDropDown()}
+              />
+            )}
+            {dropDown ? <DropDownMenu /> : null}
+          </div>
+        ) : (
+          <div className="flex h-42 w-152 items-center justify-between">
+            <Button className="btn-medium-default text-14">로그인</Button>
+            <Button className="btn-border-medium text-14">회원가입</Button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

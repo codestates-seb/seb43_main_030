@@ -16,6 +16,7 @@ import MainCard from './components/Card/MainCard';
 import MapCard from './components/Card/MapCard';
 import MapCardM from './components/Card/MapCardM';
 import ToastAlert from './components/ToastAlert';
+import Pin from './components/Pin';
 
 function App() {
   return (
@@ -61,13 +62,14 @@ function App() {
       <InputSelectBox />
       <InputBtn />
       <div className="tab-default">공지</div>
-      <div className="pin-default">
-        <span className="mr-4 min-h-24 min-w-24">🐶</span>
-        왈독애견유치원
-      </div>
+
+      <Pin />
+
       <DropDownMenu />
+
       <Header />
       <MHeader />
+
       <TextArea
         placeholder="placeholder"
         maxLength={200}
