@@ -17,6 +17,7 @@ import MapCard from './components/Card/MapCard';
 import MapCardM from './components/Card/MapCardM';
 import ToastAlert from './components/ToastAlert';
 import Pin from './components/Pin';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -88,6 +89,7 @@ function App() {
         text="토큰이 만료되었습니다. 재로그인 해주세요."
         bgColor="bg-red-400"
       />
+      <Footer />
     </div>
   );
 }
