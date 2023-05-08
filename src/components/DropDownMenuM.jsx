@@ -32,13 +32,13 @@ function DropDownMenuM() {
   };
 
   return (
-    <div className="absolute right-0 top-[64px] flex w-full flex-col items-start justify-center rounded-[10px] border-b border-black-050 px-24 py-8 shadow-headerShadow">
+    <div className="absolute right-0 top-[64px] z-10 flex w-full flex-col items-start justify-center rounded-[10px] border-b border-black-050 bg-white px-24 py-8 shadow-headerShadow">
       <ul className="profile w-full py-12 text-left">
         <li className="px-8 pb-8 text-12 text-black-350">프로필</li>
         {renderProfile()}
         <div className="mt-4 h-1 border-b" />
       </ul>
-      <ul className="menu px-8 text-left">
+      <ul className="menu w-full px-8 text-left">
         <li className="h-58 cursor-pointer pb-12 pt-12 text-14">마이페이지</li>
         <li className="h-58 cursor-pointer pb-12 pt-12 text-14">로그아웃</li>
       </ul>

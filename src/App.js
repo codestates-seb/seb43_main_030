@@ -1,5 +1,6 @@
 import './App.css';
 import './styles/utilities.css';
+import { useMediaQuery } from 'react-responsive';
 import DropDownMenu from './components/DropDownMenu';
 import InputBtn from './components/InputBtn';
 import Button from './components/Button/Button';
@@ -25,6 +26,8 @@ import Main from './pages/Main';
 import PcHeader from './components/Header/PcHeader';
 
 function App() {
+  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+
   return (
     // <div className="App">
     //   <Button className="btn-size-s color-yellow ">버튼</Button>
@@ -89,21 +92,22 @@ function App() {
     //   <MapCard />
     //   <MapCardM />
 
+    // <RatingStar />
+    // <ListNotice />
+    // <ListReview />
+    // <ListCommunity />
+
     //   <ToastAlert text="게시물을 등록하였습니다." bgColor="bg-green-400" />
     //   <ToastAlert
     //     text="토큰이 만료되었습니다. 재로그인 해주세요."
     //     bgColor="bg-red-400"
     //   />
     // </div>
-    <>
-      <PcHeader />
+    <div className="w-[100vw]">
+      {isMobile ? <MHeader /> : <PcHeader />}
       <Main />
-      <RatingStar />
-      <ListNotice />
-      <ListReview />
-      <ListCommunity />
       <Footer />
-    </>
+    </div>
   );
 }
 
