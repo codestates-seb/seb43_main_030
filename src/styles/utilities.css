@@ -47,14 +47,14 @@
   }
 
   .border-gray {
-    @apply border-2 border-solid border-black-070 text-black-900 hover:bg-black-025;
+    @apply border-[1px] border-solid border-black-070 text-black-900 hover:bg-black-025;
   }
   .border-gray:disabled {
     @apply bg-black-025 text-black-070;
   }
 
   .border-yellow {
-    @apply border-2 border-solid border-yellow-500 text-black-900 hover:bg-yellow-100;
+    @apply border-[1px] border-solid border-yellow-500 text-black-900 hover:bg-yellow-100;
   }
   .border-yellow:disabled {
     @apply bg-yellow-100 text-yellow-200;
