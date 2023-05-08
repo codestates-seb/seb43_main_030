@@ -9,7 +9,7 @@ import { ReactComponent as Logo } from '../images/logo-txt.svg';
 
 function Footer() {
   return (
-    <div className="flex-center w-full bg-black-050">
+    <div className="flex-center w-full bg-black-025">
       <div className="relative flex h-80 w-[100%] max-w-[1440px] items-center justify-between border-b border-black-050 px-[4.5%] py-16">
         <div className="flex-center w-120">
           <Logo />

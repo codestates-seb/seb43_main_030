@@ -49,6 +49,7 @@ module.exports = {
       width: px0To1000,
       height: px0To1000,
       padding: px0To1000,
+      margin: px0To1000,
       borderRadius: px0To30,
       fontSize: px0To64,
       margin: px0To1000,
@@ -57,6 +58,12 @@ module.exports = {
         pinShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
         headerShadow: '0px 2px 6px rgba(0, 0, 0, 0.04)',
         cardShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
+      },
+      gridTemplateColums: {
+        cardGrid: 'repeat(auto-fit, minmax(302px, 1fr))',
+      },
+      screens: {
+        onlyMobile: { max: '767px' },
       },
     },
   },
