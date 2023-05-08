@@ -18,7 +18,7 @@ function MHeader() {
         dropDown ? '' : 'shadow-headerShadow'
       } relative mb-500 flex h-64 w-744 items-center justify-between border-b border-black-050 px-24 py-8`}
     >
-      <div className="logo flex-center h-48 min-w-48 bg-yellow-500">로고</div>
+      <div className="flex-center h-48 min-w-48 bg-yellow-500">로고</div>
       <InputBtn className="max-h-48 w-796" />
       {dropDown ? (
         <button
@@ -36,16 +36,16 @@ function MHeader() {
           <DropDownMenuM />
         ) : (
           <div className="absolute right-0 top-[64px] flex w-full flex-col items-start justify-center rounded-[10px] border-b border-black-050 px-24 py-8 shadow-headerShadow">
-            <ul className="menu w-full px-8 text-left">
-              <li className="li flex h-58 cursor-pointer items-center pb-12 pt-12 text-14">
+            <ul className="w-full px-8 text-left">
+              <li className="flex h-58 cursor-pointer items-center pb-12 pt-12 text-14">
                 리스트보기
               </li>
               <div className="h-1 w-full border-b" />
-              <li className="li flex h-58 cursor-pointer items-center pb-12 pt-12 text-14">
+              <li className="flex h-58 cursor-pointer items-center pb-12 pt-12 text-14">
                 로그인
               </li>
-              <li className="liflex h-58 cursor-pointer items-center pb-12 pt-12 text-14">
-                로그아웃
+              <li className="flex h-58 cursor-pointer items-center pb-12 pt-12 text-14">
+                회원가입
               </li>
             </ul>
           </div>

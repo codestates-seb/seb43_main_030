@@ -13,32 +13,34 @@ function DropDownMenuM() {
     }
   };
 
+  const renderProfile = () => {
+    return profiles.map((profile, idx) => {
+      const activeClass = Number(activeIndex) === idx ? 'font-bold' : '';
+      return (
+        <li
+          className={`flex h-58 items-center justify-start profile${idx} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
+          onClick={profileActive}
+          role="presentation"
+        >
+          {Number(activeIndex) === idx ? (
+            <Search className="mr-10 inline-block h-24 w-24 rounded-md border" />
+          ) : null}
+          {profiles[idx]}
+        </li>
+      );
+    });
+  };
+
   return (
     <div className="absolute right-0 top-[64px] flex w-full flex-col items-start justify-center rounded-[10px] border-b border-black-050 px-24 py-8 shadow-headerShadow">
-      <ul className="ul profile w-full py-12 text-left">
+      <ul className="profile w-full py-12 text-left">
         <li className="px-8 pb-8 text-12 text-black-350">프로필</li>
-        {profiles.map((profile, idx) => {
-          const activeClass = Number(activeIndex) === idx ? 'font-bold' : '';
-          return (
-            <li
-              className={`flex h-58 items-center justify-start profile${idx} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
-              onClick={profileActive}
-              role="presentation"
-            >
-              {Number(activeIndex) === idx ? (
-                <Search className="mr-10 inline-block h-24 w-24 rounded-md border" />
-              ) : null}
-              {profiles[idx]}
-            </li>
-          );
-        })}
+        {renderProfile()}
         <div className="mt-4 h-1 border-b" />
       </ul>
-      <ul className="ul menu px-8 text-left">
-        <li className="li h-58 cursor-pointer pb-12 pt-12 text-14">
-          마이페이지
-        </li>
-        <li className="li h-58 cursor-pointer pb-12 pt-12 text-14">로그아웃</li>
+      <ul className="menu px-8 text-left">
+        <li className="h-58 cursor-pointer pb-12 pt-12 text-14">마이페이지</li>
+        <li className="h-58 cursor-pointer pb-12 pt-12 text-14">로그아웃</li>
       </ul>
     </div>
   );
