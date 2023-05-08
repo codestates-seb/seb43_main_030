@@ -30,4 +30,23 @@ public class RandomCreator {
         profile.setName(initName());
         return profileRepository.save(profile);
     }
+
+    // 8자리 랜덤 인증 코드 생성
+    public String createAuthCode() {
+        StringBuffer sb = new StringBuffer();
+        Random random = new Random();
+
+        for (int i = 0; i < 8; i++) {
+            int idx = random.nextInt(3);
+            if (idx == 0) {
+                sb.append((char) (random.nextInt(26) + 97)); // 소문자
+            } else if (idx == 1) {
+                sb.append((char) (random.nextInt(26) + 65)); // 대문자
+            } else {
+                sb.append(random.nextInt(10)); // 숫자
+            }
+        }
+
+        return sb.toString();
+    }
 }

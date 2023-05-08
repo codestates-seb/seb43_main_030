@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.net.URI;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class ProfileController {
     }
 
     @GetMapping("/{profile-id}")
-    public ResponseEntity getProfile(@PathVariable("profile-id") long profileId){
+    public ResponseEntity getProfile(@Positive @PathVariable("profile-id") long profileId){
         Profile profile = profileService.findProfile(profileId);
         if (profile.getType().equals(Profile.type.PERSON)){
             return new ResponseEntity(new SingleResponseDto<>(mapper.profileToPersonProfileDto(profile)),HttpStatus.OK);
@@ -74,7 +75,7 @@ public class ProfileController {
     }
 
     @PostMapping("/{profile-id}")
-    public ResponseEntity selectProfile(@PathVariable("profile-id") long profileId){
+    public ResponseEntity selectProfile(@Positive @PathVariable("profile-id") long profileId){
         profileService.selectProfile(profileId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

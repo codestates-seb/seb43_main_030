@@ -25,7 +25,6 @@ import java.util.List;
 @RequestMapping("/api/kindergarten/{kindergarten-id}/post")
 @Validated
 public class PostController {
-
     private final static String POST_DEFAULT_URL = "/api/kindergarten/{kindergarten-id}/post";
     private final PostMapper postMapper;
     private final PostService postService;
