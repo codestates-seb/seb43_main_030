@@ -2,10 +2,11 @@ import { useState } from 'react';
 import InputBtn from '../InputBtn';
 import { ReactComponent as Menu } from '../../images/menu.svg';
 import { ReactComponent as LogoSymbol } from '../../images/logo-symbol.svg';
+import { ReactComponent as Close } from '../../images/close.svg';
 import DropDownMenuM from '../DropDownMenuM';
 
 function MHeader() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const [nickname, setNickname] = useState('쫑이콩이맘');
   const [dropDown, setDropDown] = useState(false);
 
@@ -17,19 +18,19 @@ function MHeader() {
     <div
       className={`${
         dropDown ? '' : 'shadow-headerShadow'
-      } relative flex h-64 w-744 items-center justify-between border-b border-black-050 px-24 py-8`}
+      } relative flex h-64 w-[100%] items-center justify-between border-b border-black-050 px-24 py-8`}
     >
       <div className="flex-center w-48">
         <LogoSymbol />
       </div>
-      <InputBtn className="max-h-48 w-796" />
+      <InputBtn />
       {dropDown ? (
         <button
           className="h-32 w-32"
           type="button"
           onClick={() => onDropDown()}
         >
-          X
+          <Close />
         </button>
       ) : (
         <Menu className="h-32 w-32" onClick={() => onDropDown()} />

@@ -52,7 +52,6 @@ module.exports = {
       margin: px0To1000,
       borderRadius: px0To30,
       fontSize: px0To64,
-      margin: px0To1000,
       boxShadow: {
         dropDownShadow: '0px 0px 10px rgba(0, 0, 0, 0.08)',
         pinShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
