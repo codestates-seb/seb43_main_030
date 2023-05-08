@@ -10,7 +10,7 @@ function Button(props) {
     <button
       type="button"
       onClick={onClick}
-      className={cls('flex items-center justify-center rounded-md', className)}
+      className={cls('flex-center rounded-md', className)}
     >
       {icon === 'search' ? <Search /> : ''}
       {icon === 'map' ? <Map className="mr-0.5" /> : ''}
