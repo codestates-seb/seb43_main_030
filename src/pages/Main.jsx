@@ -1,5 +1,7 @@
 import { useMediaQuery } from 'react-responsive';
+import { Link } from 'react-router-dom';
 import MainCard from '../components/Card/MainCard';
+import Button from '../components/Button/Button';
 
 function Main() {
   const kinderGardens = [
@@ -18,10 +20,15 @@ function Main() {
         <div className="mb-24 mt-48 w-[100%] text-28 font-bold">
           유치원 리스트
         </div>
-        <div className="grid w-[100%] grid-cols-cardGrid gap-x-[10px] border">
+        <div className="relative grid w-[100%] grid-cols-cardGrid gap-x-[10px] border">
           {kinderGardens.map(kinderGarden => {
             return <MainCard />;
           })}
+          <Link to="/map">
+            <Button className="color-black flex-center fixed bottom-[30px] left-[43.25%] h-50 w-190">
+              지도보기
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

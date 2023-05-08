@@ -1,6 +1,13 @@
 import './App.css';
 import './styles/utilities.css';
 import { useMediaQuery } from 'react-responsive';
+import {
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+  useLocation,
+} from 'react-router-dom';
 import DropDownMenu from './components/DropDownMenu';
 import InputBtn from './components/InputBtn';
 import Button from './components/Button/Button';
@@ -24,6 +31,7 @@ import ToastAlert from './components/ToastAlert';
 import Footer from './components/Footer';
 import Main from './pages/Main';
 import PcHeader from './components/Header/PcHeader';
+import Map from './pages/Map';
 
 function App() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
@@ -103,9 +111,13 @@ function App() {
     //     bgColor="bg-red-400"
     //   />
     // </div>
-    <div className="w-[100vw]">
+    <div>
       {isMobile ? <MHeader /> : <PcHeader />}
-      <Main />
+
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/map" element={<Map />} />
+      </Routes>
       <Footer />
     </div>
   );
