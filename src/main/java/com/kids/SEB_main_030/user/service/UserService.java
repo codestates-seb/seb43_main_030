@@ -34,7 +34,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.USER);
         // 기본 프로필 생성 및 적용
-        Profile profile = initProfile();
+        Profile profile = randomCreator.initProfile();
         profile.setUser(user);
         user.setCurrentProfileId(profile.getProfileId());
 
@@ -82,12 +82,7 @@ public class UserService {
         return user.getCurrentProfileId();
     }
 
-    public Profile initProfile(){
-        Profile profile = new Profile();
-        profile.setType(Profile.type.PERSON);
-        profile.setName(randomCreator.initName());
-        return profileRepository.save(profile);
-    }
+
 
 
 }

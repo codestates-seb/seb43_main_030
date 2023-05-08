@@ -1,5 +1,6 @@
 package com.kids.SEB_main_030.security.oauth2.service;
 
+import com.kids.SEB_main_030.profile.entity.Profile;
 import com.kids.SEB_main_030.security.oauth2.CustomOAuth2User;
 import com.kids.SEB_main_030.security.oauth2.OAuthAttributes;
 import com.kids.SEB_main_030.user.entity.SocialType;
@@ -27,7 +28,6 @@ import java.util.Map;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final UserRepository userRepository;
     private static final String KAKAO = "kakao";
-    private UserService userService;
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
