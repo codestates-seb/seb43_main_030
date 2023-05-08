@@ -110,7 +110,7 @@ function App() {
     //     bgColor="bg-red-400"
     //   />
     // </div>
-    <div>
+    <div className="h-[calc(100vh-80px)]">
       {isMobile ? <MHeader /> : <PcHeader />}
 
       <Routes>
