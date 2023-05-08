@@ -102,10 +102,10 @@ function App() {
     //     bgColor="bg-red-400"
     //   />
     // </div>
-    <>
+    <div className="w-[100vw]">
       {isMobile ? <MHeader /> : <PcHeader />}
       <Main />
-    </>
+    </div>
   );
 }
 
