@@ -17,7 +17,7 @@ function MHeader() {
     <div
       className={`${
         dropDown ? '' : 'shadow-headerShadow'
-      } relative mb-500 flex h-64 w-744 items-center justify-between border-b border-black-050 px-24 py-8`}
+      } relative flex h-64 w-744 items-center justify-between border-b border-black-050 px-24 py-8`}
     >
       <div className="flex-center w-48">
         <LogoSymbol />
@@ -38,7 +38,7 @@ function MHeader() {
         isLogin ? (
           <DropDownMenuM />
         ) : (
-          <div className="absolute right-0 top-[64px] flex w-full flex-col items-start justify-center rounded-[10px] border-b border-black-050 px-24 py-8 shadow-headerShadow">
+          <div className="absolute right-0 top-[64px] flex w-full flex-col items-start justify-center rounded-[10px] border-b border-black-050 bg-white px-24 py-8 shadow-headerShadow">
             <ul className="w-full px-8 text-left">
               <li className="flex h-58 cursor-pointer items-center pb-12 pt-12 text-14">
                 리스트보기

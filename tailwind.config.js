@@ -58,7 +58,7 @@ module.exports = {
         headerShadow: '0px 2px 6px rgba(0, 0, 0, 0.04)',
         cardShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
       },
-      gridTemplateColums: {
+      gridTemplateColumns: {
         cardGrid: 'repeat(auto-fit, minmax(302px, 1fr))',
       },
       screens: {

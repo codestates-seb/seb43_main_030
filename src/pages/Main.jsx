@@ -1,4 +1,4 @@
-// import {useMediaQuery} from 'react-responsive';
+import { useMediaQuery } from 'react-responsive';
 import MainCard from '../components/Card/MainCard';
 
 function Main() {
@@ -7,7 +7,7 @@ function Main() {
     22, 23, 24, 25, 26, 27, 28, 29, 30,
   ];
 
-  // const isMobile = useMediaQuery({query: '(max-width: 1439px)'});
+  const isMobile = useMediaQuery({ query: '(max-width: 1439px)' });
 
   return (
     <div className="flex-center">
@@ -18,7 +18,7 @@ function Main() {
         <div className="mb-24 mt-48 w-[100%] text-28 font-bold">
           유치원 리스트
         </div>
-        <div className="grid-cardGrid grid w-[100%] border">
+        <div className="grid w-[100%] grid-cols-cardGrid gap-x-[10px] border">
           {kinderGardens.map(kinderGarden => {
             return <MainCard />;
           })}

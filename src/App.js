@@ -1,5 +1,6 @@
 import './App.css';
 import './styles/utilities.css';
+import { useMediaQuery } from 'react-responsive';
 import DropDownMenu from './components/DropDownMenu';
 import InputBtn from './components/InputBtn';
 import Button from './components/Button/Button';
@@ -20,6 +21,8 @@ import Main from './pages/Main';
 import PcHeader from './components/Header/PcHeader';
 
 function App() {
+  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+
   return (
     // <div className="App">
     //   <Button className="btn-size-s color-yellow ">버튼</Button>
@@ -91,7 +94,7 @@ function App() {
     //   />
     // </div>
     <>
-      <PcHeader />
+      {isMobile ? <MHeader /> : <PcHeader />}
       <Main />
     </>
   );
