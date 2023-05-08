@@ -14,8 +14,20 @@ function Footer() {
         <div className="flex items-center justify-between">
           <Logo />
           <div className="flex gap-6">
-            <BtnFigma />
-            <BtnGit />
+            <a
+              href="https://www.figma.com/file/PFOgIanoWAdQqqgtEtRWUM/%EB%B0%98%EB%A0%A4%EB%8F%99%EB%AC%BC-%EC%9C%A0%EC%B9%98%EC%9B%90-%EA%B8%B0%ED%9A%8D-%EB%B0%8F-%EB%94%94%EC%9E%90%EC%9D%B8?type=design&node-id=116-10869&t=JSHmaC3P0wWr2fkX-0"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <BtnFigma />
+            </a>
+            <a
+              href="https://github.com/codestates-seb/seb43_main_030"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <BtnGit />
+            </a>
           </div>
         </div>
         <div className="mt-16 w-[90%] text-12 text-black-350">
