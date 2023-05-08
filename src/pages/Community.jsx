@@ -9,15 +9,15 @@ import { ReactComponent as ArrowPrev } from '../images/arrow-prev.svg';
 
 function Community() {
   return (
-    <div className="mb-64 flex flex-col items-center">
-      <div className="max-w-[1440px] px-189">
+    <div className="mb-64 mt-55 flex flex-col items-center onlyMobile:mt-0">
+      <div className="max-w-[1440px] px-189 onlyMobile:max-w-full onlyMobile:px-0">
         <div className="relative">
-          <div className="relative h-432 overflow-hidden rounded-[16px]">
+          <div className="relative h-432 overflow-hidden rounded-[16px] onlyMobile:h-300 onlyMobile:rounded-0">
             <img src={Dog} alt="예시이미지" className="w-full blur-lg" />
             <div className="absolute left-0 top-0 h-full w-full bg-black opacity-50" />
           </div>
-          <div className=" absolute bottom-[48px] left-[48px] w-full text-white">
-            <p className=" mb-20 max-w-500 text-40 font-bold leading-tight">
+          <div className=" absolute bottom-[48px] left-[48px] w-full text-white onlyMobile:bottom-[24px] onlyMobile:left-[20px]">
+            <p className=" mb-20 max-w-450 text-40 font-bold leading-tight onlyMobile:max-w-[60%] onlyMobile:text-32">
               왈독 애견 유치원 왈독 애견 유치원원원투
             </p>
             <div className="mb-8 flex items-center">
@@ -30,20 +30,23 @@ function Community() {
         </div>
         <InputBtn
           placeholder="검색어를 입력해주세요."
-          className="m-40 !mx-0 !w-full max-w-full"
+          className="m-40 !mx-0 !w-full max-w-full onlyMobile:px-24"
         />
-        <div>
+        <div className="onlyMobile:px-24">
           <div className="w-full border-b border-black-070">
-            <button className="community-tab-on mr-20 text-20" type="button">
+            <button
+              className="community-tab-on mr-20 text-20 onlyMobile:text-18"
+              type="button"
+            >
               공지
             </button>
-            <button className="mr-20 text-20" type="button">
+            <button className="mr-20 text-20 onlyMobile:text-18" type="button">
               커뮤니티
             </button>
           </div>
           <div className="pt-24">
             <div className="flex items-center justify-between">
-              <p className="text-18 font-bold">
+              <p className="text-18 font-bold  onlyMobile:text-16">
                 공지글 <span>5개</span>
               </p>
               <Button
