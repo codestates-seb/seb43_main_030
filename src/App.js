@@ -8,13 +8,19 @@ import InputError from './components/Input/InputError';
 import InputSelectBox from './components/Input/InputSelectBox';
 import InputCheck from './components/Input/InputCheck';
 import InputRadio from './components/Input/InputRadio';
-import Header from './components/PcHeader';
+import Header from './components/Header/PcHeader';
+import MHeader from './components/Header/MHeader';
 import TextArea from './components/TextArea';
 import UploadImage from './components/UploadImage';
 import RatingStar from './components/RatingStar';
 import ListNotice from './components/List/ListNotice';
 import ListReview from './components/List/ListReview';
 import ListCommunity from './components/List/ListCommunity';
+import MainCard from './components/Card/MainCard';
+import MapCard from './components/Card/MapCard';
+import MapCardM from './components/Card/MapCardM';
+import ToastAlert from './components/ToastAlert';
+import Pin from './components/Pin';
 
 function App() {
   return (
@@ -60,9 +66,14 @@ function App() {
       <InputSelectBox />
       <InputBtn />
       <div className="tab-default">공지</div>
-      <div className="pin-default">왈독애견유치원</div>
+
+      <Pin />
+
       <DropDownMenu />
+
       <Header />
+      <MHeader />
+
       <TextArea
         placeholder="placeholder"
         maxLength={200}
@@ -71,10 +82,21 @@ function App() {
       <UploadImage className="upload-image h-64 w-64" />
       <InputCheck type="checkbox" />
       <InputRadio type="radio" className="h-20 w-20" />
+
       <RatingStar />
       <ListNotice />
       <ListReview />
       <ListCommunity />
+
+      <MainCard />
+      <MapCard />
+      <MapCardM />
+
+      <ToastAlert text="게시물을 등록하였습니다." bgColor="bg-green-400" />
+      <ToastAlert
+        text="토큰이 만료되었습니다. 재로그인 해주세요."
+        bgColor="bg-red-400"
+      />
     </div>
   );
 }
