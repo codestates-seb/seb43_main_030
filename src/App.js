@@ -91,10 +91,10 @@ function App() {
     //   <MapCard />
     //   <MapCardM />
 
-      <RatingStar />
-      <ListNotice />
-      <ListReview />
-      <ListCommunity />
+    // <RatingStar />
+    // <ListNotice />
+    // <ListReview />
+    // <ListCommunity />
 
     //   <ToastAlert text="게시물을 등록하였습니다." bgColor="bg-green-400" />
     //   <ToastAlert
