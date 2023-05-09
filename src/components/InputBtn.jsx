@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { ReactComponent as Search } from '../images/search.svg';
+import cls from '../utils/tailwind';
 
-function InputBtn() {
+function InputBtn(props) {
+  const { placeholder, className } = props;
   const [focus, setFocus] = useState(true);
   return (
-    <div className="input-array">
+    <div className={cls('input-array', className)}>
       <div
         className={
           focus
@@ -14,8 +16,8 @@ function InputBtn() {
       >
         <input
           type="text"
-          className="search-input"
-          placeholder="input-btn버튼"
+          className="search-input w-full"
+          placeholder={placeholder}
           onFocus={() => setFocus(false)}
           onBlur={() => setFocus(true)}
         />

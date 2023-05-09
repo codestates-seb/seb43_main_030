@@ -32,6 +32,7 @@ import Footer from './components/Footer';
 import Main from './pages/Main';
 import PcHeader from './components/Header/PcHeader';
 import Map from './pages/Map';
+import Community from './pages/Community';
 
 function App() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
@@ -117,6 +118,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/map" element={<Map />} />
+        <Route path="/community" element={<Community />} />
       </Routes>
       <Footer />
     </div>
