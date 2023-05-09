@@ -9,6 +9,8 @@ import InputSelectBox from '../components/Input/InputSelectBox';
 function Main() {
   const [kinderGartens, setKinderGartens] = useState([]);
   const [isPending, setIsPending] = useState(false);
+  const [areaFilter, setAreaFilter] = useState(0);
+  console.log(areaFilter);
 
   useEffect(() => {
     axios
@@ -19,7 +21,6 @@ function Main() {
       })
       .catch(error => {
         console.log(error);
-        console.log('dd');
       });
   }, []);
 
@@ -35,6 +36,7 @@ function Main() {
             options="강서구 · 구로구 · 양천구, 관악구 · 금천구 · 동작구 · 영등포구, 강남구 · 강동구 · 서초구 · 송파구, 마포구 · 은평구 · 서대문구, 강북구 · 노원구 · 도봉구 · 성북구, 용산구 · 성동구 · 종로구 · 중구, 광진구 · 동대문구 · 중랑구"
             width="min-w-260 onlyMobile:w-full onlyMobile:mt-10"
             placeholder="지역을 선택해주세요."
+            setAreaFilter={setAreaFilter}
           />
         </div>
         <div className="grid w-[100%] grid-cols-cardGrid gap-x-[10px]">
