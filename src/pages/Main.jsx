@@ -4,14 +4,16 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import MainCard from '../components/Card/MainCard';
 import Button from '../components/Button/Button';
+import InputSelectBox from '../components/Input/InputSelectBox';
 
 function Main() {
   const [kinderGartens, setKinderGartens] = useState([]);
   const [isPending, setIsPending] = useState(false);
+  const [areaFilter, setAreaFilter] = useState('');
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/KinderGarten')
+      .get(`http://localhost:3001/KinderGarten${areaFilter}`)
       .then(response => {
         setKinderGartens(response.data);
         setIsPending(true);
@@ -19,7 +21,7 @@ function Main() {
       .catch(error => {
         console.log(error);
       });
-  }, []);
+  }, [areaFilter]);
 
   return (
     <div className="flex-center relative">
@@ -27,14 +29,21 @@ function Main() {
         <div className="mt-56 h-304 w-[100%] rounded-2xl bg-yellow-500">
           안냐세여
         </div>
-        <div className="mb-24 mt-48 w-[100%] text-28 font-bold">
-          유치원 리스트
+        <div className="mb-24 mt-48 flex w-[100%] justify-between text-28 font-bold onlyMobile:flex-col">
+          <span>유치원 리스트</span>
+          <InputSelectBox
+            options="강서구 · 구로구 · 양천구, 관악구 · 금천구 · 동작구 · 영등포구, 강남구 · 강동구 · 서초구 · 송파구, 마포구 · 은평구 · 서대문구, 강북구 · 노원구 · 도봉구 · 성북구, 용산구 · 성동구 · 종로구 · 중구, 광진구 · 동대문구 · 중랑구"
+            width="min-w-260 onlyMobile:w-full onlyMobile:mt-10"
+            placeholder="지역을 선택해주세요."
+            setAreaFilter={setAreaFilter}
+          />
         </div>
         <div className="grid w-[100%] grid-cols-cardGrid gap-x-[10px]">
           {isPending &&
             kinderGartens.map(kinderGarten => {
               return (
                 <MainCard
+                  key={kinderGarten.kinderGartenId}
                   name={kinderGarten.name}
                   ratedReviewsAvg={kinderGarten.ratedReviewsAvg}
                   ratedReviewsCount={kinderGarten.ratedReviewsCount}

@@ -1,68 +1,47 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
+import cls from '../../utils/tailwind';
 import { ReactComponent as ArrowOpen } from '../../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../../images/arrow-close.svg';
 
 function InputSelectBox(props) {
-  // options: 셀렉트박스 펼칠 때 나오는 옵션 리스트. <InputSelectBox option="a,b,c" />형태로 입력
-  const { options, placeholder } = props;
+  const { options, placeholder, className, width, setAreaFilter } = props;
+  // options: 셀렉트박스 펼칠 때 나오는 옵션 리스트. <InputSelectBox options="a,b,c" />형태로 입력
+  // className: button에 추가
+  // width: <InputSelectBox width="w-500" /> 형태로 입력
   const profiles = options.split(',');
   const [activeIndex, setActiveIndex] = useState(null);
   const [selectUser, setSelectUser] = useState(placeholder);
   const [focus, setFocus] = useState(false);
-  const [errorCheck, setErrorCheck] = useState(false);
-  const [clickCount, setClickCount] = useState(0);
 
   const profileActive = event => {
     const index = Number(event.target.className.split(' ')[1].slice(-1));
     setActiveIndex(index);
     setSelectUser(profiles[index]);
-    setErrorCheck(false);
+    setAreaFilter(index);
     setFocus(false);
   };
 
   const handleButtonClick = () => {
-    setClickCount(clickCount + 1);
-    if (clickCount > 0 && selectUser === placeholder) {
-      setErrorCheck(true);
-    }
     setFocus(!focus);
   };
-  const wrapperRef = useRef(null);
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        setFocus(false);
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [wrapperRef]);
 
   return (
-    <div ref={wrapperRef}>
+    <div className="relative">
       <button
         onClick={handleButtonClick}
         type="button"
-        className={
-          errorCheck
-            ? 'input-select-default w-full border-red-400'
-            : 'input-default input-select-default w-full'
-        }
+        className={cls('input-default input-select-default ', className, width)}
       >
         {selectUser}
         {focus ? <ArrowClose /> : <ArrowOpen />}
       </button>
-      {errorCheck && !focus ? (
-        <p className="input-text text-red-400">{placeholder}</p>
-      ) : (
-        ''
-      )}
       {focus && (
-        <div className="flex flex-col items-start justify-center rounded-[10px] px-12 py-16 shadow-dropDownShadow">
+        <div
+          className={cls(
+            'absolute left-0 top-[58px] z-20 flex flex-col items-start justify-center rounded-[10px] bg-white shadow-dropDownShadow',
+            width,
+          )}
+        >
           <ul className="ul profile w-full px-8 py-12 text-left">
             {profiles.map((profile, idx) => {
               const activeClass = activeIndex === idx ? 'font-bold' : '';
