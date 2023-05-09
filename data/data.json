@@ -1,0 +1,79 @@
+{
+  "api/users/profile": [
+    {
+      "profileId": 1,
+      "name": "즐기운신형만380",
+      "imageUrl": null
+    },
+    {
+      "profileId": 2,
+      "name": "몽실이 주인",
+      "imageUrl": null
+    },
+    {
+      "profileId": 3,
+      "name": "몽실이",
+      "breed": "진돗개",
+      "imageUrl": null
+    }
+  ],
+
+  "api/users/profile/{profile-id}": {
+    "profileId": 2,
+    "email": "abc@gmail.com",
+    "name": "몽실이",
+    "checkPerson": false,
+    "breed": "진돗개",
+    "imageUrl": null,
+    "posts": [
+      { 
+        "postId": 1,
+        "title": "글1",
+        "content": {
+          "text" : "내용1",
+          "images": [
+            {
+              "imageId": 1,
+              "imageUrl": null
+            },
+            {
+              "imageId": 2,
+              "imageUrl": null
+            }
+          ]
+        },
+        "createdAt": "2023-05-03T10:54:56.870994",
+        "motifiedAt": "2023-05-04T10:54:56.870994",
+        "views": 300,
+        "likes": 14
+      },
+      { 
+        "postId": 2,
+        "title": "글1",
+        "content": {
+          "text" : "내용1",
+          "imageId": 1,
+          "imageUrl": null
+        },
+        "createdAt": "2023-05-03T10:54:56.870994",
+        "motifiedAt": "2023-05-04T10:54:56.870994",
+        "views": 300,
+        "likes": 14
+      }
+    ],
+    "reviews": [
+      {
+        "reviewId": 1,
+        "title": "후기1",
+        "content": {
+          "text" : "내용1",
+          "imageId": 1,
+          "imageUrl": null
+        },
+        "star": 4.3,
+        "createdAt": "2023-05-03T10:54:56.870994",
+        "motifiedAt": "2023-05-04T10:54:56.870994"
+      }
+    ]
+  }
+}
