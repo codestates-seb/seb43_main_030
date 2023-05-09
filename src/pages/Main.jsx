@@ -10,7 +10,6 @@ function Main() {
   const [kinderGartens, setKinderGartens] = useState([]);
   const [isPending, setIsPending] = useState(false);
   const [areaFilter, setAreaFilter] = useState(0);
-  console.log(areaFilter);
 
   useEffect(() => {
     axios

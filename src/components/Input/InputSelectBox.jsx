@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import cls from '../../utils/tailwind';
 import { ReactComponent as ArrowOpen } from '../../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../../images/arrow-close.svg';
