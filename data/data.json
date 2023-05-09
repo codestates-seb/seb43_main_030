@@ -1,0 +1,265 @@
+{
+  "api/users": [
+    {
+      "userId": 1,
+      "email": "abc@naver.com",
+      "password": "abcdefg123"
+    }
+  ],
+  "api/isLogin": {
+    "login": false
+  },
+  "api/users/profile": [
+    {
+      "profileId": 1,
+      "name": "즐기운신형만380",
+      "imageUrl": null
+    },
+    {
+      "profileId": 2,
+      "name": "몽실이 주인",
+      "imageUrl": null
+    },
+    {
+      "profileId": 3,
+      "name": "몽실이",
+      "breed": "진돗개",
+      "imageUrl": null
+    }
+  ],
+
+  "api/users/profile/{profile-id}": {
+    "profileId": 2,
+    "email": "abc@gmail.com",
+    "name": "몽실이",
+    "checkPerson": false,
+    "breed": "진돗개",
+    "imageUrl": null,
+    "posts": [
+      { 
+        "postId": 1,
+        "title": "글1",
+        "content": {
+          "text" : "내용1",
+          "images": [
+            {
+              "imageId": 1,
+              "imageUrl": null
+            },
+            {
+              "imageId": 2,
+              "imageUrl": null
+            }
+          ]
+        },
+        "createdAt": "2023-05-03T10:54:56.870994",
+        "motifiedAt": "2023-05-04T10:54:56.870994",
+        "views": 300,
+        "likes": 14
+      },
+      { 
+        "postId": 2,
+        "title": "글1",
+        "content": {
+          "text" : "내용1",
+          "imageId": 1,
+          "imageUrl": null
+        },
+        "createdAt": "2023-05-03T10:54:56.870994",
+        "motifiedAt": "2023-05-04T10:54:56.870994",
+        "views": 300,
+        "likes": 14
+      }
+    ],
+    "reviews": [
+      {
+        "reviewId": 1,
+        "title": "후기1",
+        "content": {
+          "text" : "내용1",
+          "imageId": 1,
+          "imageUrl": null
+        },
+        "star": 4.3,
+        "createdAt": "2023-05-03T10:54:56.870994",
+        "motifiedAt": "2023-05-04T10:54:56.870994"
+      }
+    ],
+    "api/KinderGarten?page=${currentPage}&size=15": [
+      {
+        "kindergartenId": 1,
+        "name" : "멍멍이 유치원ex6",
+        "latitude" : 37.536631,
+        "longitude" : 126.977376,
+        "ratedReviewsAvg" : 4.4,
+        "locations" : "서울시 마포구 멍멍동"
+      },
+      {
+        "kindergartenId": 2,
+        "name" : "멍멍이 유치원ex5",
+        "latitude" : 37.5195,
+        "longitude" : 127.0239,
+        "ratedReviewsAvg" : 4.1,
+        "locations" : "서울시 마포구 멍멍동"
+      },
+      {
+        "kindergartenId": 3,
+        "name" : "멍멍이 유치원ex4",
+        "latitude" : 37.495919,
+        "longitude" : 126.959497,
+        "ratedReviewsAvg" : 4.7,
+        "locations" : "서울시 마포구 멍멍동"
+      },
+      {
+        "kindergartenId": 4,
+        "name" : "멍멍이 유치원ex3",
+        "latitude" : 37.542229,
+        "longitude" : 127.036394,
+        "ratedReviewsAvg" : 4.9,
+        "locations" : "서울시 마포구 멍멍동"
+      },
+      {
+        "kindergartenId": 5,
+        "name" : "멍멍이 유치원ex2",
+        "latitude" : 37.511060,
+        "longitude" : 126.917463,
+        "ratedReviewsAvg" : 5.0,
+        "locations" : "서울시 마포구 멍멍동"
+      }
+    ],
+    "api/KinderGarten/${kindergarten-id}": {
+      "kindergartenId": 1,
+      "name": "멍멍이 유치원ex5",
+      "latitude": 37.486763,
+      "longitude": 127.038742,
+      "snsUrl": "instagram.com",
+      "ratedReviewsAvg": 4.3,
+      "locations": "서울시 마포구 멍멍동",
+      "openHours": "9:00",
+      "closeHours": "18:00",
+      "phoneNumber": "010-1234-1234",
+      "reviews": [
+        {
+          "reviewId": 1,
+          "title": "후기1",
+          "contents": {
+            "text" : "내용1",
+            "images": [
+              {
+                "imageId": 1,
+                "imageUrl": null
+              },
+              {
+                "imageId": 2,
+                "imageUrl": null
+              }
+            ]
+          },
+          "ratedReview": 4.3,
+          "createdAt": "2023-05-03T10:54:56.870994",
+          "motifiedAt": "2023-05-04T10:54:56.870994"
+        },
+        {
+          "reviewId": 2,
+          "title": "후기2",
+          "contents": {
+            "text" : "내용2",
+            "images": [
+              {
+                "imageId": 1,
+                "imageUrl": null
+              },
+              {
+                "imageId": 2,
+                "imageUrl": null
+              }
+            ]
+          },
+          "ratedReview": 4.3,
+          "createdAt": "2023-05-04T10:54:56.870994",
+          "motifiedAt": "2023-05-04T10:54:56.870994"
+        },
+        {
+          "reviewId": 3,
+          "title": "후기3",
+          "contents": {
+            "text" : "내용3",
+            "images": [
+              {
+                "imageId": 1,
+                "imageUrl": null
+              },
+              {
+                "imageId": 2,
+                "imageUrl": null
+              }
+            ]
+          },
+          "ratedReview": 4.3,
+          "createdAt": "2023-05-05T10:54:56.870994",
+          "motifiedAt": "2023-05-06T10:54:56.870994"
+        }
+      ],
+      "notices": [
+        {
+          "noticeId": 1,
+          "title": "공지1",
+          "contents": {
+            "text" : "내용1",
+            "images": [
+              {
+                "imageId": 1,
+                "imageUrl": null
+              },
+              {
+                "imageId": 2,
+                "imageUrl": null
+              }
+            ]
+          },
+          "createdAt": "2023-05-03T10:54:56.870994",
+          "motifiedAt": "2023-05-04T10:54:56.870994"
+        },
+        {
+          "noticeId": 2,
+          "title": "공지2",
+          "contents": {
+            "text" : "내용2",
+            "images": [
+              {
+                "imageId": 1,
+                "imageUrl": null
+              },
+              {
+                "imageId": 2,
+                "imageUrl": null
+              }
+            ]
+          },
+          "createdAt": "2023-05-03T10:54:56.870994",
+          "motifiedAt": "2023-05-04T10:54:56.870994"
+        },
+        {
+          "noticeId": 3,
+          "title": "공지3",
+          "contents": {
+            "text" : "공지3",
+            "images": [
+              {
+                "imageId": 1,
+                "imageUrl": null
+              },
+              {
+                "imageId": 2,
+                "imageUrl": null
+              }
+            ]
+          },
+          "createdAt": "2023-05-03T10:54:56.870994",
+          "motifiedAt": "2023-05-04T10:54:56.870994"
+        }
+      ]
+    }
+    
+  }
+}

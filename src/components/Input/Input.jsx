@@ -13,7 +13,8 @@ function Input(props) {
   } = props;
 
   return (
-    <div className="input-array">
+    // <div className="input-array">
+    <>
       {/* label이 있을 경우 labelText props작성 */}
       {labelText && (
         <label
@@ -37,7 +38,8 @@ function Input(props) {
       {/* 에러 시 isError 완료 시 isComp props에 안내문구 작성  */}
       {isError && <p className="input-text text-red-400">{isError}</p>}
       {isComp && <p className="input-text text-blue-500">{isComp}</p>}{' '}
-    </div>
+    </>
+    // </div>
   );
 }
 export default Input;

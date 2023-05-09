@@ -27,7 +27,8 @@
     "react/react-in-jsx-scope": "off",
     "no-unused-vars": "warn",
     "no-console": "warn",
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "no-shadow": "off"
   },
   "settings": {
     "tailwindcss": {

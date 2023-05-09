@@ -33,6 +33,7 @@ import Main from './pages/Main';
 import PcHeader from './components/Header/PcHeader';
 import Login from './pages/Login';
 import Map from './pages/Map';
+import Community from './pages/Community';
 
 function App() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
@@ -112,13 +113,14 @@ function App() {
     //     bgColor="bg-red-400"
     //   />
     // </div>
-    <div>
+    <div className="h-[calc(100vh-80px)]">
       {isMobile ? <MHeader /> : <PcHeader />}
 
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
         <Route path="/map" element={<Map />} />
+        <Route path="/community" element={<Community />} />
       </Routes>
       <Footer />
     </div>
