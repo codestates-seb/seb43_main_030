@@ -17,12 +17,14 @@ function Header() {
   }
 
   return (
-    <div className="flex-center w-full shadow-headerShadow">
+    <div className="flex-center fixed  z-10 w-full bg-white shadow-headerShadow">
       <div className="flex h-80 w-[100%] max-w-[1440px] items-center justify-between border-b border-black-050 px-[4.5%] py-16">
         <div className="flex-center w-120">
           <Logo />
         </div>
-        <InputBtn />
+        <div className="input-array">
+          <InputBtn />
+        </div>
         {isLogin ? (
           <div className="relative mr-12 flex h-48 w-150 items-center justify-between p-8">
             <Search className="min-h-32 min-w-32 rounded-md border" />

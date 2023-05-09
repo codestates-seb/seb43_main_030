@@ -13,7 +13,7 @@ function Main() {
 
   return (
     <div className="flex-center">
-      <div className="flex-center w-[100%] max-w-[1440px] flex-col px-80">
+      <div className="flex-center mt-80 w-[100%] max-w-[1440px] flex-col px-80">
         <div className="mt-56 h-304 w-[100%] rounded-2xl bg-yellow-500">
           안냐세여
         </div>

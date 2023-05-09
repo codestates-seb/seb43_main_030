@@ -6,7 +6,7 @@ function InputBtn(props) {
   const { placeholder, className } = props;
   const [focus, setFocus] = useState(true);
   return (
-    <div className={cls('input-array', className)}>
+    <div className={cls(className)}>
       <div
         className={
           focus
