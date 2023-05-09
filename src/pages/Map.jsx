@@ -1,7 +1,7 @@
 import {
   GoogleMap,
   useJsApiLoader,
-  Marker,
+  MarkerF,
   InfoWindow,
 } from '@react-google-maps/api';
 import { useState, useCallback, memo, useEffect } from 'react';
@@ -30,6 +30,12 @@ function Map() {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
   });
 
+  const markerValues = [
+    { lat: 37.536631, lng: 126.977376 },
+    { lat: 37.5195, lng: 127.0239 },
+    { lat: 37.495919, lng: 126.959497 },
+  ];
+
   const [map, setMap] = useState(null);
 
   const onLoad = useCallback(function callback(mapValue) {
@@ -56,7 +62,11 @@ function Map() {
       onUnmount={onUnmount}
       options={{ disableDefaultUI: true, styles: myStyles }}
     >
-      <Marker position={center} />
+      {markerValues.map(markerValue => {
+        return (
+          <MarkerF position={{ lat: markerValue.lat, lng: markerValue.lng }} />
+        );
+      })}
     </GoogleMap>
   ) : (
     <> </>
