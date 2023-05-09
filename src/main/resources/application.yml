@@ -4,9 +4,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/perpett?serverTimezone=UTC&characterEncoding=UTF-8
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: jdbc:mysql://db-perpett.csukwlthqcnp.ap-northeast-2.rds.amazonaws.com:3306/test?serverTimezone=UTC&characterEncoding=UTF-8
+    username: admin
+    password: 12341234
 
 #  h2:
 #    console:
@@ -17,7 +17,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
