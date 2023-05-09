@@ -20,7 +20,7 @@ function Main() {
         <div className="mb-24 mt-48 w-[100%] text-28 font-bold">
           유치원 리스트
         </div>
-        <div className="grid w-[100%] grid-cols-cardGrid gap-x-[10px] border">
+        <div className="grid w-[100%] grid-cols-cardGrid gap-x-[10px]">
           {kinderGardens.map(kinderGarden => {
             return <MainCard />;
           })}
