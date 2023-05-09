@@ -25,7 +25,7 @@ function Main() {
             return <MainCard />;
           })}
           <Link to="/map">
-            <Button className="color-black flex-center fixed bottom-[30px] left-[43.25%] h-50 w-190">
+            <Button className="color-black flex-center fixed bottom-[30px] left-[43.25%] z-10 h-50 w-190">
               지도보기
             </Button>
           </Link>
