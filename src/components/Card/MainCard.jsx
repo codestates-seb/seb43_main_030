@@ -10,7 +10,7 @@ function MainCard(props) {
         <div className="text-18 font-bold">{name}</div>
         <div className="flex-center mb-8 text-14">
           <StarOn className="mr-4 inline-block" />
-          {ratedReviewsAvg} {`(${ratedReviewsCount})`}
+          <span className="mr-4">{ratedReviewsAvg}</span>({ratedReviewsCount})
         </div>
         <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-14">
           {locations}

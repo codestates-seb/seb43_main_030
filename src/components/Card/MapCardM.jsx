@@ -1,7 +1,8 @@
 import Dog from '../../images/dog.jpeg';
 import { ReactComponent as StarOn } from '../../images/star-on.svg';
 
-function MapCardM() {
+function MapCardM(props) {
+  const { name, ratedReviewsAvg, ratedReviewsCount } = props;
   return (
     <div className="flex-center flex h-116 flex-row rounded-2xl shadow-cardShadow">
       <img
