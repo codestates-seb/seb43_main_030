@@ -131,9 +131,155 @@
         "ratedReviewsAvg" : 5.0,
         "ratedReviewsCount": 2,
         "locations" : "서울시 마포구 멍멍동"
+      },
+      {
+        "kindergartenId": 6,
+        "name" : "무슨 이름으로 해야하지",
+        "latitude" : 37.511060,
+        "longitude" : 126.917463,
+        "ratedReviewsAvg" : 5.0,
+        "ratedReviewsCount": 2,
+        "locations" : "서울시 마포구 멍멍동"
+      },
+      {
+        "kindergartenId": 7,
+        "name" : "무슨 이름으로 해야하지",
+        "latitude" : 37.511060,
+        "longitude" : 126.917463,
+        "ratedReviewsAvg" : 5.0,
+        "ratedReviewsCount": 2,
+        "locations" : "서울시 마포구 멍멍동"
+      },
+      {
+        "kindergartenId": 8,
+        "name" : "무슨 이름으로 해야하지",
+        "latitude" : 37.511060,
+        "longitude" : 126.917463,
+        "ratedReviewsAvg" : 5.0,
+        "ratedReviewsCount": 2,
+        "locations" : "서울시 마포구 멍멍동"
+      },
+      {
+        "kindergartenId": 9,
+        "name" : "무슨 이름으로 해야하지",
+        "latitude" : 37.511060,
+        "longitude" : 126.917463,
+        "ratedReviewsAvg" : 5.0,
+        "ratedReviewsCount": 2,
+        "locations" : "서울시 마포구 멍멍동"
+      },
+      {
+        "kindergartenId": 10,
+        "name" : "무슨 이름으로 해야하지",
+        "latitude" : 37.511060,
+        "longitude" : 126.917463,
+        "ratedReviewsAvg" : 5.0,
+        "ratedReviewsCount": 2,
+        "locations" : "서울시 마포구 멍멍동"
+      },
+      {
+        "kindergartenId": 11,
+        "name" : "무슨 이름으로 해야하지",
+        "latitude" : 37.511060,
+        "longitude" : 126.917463,
+        "ratedReviewsAvg" : 5.0,
+        "ratedReviewsCount": 2,
+        "locations" : "서울시 마포구 멍멍동"
+      },
+      {
+        "kindergartenId": 12,
+        "name" : "무슨 이름으로 해야하지",
+        "latitude" : 37.511060,
+        "longitude" : 126.917463,
+        "ratedReviewsAvg" : 5.0,
+        "ratedReviewsCount": 2,
+        "locations" : "서울시 마포구 멍멍동"
+      },
+      {
+        "kindergartenId": 13,
+        "name" : "무슨 이름으로 해야하지",
+        "latitude" : 37.511060,
+        "longitude" : 126.917463,
+        "ratedReviewsAvg" : 5.0,
+        "ratedReviewsCount": 2,
+        "locations" : "서울시 마포구 멍멍동"
+      },
+      {
+        "kindergartenId": 14,
+        "name" : "무슨 이름으로 해야하지",
+        "latitude" : 37.511060,
+        "longitude" : 126.917463,
+        "ratedReviewsAvg" : 5.0,
+        "ratedReviewsCount": 2,
+        "locations" : "서울시 마포구 멍멍동"
+      },
+      {
+        "kindergartenId": 15,
+        "name" : "무슨 이름으로 해야하지",
+        "latitude" : 37.511060,
+        "longitude" : 126.917463,
+        "ratedReviewsAvg" : 5.0,
+        "ratedReviewsCount": 2,
+        "locations" : "서울시 마포구 멍멍동"
+      },
+      {
+        "kindergartenId": 16,
+        "name" : "무슨 이름으로 해야하지",
+        "latitude" : 37.511060,
+        "longitude" : 126.917463,
+        "ratedReviewsAvg" : 5.0,
+        "ratedReviewsCount": 2,
+        "locations" : "서울시 마포구 멍멍동"
+      },
+      {
+        "kindergartenId": 17,
+        "name" : "무슨 이름으로 해야하지",
+        "latitude" : 37.511060,
+        "longitude" : 126.917463,
+        "ratedReviewsAvg" : 5.0,
+        "ratedReviewsCount": 2,
+        "locations" : "서울시 마포구 멍멍동"
+      },
+      {
+        "kindergartenId": 18,
+        "name" : "무슨 이름으로 해야하지",
+        "latitude" : 37.511060,
+        "longitude" : 126.917463,
+        "ratedReviewsAvg" : 5.0,
+        "ratedReviewsCount": 2,
+        "locations" : "서울시 마포구 멍멍동"
       }
     ],
-    "KinderGarten1": {
+    "KinderGarten1": [
+      {
+        "kindergartenId": 1,
+        "name" : "왈왈유치원",
+        "latitude" : 37.536631,
+        "longitude" : 126.977376,
+        "ratedReviewsAvg" : 4.4,
+        "ratedReviewsCount": 13,
+        "locations" : "서울시 관악구 멍멍동"
+      },
+      {
+        "kindergartenId": 2,
+        "name" : "놀펫강아지유치원애견호텔서울애견유치원성북본원",
+        "latitude" : 37.5195,
+        "longitude" : 127.0239,
+        "ratedReviewsAvg" : 4.1,
+        "ratedReviewsCount": 12,
+        "locations" : "관악구 성수동1가 685-696번지 지하1층 B동 115호 2층입니다아아"
+      },
+      {
+        "kindergartenId": 3,
+        "name" : "멍더가든",
+        "latitude" : 37.495919,
+        "longitude" : 126.959497,
+        "ratedReviewsAvg" : 4.7,
+        "ratedReviewsCount": 8,
+        "locations" : "관악구 어쩌구 저쩌구"
+      }
+    ],
+    "KinderGartenDetail": {
       "kindergartenId": 1,
       "name": "멍멍이 유치원ex5",
       "latitude": 37.486763,
