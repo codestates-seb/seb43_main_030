@@ -9,8 +9,8 @@ import Input from '../components/Input/Input';
 
 function Post() {
   return (
-    <div className="mb-64 mt-55 flex flex-col items-center onlyMobile:mt-0">
-      <div className="w-full max-w-[1162px] px-50  onlyMobile:px-20 onlyMobile:py-30">
+    <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">
+      <div className="w-full max-w-[1162px] px-50  onlyMobile:px-20">
         <div className="border-b border-solid border-black-070 pb-32">
           <p className="text-14 text-black-350 onlyMobile:text-12">
             왈독 애견유치원 왈독 - 커뮤니티
