@@ -4,9 +4,11 @@ import {
   MarkerF,
   InfoWindowF,
 } from '@react-google-maps/api';
+import { Link } from 'react-router-dom';
 import { useState, useCallback, memo, useEffect } from 'react';
 import PinOn from '../images/pin-on.png';
 import MapCard from '../components/Card/MapCard';
+import Button from '../components/Button/Button';
 
 const containerStyle = {
   width: '100%',
@@ -68,40 +70,49 @@ function Map() {
   };
 
   return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={12}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-      options={{ disableDefaultUI: true, styles: myStyles }}
-    >
-      {markerValues.map(markerValue => {
-        return (
-          <MarkerF
-            key={markerValue.id}
-            position={{ lat: markerValue.lat, lng: markerValue.lng }}
-            onClick={() => handleMarkerClick(markerValue)}
-            icon={{
-              url: PinOn,
-              scaledSize: new window.google.maps.Size(56, 56),
-            }}
-          >
-            {clickedMarker && clickedMarker.id === markerValue.id && (
-              <InfoWindowF
-                position={{ lat: clickedMarker.lat, lng: clickedMarker.lng }}
-                onCloseClick={() => setClickedMarker(null)}
-              >
-                <div style={{ backgroundColor: 'white' }}>
-                  {/* <Pin name={markerValue.name} /> */}
-                  <MapCard name={markerValue.name} />
-                </div>
-              </InfoWindowF>
-            )}
-          </MarkerF>
-        );
-      })}
-    </GoogleMap>
+    <div className="w-[100vw]">
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={12}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+        options={{ disableDefaultUI: true, styles: myStyles }}
+      >
+        {markerValues.map(markerValue => {
+          return (
+            <MarkerF
+              key={markerValue.id}
+              position={{ lat: markerValue.lat, lng: markerValue.lng }}
+              onClick={() => handleMarkerClick(markerValue)}
+              icon={{
+                url: PinOn,
+                scaledSize: new window.google.maps.Size(56, 56),
+              }}
+            >
+              {clickedMarker && clickedMarker.id === markerValue.id && (
+                <InfoWindowF
+                  position={{ lat: clickedMarker.lat, lng: clickedMarker.lng }}
+                  onCloseClick={() => setClickedMarker(null)}
+                >
+                  <div style={{ backgroundColor: 'white' }}>
+                    {/* <Pin name={markerValue.name} /> */}
+                    <MapCard name={markerValue.name} />
+                  </div>
+                </InfoWindowF>
+              )}
+            </MarkerF>
+          );
+        })}
+        <div className="flex-center fixed bottom-[30px] left-0 w-[100%]">
+          <Link to="/map">
+            <Button className="color-black flex-center z-10 h-50 w-190">
+              리스트보기
+            </Button>
+          </Link>
+        </div>
+      </GoogleMap>
+    </div>
   ) : (
     <> </>
   );
