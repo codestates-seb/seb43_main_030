@@ -34,6 +34,7 @@ import PcHeader from './components/Header/PcHeader';
 import Map from './pages/Map';
 import Community from './pages/Community';
 import Post from './pages/Post';
+import Write from './pages/Write';
 
 function App() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
@@ -124,6 +125,7 @@ function App() {
         <Route path="/map" element={<Map />} />
         <Route path="/community" element={<Community />} />
         <Route path="/post" element={<Post />} />
+        <Route path="/write" element={<Write />} />
       </Routes>
       {shouldHideFooter ? null : <Footer />}
     </div>

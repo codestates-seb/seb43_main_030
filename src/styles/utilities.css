@@ -91,7 +91,7 @@
   }
 
   .input-select-default {
-    @apply flex h-50 w-230 items-center justify-between rounded-lg border-2 border-solid px-18 py-16 text-left text-14;
+    @apply flex items-center justify-between rounded-lg border-[1px] border-solid px-18 py-16 text-left text-14;
   }
   .input-text {
     @apply mt-1 text-left text-12;
@@ -178,5 +178,12 @@
   }
   .user-profile img {
     @apply h-full w-full object-cover object-center;
+  }
+
+  .write-title {
+    @apply text-18 font-bold text-black-900 onlyMobile:text-16;
+  }
+  .write-sub-title {
+    @apply text-14 text-black-350 onlyMobile:text-12;
   }
 }
