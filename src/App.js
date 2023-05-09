@@ -37,7 +37,10 @@ import Community from './pages/Community';
 
 function App() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+  const location = useLocation();
 
+  const hideFooterRoutes = ['/map', '/login', '/signup', '/find-password'];
+  const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
   return (
     // <div className="App">
     //   <Button className="btn-size-s color-yellow ">버튼</Button>
@@ -122,7 +125,7 @@ function App() {
         <Route path="/map" element={<Map />} />
         <Route path="/community" element={<Community />} />
       </Routes>
-      <Footer />
+      {shouldHideFooter ? null : <Footer />}
     </div>
   );
 }

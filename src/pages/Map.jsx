@@ -10,7 +10,7 @@ import MapCard from '../components/Card/MapCard';
 
 const containerStyle = {
   width: '100%',
-  height: '100%',
+  height: '100vh',
 };
 
 const myStyles = [
