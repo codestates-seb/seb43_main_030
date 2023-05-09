@@ -15,7 +15,6 @@ import Input from './components/Input/Input';
 import InputError from './components/Input/InputError';
 import InputSelectBox from './components/Input/InputSelectBox';
 import InputCheck from './components/Input/InputCheck';
-import InputRadio from './components/Input/InputRadio';
 import MHeader from './components/Header/MHeader';
 import TextArea from './components/TextArea';
 import UploadImage from './components/UploadImage';
