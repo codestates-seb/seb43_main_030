@@ -1,14 +1,14 @@
 import Dog from '../../images/dog.jpeg';
 import { ReactComponent as StarOn } from '../../images/star-on.svg';
 
-function MapCard() {
+function MapCard(props) {
+  const { name } = props;
+
   return (
     <div className="relative h-304 w-302 rounded-2xl shadow-cardShadow">
       <img className="h-200 w-full rounded-t-2xl" src={Dog} alt="dog" />
       <div className="justifty-center flex w-full flex-col items-start p-16">
-        <div className="text-left text-18 font-bold">
-          놀펫강아지유치원애견호텔서울애견유치원성북본원
-        </div>
+        <div className="text-left text-18 font-bold">{name}</div>
         <div className="flex-center mb-8 text-14">
           <StarOn className="mr-4 inline-block" />
           4.3 (12)
