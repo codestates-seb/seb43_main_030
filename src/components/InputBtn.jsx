@@ -23,9 +23,7 @@ function InputBtn(props) {
         />
         <button
           type="button"
-          className={
-            focus ? 'search-input-btn' : 'search-input-btn bg-black-025'
-          }
+          className="search-input-btn"
           onFocus={() => setFocus(false)}
           onBlur={() => setFocus(true)}
         >

@@ -47,14 +47,14 @@
   }
 
   .border-gray {
-    @apply border-2 border-solid border-black-070 text-black-900 hover:bg-black-025;
+    @apply border-[1px] border-solid border-black-070 text-black-900 hover:bg-black-025;
   }
   .border-gray:disabled {
     @apply bg-black-025 text-black-070;
   }
 
   .border-yellow {
-    @apply border-2 border-solid border-yellow-500 text-black-900 hover:bg-yellow-100;
+    @apply border-[1px] border-solid border-yellow-500 text-black-900 hover:bg-yellow-100;
   }
   .border-yellow:disabled {
     @apply bg-yellow-100 text-yellow-200;
@@ -91,7 +91,7 @@
   }
 
   .input-select-default {
-    @apply flex h-50 w-230 items-center justify-between rounded-lg border-2 border-solid px-18 py-16 text-left text-14;
+    @apply flex h-50 w-230 items-center justify-between rounded-lg border-[1px] border-solid px-18 py-16 text-left text-14;
   }
   .input-text {
     @apply mt-1 text-left text-12;
@@ -101,7 +101,7 @@
   }
 
   .input-comp {
-    @apply h-50 w-242 rounded-lg border-2 border-solid border-blue-500 px-18 py-16 text-14;
+    @apply h-50 w-242 rounded-lg border-[1px] border-solid border-blue-500 px-18 py-16 text-14;
   }
 
   /* input btn */
@@ -114,7 +114,7 @@
   }
 
   .search-input-btn {
-    @apply flex h-32 w-32 items-center justify-center rounded-lg text-10;
+    @apply flex h-32 w-32 items-center justify-center rounded-lg text-10 hover:bg-black-025;
   }
 
   .tab-default {
@@ -183,5 +183,13 @@
 
   .login-m-align {
     @apply flex items-start justify-stretch;
+  }
+
+  /* 유저이름 옆 유저 프로필 사진 h,w는 추가로 입력 필요 */
+  .user-profile {
+    @apply flex items-center justify-center overflow-hidden rounded-[8px];
+  }
+  .user-profile img {
+    @apply h-full w-full object-cover object-center;
   }
 }

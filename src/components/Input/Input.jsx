@@ -29,7 +29,7 @@ function Input(props) {
         type={type}
         value={value}
         className={cls(
-          'h-50 rounded-lg border-2 border-solid px-18 py-16 text-14 placeholder:text-black-200 focus:border-yellow-500 focus:outline-none',
+          'h-50 rounded-lg border-[1px] border-solid px-18 py-16 text-14 placeholder:text-black-200 focus:border-yellow-500 focus:outline-none',
           className,
         )}
         placeholder={placeholder}
