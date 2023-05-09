@@ -133,7 +133,7 @@
         "locations" : "서울시 마포구 멍멍동"
       }
     ],
-    "KinderGartenFilter": [
+    "KinderGarten1": [
       {
         "kindergartenId": 1,
         "name" : "왈왈유치원",
@@ -141,7 +141,7 @@
         "longitude" : 126.977376,
         "ratedReviewsAvg" : 4.4,
         "ratedReviewsCount": 13,
-        "locations" : "서울시 강남구 멍멍동"
+        "locations" : "서울시 관악구 멍멍동"
       },
       {
         "kindergartenId": 2,
@@ -150,7 +150,7 @@
         "longitude" : 127.0239,
         "ratedReviewsAvg" : 4.1,
         "ratedReviewsCount": 12,
-        "locations" : "강남구 성수동1가 685-696번지 지하1층 B동 115호 2층입니다아아"
+        "locations" : "관악구 성수동1가 685-696번지 지하1층 B동 115호 2층입니다아아"
       },
       {
         "kindergartenId": 3,
@@ -159,10 +159,10 @@
         "longitude" : 126.959497,
         "ratedReviewsAvg" : 4.7,
         "ratedReviewsCount": 8,
-        "locations" : "강남구 어쩌구 저쩌구"
+        "locations" : "관악구 어쩌구 저쩌구"
       }
     ],
-    "KinderGarten1": {
+    "KinderGartenDetail": {
       "kindergartenId": 1,
       "name": "멍멍이 유치원ex5",
       "latitude": 37.486763,

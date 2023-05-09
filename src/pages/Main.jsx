@@ -9,11 +9,11 @@ import InputSelectBox from '../components/Input/InputSelectBox';
 function Main() {
   const [kinderGartens, setKinderGartens] = useState([]);
   const [isPending, setIsPending] = useState(false);
-  const [areaFilter, setAreaFilter] = useState(0);
+  const [areaFilter, setAreaFilter] = useState('');
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/KinderGarten')
+      .get(`http://localhost:3001/KinderGarten${areaFilter}`)
       .then(response => {
         setKinderGartens(response.data);
         setIsPending(true);
@@ -21,7 +21,7 @@ function Main() {
       .catch(error => {
         console.log(error);
       });
-  }, []);
+  }, [areaFilter]);
 
   return (
     <div className="flex-center relative">
