@@ -31,6 +31,7 @@ import ToastAlert from './components/ToastAlert';
 import Footer from './components/Footer';
 import Main from './pages/Main';
 import PcHeader from './components/Header/PcHeader';
+import Login from './pages/Login';
 import Map from './pages/Map';
 import Community from './pages/Community';
 import Post from './pages/Post';
@@ -42,7 +43,20 @@ function App() {
 
   const hideFooterRoutes = ['/map', '/login', '/signup', '/find-password'];
   const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
+
   return (
+    <div className="h-[calc(100vh-80px)]">
+      {isMobile ? <MHeader /> : <PcHeader />}
+
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/map" element={<Map />} />
+        <Route path="/community" element={<Community />} />
+      </Routes>
+      {shouldHideFooter ? null : <Footer />}
+    </div>
+
     // <div className="App">
     //   <Button className="btn-size-s color-yellow ">버튼</Button>
     //   <Button className="btn-size-m color-yellow">버튼</Button>
@@ -117,6 +131,7 @@ function App() {
     //     bgColor="bg-red-400"
     //   />
     // </div>
+
     <div className="h-[calc(100vh-80px)]">
       {isMobile ? <MHeader /> : <PcHeader />}
 
@@ -129,6 +144,8 @@ function App() {
       </Routes>
       {shouldHideFooter ? null : <Footer />}
     </div>
+
+
   );
 }
 

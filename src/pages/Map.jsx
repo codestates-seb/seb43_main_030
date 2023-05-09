@@ -6,6 +6,7 @@ import {
 } from '@react-google-maps/api';
 import { Link } from 'react-router-dom';
 import { useState, useCallback, memo, useEffect } from 'react';
+import axios from 'axios';
 import PinOn from '../images/pin-on.png';
 import MapCard from '../components/Card/MapCard';
 import Button from '../components/Button/Button';
@@ -24,6 +25,21 @@ const myStyles = [
 ];
 
 function Map() {
+  const [kinderGartens, setKinderGartens] = useState([]);
+  const [isPending, setIsPending] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/KinderGarten')
+      .then(response => {
+        setKinderGartens(response.data);
+        setIsPending(true);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
+
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
@@ -59,7 +75,7 @@ function Map() {
     [center.lat, center.lng],
   );
 
-  const onUnmount = useCallback(function callback(mapValue) {
+  const onUnmount = useCallback(function callback() {
     setMap(null);
   }, []);
 
@@ -79,33 +95,49 @@ function Map() {
         onUnmount={onUnmount}
         options={{ disableDefaultUI: true, styles: myStyles }}
       >
-        {markerValues.map(markerValue => {
-          return (
-            <MarkerF
-              key={markerValue.id}
-              position={{ lat: markerValue.lat, lng: markerValue.lng }}
-              onClick={() => handleMarkerClick(markerValue)}
-              icon={{
-                url: PinOn,
-                scaledSize: new window.google.maps.Size(56, 56),
-              }}
-            >
-              {clickedMarker && clickedMarker.id === markerValue.id && (
-                <InfoWindowF
-                  position={{ lat: clickedMarker.lat, lng: clickedMarker.lng }}
-                  onCloseClick={() => setClickedMarker(null)}
-                >
-                  <div style={{ backgroundColor: 'white' }}>
-                    <MapCard name={markerValue.name} />
-                  </div>
-                </InfoWindowF>
-              )}
-            </MarkerF>
-          );
-        })}
+        {kinderGartens &&
+          kinderGartens.map(kinderGarten => {
+            return (
+              <MarkerF
+                key={kinderGarten.kindergartenId}
+                position={{
+                  lat: kinderGarten.latitude,
+                  lng: kinderGarten.longitude,
+                }}
+                onClick={() => handleMarkerClick(kinderGarten)}
+                icon={{
+                  url: PinOn,
+                  scaledSize: new window.google.maps.Size(56, 56),
+                }}
+              >
+                {clickedMarker &&
+                  clickedMarker.kindergartenId ===
+                    kinderGarten.kindergartenId && (
+                    <InfoWindowF
+                      position={{
+                        lat: clickedMarker.lat,
+                        lng: clickedMarker.lng,
+                      }}
+                      onCloseClick={() => setClickedMarker(null)}
+                    >
+                      <div style={{ backgroundColor: 'white' }}>
+                        <MapCard
+                          name={kinderGarten.name}
+                          ratedReviewsAvg={kinderGarten.ratedReviewsAvg}
+                          ratedReviewsCount={kinderGarten.ratedReviewsCount}
+                        />
+                      </div>
+                    </InfoWindowF>
+                  )}
+              </MarkerF>
+            );
+          })}
         <div className="flex-center fixed bottom-[30px] left-0 w-[100%]">
           <Link to="/">
-            <Button className="color-black flex-center z-10 h-50 w-190">
+            <Button
+              className="color-black z-10 flex h-50 w-190 items-center justify-around"
+              icon="list"
+            >
               리스트보기
             </Button>
           </Link>

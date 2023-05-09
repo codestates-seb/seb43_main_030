@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import InputBtn from '../InputBtn';
 import { ReactComponent as Menu } from '../../images/menu.svg';
 import { ReactComponent as LogoSymbol } from '../../images/logo-symbol.svg';
@@ -20,9 +21,11 @@ function MHeader() {
         dropDown ? '' : 'shadow-headerShadow'
       } fixed z-10 flex h-64 w-[100%] items-center justify-between border-b border-black-050 bg-white px-24 py-8`}
     >
-      <div className="flex-center w-48">
-        <LogoSymbol />
-      </div>
+      <Link to="/">
+        <div className="flex-center w-48 cursor-pointer">
+          <LogoSymbol />
+        </div>
+      </Link>
       <div className="input-array">
         <InputBtn />
       </div>
