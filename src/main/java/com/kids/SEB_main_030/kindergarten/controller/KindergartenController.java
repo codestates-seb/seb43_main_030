@@ -1,5 +1,6 @@
 package com.kids.SEB_main_030.kindergarten.controller;
 
+import com.kids.SEB_main_030.community.entity.Community;
 import com.kids.SEB_main_030.dto.MultiResponseDto;
 import com.kids.SEB_main_030.dto.SingleResponseDto;
 import com.kids.SEB_main_030.kindergarten.dto.KindergartenPostDto;
@@ -8,7 +9,6 @@ import com.kids.SEB_main_030.kindergarten.entity.Kindergarten;
 import com.kids.SEB_main_030.kindergarten.mapper.KindergartenMapper;
 import com.kids.SEB_main_030.kindergarten.service.KindergartenService;
 import com.kids.SEB_main_030.utils.UriCreator;
-import jdk.jshell.Snippet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -40,6 +40,7 @@ public class KindergartenController {
     public ResponseEntity postKindergarten(@Valid @RequestBody KindergartenPostDto kindergartenPostDto)
     {
         Kindergarten kindergarten = kindergartenMapper.kindergartenPostDtoToKindergarten(kindergartenPostDto);
+        kindergarten.setCommunity(new Community());
         Kindergarten createdKindergarten = kindergartenService.createKindergarten(kindergarten);
         URI location = UriCreator.createUri(KINDERGARTEN_DEFAULT_URL, createdKindergarten.getKindergartenId());
 

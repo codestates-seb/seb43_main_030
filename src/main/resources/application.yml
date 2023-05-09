@@ -2,16 +2,22 @@ spring:
   profiles:
     include: oauth
 
-  h2:
-    console:
-      enabled: true
-      path: /h2
   datasource:
-    url: jdbc:h2:mem:test
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://db-perpett.csukwlthqcnp.ap-northeast-2.rds.amazonaws.com:3306/test?serverTimezone=UTC&characterEncoding=UTF-8
+    username: admin
+    password: 12341234
+
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2
+#  datasource:
+#    url: jdbc:h2:mem:test
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -42,4 +48,14 @@ mail:
   address:
     admin: admin@gmail.com
 
-
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    s3:
+      bucket: perpett
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

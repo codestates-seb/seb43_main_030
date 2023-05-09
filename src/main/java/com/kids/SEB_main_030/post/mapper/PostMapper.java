@@ -4,6 +4,7 @@ import com.kids.SEB_main_030.exception.CustomException;
 import com.kids.SEB_main_030.exception.LogicException;
 import com.kids.SEB_main_030.post.dto.PostDto;
 import com.kids.SEB_main_030.post.entity.Post;
+import com.kids.SEB_main_030.profile.entity.Profile;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface PostMapper {
+
+    PostDto.Response postToPostResponseDto(Post post);
 
     default Post postPostDtoToPost(PostDto.Post post) {
         if ( post == null ) {
@@ -26,24 +29,51 @@ public interface PostMapper {
         return post1;
     };
 
-    default PostDto.CardViewResponse postToPostCardViewResponseDto(Post post, int likes) {
+    default PostDto.CardViewResponse postToPostCardViewResponseDto(Post post, int likes, String imageUrl) {
         PostDto.CardViewResponse response = new PostDto.CardViewResponse();
         response.setPostId(post.getPostId());
         response.setTitle(post.getTitle());
         response.setContent(post.getContent());
         response.setViews(post.getViews());
         response.setLikes(likes);
+        response.setImageUrl(imageUrl);
         return response;
     }
 
-    Post postPatchDtoToPost(PostDto.Patch patch);
+    default PostDto.DetailPageResponse postToDetailPageResponse(Post post, int likes, Profile profile, List<String> postImageUrls, String profileImageUrl) {
+        PostDto.DetailPageResponse detailPageResponse = new PostDto.DetailPageResponse();
+        detailPageResponse.setPostId(post.getPostId());
+        detailPageResponse.setTitle(post.getTitle());
+        detailPageResponse.setContent(post.getContent());
+        detailPageResponse.setCategory(post.getCategory().toString());
+        detailPageResponse.setName(profile.getName());
+        detailPageResponse.setLikes(likes);
+        detailPageResponse.setCreatedAt(post.getCreatedAt());
+        detailPageResponse.setPostImageUrls(postImageUrls);
+        detailPageResponse.setProfileImageUrl(profileImageUrl);
+        return detailPageResponse;
+    }
 
-    PostDto.Response postToPostResponseDto(Post post);
+    default Post postPatchDtoToPost(PostDto.Patch patch) {
+        if ( patch == null ) {
+            return null;
+        }
 
-    default List<PostDto.CardViewResponse> postsToPostCardViewResponseDtos(List<Post> posts, List<Integer> likes) {
+        Post post = new Post();
+
+        post.setPostId( patch.getPostId() );
+        post.setTitle( patch.getTitle() );
+        post.setContent( patch.getContent() );
+        post.setCategory(categoryToEnum(patch.getCategory()));
+
+        return post;
+    };
+
+
+    default List<PostDto.CardViewResponse> postsToPostCardViewResponseDtos(List<Post> posts, List<Integer> likes, List<String> imageUrls) {
         List<PostDto.CardViewResponse> responses = new ArrayList<>();
         for (int i = 0; i < posts.size(); i++)
-            responses.add(postToPostCardViewResponseDto(posts.get(i), likes.get(i)));
+            responses.add(postToPostCardViewResponseDto(posts.get(i), likes.get(i), imageUrls.get(i)));
         return responses;
     };
 

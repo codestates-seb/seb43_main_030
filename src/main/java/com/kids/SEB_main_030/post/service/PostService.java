@@ -1,5 +1,7 @@
 package com.kids.SEB_main_030.post.service;
 
+import com.kids.SEB_main_030.community.entity.Community;
+import com.kids.SEB_main_030.community.service.CommunityService;
 import com.kids.SEB_main_030.exception.CustomException;
 import com.kids.SEB_main_030.exception.LogicException;
 import com.kids.SEB_main_030.post.entity.Post;
@@ -12,9 +14,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Transactional
 @Service
 public class PostService {
 
@@ -22,13 +26,16 @@ public class PostService {
     private final PostRepository postRepository;
     private final ProfileService profileService;
     private final UserService userService;
+    private final CommunityService communityService;
 
     public PostService(PostRepository postRepository,
                        ProfileService profileService,
-                       UserService userService) {
+                       UserService userService,
+                       CommunityService communityService) {
         this.postRepository = postRepository;
         this.profileService = profileService;
         this.userService = userService;
+        this.communityService = communityService;
     }
 
     // 게시물 등록
@@ -56,35 +63,45 @@ public class PostService {
         postRepository.delete(findPost);
     }
 
-    public Page<Post> findPosts(int page, String category, String keyword) {
+    public Post findPost(Long postId) {
+        return findVerifiedPost(postId);
+    }
+
+    public Post findPostIncrementViews(Long postId) {
+        Post post = findVerifiedPost(postId);
+        post.setViews(post.getViews() + 1);
+        return postRepository.save(post);
+    }
+
+    public Page<Post> findPosts(Long communityId, int page, String category, String keyword) {
         if (category == null || category.isEmpty()) category = Post.Category.NOTIFICATION.toString();
         else category = categoryToEnum(category).toString();
+
+        Community findCommunity = communityService.findCommunity(communityId);
 
         Page<Post> pagePosts;
         if (keyword == null || keyword.isEmpty()) {
             pagePosts = postRepository.findAllByCategory(
                     PageRequest.of(page, SIZE, Sort.by("created_at").descending()),
-                    category.toUpperCase());
+                    findCommunity, category.toUpperCase());
         } else {
             pagePosts = postRepository.findAllByCategoryAndKeyword(
                     PageRequest.of(page, SIZE, Sort.by("created_at").descending()),
-                    category.toUpperCase(),
-                    keyword);
+                    findCommunity, category.toUpperCase(), keyword);
         }
 
         return pagePosts;
     }
 
-    public Post findVerifiedPost(long postId) {
-        Optional<Post> optionalQuestion = postRepository.findById(postId);
-        return optionalQuestion.orElseThrow(() -> new LogicException(CustomException.POST_NOT_FOUND));
+    private Post findVerifiedPost(long postId) {
+        Optional<Post> optionalPost = postRepository.findById(postId);
+        return optionalPost.orElseThrow(() -> new LogicException(CustomException.POST_NOT_FOUND));
     }
 
     private Post.Category categoryToEnum(String category) {
         switch (category.toUpperCase()) {
             case "NOTIFICATION" : return Post.Category.NOTIFICATION;
             case "COMMUNITY" : return Post.Category.COMMUNITY;
-            // 카테고리 값이 null 이거나 위에 2개가 아닐시 예외처리 만들어야됨
             default: throw new LogicException(CustomException.COMMUNITY_CATEGORY_BAD_REQUEST);
         }
     }

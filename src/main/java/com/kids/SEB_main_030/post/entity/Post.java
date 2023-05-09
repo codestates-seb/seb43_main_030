@@ -1,8 +1,12 @@
 package com.kids.SEB_main_030.post.entity;
 
-import com.kids.SEB_main_030.kindergarten.entity.Kindergarten;
+import com.kids.SEB_main_030.community.entity.Community;
+import com.kids.SEB_main_030.image.entity.Image;
+import com.kids.SEB_main_030.like.entity.Like;
 import com.kids.SEB_main_030.profile.entity.Profile;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -15,6 +19,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Post {
 
@@ -45,12 +51,16 @@ public class Post {
     private Profile profile;
 
     @ManyToOne
-    @JoinColumn(name = "kindergartenId")
-    private Kindergarten kindergarten;
+    @JoinColumn(name = "communityId")
+    private Community community;
 
     // Post 와 매핑 Post 삭제시 관련 Like 도 삭제
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Like> likes = new ArrayList<>();
+
+    // Post 와 매핑 Post 삭제시 관련 Like 도 삭제
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<Image> images = new ArrayList<>();
 
     public enum Category {
         NOTIFICATION("공지"),
