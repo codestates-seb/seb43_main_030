@@ -171,4 +171,13 @@
   .community-tab-on {
     @apply border-b-[4px] border-yellow-500 font-bold;
   }
+
+  /* login line 생성 */
+  .login-line {
+    @apply flex-center text-max my-24 text-12 text-black-350 before:mr-16 before:inline-block before:h-1 before:w-[90%] before:bg-black-070 after:ml-16 after:inline-block after:h-1 after:w-[90%] after:bg-black-070;
+  }
+
+  .login-card {
+    @apply flex w-584 flex-col rounded-2xl bg-white p-32 shadow-cardShadow;
+  }
 }
