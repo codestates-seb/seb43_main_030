@@ -1,4 +1,7 @@
 import { useMediaQuery } from 'react-responsive';
+import React, { Component } from 'react';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Dog from '../images/dog.jpeg';
 import Button from '../components/Button/Button';
 import InputSelectBox from '../components/Input/InputSelectBox';
@@ -70,6 +73,26 @@ function Post() {
           <p className="write-sub-title">
             작성하시는 글의 내용을 입력해주세요.
           </p>
+          <div>
+            <CKEditor
+              editor={ClassicEditor}
+              data="<p>내용을 입력해주세요.</p>"
+              onReady={editor => {
+                // You can store the "editor" and use when it is needed.
+                console.log('Editor is ready to use!', editor);
+              }}
+              onChange={(event, editor) => {
+                const data = editor.getData();
+                console.log({ event, editor, data });
+              }}
+              onBlur={(event, editor) => {
+                console.log('Blur.', editor);
+              }}
+              onFocus={(event, editor) => {
+                console.log('Focus.', editor);
+              }}
+            />
+          </div>
         </div>
       </div>
       {isMobile ? (
