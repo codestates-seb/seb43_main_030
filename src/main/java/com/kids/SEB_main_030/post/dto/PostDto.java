@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class PostDto {
 
@@ -57,7 +58,7 @@ public class PostDto {
         private long postId;
         private String title;
         private String content;
-//        private String image;
+        private String imageUrl;
         private Integer views;
         private int likes;
 
@@ -73,8 +74,8 @@ public class PostDto {
         private String title;
         private String content;
         private String category;
-        //        private String postImage;
-        // private String profileImage;
+        private List<String> postImageUrls;
+        private String profileImageUrl;
         private String name;
         private LocalDateTime createdAt;
         private int likes;

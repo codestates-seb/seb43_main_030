@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -49,6 +50,43 @@ public class ImageService {
         List<String> imagePath = imageUploader.upload(images, location);
         if (imagePath.size() != 1) throw new LogicException(CustomException.IMAGE_UPLOAD_ERROR);
         return imagePath.get(0);
+    }
+
+    public List<String> findImageUrlsByPostId(Post post) {
+        return imagesToImageUrls(findByPostId(post));
+    }
+
+    // postId로 이미지 찾기
+    public List<Image> findByPostId(Post post) {
+        return imageRepository.findByPost(post);
+    }
+
+    public List<List<String>> findImageUrlsByPostId(List<Post> posts) {
+        List<List<String>> imageUrls = new ArrayList<>();
+        for (Post post : posts) {
+            List<Image> images = imageRepository.findByPost(post);
+            imageUrls.add(imagesToImageUrls(images));
+        }
+        return imageUrls;
+    }
+
+    // 게시물 리스트 대표사진 URLS
+    public List<String> findTopImages(List<Post> posts) {
+        List<String> imageUrls = new ArrayList<>();
+        for (Post post : posts)
+            imageUrls.add(findTopImage(post).getImageUrl());
+        return imageUrls;
+    }
+
+    // 게시물 리스트 대표사진 URL
+    public Image findTopImage(Post post) {
+        return imageRepository.findTopByPostOrderByImageIdDesc(post);
+    }
+
+    private List<String> imagesToImageUrls(List<Image> images) {
+        return images.stream()
+                .map(image -> image.getImageUrl())
+                .collect(Collectors.toList());
     }
 
     // 구현중

@@ -29,17 +29,18 @@ public interface PostMapper {
         return post1;
     };
 
-    default PostDto.CardViewResponse postToPostCardViewResponseDto(Post post, int likes) {
+    default PostDto.CardViewResponse postToPostCardViewResponseDto(Post post, int likes, String imageUrl) {
         PostDto.CardViewResponse response = new PostDto.CardViewResponse();
         response.setPostId(post.getPostId());
         response.setTitle(post.getTitle());
         response.setContent(post.getContent());
         response.setViews(post.getViews());
         response.setLikes(likes);
+        response.setImageUrl(imageUrl);
         return response;
     }
 
-    default PostDto.DetailPageResponse postToDetailPageResponse(Post post, int likes, Profile profile) {
+    default PostDto.DetailPageResponse postToDetailPageResponse(Post post, int likes, Profile profile, List<String> postImageUrls, String profileImageUrl) {
         PostDto.DetailPageResponse detailPageResponse = new PostDto.DetailPageResponse();
         detailPageResponse.setPostId(post.getPostId());
         detailPageResponse.setTitle(post.getTitle());
@@ -48,6 +49,8 @@ public interface PostMapper {
         detailPageResponse.setName(profile.getName());
         detailPageResponse.setLikes(likes);
         detailPageResponse.setCreatedAt(post.getCreatedAt());
+        detailPageResponse.setPostImageUrls(postImageUrls);
+        detailPageResponse.setProfileImageUrl(profileImageUrl);
         return detailPageResponse;
     }
 
@@ -67,10 +70,10 @@ public interface PostMapper {
     };
 
 
-    default List<PostDto.CardViewResponse> postsToPostCardViewResponseDtos(List<Post> posts, List<Integer> likes) {
+    default List<PostDto.CardViewResponse> postsToPostCardViewResponseDtos(List<Post> posts, List<Integer> likes, List<String> imageUrls) {
         List<PostDto.CardViewResponse> responses = new ArrayList<>();
         for (int i = 0; i < posts.size(); i++)
-            responses.add(postToPostCardViewResponseDto(posts.get(i), likes.get(i)));
+            responses.add(postToPostCardViewResponseDto(posts.get(i), likes.get(i), imageUrls.get(i)));
         return responses;
     };
 
