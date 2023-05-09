@@ -53,6 +53,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/map" element={<Map />} />
         <Route path="/community" element={<Community />} />
+        <Route path="/write" element={<Write />} />
       </Routes>
       {shouldHideFooter ? null : <Footer />}
     </div>
@@ -131,21 +132,6 @@ function App() {
     //     bgColor="bg-red-400"
     //   />
     // </div>
-
-    <div className="h-[calc(100vh-80px)]">
-      {isMobile ? <MHeader /> : <PcHeader />}
-
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/map" element={<Map />} />
-        <Route path="/community" element={<Community />} />
-        <Route path="/post" element={<Post />} />
-        <Route path="/write" element={<Write />} />
-      </Routes>
-      {shouldHideFooter ? null : <Footer />}
-    </div>
-
-
   );
 }
 
