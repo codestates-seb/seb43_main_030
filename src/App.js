@@ -31,6 +31,7 @@ import ToastAlert from './components/ToastAlert';
 import Footer from './components/Footer';
 import Main from './pages/Main';
 import PcHeader from './components/Header/PcHeader';
+import Login from './pages/Login';
 import Map from './pages/Map';
 
 function App() {
@@ -116,6 +117,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Main />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/map" element={<Map />} />
       </Routes>
       <Footer />
