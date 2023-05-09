@@ -4,6 +4,7 @@ import com.kids.SEB_main_030.profile.entity.Profile;
 import com.kids.SEB_main_030.profile.repository.ProfileRepository;
 import com.kids.SEB_main_030.exception.CustomException;
 import com.kids.SEB_main_030.exception.LogicException;
+import com.kids.SEB_main_030.user.dto.PasswordResetDto;
 import com.kids.SEB_main_030.user.dto.UserPatchDto;
 import com.kids.SEB_main_030.user.entity.Role;
 import com.kids.SEB_main_030.user.entity.User;
@@ -23,12 +24,9 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final ProfileRepository profileRepository;
     private final PasswordEncoder passwordEncoder;
     private final RandomCreator randomCreator;
 
-
-    // Todo 회원 가입 이메일 인증 , 비밀번호 찾기
     public User createUser(User user){
         verifyExistsEmail(user.getEmail());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -56,6 +54,15 @@ public class UserService {
         }
         findUser.setPassword(passwordEncoder.encode(patchDto.getPassword1()));
     }
+
+    public void resetPassword(PasswordResetDto passwordResetDto){
+        if (!passwordResetDto.getPassword1().equals(passwordResetDto.getPassword2())){
+            throw new LogicException(CustomException.INPUT_NOT_EQUALS);
+        }
+        User user = findUserByEmail(passwordResetDto.getEmail());
+        user.setPassword(passwordEncoder.encode(passwordResetDto.getPassword1()));
+    }
+
     private void verifyExistsEmail(String email){
         userRepository.findByEmail(email).ifPresent(e -> {
             throw new LogicException(CustomException.USER_EXISTS);
@@ -66,6 +73,7 @@ public class UserService {
         User user = findUser.orElseThrow(() -> new LogicException(CustomException.USER_NOT_FOUND));
         return user;
     }
+
 
     public User findUserByEmail(String email){
         Optional<User> findUser = userRepository.findByEmail(email);

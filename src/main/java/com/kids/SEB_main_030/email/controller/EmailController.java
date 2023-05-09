@@ -23,8 +23,13 @@ public class EmailController {
 
     @PostMapping("api/login/mailConfirm")
     public String mailConfirm(@Valid @RequestBody EmailAuthRequestDto emailDto) throws MessagingException, UnsupportedEncodingException{
-        String authCode = emailService.sendEmail(emailDto.getEmail());
+        String authCode = emailService.sendAuthMail(emailDto.getEmail(), "auth");
         return authCode;
     }
 
+    @PostMapping("api/login/findPassword")
+    public String findPassword(@Valid @RequestBody EmailAuthRequestDto emailDto) throws MessagingException, UnsupportedEncodingException{
+        String authCode = emailService.sendAuthMail(emailDto.getEmail(), "password");
+        return authCode;
+    }
 }

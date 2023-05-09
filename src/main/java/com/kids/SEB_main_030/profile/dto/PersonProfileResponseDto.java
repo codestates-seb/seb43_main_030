@@ -9,4 +9,5 @@ public class PersonProfileResponseDto {
     private long profileId;
     private String name;
     private String imageUrl;
+    private String email;
 }

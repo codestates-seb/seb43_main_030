@@ -11,4 +11,5 @@ public class DogProfileResponseDto {
     private String gender;
     private String breed;
     private String imageUrl;
+    private String email;
 }

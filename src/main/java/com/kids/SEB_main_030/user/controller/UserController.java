@@ -1,5 +1,6 @@
 package com.kids.SEB_main_030.user.controller;
 
+import com.kids.SEB_main_030.user.dto.PasswordResetDto;
 import com.kids.SEB_main_030.user.dto.UserPatchDto;
 import com.kids.SEB_main_030.user.dto.UserPostDto;
 import com.kids.SEB_main_030.user.entity.User;
@@ -42,6 +43,11 @@ public class UserController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @PatchMapping("/resetPassword")
+    public ResponseEntity resetPassword(@Valid @RequestBody PasswordResetDto passwordResetDto){
+        userService.resetPassword(passwordResetDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
     @DeleteMapping
     public ResponseEntity deleteUser(){
         userService.removeUser();
