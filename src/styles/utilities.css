@@ -91,7 +91,7 @@
   }
 
   .input-select-default {
-    @apply flex h-50 w-230 items-center justify-between rounded-lg border-2 border-solid px-18 py-16 text-left text-14;
+    @apply flex h-50 w-230 items-center justify-between rounded-lg border-[1px] border-solid px-18 py-16 text-left text-14;
   }
   .input-text {
     @apply mt-1 text-left text-12;
@@ -101,7 +101,7 @@
   }
 
   .input-comp {
-    @apply h-50 w-242 rounded-lg border-2 border-solid border-blue-500 px-18 py-16 text-14;
+    @apply h-50 w-242 rounded-lg border-[1px] border-solid border-blue-500 px-18 py-16 text-14;
   }
 
   /* input btn */
@@ -170,6 +170,19 @@
 
   .community-tab-on {
     @apply border-b-[4px] border-yellow-500 font-bold;
+  }
+
+  /* login line 생성 */
+  .login-line {
+    @apply flex-center text-max my-24 text-12 text-black-350 before:mr-16 before:inline-block before:h-1 before:w-[90%] before:bg-black-070 after:ml-16 after:inline-block after:h-1 after:w-[90%] after:bg-black-070;
+  }
+
+  .login-card {
+    @apply flex w-584 flex-col rounded-2xl bg-white p-32 shadow-cardShadow;
+  }
+
+  .login-m-align {
+    @apply flex items-start justify-stretch;
   }
 
   /* 유저이름 옆 유저 프로필 사진 h,w는 추가로 입력 필요 */
