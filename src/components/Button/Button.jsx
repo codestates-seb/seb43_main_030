@@ -14,8 +14,8 @@ function Button(props) {
       className={cls('flex-center rounded-md', className)}
     >
       {icon === 'search' ? <Search /> : ''}
-      {icon === 'map' ? <Map className="mr-10" /> : ''}
-      {icon === 'list' ? <List className="mr-10" /> : ''}
+      {icon === 'map' ? <Map className="mr-10 h-20 w-20" /> : ''}
+      {icon === 'list' ? <List className="mr-10 h-20 w-20" /> : ''}
       {children}
     </button>
   );

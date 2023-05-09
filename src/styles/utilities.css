@@ -93,7 +93,7 @@
   .input-select-default {
     @apply flex items-center justify-between rounded-lg border-[1px] border-solid px-18 py-16 text-left text-14;
   }
-  
+
   .input-text {
     @apply mt-1 text-left text-12;
   }

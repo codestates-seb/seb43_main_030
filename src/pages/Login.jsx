@@ -53,7 +53,7 @@ function Login() {
           <p className="mr-24 text-14 text-black-200 onlyMobile:text-12">
             아직 퍼펫트 회원이 아니신가요?
           </p>
-          <Link to="/join">
+          <Link to="/signup">
             <p className="text-14 text-black-900 onlyMobile:text-12">
               회원가입 바로가기
             </p>

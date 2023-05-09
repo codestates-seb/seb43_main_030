@@ -15,7 +15,6 @@ import Input from './components/Input/Input';
 import InputError from './components/Input/InputError';
 import InputSelectBox from './components/Input/InputSelectBox';
 import InputCheck from './components/Input/InputCheck';
-import InputRadio from './components/Input/InputRadio';
 import MHeader from './components/Header/MHeader';
 import TextArea from './components/TextArea';
 import UploadImage from './components/UploadImage';
@@ -36,6 +35,7 @@ import Map from './pages/Map';
 import Community from './pages/Community';
 import Post from './pages/Post';
 import Write from './pages/Write';
+import SignUp from './pages/SignUp';
 
 function App() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
@@ -51,6 +51,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/map" element={<Map />} />
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
