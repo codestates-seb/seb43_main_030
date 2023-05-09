@@ -96,7 +96,6 @@ function Map() {
                   onCloseClick={() => setClickedMarker(null)}
                 >
                   <div style={{ backgroundColor: 'white' }}>
-                    {/* <Pin name={markerValue.name} /> */}
                     <MapCard name={markerValue.name} />
                   </div>
                 </InfoWindowF>
