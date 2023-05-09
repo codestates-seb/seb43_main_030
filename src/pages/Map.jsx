@@ -5,8 +5,8 @@ import {
   InfoWindowF,
 } from '@react-google-maps/api';
 import { useState, useCallback, memo, useEffect } from 'react';
-import { ReactComponent as MarkerIcon } from '../images/logo-symbol.svg';
-import Pin from '../components/Pin';
+import PinOn from '../images/pin-on.png';
+import MapCard from '../components/Card/MapCard';
 
 const containerStyle = {
   width: '100%',
@@ -82,13 +82,20 @@ function Map() {
             key={markerValue.id}
             position={{ lat: markerValue.lat, lng: markerValue.lng }}
             onClick={() => handleMarkerClick(markerValue)}
+            icon={{
+              url: PinOn,
+              scaledSize: new window.google.maps.Size(56, 56),
+            }}
           >
             {clickedMarker && clickedMarker.id === markerValue.id && (
               <InfoWindowF
                 position={{ lat: clickedMarker.lat, lng: clickedMarker.lng }}
                 onCloseClick={() => setClickedMarker(null)}
               >
-                <div>{clickedMarker.name}</div>
+                <div style={{ backgroundColor: 'white' }}>
+                  {/* <Pin name={markerValue.name} /> */}
+                  <MapCard name={markerValue.name} />
+                </div>
               </InfoWindowF>
             )}
           </MarkerF>
