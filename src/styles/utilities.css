@@ -40,7 +40,7 @@
   }
 
   .color-black {
-    @apply bg-black-900  text-white hover:bg-black-070;
+    @apply bg-black-900  text-white hover:bg-black-750;
   }
   .color-black:disabled {
     @apply bg-black-050 text-black-150;

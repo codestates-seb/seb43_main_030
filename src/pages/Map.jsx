@@ -134,7 +134,10 @@ function Map() {
           })}
         <div className="flex-center fixed bottom-[30px] left-0 w-[100%]">
           <Link to="/">
-            <Button className="color-black flex-center z-10 h-50 w-190">
+            <Button
+              className="color-black z-10 flex h-50 w-190 items-center justify-around"
+              icon="list"
+            >
               리스트보기
             </Button>
           </Link>
