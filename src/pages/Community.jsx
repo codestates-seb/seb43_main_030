@@ -9,8 +9,8 @@ import { ReactComponent as ArrowPrev } from '../images/arrow-prev.svg';
 
 function Community() {
   return (
-    <div className="mb-64 mt-55 flex flex-col items-center onlyMobile:mt-0">
-      <div className="max-w-[1440px] px-189 onlyMobile:max-w-full onlyMobile:px-0">
+    <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:mt-0 onlyMobile:pt-64 ">
+      <div className="max-w-[1162px] px-50 onlyMobile:max-w-full onlyMobile:px-0">
         <div className="relative">
           <div className="relative h-432 overflow-hidden rounded-[16px] onlyMobile:h-300 onlyMobile:rounded-0">
             <img src={Dog} alt="예시이미지" className="w-full blur-lg" />

@@ -1,6 +1,6 @@
 import { ReactComponent as Search } from '../../images/search.svg';
 import { ReactComponent as View } from '../../images/view.svg';
-import { ReactComponent as PerpettOn } from '../../images/perpett-on.svg';
+import { ReactComponent as PerpettOff } from '../../images/perpett-off.svg';
 
 function ListCommunity() {
   return (
@@ -24,7 +24,7 @@ function ListCommunity() {
               조회 1,212
             </p>
             <p className="list-gray-small flex items-center pl-12">
-              <PerpettOn className="mr-5" />
+              <PerpettOff width="16" height="16" className="mr-5" />
               좋아요 12
             </p>
           </div>
