@@ -1,0 +1,73 @@
+spring:
+  profiles:
+    include: oauth
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://db-perpett.csukwlthqcnp.ap-northeast-2.rds.amazonaws.com:3306/test?serverTimezone=UTC&characterEncoding=UTF-8
+    username: admin
+    password: 12341234
+
+  #  h2:
+  #    console:
+  #      enabled: true
+  #      path: /h2
+  #  datasource:
+  #    url: jdbc:h2:mem:test
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  sql:
+    init:
+      data-locations: classpath*:db/h2/data.sql
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: net1645@gmail.com
+    password: qftnclmrtmllwpro
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG
+server:
+  servlet:
+    encoding:
+      force-response: true
+
+
+jwt:
+  key: kevin1234123412341234123412341234
+  access-token-expiration-minutes: 60
+  refresh-token-expiration-minutes: 11760
+
+mail:
+  address:
+    admin: admin@gmail.com
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIA5VCTB5YJXTSU7N76
+      secretKey: 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
+    s3:
+      bucket: perpett
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

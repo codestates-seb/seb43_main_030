@@ -74,4 +74,11 @@ public class Post {
         }
 
     }
+
+    public String toStrings(){
+        return "Post{" +
+                "title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

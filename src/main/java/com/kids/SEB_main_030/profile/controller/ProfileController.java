@@ -2,6 +2,7 @@ package com.kids.SEB_main_030.profile.controller;
 
 import com.kids.SEB_main_030.dto.MultiResponseDto;
 import com.kids.SEB_main_030.dto.SingleResponseDto;
+import com.kids.SEB_main_030.post.entity.Post;
 import com.kids.SEB_main_030.profile.dto.ProfilePatchDto;
 import com.kids.SEB_main_030.profile.dto.ProfilePostDto;
 import com.kids.SEB_main_030.profile.entity.Profile;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 
