@@ -6,19 +6,19 @@
   }
 
   .text-max {
-    @apply overflow-hidden text-ellipsis whitespace-nowrap
+    @apply overflow-hidden text-ellipsis whitespace-nowrap;
   }
 
   .btn-size-s {
-    @apply h-32 px-8 py-12 text-14;
+    @apply h-32 px-8 py-12 text-12;
   }
 
   .btn-size-m {
-    @apply h-40 p-12 text-14;
+    @apply h-40 p-12 text-13;
   }
 
   .btn-size-l {
-    @apply h-48 px-14 py-20 text-16;
+    @apply h-48 px-14 py-20 text-14;
   }
 
   .btn-icon {
@@ -78,7 +78,7 @@
   }  */
 
   .btn-pagination-default {
-    @apply h-24 w-24 bg-white px-8 py-3 text-black-500 active:bg-yellow-500 active:font-normal active:text-black-900;
+    @apply h-24 w-24 bg-white px-8 py-3 text-black-500 hover:bg-black-025 active:bg-yellow-500 active:font-normal active:text-black-900 onlyMobile:text-13;
   }
 
   .btn-text-default {
@@ -97,7 +97,7 @@
     @apply mt-1 text-left text-12;
   }
   .input-array {
-    @apply flex w-[72%] mr-[3.3%] ml-[3.3%] flex-col;
+    @apply ml-[3.3%] mr-[3.3%] flex w-[100%] flex-col;
   }
 
   .input-comp {
@@ -106,7 +106,7 @@
 
   /* input btn */
   .search-input-outline {
-    @apply flex justify-between rounded-lg border-2 border-solid py-8 pl-18 pr-8;
+    @apply flex justify-between rounded-lg border-[1px] border-solid py-8 pl-18 pr-8;
   }
 
   .search-input {
@@ -149,7 +149,7 @@
   }
 
   .list-notice-image {
-    @apply h-136 w-136 shrink-0 rounded-xl bg-black-050 pr-24;
+    @apply h-136 w-136 shrink-0 rounded-xl bg-black-050 pr-24 onlyMobile:h-96 onlyMobile:w-96;
   }
 
   .list-user-image {
@@ -165,6 +165,10 @@
   }
 
   .list-line {
-    @apply after:absolute after:right-0 after:top-1 after:inline-block after:h-14 after:w-1 after:bg-black-070;
+    @apply after:absolute after:right-0 after:top-1 after:inline-block after:h-14 after:w-1 after:bg-black-070 after:onlyMobile:top-[2px];
+  }
+
+  .community-tab-on {
+    @apply border-b-[4px] border-yellow-500 font-bold;
   }
 }
