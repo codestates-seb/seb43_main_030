@@ -52,7 +52,9 @@ function Header() {
             <Link to="/login">
               <Button className="color-yellow btn-size-m mr-12">로그인</Button>
             </Link>
-            <Button className="border-gray btn-size-m">회원가입</Button>
+            <Link to="/signup">
+              <Button className="border-gray btn-size-m">회원가입</Button>
+            </Link>
           </div>
         )}
       </div>
