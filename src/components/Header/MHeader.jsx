@@ -18,12 +18,14 @@ function MHeader() {
     <div
       className={`${
         dropDown ? '' : 'shadow-headerShadow'
-      } relative flex h-64 w-[100%] items-center justify-between border-b border-black-050 px-24 py-8`}
+      } fixed z-10 flex h-64 w-[100%] items-center justify-between border-b border-black-050 bg-white px-24 py-8`}
     >
       <div className="flex-center w-48">
         <LogoSymbol />
       </div>
-      <InputBtn />
+      <div className="input-array">
+        <InputBtn />
+      </div>
       {dropDown ? (
         <button
           className="h-32 w-32"

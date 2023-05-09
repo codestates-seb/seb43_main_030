@@ -27,7 +27,8 @@ import MainCard from './components/Card/MainCard';
 import MapCard from './components/Card/MapCard';
 import MapCardM from './components/Card/MapCardM';
 import ToastAlert from './components/ToastAlert';
-import Pin from './components/Pin';
+// import Pin from './components/Pin';
+import Footer from './components/Footer';
 import Main from './pages/Main';
 import PcHeader from './components/Header/PcHeader';
 import Map from './pages/Map';
@@ -36,7 +37,10 @@ import Post from './pages/Post';
 
 function App() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+  const location = useLocation();
 
+  const hideFooterRoutes = ['/map', '/login', '/signup', '/find-password'];
+  const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
   return (
     // <div className="App">
     //   <Button className="btn-size-s color-yellow ">버튼</Button>
@@ -112,7 +116,7 @@ function App() {
     //     bgColor="bg-red-400"
     //   />
     // </div>
-    <div>
+    <div className="h-[calc(100vh-80px)]">
       {isMobile ? <MHeader /> : <PcHeader />}
 
       <Routes>
@@ -121,6 +125,7 @@ function App() {
         <Route path="/community" element={<Community />} />
         <Route path="/post" element={<Post />} />
       </Routes>
+      {shouldHideFooter ? null : <Footer />}
     </div>
   );
 }
