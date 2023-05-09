@@ -1,5 +1,5 @@
-import { useMediaQuery } from 'react-responsive';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useInView } from 'react-intersection-observer';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import MainCard from '../components/Card/MainCard';
@@ -10,6 +10,11 @@ function Main() {
   const [kinderGartens, setKinderGartens] = useState([]);
   const [isPending, setIsPending] = useState(false);
   const [areaFilter, setAreaFilter] = useState('');
+
+  const [ref, inView] = useInView();
+
+  const page = useRef(8);
+  const [print, setPrint] = useState([]);
 
   useEffect(() => {
     axios
@@ -23,8 +28,19 @@ function Main() {
       });
   }, [areaFilter]);
 
+  useEffect(() => {
+    if (isPending) {
+      setPrint(kinderGartens.slice(0, page.current));
+      console.log(inView);
+      if (inView) {
+        page.current += 8;
+        setPrint(kinderGartens.slice(0, page.current));
+      }
+    }
+  }, [inView, isPending, kinderGartens]);
+
   return (
-    <div className="flex-center relative">
+    <div className="flex-center relative flex-col">
       <div className="flex-center mt-80 w-[100%] max-w-[1440px] flex-col px-80">
         <div className="mt-56 h-304 w-[100%] rounded-2xl bg-yellow-500">
           안냐세여
@@ -40,7 +56,7 @@ function Main() {
         </div>
         <div className="grid w-[100%] grid-cols-cardGrid gap-x-[10px]">
           {isPending &&
-            kinderGartens.map(kinderGarten => {
+            print.map(kinderGarten => {
               return (
                 <MainCard
                   key={kinderGarten.kinderGartenId}
@@ -63,6 +79,7 @@ function Main() {
           </div>
         </div>
       </div>
+      {isPending ? <div ref={ref} /> : null}
     </div>
   );
 }
