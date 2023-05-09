@@ -1,15 +1,15 @@
 {
-  "api/users": [
+  "users": [
     {
       "userId": 1,
       "email": "abc@naver.com",
       "password": "abcdefg123"
     }
   ],
-  "api/isLogin": {
+  "isLogin": {
     "login": false
   },
-  "api/users/profile": [
+  "profile": [
     {
       "profileId": 1,
       "name": "즐기운신형만380",
@@ -28,8 +28,8 @@
     }
   ],
 
-  "api/users/profile/{profile-id}": {
-    "profileId": 2,
+  "profile1": {
+    "profileId": 1,
     "email": "abc@gmail.com",
     "name": "몽실이",
     "checkPerson": false,
@@ -84,8 +84,9 @@
         "createdAt": "2023-05-03T10:54:56.870994",
         "motifiedAt": "2023-05-04T10:54:56.870994"
       }
-    ],
-    "api/KinderGarten?page=${currentPage}&size=15": [
+    ]
+  },
+    "KinderGarten": [
       {
         "kindergartenId": 1,
         "name" : "왈왈유치원",
@@ -132,7 +133,7 @@
         "locations" : "서울시 마포구 멍멍동"
       }
     ],
-    "api/KinderGarten/${kindergarten-id}": {
+    "KinderGarten1": {
       "kindergartenId": 1,
       "name": "멍멍이 유치원ex5",
       "latitude": 37.486763,
@@ -266,6 +267,4 @@
         }
       ]
     }
-    
   }
-}
