@@ -180,4 +180,8 @@
   .login-card {
     @apply flex w-584 flex-col rounded-2xl bg-white p-32 shadow-cardShadow;
   }
+
+  .login-m-align {
+    @apply flex items-start justify-stretch;
+  }
 }
