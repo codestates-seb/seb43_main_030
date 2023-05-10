@@ -1,13 +1,28 @@
 import { useState } from 'react';
+import axios from 'axios';
 import { ReactComponent as More } from '../images/more.svg';
 import Dog from '../images/dog.jpeg';
 
-function Comment({ profileId, name, email, title, text, createdAt }) {
+function Comment({ id, name, email, text, createdAt }) {
   const [moreSelect, setMoreSelect] = useState(false);
 
   const handleClick = () => {
     setMoreSelect(!moreSelect);
   };
+
+  function deleteComment(id) {
+    console.log('dd');
+    axios
+      .delete(`http://localhost:3001/comments/${id}`)
+      .then(response => {
+        console.log(response.data);
+        window.location.reload();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   return (
     <div className="pb-32">
       <div className="flex items-center justify-between">
@@ -29,7 +44,11 @@ function Comment({ profileId, name, email, title, text, createdAt }) {
               <li className=" flex w-full cursor-pointer items-center justify-center rounded-md px-8 py-10 text-14 hover:bg-black-025 onlyMobile:text-12">
                 수정
               </li>
-              <li className="flex w-full cursor-pointer items-center justify-center rounded-md px-8 py-10 text-14 hover:bg-black-025 onlyMobile:text-12">
+              <li
+                onClick={() => deleteComment(id)}
+                role="presentation"
+                className="flex w-full cursor-pointer items-center justify-center rounded-md px-8 py-10 text-14 hover:bg-black-025 onlyMobile:text-12"
+              >
                 삭제
               </li>
             </ul>

@@ -437,16 +437,6 @@
   ],
   "comments": [
     {
-      "id": 1,
-      "profileId": 1,
-      "email": "abc@gmail.com",
-      "name": "몽실이",
-      "imageUrl": "https://tgzzmmgvheix1905536.cdn.ntruss.com/2020/03/c320a089abe34b72942aeecc9b568295",
-      "text": "안녕하세요 안녕하세요 안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요",
-      "createdAt": "2023. 5. 10. 오후 1:31:14",
-      "motifiedAt": "2023. 5. 10. 오후 1:31:14"
-    },
-    {
       "id": 2,
       "profileId": 2,
       "email": "abcd@gmail.com",
@@ -457,53 +447,13 @@
       "motifiedAt": "2023. 5. 10. 오후 1:31:15"
     },
     {
-      "id": 3,
-      "profileId": 5,
-      "email": "aaa@naver.com",
-      "name": "지은",
-      "imageUrl": "https://tgzzmmgvheix1905536.cdn.ntruss.com/2020/03/c320a089abe34b72942aeecc9b568295",
-      "text": "",
-      "createdAt": "2023. 5. 10. 오후 1:31:17",
-      "motifiedAt": "2023-05-06T10:54:56.870994"
-    },
-    {
-      "id": 4,
-      "profileId": 5,
-      "email": "aaa@naver.com",
-      "name": "지은",
-      "imageUrl": "https://tgzzmmgvheix1905536.cdn.ntruss.com/2020/03/c320a089abe34b72942aeecc9b568295",
-      "text": "",
-      "createdAt": "2023. 5. 10. 오후 1:31:48",
-      "motifiedAt": "2023-05-06T10:54:56.870994"
-    },
-    {
-      "id": 5,
-      "profileId": 5,
-      "email": "aaa@naver.com",
-      "name": "지은",
-      "imageUrl": "https://tgzzmmgvheix1905536.cdn.ntruss.com/2020/03/c320a089abe34b72942aeecc9b568295",
-      "text": "",
-      "createdAt": "2023. 5. 10. 오후 1:32:32",
-      "motifiedAt": "2023-05-06T10:54:56.870994"
-    },
-    {
       "id": 6,
       "profileId": 5,
       "email": "aaa@naver.com",
       "name": "지은",
       "imageUrl": "https://tgzzmmgvheix1905536.cdn.ntruss.com/2020/03/c320a089abe34b72942aeecc9b568295",
-      "text": "",
-      "createdAt": "2023. 5. 10. 오후 1:32:41",
-      "motifiedAt": "2023-05-06T10:54:56.870994"
-    },
-    {
-      "id": 7,
-      "profileId": 5,
-      "email": "aaa@naver.com",
-      "name": "지은",
-      "imageUrl": "https://tgzzmmgvheix1905536.cdn.ntruss.com/2020/03/c320a089abe34b72942aeecc9b568295",
-      "text": "sdfdsfdsd",
-      "createdAt": "2023. 5. 10. 오후 1:47:26",
+      "text": "테스트",
+      "createdAt": "2023. 5. 10. 오후 2:27:37",
       "motifiedAt": "2023-05-06T10:54:56.870994"
     }
   ]

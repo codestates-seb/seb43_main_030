@@ -42,7 +42,7 @@ function Post() {
     const dateString = now.toLocaleString();
 
     const data = {
-      id: comments.length + 1,
+      id: comments.length + 5,
       profileId: 5,
       email: userEmail,
       name: userName,
@@ -57,12 +57,12 @@ function Post() {
       .post('http://localhost:3001/comments', data)
       .then(response => {
         console.log(response.data);
+        window.location.reload();
       })
       .catch(error => {
         console.log(error);
       });
   }
-
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">
       <div className="w-full max-w-[1162px] px-50 onlyMobile:px-20">
@@ -150,10 +150,11 @@ function Post() {
             {comments.map(comment => {
               return (
                 <Comment
+                  key={comment.id}
+                  id={comment.id}
                   profileId={comment.profileId}
                   name={comment.name}
                   email={comment.email}
-                  title={comment.title}
                   text={comment.text}
                   createdAt={comment.createdAt}
                 />
