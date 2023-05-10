@@ -2,14 +2,18 @@ package com.kids.SEB_main_030.domain.profile.entity;
 
 import com.kids.SEB_main_030.domain.like.entity.Like;
 import com.kids.SEB_main_030.domain.post.entity.Post;
+import com.kids.SEB_main_030.domain.review.entity.Review;
 import com.kids.SEB_main_030.domain.user.entity.User;
+import com.kids.SEB_main_030.global.image.entity.Image;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.parameters.P;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Getter
@@ -38,6 +42,10 @@ public class Profile {
     @OneToMany(mappedBy = "profile")
     private List<Like> likes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "profile")
+    private List<Review> reviews = new ArrayList<>();
+
+
     public enum type{
         PERSON("사람"),
         DOG("반려견");
@@ -47,5 +55,33 @@ public class Profile {
         type(String types) {
             this.types = types;
         }
+    }
+
+    public List<Post> getPostsFromMyPage(){
+        return posts.stream().map(
+                post -> {
+                    Post p = new Post();
+                    p.setPostId(post.getPostId());
+                    p.setTitle(post.getTitle());
+                    p.setContent(post.getContent());
+                    p.setViews(post.getViews());
+                    p.setCreatedAt(post.getCreatedAt());
+                    p.setCategory(post.getCategory());
+                    p.setLikeCount(post.getLikes().size());
+
+                    return p;
+                }).collect(Collectors.toList());
+    }
+
+    public List<Review> getReviewsFromMyPage(){
+        return reviews.stream().map(
+                review -> {
+                    Review r = new Review();
+                    r.setReviewId(review.getReviewId());
+                    r.setContents(review.getContents());
+                    r.setRatedReview(review.getRatedReview());
+
+                    return r;
+                }).collect(Collectors.toList());
     }
 }

@@ -1,5 +1,6 @@
 package com.kids.SEB_main_030.global.image.service;
 
+import com.kids.SEB_main_030.domain.user.service.UserService;
 import com.kids.SEB_main_030.global.exception.CustomException;
 import com.kids.SEB_main_030.global.exception.LogicException;
 
@@ -20,7 +21,6 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class ImageService {
-
     private final ImageUploader imageUploader;
     private final ImageRepository imageRepository;
 

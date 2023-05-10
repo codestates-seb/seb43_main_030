@@ -58,6 +58,7 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Like> likes = new ArrayList<>();
 
+    private int likeCount;
     // Post 와 매핑 Post 삭제시 관련 Like 도 삭제
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Image> images = new ArrayList<>();
@@ -75,10 +76,4 @@ public class Post {
 
     }
 
-    public String toStrings(){
-        return "Post{" +
-                "title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                '}';
-    }
 }

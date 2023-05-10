@@ -44,8 +44,10 @@ public class LikeService {
         int likeCnt = likeRepository.findByLikeCountByPostIdOrProfileId(profile, post);
 
         if (likeCnt > 0) {
+            post.setLikeCount(post.getLikeCount() - 1);
             removeLike(profile, post);
         } else {
+            post.setLikeCount(post.getLikeCount() + 1);
             saveLike(profile, post);
         }
     }

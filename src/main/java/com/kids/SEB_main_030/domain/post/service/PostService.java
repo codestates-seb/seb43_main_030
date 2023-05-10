@@ -64,7 +64,9 @@ public class PostService {
     }
 
     public Post findPost(Long postId) {
-        return findVerifiedPost(postId);
+        Post verifiedPost = findVerifiedPost(postId);
+        System.out.println(verifiedPost.getLikes());
+        return verifiedPost;
     }
 
     public Post findPostIncrementViews(Long postId) {

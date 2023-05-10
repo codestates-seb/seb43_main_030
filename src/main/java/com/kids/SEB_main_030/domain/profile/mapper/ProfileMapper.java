@@ -1,10 +1,11 @@
 package com.kids.SEB_main_030.domain.profile.mapper;
 
-import com.kids.SEB_main_030.domain.profile.dto.DogProfileResponseDto;
-import com.kids.SEB_main_030.domain.profile.dto.PersonProfileResponseDto;
-import com.kids.SEB_main_030.domain.profile.dto.ProfilePatchDto;
-import com.kids.SEB_main_030.domain.profile.dto.ProfilePostDto;
+import com.kids.SEB_main_030.domain.post.dto.MyPostResponseDto;
+import com.kids.SEB_main_030.domain.post.entity.Post;
+import com.kids.SEB_main_030.domain.profile.dto.*;
 import com.kids.SEB_main_030.domain.profile.entity.Profile;
+import com.kids.SEB_main_030.global.image.entity.Image;
+import com.kids.SEB_main_030.global.image.response.ImageInPostResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -20,4 +21,5 @@ public interface ProfileMapper {
     DogProfileResponseDto profileToDogProfileDto(Profile profile);
     @Mapping(source = "user.email", target = "email")
     List<PersonProfileResponseDto> profilesToReponseDtos(List<Profile> profiles);
+    List<MyPostResponseDto> postsInMyPage(List<Post> posts);
 }

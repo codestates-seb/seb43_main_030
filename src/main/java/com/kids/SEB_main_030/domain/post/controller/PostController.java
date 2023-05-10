@@ -40,7 +40,6 @@ public class PostController {
     private final LikeService likeService;
     private final CommunityService communityService;
     private final ImageService imageService;
-    private final ProfileService profileService;
 
     // 게시물 등록
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})

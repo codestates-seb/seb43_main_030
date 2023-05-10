@@ -23,7 +23,6 @@ public class EmailService {
 
     private final JavaMailSender javaMailSender;
     private final RandomCreator randomCreator;
-    private final UserService userService;
     private String authCode;
 
     // 메일 전송

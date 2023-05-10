@@ -2,6 +2,7 @@ package com.kids.SEB_main_030.global.image.repository;
 
 import com.kids.SEB_main_030.global.image.entity.Image;
 import com.kids.SEB_main_030.domain.post.entity.Post;
+import com.kids.SEB_main_030.global.image.response.ImageInPostResponseDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
