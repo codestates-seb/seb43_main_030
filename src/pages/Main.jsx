@@ -6,8 +6,14 @@ import MainCard from '../components/Card/MainCard';
 import Button from '../components/Button/Button';
 import InputSelectBox from '../components/Input/InputSelectBox';
 
-function Main({ areaFilter, setAreaFilter }) {
-  const [kinderGartens, setKinderGartens] = useState([]);
+function Main({
+  areaFilter,
+  setAreaFilter,
+  inputValue,
+  setInputValue,
+  kinderGartens,
+  setKinderGartens,
+}) {
   const [isPending, setIsPending] = useState(false);
 
   const [ref, inView] = useInView();
@@ -25,7 +31,7 @@ function Main({ areaFilter, setAreaFilter }) {
       .catch(error => {
         console.log(error);
       });
-  }, [areaFilter]);
+  }, [areaFilter, setKinderGartens]);
 
   useEffect(() => {
     let timerId;
@@ -55,6 +61,7 @@ function Main({ areaFilter, setAreaFilter }) {
             width="min-w-260 onlyMobile:w-full onlyMobile:mt-10"
             placeholder="지역을 선택해주세요."
             setAreaFilter={setAreaFilter}
+            setInputValue={setInputValue}
           />
         </div>
         <div className="grid w-[100%] grid-cols-cardGrid gap-x-[10px]">
