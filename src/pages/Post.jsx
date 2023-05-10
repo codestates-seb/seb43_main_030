@@ -13,14 +13,17 @@ function Post() {
   const [post, setPost] = useState([]);
   const [isPending, setIsPending] = useState(false);
   const [comments, setComments] = useState([]);
+  const [userName, setUserName] = useState('지은');
+  const [userEmail, setUserEmail] = useState('aaa@naver.com');
+  const [commentInput, setCommentInput] = useState('');
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/posts')
+      .get('http://localhost:3001/comments')
       .then(response => {
         setIsPending(true);
-        setPost(response.data[0]);
-        setComments(response.data[0].comments);
+        // setPost(response.data[0]);
+        setComments(response.data);
       })
       .catch(error => {
         console.log(error);
@@ -28,6 +31,37 @@ function Post() {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  function changeInput(e) {
+    setCommentInput(e.target.value);
+    console.log(commentInput);
+  }
+
+  function postComment() {
+    const now = new Date();
+    const dateString = now.toLocaleString();
+
+    const data = {
+      id: comments.length + 1,
+      profileId: 5,
+      email: userEmail,
+      name: userName,
+      imageUrl:
+        'https://tgzzmmgvheix1905536.cdn.ntruss.com/2020/03/c320a089abe34b72942aeecc9b568295',
+      text: commentInput,
+      createdAt: dateString,
+      motifiedAt: '2023-05-06T10:54:56.870994',
+    };
+
+    axios
+      .post('http://localhost:3001/comments', data)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">
@@ -130,8 +164,12 @@ function Post() {
             <Input
               placeholder="댓글을 입력해주세요."
               className="!margin-0 w-full"
+              onChange={e => changeInput(e)}
             />
-            <Button className="btn-size-l color-yellow ml-8 shrink-0 ">
+            <Button
+              className="btn-size-l color-yellow ml-8 shrink-0"
+              onClick={() => postComment()}
+            >
               댓글 등록
             </Button>
           </div>
