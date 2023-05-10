@@ -95,6 +95,7 @@ function App() {
         <Route path="/kindergarten/1" element={<KinderDetail />} />
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
+        <Route path="/post" element={<Post />} />
       </Routes>
       {shouldHideFooter ? null : <Footer />}
     </div>
