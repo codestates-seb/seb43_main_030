@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ReactComponent as More } from '../images/more.svg';
 import Dog from '../images/dog.jpeg';
 
-function Comment() {
+function Comment({ profileId, name, email, title, text, createdAt }) {
   const [moreSelect, setMoreSelect] = useState(false);
 
   const handleClick = () => {
@@ -15,9 +15,9 @@ function Comment() {
           <div className="user-profile h-32 w-32 onlyMobile:h-24 onlyMobile:w-24">
             <img src={Dog} alt="임시이미지" />
           </div>
-          <span className="px-8 text-14">백설이맘</span>
+          <span className="px-8 text-14">{name}</span>
           <span className="text-14 text-black-350 onlyMobile:text-12">
-            h*******
+            {email}
           </span>
         </div>
         <div className="relative">
@@ -39,14 +39,9 @@ function Comment() {
         </div>
       </div>
       <p className="mb-10 mt-5 text-16 text-black-900 onlyMobile:text-12">
-        댓글 내용내용내용내용내용댓글 내용내용내용내용내용댓글
-        내용내용내용내용내용댓글 내용내용내용내용내용댓글
-        내용내용내용내용내용댓글 내용내용내용내용내용댓글
-        내용내용내용내용내용댓글 내용내용내용내용내용댓글
-        내용내용내용내용내용댓글 내용내용내용내용내용댓글
-        내용내용내용내용내용댓글 내용내용내용내용내용댓글 내용내용내용내용내용
+        {text}
       </p>
-      <p className="text-14 text-black-350 onlyMobile:text-12">1시간 </p>
+      <p className="text-14 text-black-350 onlyMobile:text-12">{createdAt}</p>
     </div>
   );
 }

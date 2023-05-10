@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { ReactComponent as View } from '../images/view.svg';
 import { ReactComponent as PerpettOn } from '../images/perpett-on.svg';
 import { ReactComponent as PerpettOff } from '../images/perpett-off.svg';
@@ -8,6 +10,25 @@ import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 
 function Post() {
+  const [post, setPost] = useState([]);
+  const [isPending, setIsPending] = useState(false);
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/posts')
+      .then(response => {
+        setIsPending(true);
+        setPost(response.data[0]);
+        setComments(response.data[0].comments);
+      })
+      .catch(error => {
+        console.log(error);
+        setIsPending(false);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">
       <div className="w-full max-w-[1162px] px-50 onlyMobile:px-20">
@@ -88,11 +109,22 @@ function Post() {
         </div>
         <div className="py-30">
           <p className="mb-30 text-16 font-bold onlyMobile:text-14">
-            댓글<span className="pl-2">3</span>
+            댓글
+            <span className="pl-2">{isPending ? comments.length : null}</span>
           </p>
           <div className="w-full rounded-[12px] bg-black-025 px-32 pt-32">
-            <Comment />
-            <Comment />
+            {comments.map(comment => {
+              return (
+                <Comment
+                  profileId={comment.profileId}
+                  name={comment.name}
+                  email={comment.email}
+                  title={comment.title}
+                  text={comment.text}
+                  createdAt={comment.createdAt}
+                />
+              );
+            })}
           </div>
           <div className="mt-20 flex w-full">
             <Input
