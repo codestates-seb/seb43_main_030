@@ -28,6 +28,7 @@ const myStyles = [
 const containerStyle = {
   width: '100%',
   height: '100%',
+  borderRadius: '16px',
 };
 
 function KinderDetail() {
@@ -258,7 +259,6 @@ function KinderDetail() {
                     lat: value.latitude,
                     lng: value.longitude,
                   }}
-                  // onClick={() => handleMarkerClick(kinderGarten)}
                   icon={{
                     url: PinOn,
                     scaledSize: new window.google.maps.Size(56, 56),
