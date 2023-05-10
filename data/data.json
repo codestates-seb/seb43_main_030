@@ -437,24 +437,11 @@
   ],
   "comments": [
     {
-      "id": 2,
-      "profileId": 2,
-      "email": "abcd@gmail.com",
-      "name": "덕구주인",
-      "imageUrl": "https://tgzzmmgvheix1905536.cdn.ntruss.com/2020/03/c320a089abe34b72942aeecc9b568295",
-      "text": "안녕하세요 덕주주인입니당 안녕하세요 안녕하세요 덕주주인입니당덕주주인입니당덕주주인입니당덕주주인입니당덕주주인입니당안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요",
-      "createdAt": "2023. 5. 10. 오후 1:31:15",
-      "motifiedAt": "2023. 5. 10. 오후 1:31:15"
-    },
-    {
-      "id": 6,
-      "profileId": 5,
-      "email": "aaa@naver.com",
       "name": "지은",
-      "imageUrl": "https://tgzzmmgvheix1905536.cdn.ntruss.com/2020/03/c320a089abe34b72942aeecc9b568295",
-      "text": "테스트",
-      "createdAt": "2023. 5. 10. 오후 2:27:37",
-      "motifiedAt": "2023-05-06T10:54:56.870994"
+      "email": "aaa@naver.com",
+      "text": "수정 테스트",
+      "createdAt": "2023. 5. 10. 오후 2:58:00",
+      "id": 5
     }
   ]
 }

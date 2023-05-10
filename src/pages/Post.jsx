@@ -34,7 +34,6 @@ function Post() {
 
   function changeInput(e) {
     setCommentInput(e.target.value);
-    console.log(commentInput);
   }
 
   function postComment() {
@@ -154,6 +153,7 @@ function Post() {
                   id={comment.id}
                   profileId={comment.profileId}
                   name={comment.name}
+                  imageUrl={comment.imageUrl}
                   email={comment.email}
                   text={comment.text}
                   createdAt={comment.createdAt}
