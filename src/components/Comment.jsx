@@ -2,6 +2,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import { ReactComponent as More } from '../images/more.svg';
 import Dog from '../images/dog.jpeg';
+import Input from './Input/Input';
+import Button from './Button/Button';
 
 function Comment({ profileId, id, name, imageUrl, email, text, createdAt }) {
   const [moreSelect, setMoreSelect] = useState(false);
@@ -11,6 +13,7 @@ function Comment({ profileId, id, name, imageUrl, email, text, createdAt }) {
 
   const handleEditClick = () => {
     setIsEditMode(true);
+    setMoreSelect(!moreSelect);
   };
 
   const handleSaveClick = id => {
@@ -95,17 +98,25 @@ function Comment({ profileId, id, name, imageUrl, email, text, createdAt }) {
         </div>
       </div>
       {isEditMode ? (
-        <input
-          type="text"
-          value={editedText}
-          onChange={e => handleChange(e)}
-          onKeyDown={e => {
-            if (e.key === 'Enter') {
-              handleSaveClick(id);
-            }
-          }}
-          className="mb-10 mt-5 text-16 text-black-900 onlyMobile:text-12"
-        />
+        <div className="flex flex-row items-center">
+          <Input
+            type="text"
+            value={editedText}
+            onChange={e => handleChange(e)}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                handleSaveClick(id);
+              }
+            }}
+            className="mb-10 mt-5 w-[100%] text-16 text-black-900 onlyMobile:text-12"
+          />
+          <Button
+            className="btn-size-l color-yellow ml-8 shrink-0"
+            onClick={() => handleSaveClick(id)}
+          >
+            수정
+          </Button>
+        </div>
       ) : (
         <p className="mb-10 mt-5 text-16 text-black-900 onlyMobile:text-12">
           {text}
