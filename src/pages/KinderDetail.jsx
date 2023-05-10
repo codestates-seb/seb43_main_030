@@ -214,8 +214,9 @@ function KinderDetail() {
                   {value.name}
                 </h2>
                 <div className="mt-16 text-14">
-                  <div className="mb-8">
+                  <div className="mb-8 flex items-center">
                     <StarOn className="mr-4 inline-block" />
+                    <span>{`${value.ratedReviewsAvg} (${value.ratedReviewsCount})`}</span>
                   </div>
                   <p>{value.locations}</p>
                 </div>
