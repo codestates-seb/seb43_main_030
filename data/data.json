@@ -127,7 +127,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -136,7 +136,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -145,7 +145,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -154,7 +154,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -163,7 +163,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -172,7 +172,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -181,7 +181,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -190,7 +190,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -199,7 +199,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -208,7 +208,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -217,7 +217,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -226,7 +226,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -235,7 +235,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -244,7 +244,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     }
@@ -426,13 +426,30 @@
   "post": [
     {
       "title": "웰시코기는 귀엽다",
-      "content": "<p>머리가 여우와 흡사한데, 특히 귀가 사막여우마냥 넓다. 그에 반해 다리는 <a href=\"https://namu.wiki/w/%EB%8B%A5%EC%8A%A4%ED%9B%88%ED%8A%B8\">닥스훈트</a>처럼 <strong>극단적으로 짧아</strong> 땅딸막한 소몰이 개로 길러졌다. 한번 보면 잊을 수 없는 <a href=\"https://namu.wiki/w/%EC%88%8F%EB%8B%A4%EB%A6%AC\">짧은 다리</a>로 바쁘게 뛰어다닌다.<br><br>다리가 짧아서 궁둥이를 깔고 앉으려면 다른 견종과 달리 허리를 c자로 구부려야 한다. 짧은 다리 덕분에 점프력도 약하다. 하지만 오히려 그 숏다리가 귀여워서 매력 포인트로 뽑힌다. 또한 특유의 씰룩거리는 <a href=\"https://namu.wiki/w/%EC%97%89%EB%8D%A9%EC%9D%B4\">엉덩이</a>도 엄청난 인기몰이의 한 몫을 하고 있다.</p><p>&nbsp;</p><p>다리가 짧기 때문에 소형견이라고 착각하는 사람들이 많지만 신장 25~32cm, 체중 10~17kg 정도의 중형견으로 생각보다 크다. <a href=\"https://www.dogdrip.net/477851723\">#</a> 사실상 진돗개 크기에 다리만 짧은, 체고(키)만 소형견 급인 중형견인 셈이다. 잘 알려지지 않았지만 <a href=\"https://namu.wiki/w/%EC%82%AC%EB%AA%A8%EC%98%88%EB%93%9C\">사모예드</a>나 <a href=\"https://namu.wiki/w/%ED%8F%AC%EB%A9%94%EB%9D%BC%EB%8B%88%EC%95%88\">포메라니안</a> 등과 혈통적으로 가깝다.</p>",
+      "content": "<h2>생김새<a href=\"https://namu.wiki/edit/%EC%9B%B0%EC%8B%9C%20%EC%BD%94%EA%B8%B0?section=2\">[편집]</a></h2><p><br>머리가 여우와 흡사한데, 특히 귀가 사막여우마냥 넓다. 그에 반해 다리는 <a href=\"https://namu.wiki/w/%EB%8B%A5%EC%8A%A4%ED%9B%88%ED%8A%B8\">닥스훈트</a>처럼 <strong>극단적으로 짧아</strong> 땅딸막한 소몰이 개로 길러졌다. 한번 보면 잊을 수 없는 <a href=\"https://namu.wiki/w/%EC%88%8F%EB%8B%A4%EB%A6%AC\">짧은 다리</a>로 바쁘게 뛰어다닌다.<br><br>다리가 짧아서 궁둥이를 깔고 앉으려면 다른 견종과 달리 허리를 c자로 구부려야 한다. 짧은 다리 덕분에 점프력도 약하다. 하지만 오히려 그 숏다리가 귀여워서 매력 포인트로 뽑힌다. 또한 특유의 씰룩거리는 <a href=\"https://namu.wiki/w/%EC%97%89%EB%8D%A9%EC%9D%B4\">엉덩이</a>도 엄청난 인기몰이의 한 몫을 하고 있다.</p><p>&nbsp;</p><p><br><a href=\"https://namu.wiki/jump/qhLxy%2FucIxHkVnMiCCjDZR37cVqW4QCEaGKuY3u27mKGlactpA4V8YEAAL8HmABdfx%2FNE1kvhtn%2BO0g9uNm8EQ%3D%3D\"><img src=\"https://i.namu.wiki/i/ska1Q9NpS2tmPuDnFcRT5wqdTH4Vu_-0FqAsCyvlHqTFkKQpahh71hb1fg2HE3f7f27oneyYBwfKkjyXzXIsRoj3eFpcD2_snTTGMtAtK3ChsRzkBIrEIGRuoqfSubVHmQ9JwNZK-FfAEnsaINPSew.webp\" alt=\"웰시 코기\"></a><br>웰시코기 펨브로크 강아지</p>",
+      "category": "community",
+      "date": "2023-05-10T06:31:40.956Z",
+      "comment": [],
+      "likes": 0,
       "id": 1
     },
     {
-      "title": "푸들은 귀엽다",
-      "content": "<p>성격, 크기, 털빠짐, 지능에 이르는 현대 목적견의 요구 조건을 거의 모두 충족 시키기 때문에 매우 선호 되는 <a href=\"https://namu.wiki/w/%EB%B0%98%EB%A0%A4%EA%B2%AC\">반려견</a>이다. 우리나라에서 2번째로 많이 기르는 반려견이다. 1번째는 <a href=\"https://namu.wiki/w/%EB%AA%B0%ED%8B%B0%EC%A6%88\">말티즈</a>.<br>&nbsp;<br>무엇보다도 큰 특징은 대부분의 <a href=\"https://namu.wiki/w/%EA%B0%9C\">개</a>, <a href=\"https://namu.wiki/w/%EA%B3%A0%EC%96%91%EC%9D%B4\">고양이</a>와 다르게 <strong>푸들은 털이 거의 빠지지 않는다.</strong> 때문에 털 날림 문제, 털 알레르기 문제에서 자유로운 편이다. 털 알레르기는 일반적으로 실제 털 자체에 알레르기가 있는 게 아니라 털을 통해 전해지는 각질이나 기타 물질들로 인해 발생되는 증상인데 애초에 털이 덜 날려 그러한 물질을 크게 퍼트리지 않으니<a href=\"https://namu.wiki/w/%ED%91%B8%EB%93%A4#fn-1\">[1]</a> 어지간히 예민하지 않은 이상 괜찮은 편이다. 따라서 알레르기 반응이 없는 가족이 털 관리를 해주는 게 가장 좋다. 실제로 유명하고 인기있는 푸들 잡종들도 유전자에서 푸들의 비중이 높을 수록 알레르기 반응이 있는 사람에게도 문제 없다고 평가되는 편.<br><br>훈련성으로 평가되는 <strong>개 지능이 탑3 안에 들 정도로 뛰어나다.</strong> 때문에 훈련이 매우 용이하다. 훈련만 잘 시키면 다른 품종의 애완견보다 몇 배는 더 많은 개인기를 훈련 시킬 수 있다. 대소변을 제대로 못 가리거나 이 갈이 할 때 짖거나 물거나 하는 등 문제 행동도 다른 견종에 비해 매우 양호하다.<br><br>순해 보이는 외모와 달리 높은 활동성을 요구하는 품종이다. 초보자가 키우기에 수월한 견종이긴 하지만 헛 짖음, 분리 불안 증, 예상 외로 높은 운동 요구도 등의 특징을 갖고 있다. 지능이 높아 어려움을 겪는 경우도 흔하므로 본인의 성격과 훈육 가능 환경 등을 잘 파악하고 분양에 신중해야한다. 다만 <a href=\"https://namu.wiki/w/%EC%8B%9C%EC%B8%84\">시츄</a> 같은 별종<a href=\"https://namu.wiki/w/%ED%91%B8%EB%93%A4#fn-2\">[2]</a>을 제외한다면 어차피 대부분의 개는 활동량이 높기 때문에 푸들 견주에게만 부담이 되는 부분은 결코 아니다. 푸들은 원래 수렵견이었던만큼 산 같은 곳으로 산책을 데리고 다녀보면 중장 거리를 달려도 지치지 않고 매우 잘 뛰어 다닌다.</p>",
+      "title": "웰시코기는 귀엽다2",
+      "content": "<p><br><a href=\"https://namu.wiki/jump/0y9dLDXxYL6FQ2vp7%2Bw711R4%2BGrl1GKRSGaULQ9dxtBXIZ%2B8uxqOR3%2FttCQ%2Fxf7Jm%2BeRbg%2BMJjC61Zx%2FEhxxqA%3D%3D\"><img src=\"https://i.namu.wiki/i/sxEB0rDfXdEAMCIrVYj4lGc65HJG0ECWNO0rlIaaD5VT3gl5Ano52nAFjmSVkjqSabit2Y7jTRTsYzrbIA6v21XSkdDnd8yVhLmehoHKWw4qq1xG9h-l6kHTvdvpN3txtFks-LA3PhYFdwftXwCuBg.webp\" alt=\"웰시코기 카디건 2\"></a><br>머나먼 옛날 <a href=\"https://namu.wiki/w/%EC%BC%88%ED%8A%B8%EC%A1%B1\">켈트족</a>들이 키웠는데, 원산지는 이름에서도 알 수 있듯이 <a href=\"https://namu.wiki/w/%EC%98%81%EA%B5%AD\">영국</a> <a href=\"https://namu.wiki/w/%EC%9B%A8%EC%9D%BC%EC%8A%A4\">웨일스</a>(Welsh) 지방이다. 이름을 분석하면 welsh(웨일스)의 corgi(다리가 짧고 코가 뾰족한 작은 개)이다. 펨브로크(Pembroke)와 카디건(Cardigan) 두 종이 있는데, 현재 한국에 있는 웰시 코기의 대부분은 펨브로크이다.<a href=\"http://blog.donga.com/kangsdogs/archives/11246\">#</a> 원래는 단일종으로 간주했지만 1930년부터 세분하여 상기한 두 종으로 분류했으며, 카디건이 펨브로크보다 조금 더 크고 귀는 넓으며 모색도 훨씬 다양하다.</p>",
+      "category": "community",
+      "date": "2023-05-10T06:32:03.934Z",
+      "comment": [],
+      "likes": 0,
       "id": 2
+    },
+    {
+      "title": "웰시코기는 귀엽다3",
+      "content": "<p><br><a href=\"https://namu.wiki/jump/0y9dLDXxYL6FQ2vp7%2Bw711FVRDIIHUT6mhJBvUP3tzSmlGPotf1JWPFHIQqVwEVdoAJJhoxfMuCrst7ztlZc6w%3D%3D\"><img src=\"https://i.namu.wiki/i/MsTrayno7RJVeNhUhFH8pI3zuZ2cU2YMmBR6P4z4aY5scpQL9JThJHnqM0op_GM731Lg2V7yC9t-wLyrSURCnM9vdbY-NwbrdgaPZ9Cf90RbFFxb3gIb_w9OigxVwqsf5FpWplR2D4QLlLeZFx97Zg.webp\" alt=\"단미 안 한 웰시코기\"></a><br>펨브로크 종은 꼬리가 짧다고 알려졌지만 실제로는 대부분 어릴적 꼬리를 자른 것이다. 가축이나 말 등에게 꼬리를 밟혀 크게 다칠 수 있기 때문에 자르던 것이 그대로 유지된 것이다.<a href=\"https://namu.wiki/w/%EC%9B%B0%EC%8B%9C%20%EC%BD%94%EA%B8%B0#fn-5\">[5]</a> <a href=\"https://youtu.be/G0IgFQ6skCk\">물론 단미 안 한 코기들도 볼 수 있다.</a> 자연적으로 꼬리가 짧은 웰시 코기는 없는 것과 마찬가지이다. 그런데 꼬리가 짧은 웰시 코기만 보이니 웰시 코기를 처음 기르는 사람들도 단순히 미용을 위해, 내지는 관습적으로 단미를 진행하는 경우가 많다. 그러면 이번 세대의 웰시코기들도 거진 단미 상태니까 다음 세대도 똑같은 상황이 되고는 한다.</p>",
+      "category": "community",
+      "date": "2023-05-10T06:32:23.389Z",
+      "comment": [],
+      "likes": 0,
+      "id": 3
     }
   ]
 }

@@ -1,3 +1,6 @@
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { ReactComponent as View } from '../images/view.svg';
 import { ReactComponent as PerpettOn } from '../images/perpett-on.svg';
 import { ReactComponent as PerpettOff } from '../images/perpett-off.svg';
@@ -8,17 +11,51 @@ import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 
 function Post() {
+  const [post, setPost] = useState('');
+  const [testPost, setTestPost] = useState('');
+  const navigate = useNavigate();
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3001/post`)
+      .then(response => {
+        setPost(response.data[response.data.length - 1]);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [setPost]);
+  console.log(post.content);
+
+  useEffect(() => {
+    if (post) {
+      setTestPost(post.content.replace(/<[^>]*>?/g, ''));
+    }
+  }, [post]);
+
+  const goToHome = () => {
+    navigate('/');
+  };
+  const goToCommunity = () => {
+    navigate('/community');
+  };
+
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">
       <div className="w-full max-w-[1162px] px-50 onlyMobile:px-20">
         <div className="border-b border-solid border-black-070 pb-32">
-          <p className="text-14 text-black-350 onlyMobile:text-12">
-            왈독 애견유치원 왈독 - 커뮤니티
-          </p>
+          <div className="text-14 text-black-350 onlyMobile:text-12">
+            <Link to="/" className="hover:underline">
+              왈독 애견유치원 왈독
+            </Link>
+            <span> - </span>
+            <Link to="/community" className="hover:underline">
+              커뮤니티
+            </Link>
+          </div>
           <div className="flex items-center">
             <div className="w-full">
               <p className="text-28 font-bold onlyMobile:text-22">
-                커뮤니티 게시글꺼
+                {post.title}
               </p>
               <div className="mt-12 flex flex w-full items-center justify-between">
                 <div className="flex flex-col">
@@ -32,17 +69,16 @@ function Post() {
                   </div>
                   <div className="flex">
                     <p className="list-gray-small flex items-center">
-                      <View width="16" height="16" className="mr-5" />
-                      조회 1,212
+                      <View width="16" height="16" className="mr-5" />0
                     </p>
                     <p className="list-gray-small flex items-center pl-12">
                       <PerpettOff width="16" height="16" className="mr-5" />
-                      좋아요 12
+                      좋아요 {post.likes}
                     </p>
                   </div>
                 </div>
                 <p className="text-14 text-black-350 onlyMobile:text-12 ">
-                  23.00.00
+                  {post.date}
                 </p>
               </div>
             </div>
@@ -50,15 +86,7 @@ function Post() {
         </div>
         <div className="border-b border-solid border-black-070 pb-24">
           <div className="py-32 onlyMobile:py-24 onlyMobile:text-14">
-            포스트 컨텐츠 영역포스트 컨텐츠 영역포스트 컨텐츠 영역포스트 컨텐츠
-            영역포스트 컨텐츠 영역포스트 컨텐츠 영역포스트 컨텐츠 영역포스트
-            컨텐츠 영역포스트 컨텐츠 영역포스트 컨텐츠 영역포스트 컨텐츠
-            영역포스트 컨텐츠 영역포스트 컨텐츠 영역포스트 컨텐츠 영역포스트
-            컨텐츠 영역포스트 컨텐츠 영역포스트 컨텐츠 영역포스트 컨텐츠
-            영역포스트 컨텐츠 영역포스트 컨텐츠 영역포스트 컨텐츠 영역포스트
-            컨텐츠 영역포스트 컨텐츠 영역포스트 컨텐츠 영역포스트 컨텐츠
-            영역포스트 컨텐츠 영역포스트 컨텐츠 영역포스트 컨텐츠 영역포스트
-            컨텐츠 영역포스트 컨텐츠 영역
+            {testPost}
           </div>
           <div className="mb-40">
             <button
@@ -78,10 +106,10 @@ function Post() {
             <div className="items:center flex text-16 onlyMobile:text-14">
               <PerpettOff width="24" height="24" className="mr-10" />
               좋아요
-              <span className="pl-5 font-bold">21</span>
+              <span className="pl-5 font-bold">{post.likes}</span>
             </div>
             <div className="flex">
-              <Button className="btn-size-m border-gray mr-10 ">이전글</Button>
+              <Button className="btn-size-m border-gray mr-10">이전글</Button>
               <Button className="btn-size-m border-gray">다음글</Button>
             </div>
           </div>

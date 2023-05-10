@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import InputBtn from '../components/InputBtn';
 import Button from '../components/Button/Button';
 import ListCommunity from '../components/List/ListCommunity';
@@ -8,6 +9,12 @@ import { ReactComponent as ArrowNext } from '../images/arrow-next.svg';
 import { ReactComponent as ArrowPrev } from '../images/arrow-prev.svg';
 
 function Community() {
+  const navigate = useNavigate();
+
+  const changePage = () => {
+    navigate('/write');
+  };
+
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:mt-0 onlyMobile:pt-64 ">
       <div className="max-w-[1280px] px-80 onlyMobile:max-w-full onlyMobile:px-0">
@@ -49,7 +56,12 @@ function Community() {
               <p className="text-18 font-bold  onlyMobile:text-16">
                 공지글 <span>5개</span>
               </p>
-              <Button className="btn-size-l color-yellow w-168">글쓰기</Button>
+              <Button
+                className="btn-size-l color-yellow w-168"
+                onClick={changePage}
+              >
+                글쓰기
+              </Button>
             </div>
             <div>
               <ul>
