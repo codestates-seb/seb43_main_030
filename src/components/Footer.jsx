@@ -69,7 +69,7 @@ function Footer() {
         </div>
       )}
       {isMobile && (
-        <div className="relative flex w-[100%] max-w-[1440px] flex-col px-24 py-60">
+        <div className="relative flex w-[100%] flex-col px-24 py-60">
           {footer()}
         </div>
       )}
