@@ -38,6 +38,7 @@ import Post from './pages/Post';
 import Write from './pages/Write';
 import SignUp from './pages/SignUp';
 import KinderDetail from './pages/KinderDetail';
+import Mypage from './pages/Mypage';
 
 function App() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
@@ -99,6 +100,7 @@ function App() {
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
         <Route path="/post" element={<Post />} />
+        <Route path="/mypage" element={<Mypage />} />
       </Routes>
       {shouldHideFooter ? null : <Footer />}
     </div>
