@@ -1,12 +1,15 @@
 import { ReactComponent as Search } from '../../images/search.svg';
 import { ReactComponent as View } from '../../images/view.svg';
 import { ReactComponent as PerpettOff } from '../../images/perpett-off.svg';
+import Dog from '../../images/dog.jpeg';
 
 function ListCommunity() {
   return (
-    <li className="max-w-1030 my-20 flex items-center onlyMobile:my-40">
-      <div className="list-notice-image" />
-      <div className="w-full pl-24 onlyMobile:pl-15">
+    <li className="flex items-center">
+      <div className="user-profile mr-24 h-108 w-108 onlyMobile:mr-15 onlyMobile:h-96 onlyMobile:w-96">
+        <img src={Dog} alt="임시이미지" />
+      </div>
+      <div className="my-30 w-full">
         <p className="list-title">커뮤니티 게시글꺼</p>
         <p className="list-content mt-5">
           커뮤니티 게시글 게시글 게시글 게시글 게시게시게시글
@@ -14,7 +17,9 @@ function ListCommunity() {
         <div className="mt-16 flex flex w-full items-center justify-between">
           <div className="flex">
             <div className="flex items-center">
-              <div className="list-user-image-small" />
+              <div className="user-profile-small">
+                <img src={Dog} alt="임시이미지" />
+              </div>
               <p className="after:content=[''] list-line relative pl-5 pr-12 text-14 font-bold text-black-900 onlyMobile:text-12">
                 콩이쫑이맘{' '}
               </p>

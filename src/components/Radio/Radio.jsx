@@ -1,10 +1,11 @@
 import cls from '../../utils/tailwind';
 
 function Radio(props) {
-  const { children, value, name, defaultChecked, disabled, id } = props;
+  const { children, value, name, defaultChecked, disabled, id, labelClass } =
+    props;
 
   return (
-    <label htmlFor={id} className="flex-center gap-1.5">
+    <label htmlFor={id} className={cls('flex-center gap-1.5', labelClass)}>
       <input
         id={id}
         type="radio"
