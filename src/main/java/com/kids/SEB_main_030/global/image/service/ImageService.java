@@ -1,5 +1,6 @@
 package com.kids.SEB_main_030.global.image.service;
 
+import com.kids.SEB_main_030.domain.post.dto.PostDto;
 import com.kids.SEB_main_030.global.exception.CustomException;
 import com.kids.SEB_main_030.global.exception.LogicException;
 
@@ -52,29 +53,30 @@ public class ImageService {
         return imagePath.get(0);
     }
 
-    public List<String> findImageUrlsByPostId(Post post) {
-        return imagesToImageUrls(findByPostId(post));
+    public List<Image> findImagesByImageIds(List<Long> imageIds) {
+        return imageIds.stream()
+                .map(imageId -> findImageByImageId(imageId))
+                .collect(Collectors.toList());
     }
 
-    // postId로 이미지 찾기
-    public List<Image> findByPostId(Post post) {
-        return imageRepository.findByPost(post);
+    // imageId 로 이미지 찾기
+    public Image findImageByImageId(Long imageId) {
+        return verifyExistsImageByImageId(imageId);
     }
 
-    public List<List<String>> findImageUrlsByPostId(List<Post> posts) {
-        List<List<String>> imageUrls = new ArrayList<>();
-        for (Post post : posts) {
-            List<Image> images = imageRepository.findByPost(post);
-            imageUrls.add(imagesToImageUrls(images));
-        }
-        return imageUrls;
+    // post 로 이미지 찾기
+    public List<Image> findByPost(Post post) {
+        return imageRepository.findByPost(post).get();
     }
 
     // 게시물 리스트 대표사진 URLS
     public List<String> findTopImages(List<Post> posts) {
         List<String> imageUrls = new ArrayList<>();
-        for (Post post : posts)
-            imageUrls.add(findTopImage(post).getImageUrl());
+        for (Post post : posts) {
+            Image topImage = findTopImage(post);
+            if (topImage != null) imageUrls.add(topImage.getImageUrl());
+            else imageUrls.add(null);
+        }
         return imageUrls;
     }
 
@@ -83,14 +85,30 @@ public class ImageService {
         return imageRepository.findTopByPostOrderByImageIdDesc(post);
     }
 
-    private List<String> imagesToImageUrls(List<Image> images) {
-        return images.stream()
-                .map(image -> image.getImageUrl())
-                .collect(Collectors.toList());
+//    private List<String> imagesToImageUrls(List<Image> images) {
+//        List<String> imageUrls;
+//        if (images != null) {
+//            imageUrls = images.stream()
+//                    .map(image -> image.getImageUrl())
+//                    .collect(Collectors.toList());
+//        } else {
+//            imageUrls = null;
+//        }
+//        return imageUrls;
+//    }
+
+    public void imagesDelete(List<Image> images) {
+        for (Image image : images) {
+            s3imageDelete(image.getImageUrl());
+            dbImageDelete(image);
+        }
     }
 
-    // 구현중
-    public void imageDelete(String imageUrl) {
+    public void dbImageDelete(Image image) {
+        imageRepository.delete(image);
+    }
+
+    public void s3imageDelete(String imageUrl) {
         imageUploader.delete(imageUrl);
     }
 
@@ -99,4 +117,14 @@ public class ImageService {
             throw new LogicException(CustomException.IMAGE_NOT_FOUND);
         }
     }
+    // imageId로 image 찾기 예외처리
+    private Image verifyExistsImageByImageId(Long imageId) {
+        return imageRepository.findById(imageId)
+                .orElseThrow(() -> new LogicException(CustomException.IMAGE_NOT_FOUND));
+    }
+    // post로 image 찾기 예외처리
+//    private List<Image> verifyExistsImageByPost(Post post) {
+//        return imageRepository.findByPost(post)
+//                .orElseThrow(() -> new LogicException(CustomException.IMAGE_NOT_FOUND));
+//    }
 }

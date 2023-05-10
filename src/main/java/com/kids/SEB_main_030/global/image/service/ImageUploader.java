@@ -2,11 +2,13 @@ package com.kids.SEB_main_030.global.image.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.kids.SEB_main_030.global.exception.CustomException;
 import com.kids.SEB_main_030.global.exception.LogicException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +21,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class ImageUploader {
 
     private final AmazonS3Client s3Client;
@@ -55,12 +58,19 @@ public class ImageUploader {
     }
 
     public void delete(String imageUrl) {
-        String fileName = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
-        boolean isObjectExist = s3Client.doesObjectExist(bucket, fileName);
+        String fileName = imageUrl;
+        for (int i = 0; i < 2; i++) {
+            fileName = fileName.substring(0, fileName.lastIndexOf('/'));
+        }
+        imageUrl = imageUrl.substring(fileName.lastIndexOf('/') + 1);
+        log.info("=".repeat(100) + imageUrl);
+        log.info("=".repeat(100) + bucket);
+        boolean isObjectExist = s3Client.doesObjectExist(bucket, imageUrl);
+        log.info("=".repeat(100) + isObjectExist);
         if (!isObjectExist) throw new LogicException(CustomException.IMAGE_NOT_FOUND);
 
         // s3 객체 삭제 로직
-        s3Client.deleteObject(bucket, fileName);
+        s3Client.deleteObject(new DeleteObjectRequest(bucket, imageUrl));
     }
 
     // 파일 유효성 검사

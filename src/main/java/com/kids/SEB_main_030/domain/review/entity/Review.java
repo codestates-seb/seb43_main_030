@@ -3,11 +3,14 @@ package com.kids.SEB_main_030.domain.review.entity;
 import com.kids.SEB_main_030.global.audit.Auditable;
 import com.kids.SEB_main_030.domain.kindergarten.entity.Kindergarten;
 import com.kids.SEB_main_030.domain.profile.entity.Profile;
+import com.kids.SEB_main_030.global.image.entity.Image;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,6 +37,8 @@ public class Review extends Auditable {
     @ManyToOne
     @JoinColumn(name ="PROFILE_ID")
     private Profile profile;
+    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
+    private List<Image> images = new ArrayList<>();
 
     //private List<Image> imageList;
 }

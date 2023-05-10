@@ -8,16 +8,16 @@ spring:
     username: admin
     password: 12341234
 
-  #  h2:
-  #    console:
-  #      enabled: true
-  #      path: /h2
-  #  datasource:
-  #    url: jdbc:h2:mem:test
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2
+#  datasource:
+#    url: jdbc:h2:mem:test
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
@@ -63,8 +63,8 @@ mail:
 cloud:
   aws:
     credentials:
-      accessKey: AKIA5VCTB5YJXTSU7N76
-      secretKey: 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
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
     s3:
       bucket: perpett
     region:

@@ -14,6 +14,7 @@ import com.kids.SEB_main_030.domain.profile.entity.Profile;
 import com.kids.SEB_main_030.domain.profile.service.ProfileService;
 import com.kids.SEB_main_030.global.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,6 +34,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 @Validated
+@Slf4j
 public class PostController {
     private final static String POST_DEFAULT_URL = "/api/community/{community-id}/post";
     private final PostMapper postMapper;
@@ -62,16 +64,32 @@ public class PostController {
     @PatchMapping("/{post-id}")
     public ResponseEntity patchPost(@PathVariable("community-id") @Positive Long communityId,
                                     @PathVariable("post-id") @Positive Long postId,
-                                    @Valid @RequestPart PostDto.Patch requestBody,
-                                    @RequestPart(required = false) List<MultipartFile> images,
-                                    @RequestPart(required = false) List<Integer> deleteImageIds) {
+                                    @Valid @RequestPart(required = false) PostDto.Patch requestBody,
+                                    @RequestPart(required = false) List<MultipartFile> images) {
         Post post = postMapper.postPatchDtoToPost(requestBody);
+        log.info("=".repeat(50) + "controller1");
         post.setPostId(postId);
+        log.info("=".repeat(50) + "controller2");
         post.setCommunity(communityService.findCommunity(communityId));
-
+        log.info("=".repeat(50) + "controller3");
         Post updatePost = postService.updatePost(post);
+        log.info("=".repeat(50) + "controller4");
+        if (images != null) {
+            log.info("=".repeat(50) + "controller5");
+            imageService.imagesUpload(images, updatePost, Image.Location.POST.getLocation());
+        }
+        log.info("=".repeat(50) + "controller6");
+        if (requestBody != null && requestBody.getDeleteImageIds() != null) {
+            log.info("=".repeat(50) + "controller7");
+            List<Image> findImages = imageService.findImagesByImageIds(requestBody.getDeleteImageIds());
+            log.info("=".repeat(50) + "controller8");
+            imageService.imagesDelete(findImages);
+            log.info("=".repeat(50) + "controller9");
+        }
+        log.info("=".repeat(50) + "controller10");
+        List<Image> findImages = imageService.findByPost(updatePost);
         return new ResponseEntity(
-                new SingleResponseDto(postMapper.postToPostResponseDto(updatePost)), HttpStatus.OK);
+                new SingleResponseDto(postMapper.postToPostResponseDto(updatePost, findImages)), HttpStatus.OK);
     }
 
     // 게시판 상세 페이지 출력
@@ -80,10 +98,10 @@ public class PostController {
         Post post = postService.findPostIncrementViews(postId);
         int likes = likeService.likeCnt(post);
         Profile profile = post.getProfile();
-        List<String> postImageUrls = imageService.findImageUrlsByPostId(post);
-        String profileImageUrl = imageService.findTopImage(post).getImageUrl(); // 예시임 profileService 에 이미지 관련로직 생기면 바꿔야함
+        List<Image> images = imageService.findByPost(post);
+        String profileImageUrl = null; // 예시임 profileService 에 이미지 관련로직 생기면 바꿔야함
         return new ResponseEntity(
-                new SingleResponseDto(postMapper.postToDetailPageResponse(post, likes, profile, postImageUrls, profileImageUrl)),
+                new SingleResponseDto(postMapper.postToDetailPageResponse(post, likes, profile, images, profileImageUrl)),
                 HttpStatus.OK);
     }
 

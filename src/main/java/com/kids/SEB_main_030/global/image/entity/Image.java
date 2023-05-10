@@ -1,6 +1,7 @@
 package com.kids.SEB_main_030.global.image.entity;
 
 import com.kids.SEB_main_030.domain.post.entity.Post;
+import com.kids.SEB_main_030.domain.review.entity.Review;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +24,10 @@ public class Image {
     @ManyToOne
     @JoinColumn(name = "postId")
     private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "reviewId")
+    private Review review;
 
     public enum Location {
         POST("/post/image"),
