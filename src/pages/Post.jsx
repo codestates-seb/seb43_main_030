@@ -12,7 +12,7 @@ import Input from '../components/Input/Input';
 
 function Post() {
   const navigate = useNavigate();
-  const [post, setPost] = useState({});
+  // const [post, setPost] = useState({});
   const { postId } = useParams();
 
   useEffect(() => {
@@ -26,6 +26,54 @@ function Post() {
       });
   }, [setPost, postId]);
 
+  const [post, setPost] = useState([]);
+  const [isPending, setIsPending] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [userName, setUserName] = useState('지은');
+  const [userEmail, setUserEmail] = useState('aaa@naver.com');
+  const [commentInput, setCommentInput] = useState('');
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/comments')
+      .then(response => {
+        setIsPending(true);
+        // setPost(response.data[0]);
+        setComments(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+        setIsPending(false);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function changeInput(e) {
+    setCommentInput(e.target.value);
+  }
+
+  function postComment() {
+    const now = new Date();
+    const dateString = now.toLocaleString();
+
+    const data = {
+      id: comments.length + 5,
+      profileId: 5,
+      email: userEmail,
+      name: userName,
+      imageUrl:
+        'https://tgzzmmgvheix1905536.cdn.ntruss.com/2020/03/c320a089abe34b72942aeecc9b568295',
+      text: commentInput,
+      createdAt: dateString,
+      motifiedAt: '2023-05-06T10:54:56.870994',
+    };
+
+    axios
+      .post('http://localhost:3001/comments', data)
+      .then(response => {
+        console.log(response.data);
+        window.location.reload();
+      }
   const handleDelete = () => {
     const result = window.confirm('게시물을 삭제하시겠습니까?');
     if (result) {
@@ -40,6 +88,8 @@ function Post() {
   const handleEdit = () => {
     navigate(`/write/${postId}`);
   };
+
+
 
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">
@@ -120,18 +170,35 @@ function Post() {
         </div>
         <div className="py-30">
           <p className="mb-30 text-16 font-bold onlyMobile:text-14">
-            댓글<span className="pl-2">3</span>
+            댓글
+            <span className="pl-2">{isPending ? comments.length : null}</span>
           </p>
           <div className="w-full rounded-[12px] bg-black-025 px-32 pt-32">
-            <Comment />
-            <Comment />
+            {comments.map(comment => {
+              return (
+                <Comment
+                  key={comment.id}
+                  id={comment.id}
+                  profileId={comment.profileId}
+                  name={comment.name}
+                  imageUrl={comment.imageUrl}
+                  email={comment.email}
+                  text={comment.text}
+                  createdAt={comment.createdAt}
+                />
+              );
+            })}
           </div>
           <div className="mt-20 flex w-full">
             <Input
               placeholder="댓글을 입력해주세요."
               className="!margin-0 w-full"
+              onChange={e => changeInput(e)}
             />
-            <Button className="btn-size-l color-yellow ml-8 shrink-0 ">
+            <Button
+              className="btn-size-l color-yellow ml-8 shrink-0"
+              onClick={() => postComment()}
+            >
               댓글 등록
             </Button>
           </div>

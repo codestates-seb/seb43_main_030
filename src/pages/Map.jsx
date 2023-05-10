@@ -30,7 +30,7 @@ function Map({ areaFilter, setAreaFilter }) {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/KinderGarten')
+      .get('http://localhost:3001/KinderGarten0')
       .then(response => {
         setKinderGartens(response.data);
         setIsPending(true);
@@ -53,31 +53,31 @@ function Map({ areaFilter, setAreaFilter }) {
   });
 
   useEffect(() => {
-    if (areaFilter === 0) {
+    if (areaFilter === 1) {
       setCenter({
         lat: 37.523474,
         lng: 126.844036,
       });
     }
-    if (areaFilter === 1) {
+    if (areaFilter === 2) {
       setCenter({
         lat: 37.495092,
         lng: 126.931558,
       });
     }
-    if (areaFilter === 2) {
+    if (areaFilter === 3) {
       setCenter({
         lat: 37.498011,
         lng: 127.113862,
       });
     }
-    if (areaFilter === 3) {
+    if (areaFilter === 4) {
       setCenter({
         lat: 37.589416,
         lng: 126.92703,
       });
     }
-    if (areaFilter === 4) {
+    if (areaFilter === 5) {
       setCenter({
         lat: 37.648563,
         lng: 127.03758,

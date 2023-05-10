@@ -249,6 +249,7 @@
       "locations": "서울시 마포구 멍멍동"
     }
   ],
+  "KinderGarten1": [],
   "KinderGarten2": [
     {
       "kindergartenId": 1,
@@ -289,140 +290,137 @@
       "locations": "관악구 어쩌구 저쩌구"
     }
   ],
-  "KinderGartenDetail": {
-    "kindergartenId": 1,
-    "name": "멍멍이 유치원ex5",
-    "latitude": 37.486763,
-    "longitude": 127.038742,
-    "snsUrl": "instagram.com",
-    "ratedReviewsAvg": 4.3,
-    "ratedReviewsCount": 15,
-    "locations": "서울시 마포구 멍멍동",
-    "openHours": "9:00",
-    "closeHours": "18:00",
-    "phoneNumber": "010-1234-1234",
-    "reviews": [
-      {
-        "reviewId": 1,
-        "title": "후기1",
-        "contents": {
-          "text": "내용1",
-          "images": [
-            {
-              "imageId": 1,
-              "imageUrl": null
-            },
-            {
-              "imageId": 2,
-              "imageUrl": null
-            }
-          ]
+  "KinderGarten": [
+    {
+      "id": 1,
+      "name": "왈왈유치원",
+      "latitude": 37.486763,
+      "longitude": 127.038742,
+      "snsUrl": "instagram.com",
+      "ratedReviewsAvg": 0,
+      "ratedReviewsCount": 0,
+      "locations": "서울시 마포구 멍멍동",
+      "openHours": "9:00",
+      "closeHours": "18:00",
+      "phoneNumber": "010-1234-1234",
+      "reviews": [],
+      "notices": []
+    },
+    {
+      "id": 2,
+      "name": "놀펫강아지유치원애견호텔서울애견유치원성북본원",
+      "latitude": 37.486763,
+      "longitude": 127.038742,
+      "snsUrl": "instagram.com",
+      "ratedReviewsAvg": 4.3,
+      "ratedReviewsCount": 3,
+      "locations": "성수동1가 685-696번지 지하1층 B동 115호 2층입니다아아",
+      "openHours": "9:00",
+      "closeHours": "18:00",
+      "phoneNumber": "010-1234-1234",
+      "reviews": [
+        {
+          "reviewId": 1,
+          "contents": {
+            "text": "내용1",
+            "images": [
+              {
+                "imageId": 1,
+                "imageUrl": null
+              },
+              {
+                "imageId": 2,
+                "imageUrl": null
+              }
+            ]
+          },
+          "ratedReview": 4.3,
+          "createdAt": "2023-05-03T10:54:56.870994",
+          "motifiedAt": "2023-05-04T10:54:56.870994"
         },
-        "ratedReview": 4.3,
-        "createdAt": "2023-05-03T10:54:56.870994",
-        "motifiedAt": "2023-05-04T10:54:56.870994"
-      },
-      {
-        "reviewId": 2,
-        "title": "후기2",
-        "contents": {
-          "text": "내용2",
-          "images": [
-            {
-              "imageId": 1,
-              "imageUrl": null
-            },
-            {
-              "imageId": 2,
-              "imageUrl": null
-            }
-          ]
+        {
+          "reviewId": 2,
+          "contents": {
+            "text": "내용2",
+            "images": []
+          },
+          "ratedReview": 4.3,
+          "createdAt": "2023-05-04T10:54:56.870994",
+          "motifiedAt": "2023-05-04T10:54:56.870994"
         },
-        "ratedReview": 4.3,
-        "createdAt": "2023-05-04T10:54:56.870994",
-        "motifiedAt": "2023-05-04T10:54:56.870994"
-      },
-      {
-        "reviewId": 3,
-        "title": "후기3",
-        "contents": {
-          "text": "내용3",
-          "images": [
-            {
-              "imageId": 1,
-              "imageUrl": null
-            },
-            {
-              "imageId": 2,
-              "imageUrl": null
-            }
-          ]
+        {
+          "reviewId": 3,
+          "title": "후기3",
+          "contents": {
+            "text": "내용3",
+            "images": [
+              {
+                "imageId": 1,
+                "imageUrl": null
+              },
+              {
+                "imageId": 2,
+                "imageUrl": null
+              }
+            ]
+          },
+          "ratedReview": 4.3,
+          "createdAt": "2023-05-05T10:54:56.870994",
+          "motifiedAt": "2023-05-06T10:54:56.870994"
+        }
+      ],
+      "notices": [
+        {
+          "noticeId": 1,
+          "title": "공지1",
+          "contents": {
+            "text": "내용1",
+            "images": [
+              {
+                "imageId": 1,
+                "imageUrl": null
+              },
+              {
+                "imageId": 2,
+                "imageUrl": null
+              }
+            ]
+          },
+          "createdAt": "2023-05-03T10:54:56.870994",
+          "motifiedAt": "2023-05-04T10:54:56.870994"
         },
-        "ratedReview": 4.3,
-        "createdAt": "2023-05-05T10:54:56.870994",
-        "motifiedAt": "2023-05-06T10:54:56.870994"
-      }
-    ],
-    "notices": [
-      {
-        "noticeId": 1,
-        "title": "공지1",
-        "contents": {
-          "text": "내용1",
-          "images": [
-            {
-              "imageId": 1,
-              "imageUrl": null
-            },
-            {
-              "imageId": 2,
-              "imageUrl": null
-            }
-          ]
+        {
+          "noticeId": 2,
+          "title": "공지2",
+          "contents": {
+            "text": "내용2",
+            "images": []
+          },
+          "createdAt": "2023-05-03T10:54:56.870994",
+          "motifiedAt": "2023-05-04T10:54:56.870994"
         },
-        "createdAt": "2023-05-03T10:54:56.870994",
-        "motifiedAt": "2023-05-04T10:54:56.870994"
-      },
-      {
-        "noticeId": 2,
-        "title": "공지2",
-        "contents": {
-          "text": "내용2",
-          "images": [
-            {
-              "imageId": 1,
-              "imageUrl": null
-            },
-            {
-              "imageId": 2,
-              "imageUrl": null
-            }
-          ]
-        },
-        "createdAt": "2023-05-03T10:54:56.870994",
-        "motifiedAt": "2023-05-04T10:54:56.870994"
-      },
-      {
-        "noticeId": 3,
-        "title": "공지3",
-        "contents": {
-          "text": "공지3",
-          "images": [
-            {
-              "imageId": 1,
-              "imageUrl": null
-            },
-            {
-              "imageId": 2,
-              "imageUrl": null
-            }
-          ]
-        },
-        "createdAt": "2023-05-03T10:54:56.870994",
-        "motifiedAt": "2023-05-04T10:54:56.870994"
-      }
-    ]
-  },
+        {
+          "noticeId": 3,
+          "title": "공지3",
+          "contents": {
+            "text": "공지3",
+            "images": [
+              {
+                "imageId": 1,
+                "imageUrl": null
+              },
+              {
+                "imageId": 2,
+                "imageUrl": null
+              }
+            ]
+          },
+          "createdAt": "2023-05-03T10:54:56.870994",
+          "motifiedAt": "2023-05-04T10:54:56.870994"
+        }
+      ]
+    }
+  ],
   "post": [
     {
       "title": "저는 몽실이인데요",
@@ -495,6 +493,15 @@
       "comment": [],
       "likes": 0,
       "id": 17
+    }
+  ],
+  "comments": [
+    {
+      "name": "지은",
+      "email": "aaa@naver.com",
+      "text": "수정되나",
+      "createdAt": "2023. 5. 10. 오후 3:25:54",
+      "id": 5
     }
   ]
 }

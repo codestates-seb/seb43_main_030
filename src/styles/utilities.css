@@ -9,6 +9,10 @@
     @apply overflow-hidden text-ellipsis whitespace-nowrap;
   }
 
+  .h-text-max {
+    @apply overflow-hidden text-ellipsis whitespace-normal;
+  }
+
   .btn-size-s {
     @apply h-32 px-8 py-12 text-12;
   }
@@ -82,7 +86,7 @@
   }
 
   .btn-text-default {
-    @apply p-4 text-14 hover:underline hover:underline-offset-2 disabled:text-black-100;
+    @apply py-4 text-14 hover:underline hover:underline-offset-2 disabled:text-black-100 onlyMobile:text-12;
   }
 
   /* input */
@@ -210,10 +214,10 @@
 
   /* 유치원 상세 영역 */
   .sticky-card {
-    @apply flex w-full flex-col rounded-2xl bg-white p-24 shadow-cardShadow;
+    @apply sticky flex w-full flex-col rounded-2xl bg-white p-24 shadow-cardShadow;
   }
 
   .content-line {
-    @apply flex flex-col border-t-[1px] border-black-070 py-48;
+    @apply flex flex-col border-t-[1px] border-black-070 py-48 text-16 onlyMobile:py-32 onlyMobile:text-14;
   }
 }
