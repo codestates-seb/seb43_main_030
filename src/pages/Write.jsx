@@ -1,6 +1,6 @@
 import { useMediaQuery } from 'react-responsive';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
@@ -16,6 +16,7 @@ function Post() {
   const [userProfile, setUserProfile] = useState({});
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
   const navigate = useNavigate();
+  const { postId } = useParams();
 
   useEffect(() => {
     axios
@@ -28,9 +29,20 @@ function Post() {
       });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3001/post/${postId}`)
+      .then(response => {
+        setTitle(response.data.title);
+        setContent(response.data.content);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [postId]);
+
   const saveCategory = event => {
     setCategory(event.target.value);
-    console.log(category);
   };
 
   const saveTitle = event => {
@@ -53,22 +65,34 @@ function Post() {
     }
 
     const currentDate = new Date();
+    const postData = {
+      title,
+      content,
+      category,
+      date: currentDate,
+      comment: [],
+      likes: 0,
+    };
 
-    axios
-      .post('http://localhost:3001/post', {
-        title,
-        content,
-        category,
-        date: currentDate,
-        comment: [],
-        likes: 0,
-      })
-      .then(response => {
-        navigate('/post');
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    if (postId) {
+      axios
+        .put(`http://localhost:3001/post/${postId}`, {
+          postData,
+        })
+        .then(navigate(`/post/${postId}`))
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      axios
+        .post(`http://localhost:3001/post`, {
+          postData,
+        })
+        .then(navigate(`/community`))
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -147,6 +171,7 @@ function Post() {
           <div>
             <TextArea
               value={title}
+              // defaultValue={title}
               maxLength="80"
               placeholder="제목을 입력해주세요."
               onChange={saveTitle}
@@ -162,7 +187,7 @@ function Post() {
           <div>
             <CKEditor
               editor={ClassicEditor}
-              data="<p>내용을 입력해주세요.</p>"
+              data={content || `<p>내용을 입력해주세요.</p>`}
               onChange={(event, editor) => {
                 const data = editor.getData();
                 setContent(data);

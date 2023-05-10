@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import InputBtn from '../components/InputBtn';
 import Button from '../components/Button/Button';
 import ListCommunity from '../components/List/ListCommunity';
@@ -9,11 +10,19 @@ import { ReactComponent as ArrowNext } from '../images/arrow-next.svg';
 import { ReactComponent as ArrowPrev } from '../images/arrow-prev.svg';
 
 function Community() {
+  const [postList, setPostList] = useState([]);
   const navigate = useNavigate();
 
-  const changePage = () => {
-    navigate('/write');
-  };
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3001/post`)
+      .then(response => {
+        setPostList(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [setPostList]);
 
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:mt-0 onlyMobile:pt-64 ">
@@ -54,22 +63,20 @@ function Community() {
           <div className="pt-24">
             <div className="flex items-center justify-between">
               <p className="text-18 font-bold  onlyMobile:text-16">
-                공지글 <span>5개</span>
+                공지글 <span>{postList.length}</span>
               </p>
-              <Button
-                className="btn-size-l color-yellow w-168"
-                onClick={changePage}
+              <Link
+                className="flex-center btn-size-l color-yellow flex w-168 rounded-[8px]"
+                to="/write"
               >
                 글쓰기
-              </Button>
+              </Link>
             </div>
             <div>
               <ul>
-                <ListCommunity />
-                <ListCommunity />
-                <ListCommunity />
-                <ListCommunity />
-                <ListCommunity />
+                {postList.map(post => {
+                  return <ListCommunity post={post} id={post.id} />;
+                })}
               </ul>
             </div>
             <div className="mt-50 flex justify-center">

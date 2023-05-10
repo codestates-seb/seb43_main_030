@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useParams } from 'react-router-dom';
 import { ReactComponent as View } from '../images/view.svg';
 import { ReactComponent as PerpettOn } from '../images/perpett-on.svg';
 import { ReactComponent as PerpettOff } from '../images/perpett-off.svg';
@@ -11,37 +11,39 @@ import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 
 function Post() {
-  const [post, setPost] = useState('');
-  const [testPost, setTestPost] = useState('');
   const navigate = useNavigate();
+  const [post, setPost] = useState({});
+  const { postId } = useParams();
+
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/post`)
+      .get(`http://localhost:3001/post/${postId}`)
       .then(response => {
-        setPost(response.data[response.data.length - 1]);
+        setPost(response.data);
       })
       .catch(error => {
         console.log(error);
       });
-  }, [setPost]);
-  console.log(post.content);
+  }, [setPost, postId]);
 
-  useEffect(() => {
-    if (post) {
-      setTestPost(post.content.replace(/<[^>]*>?/g, ''));
+  const handleDelete = () => {
+    const result = window.confirm('게시물을 삭제하시겠습니까?');
+    if (result) {
+      axios
+        .delete(`http://localhost:3001/post/${postId}`)
+        .then(alert('게시물이 삭제되었습니다.'))
+        .then(navigate(`/community`))
+        .catch(error => console.log(error));
     }
-  }, [post]);
-
-  const goToHome = () => {
-    navigate('/');
   };
-  const goToCommunity = () => {
-    navigate('/community');
+
+  const handleEdit = () => {
+    navigate(`/write/${postId}`);
   };
 
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">
-      <div className="w-full max-w-[1162px] px-50 onlyMobile:px-20">
+      <div className="w-full max-w-[1280px] px-80 onlyMobile:px-20">
         <div className="border-b border-solid border-black-070 pb-32">
           <div className="text-14 text-black-350 onlyMobile:text-12">
             <Link to="/" className="hover:underline">
@@ -86,18 +88,20 @@ function Post() {
         </div>
         <div className="border-b border-solid border-black-070 pb-24">
           <div className="py-32 onlyMobile:py-24 onlyMobile:text-14">
-            {testPost}
+            {post.content}
           </div>
           <div className="mb-40">
             <button
               className="mr-15 text-14 text-black-350 onlyMobile:text-12"
               type="button"
+              onClick={handleEdit}
             >
               수정
             </button>
             <button
               className="text-14 text-black-350 onlyMobile:text-12"
               type="button"
+              onClick={handleDelete}
             >
               삭제
             </button>
