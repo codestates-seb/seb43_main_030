@@ -45,12 +45,6 @@ function Map({ areaFilter, setAreaFilter }) {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
   });
 
-  const markerValues = [
-    { id: 1, lat: 37.536631, lng: 126.977376, name: '왈왈유치원' },
-    { id: 2, lat: 37.5195, lng: 127.0239, name: '애견유치원' },
-    { id: 3, lat: 37.495919, lng: 126.959497, name: '멍더가든' },
-  ];
-
   const [map, setMap] = useState(null);
 
   const [center, setCenter] = useState({

@@ -41,7 +41,7 @@ function Main({
         timerId = setTimeout(() => {
           page.current += 8;
           setPrint(kinderGartens.slice(0, page.current));
-        }, 1500);
+        }, 150);
       }
     }
 
@@ -57,7 +57,7 @@ function Main({
         <div className="mb-24 mt-48 flex w-[100%] justify-between text-28 font-bold onlyMobile:flex-col">
           <span>유치원 리스트</span>
           <InputSelectBox
-            options="강서구 · 구로구 · 양천구, 관악구 · 금천구 · 동작구 · 영등포구, 강남구 · 강동구 · 서초구 · 송파구, 마포구 · 은평구 · 서대문구, 강북구 · 노원구 · 도봉구 · 성북구, 용산구 · 성동구 · 종로구 · 중구, 광진구 · 동대문구 · 중랑구"
+            options="전체보기, 강서 · 구로 · 양천, 관악 · 금천 · 동작 · 영등포, 강남 · 강동 · 서초 · 송파, 마포 · 은평 · 서대문, 강북 · 노원 · 도봉 · 성북, 용산 · 성동 · 종로 · 중, 광진 · 동대문 · 중랑"
             width="min-w-260 onlyMobile:w-full onlyMobile:mt-10"
             placeholder="지역을 선택해주세요."
             setAreaFilter={setAreaFilter}
