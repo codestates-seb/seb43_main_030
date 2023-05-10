@@ -47,7 +47,7 @@ function App() {
   const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
 
   const [kinderGartens, setKinderGartens] = useState([]);
-  const [areaFilter, setAreaFilter] = useState('');
+  const [areaFilter, setAreaFilter] = useState(0);
   const [inputValue, setInputValue] = useState('');
 
   return (

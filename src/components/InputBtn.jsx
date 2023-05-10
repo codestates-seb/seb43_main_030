@@ -9,7 +9,6 @@ function InputBtn(props) {
     className,
     inputValue,
     setInputValue,
-    kinderGartens,
     setKinderGartens,
   } = props;
   const [focus, setFocus] = useState(true);
