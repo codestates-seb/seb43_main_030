@@ -1,7 +1,8 @@
 import RatingStar from '../RatingStar';
 import Button from '../Button/Button';
+import dateCalculate from '../dateCalculate';
 
-function ListReview() {
+function ListReview({ id, contents, images, ratedReview, createdAt }) {
   return (
     <div>
       <ul>
@@ -21,19 +22,22 @@ function ListReview() {
                   </div>
                   <div className="flex w-full items-center justify-between">
                     <RatingStar />
-                    <p className="list-gray-small">23.01.01</p>
+                    <p className="list-gray-small">
+                      {dateCalculate(createdAt)}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
             <p className="list-content h-text-max mt-16 max-h-[50px]">
-              후기내용후기내용후기내용후기내용후기내용미리보기용후기내용미리보기
+              {contents}
+              {/* 후기내용후기내용후기내용후기내용후기내용미리보기용후기내용미리보기 */}
             </p>
             <Button className="btn-text-default py-4 text-left text-14 font-bold text-black-900">
               더보기
             </Button>
           </div>
-          <div className="list-notice-image" />
+          {images.length !== 0 ? <div className="list-notice-image" /> : ''}
         </li>
       </ul>
     </div>
