@@ -17,21 +17,16 @@ function SignUp() {
     return (
       <>
         <div className="px-8">
-          <div className="mb-24 flex items-end">
-            <Input
-              labelText="아이디"
-              placeholder="아이디를 입력해주세요."
-              className="grow"
-            />
+          <div className="mb-24 flex">
+            <Input labelText="아이디" placeholder="아이디를 입력해주세요." />
             <Button className="color-yellow btn-size-l ml-8 h-50 shrink-0 grow-0">
               인증번호 전송
             </Button>
           </div>
-          <div className="mb-24 flex items-end">
+          <div className="mb-24 flex">
             <Input
               labelText="인증번호"
               placeholder="인증번호를 입력해주세요."
-              className="grow"
             />
             <Button className="color-yellow btn-size-l ml-8 h-50 shrink-0 grow-0">
               인증번호 확인

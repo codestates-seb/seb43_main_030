@@ -36,6 +36,7 @@ import Community from './pages/Community';
 import Post from './pages/Post';
 import Write from './pages/Write';
 import SignUp from './pages/SignUp';
+import KinderDetail from './pages/KinderDetail';
 
 function App() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
@@ -53,6 +54,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/map" element={<Map />} />
+        <Route path="/kindergarten/1" element={<KinderDetail />} />
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
       </Routes>
