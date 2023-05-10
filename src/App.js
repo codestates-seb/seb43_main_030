@@ -8,6 +8,7 @@ import {
   useNavigate,
   useLocation,
 } from 'react-router-dom';
+import { useState } from 'react';
 import DropDownMenu from './components/DropDownMenu';
 import InputBtn from './components/InputBtn';
 import Button from './components/Button/Button';
@@ -15,7 +16,6 @@ import Input from './components/Input/Input';
 import InputError from './components/Input/InputError';
 import InputSelectBox from './components/Input/InputSelectBox';
 import InputCheck from './components/Input/InputCheck';
-import InputRadio from './components/Input/InputRadio';
 import MHeader from './components/Header/MHeader';
 import TextArea from './components/TextArea';
 import UploadImage from './components/UploadImage';
@@ -36,6 +36,8 @@ import Map from './pages/Map';
 import Community from './pages/Community';
 import Post from './pages/Post';
 import Write from './pages/Write';
+import SignUp from './pages/SignUp';
+import KinderDetail from './pages/KinderDetail';
 
 function App() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
@@ -44,14 +46,53 @@ function App() {
   const hideFooterRoutes = ['/map', '/login', '/signup', '/find-password'];
   const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
 
+  const [kinderGartens, setKinderGartens] = useState([]);
+  const [areaFilter, setAreaFilter] = useState('');
+  const [inputValue, setInputValue] = useState('');
+
   return (
     <div className="h-[calc(100vh-80px)]">
-      {isMobile ? <MHeader /> : <PcHeader />}
+      {isMobile ? (
+        <MHeader inputValue={inputValue} setInputValue={setInputValue} />
+      ) : (
+        <PcHeader
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          kinderGartens={kinderGartens}
+          setKinderGartens={setKinderGartens}
+        />
+      )}
 
       <Routes>
-        <Route path="/" element={<Main />} />
+        <Route
+          path="/"
+          element={
+            <Main
+              areaFilter={areaFilter}
+              setAreaFilter={setAreaFilter}
+              inputValue={inputValue}
+              setInputValue={setInputValue}
+              kinderGartens={kinderGartens}
+              setKinderGartens={setKinderGartens}
+            />
+          }
+        />
         <Route path="/login" element={<Login />} />
-        <Route path="/map" element={<Map />} />
+
+        <Route
+          path="/map"
+          element={
+            <Map
+              areaFilter={areaFilter}
+              setAreaFilter={setAreaFilter}
+              inputValue={inputValue}
+              setInputValue={setInputValue}
+            />
+          }
+        />
+
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/kindergarten/1" element={<KinderDetail />} />
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
       </Routes>

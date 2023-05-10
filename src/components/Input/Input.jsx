@@ -14,12 +14,12 @@ function Input(props) {
 
   return (
     // <div className="input-array">
-    <div className="flex w-full flex-col">
+    <div className={cls('flex w-full flex-col')}>
       {/* label이 있을 경우 labelText props작성 */}
       {labelText && (
         <label
           htmlFor="input"
-          className={cls('mb-6 text-left text-14 text-black-500')}
+          className={cls('mb-6 text-left text-14 text-black-350', className)}
         >
           {labelText}
         </label>
