@@ -64,7 +64,7 @@ function Main({
             setInputValue={setInputValue}
           />
         </div>
-        <div className="grid w-[100%] grid-cols-cardGrid gap-x-[10px]">
+        <div className="grid w-[100%] grid-cols-cardGrid gap-x-[20px]">
           {isPending &&
             print.map(kinderGarten => {
               return (
