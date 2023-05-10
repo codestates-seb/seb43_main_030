@@ -101,10 +101,8 @@ public interface PostMapper {
 
         post.setTitle( patch.getTitle() );
         post.setContent( patch.getContent() );
-        System.out.println("=".repeat(50) + "mapper1");
         if (patch.getCategory() != null)
             post.setCategory(categoryToEnum(patch.getCategory()));
-        System.out.println("=".repeat(50) + "mapper2");
 
         return post;
     };

@@ -67,26 +67,16 @@ public class PostController {
                                     @Valid @RequestPart(required = false) PostDto.Patch requestBody,
                                     @RequestPart(required = false) List<MultipartFile> images) {
         Post post = postMapper.postPatchDtoToPost(requestBody);
-        log.info("=".repeat(50) + "controller1");
         post.setPostId(postId);
-        log.info("=".repeat(50) + "controller2");
         post.setCommunity(communityService.findCommunity(communityId));
-        log.info("=".repeat(50) + "controller3");
         Post updatePost = postService.updatePost(post);
-        log.info("=".repeat(50) + "controller4");
         if (images != null) {
-            log.info("=".repeat(50) + "controller5");
             imageService.imagesUpload(images, updatePost, Image.Location.POST.getLocation());
         }
-        log.info("=".repeat(50) + "controller6");
         if (requestBody != null && requestBody.getDeleteImageIds() != null) {
-            log.info("=".repeat(50) + "controller7");
             List<Image> findImages = imageService.findImagesByImageIds(requestBody.getDeleteImageIds());
-            log.info("=".repeat(50) + "controller8");
             imageService.imagesDelete(findImages);
-            log.info("=".repeat(50) + "controller9");
         }
-        log.info("=".repeat(50) + "controller10");
         List<Image> findImages = imageService.findByPost(updatePost);
         return new ResponseEntity(
                 new SingleResponseDto(postMapper.postToPostResponseDto(updatePost, findImages)), HttpStatus.OK);
