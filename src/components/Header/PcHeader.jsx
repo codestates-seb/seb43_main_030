@@ -8,7 +8,12 @@ import { ReactComponent as ArrowOpen } from '../../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../../images/arrow-close.svg';
 import { ReactComponent as Logo } from '../../images/logo-txt.svg';
 
-function Header() {
+function Header({
+  inputValue,
+  setInputValue,
+  kinderGartens,
+  setKinderGartens,
+}) {
   const [isLogin, setIsLogin] = useState(false);
   const [nickname, setNickname] = useState('쫑이콩이맘');
   const [dropDown, setDropDown] = useState(false);
@@ -26,7 +31,12 @@ function Header() {
           </div>
         </Link>
         <div className="input-array">
-          <InputBtn />
+          <InputBtn
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+            kinderGartens={kinderGartens}
+            setKinderGartens={setKinderGartens}
+          />
         </div>
         {isLogin ? (
           <div className="relative mr-12 flex h-48 w-150 items-center justify-between p-8">

@@ -1,10 +1,36 @@
 import { useState } from 'react';
+import axios from 'axios';
 import { ReactComponent as Search } from '../images/search.svg';
 import cls from '../utils/tailwind';
 
 function InputBtn(props) {
-  const { placeholder, className } = props;
+  const {
+    placeholder,
+    className,
+    inputValue,
+    setInputValue,
+    kinderGartens,
+    setKinderGartens,
+  } = props;
   const [focus, setFocus] = useState(true);
+
+  function changeInput(e) {
+    setInputValue(e.target.value);
+  }
+
+  function searchInput() {
+    const encodedValue = decodeURI(inputValue);
+    const url = `http://localhost:3001/${encodedValue}`;
+    axios
+      .get(`http://localhost:3001/${inputValue}`)
+      .then(response => {
+        setKinderGartens(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   return (
     <div className={cls(className)}>
       <div
@@ -20,6 +46,7 @@ function InputBtn(props) {
           placeholder={placeholder}
           onFocus={() => setFocus(false)}
           onBlur={() => setFocus(true)}
+          onChange={e => changeInput(e)}
         />
         <button
           type="button"
@@ -27,7 +54,7 @@ function InputBtn(props) {
           onFocus={() => setFocus(false)}
           onBlur={() => setFocus(true)}
         >
-          <Search />
+          <Search onClick={() => searchInput()} />
         </button>
       </div>
     </div>

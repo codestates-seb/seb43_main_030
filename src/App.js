@@ -8,6 +8,7 @@ import {
   useNavigate,
   useLocation,
 } from 'react-router-dom';
+import { useState } from 'react';
 import DropDownMenu from './components/DropDownMenu';
 import InputBtn from './components/InputBtn';
 import Button from './components/Button/Button';
@@ -45,15 +46,52 @@ function App() {
   const hideFooterRoutes = ['/map', '/login', '/signup', '/find-password'];
   const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
 
+  const [kinderGartens, setKinderGartens] = useState([]);
+  const [areaFilter, setAreaFilter] = useState('');
+  const [inputValue, setInputValue] = useState('');
+
   return (
     <div className="h-[calc(100vh-80px)]">
-      {isMobile ? <MHeader /> : <PcHeader />}
+      {isMobile ? (
+        <MHeader inputValue={inputValue} setInputValue={setInputValue} />
+      ) : (
+        <PcHeader
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          kinderGartens={kinderGartens}
+          setKinderGartens={setKinderGartens}
+        />
+      )}
 
       <Routes>
-        <Route path="/" element={<Main />} />
+        <Route
+          path="/"
+          element={
+            <Main
+              areaFilter={areaFilter}
+              setAreaFilter={setAreaFilter}
+              inputValue={inputValue}
+              setInputValue={setInputValue}
+              kinderGartens={kinderGartens}
+              setKinderGartens={setKinderGartens}
+            />
+          }
+        />
         <Route path="/login" element={<Login />} />
+
+        <Route
+          path="/map"
+          element={
+            <Map
+              areaFilter={areaFilter}
+              setAreaFilter={setAreaFilter}
+              inputValue={inputValue}
+              setInputValue={setInputValue}
+            />
+          }
+        />
+
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/map" element={<Map />} />
         <Route path="/kindergarten/1" element={<KinderDetail />} />
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
