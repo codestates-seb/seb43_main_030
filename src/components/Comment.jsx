@@ -1,13 +1,64 @@
 import { useState } from 'react';
+import axios from 'axios';
 import { ReactComponent as More } from '../images/more.svg';
 import Dog from '../images/dog.jpeg';
+import Input from './Input/Input';
+import Button from './Button/Button';
 
-function Comment() {
+function Comment({ profileId, id, name, imageUrl, email, text, createdAt }) {
   const [moreSelect, setMoreSelect] = useState(false);
+
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editedText, setEditedText] = useState(text);
+
+  const handleEditClick = () => {
+    setIsEditMode(true);
+    setMoreSelect(!moreSelect);
+  };
+
+  const handleSaveClick = id => {
+    setEditedText(text);
+    setIsEditMode(false);
+
+    const now = new Date();
+    const dateString = now.toLocaleString();
+
+    axios
+      .put(`http://localhost:3001/comments/${id}`, {
+        name,
+        email,
+        text: editedText,
+        createdAt: dateString,
+      })
+      .then(response => {
+        console.log(response.data);
+        window.location.reload();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const handleChange = e => {
+    setEditedText(e.target.value);
+  };
 
   const handleClick = () => {
     setMoreSelect(!moreSelect);
   };
+
+  function deleteComment(id) {
+    axios
+      .delete(`http://localhost:3001/comments/${id}`)
+      .then(response => {
+        console.log(response.data);
+        window.location.reload();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   return (
     <div className="pb-32">
       <div className="flex items-center justify-between">
@@ -15,9 +66,9 @@ function Comment() {
           <div className="user-profile h-32 w-32 onlyMobile:h-24 onlyMobile:w-24">
             <img src={Dog} alt="임시이미지" />
           </div>
-          <span className="px-8 text-14">백설이맘</span>
+          <span className="px-8 text-14">{name}</span>
           <span className="text-14 text-black-350 onlyMobile:text-12">
-            h*******
+            {email}
           </span>
         </div>
         <div className="relative">
@@ -26,10 +77,18 @@ function Comment() {
           </button>
           {moreSelect ? (
             <ul className="absolute right-[-25px] flex flex w-80 flex-col items-center justify-center rounded-[10px] bg-white p-10 shadow-dropDownShadow">
-              <li className=" flex w-full cursor-pointer items-center justify-center rounded-md px-8 py-10 text-14 hover:bg-black-025 onlyMobile:text-12">
+              <li
+                onClick={() => handleEditClick()}
+                role="presentation"
+                className=" flex w-full cursor-pointer items-center justify-center rounded-md px-8 py-10 text-14 hover:bg-black-025 onlyMobile:text-12"
+              >
                 수정
               </li>
-              <li className="flex w-full cursor-pointer items-center justify-center rounded-md px-8 py-10 text-14 hover:bg-black-025 onlyMobile:text-12">
+              <li
+                onClick={() => deleteComment(id)}
+                role="presentation"
+                className="flex w-full cursor-pointer items-center justify-center rounded-md px-8 py-10 text-14 hover:bg-black-025 onlyMobile:text-12"
+              >
                 삭제
               </li>
             </ul>
@@ -38,15 +97,32 @@ function Comment() {
           )}
         </div>
       </div>
-      <p className="mb-10 mt-5 text-16 text-black-900 onlyMobile:text-12">
-        댓글 내용내용내용내용내용댓글 내용내용내용내용내용댓글
-        내용내용내용내용내용댓글 내용내용내용내용내용댓글
-        내용내용내용내용내용댓글 내용내용내용내용내용댓글
-        내용내용내용내용내용댓글 내용내용내용내용내용댓글
-        내용내용내용내용내용댓글 내용내용내용내용내용댓글
-        내용내용내용내용내용댓글 내용내용내용내용내용댓글 내용내용내용내용내용
-      </p>
-      <p className="text-14 text-black-350 onlyMobile:text-12">1시간 </p>
+      {isEditMode ? (
+        <div className="flex flex-row items-center">
+          <Input
+            type="text"
+            value={editedText}
+            onChange={e => handleChange(e)}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                handleSaveClick(id);
+              }
+            }}
+            className="mb-10 mt-5 w-[100%] text-16 text-black-900 onlyMobile:text-12"
+          />
+          <Button
+            className="btn-size-l color-yellow ml-8 shrink-0"
+            onClick={() => handleSaveClick(id)}
+          >
+            수정
+          </Button>
+        </div>
+      ) : (
+        <p className="mb-10 mt-5 text-16 text-black-900 onlyMobile:text-12">
+          {text}
+        </p>
+      )}
+      <p className="text-14 text-black-350 onlyMobile:text-12">{createdAt}</p>
     </div>
   );
 }

@@ -5,11 +5,11 @@ function Input(props) {
     type,
     value,
     placeholder,
-    handleChange,
     isError,
     isComp,
     className,
     labelText,
+    onChange,
   } = props;
 
   return (
@@ -33,7 +33,7 @@ function Input(props) {
           className,
         )}
         placeholder={placeholder}
-        onChange={handleChange}
+        onChange={onChange}
       />{' '}
       {/* 에러 시 isError 완료 시 isComp props에 안내문구 작성  */}
       {isError && <p className="input-text text-red-400">{isError}</p>}

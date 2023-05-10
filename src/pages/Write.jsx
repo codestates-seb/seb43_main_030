@@ -4,7 +4,8 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
 import Button from '../components/Button/Button';
-import InputSelectBox from '../components/Input/InputSelectBox';
+import Radio from '../components/Radio/Radio';
+import RadioGroup from '../components/Radio/RadioGroup';
 import TextArea from '../components/TextArea';
 import Dog from '../images/dog.jpeg';
 
@@ -36,13 +37,16 @@ function Post() {
       return;
     }
 
-    event.preventDefault();
+    const currentDate = new Date();
+    const postObject = {
+      title,
+      content,
+      category: 'community',
+      date: currentDate,
+    };
 
     axios
-      .post('http://localhost:3001/post', {
-        title,
-        content,
-      })
+      .post('http://localhost:3001/post', { postObject })
       .then(response => {
         console.log(response);
       })
@@ -93,14 +97,26 @@ function Post() {
             견주님의 경우 공지사항 카테고리에는 글을 작성하실 수 없습니다.
             커뮤니티를 선택 후 글을 작성해주세요!
           </p>
-          <div>
-            <InputSelectBox
-              options="공지,커뮤니티"
-              placeholder="카테고리를 선택해주세요."
-              width="w-full"
-              setAreaFilter={setAreaFilter}
-            />
-          </div>
+          <RadioGroup>
+            <Radio
+              id="category1"
+              name="contact"
+              value="community"
+              defaultChecked
+              labelClass="text-14"
+            >
+              커뮤니티
+            </Radio>
+            <Radio
+              id="category2"
+              name="contact"
+              value="notification"
+              labelClass="text-14 disabled:black-200"
+              disabled
+            >
+              공지사항
+            </Radio>
+          </RadioGroup>
         </div>
 
         <div className="border-b border-black-070 py-50 onlyMobile:py-32">

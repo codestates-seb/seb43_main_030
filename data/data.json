@@ -127,7 +127,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -136,7 +136,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -145,7 +145,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -154,7 +154,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -163,7 +163,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -172,7 +172,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -181,7 +181,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -190,7 +190,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -199,7 +199,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -208,7 +208,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -217,7 +217,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -226,7 +226,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -235,7 +235,7 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     },
@@ -244,11 +244,12 @@
       "name": "무슨 이름으로 해야하지",
       "latitude": 37.51106,
       "longitude": 126.917463,
-      "ratedReviewsAvg": 5.0,
+      "ratedReviewsAvg": 5,
       "ratedReviewsCount": 2,
       "locations": "서울시 마포구 멍멍동"
     }
   ],
+  "KinderGarten1": [],
   "KinderGarten2": [
     {
       "kindergartenId": 1,
@@ -430,6 +431,15 @@
       "title": "푸들은 귀엽다",
       "content": "<p>성격, 크기, 털빠짐, 지능에 이르는 현대 목적견의 요구 조건을 거의 모두 충족 시키기 때문에 매우 선호 되는 <a href=\"https://namu.wiki/w/%EB%B0%98%EB%A0%A4%EA%B2%AC\">반려견</a>이다. 우리나라에서 2번째로 많이 기르는 반려견이다. 1번째는 <a href=\"https://namu.wiki/w/%EB%AA%B0%ED%8B%B0%EC%A6%88\">말티즈</a>.<br>&nbsp;<br>무엇보다도 큰 특징은 대부분의 <a href=\"https://namu.wiki/w/%EA%B0%9C\">개</a>, <a href=\"https://namu.wiki/w/%EA%B3%A0%EC%96%91%EC%9D%B4\">고양이</a>와 다르게 <strong>푸들은 털이 거의 빠지지 않는다.</strong> 때문에 털 날림 문제, 털 알레르기 문제에서 자유로운 편이다. 털 알레르기는 일반적으로 실제 털 자체에 알레르기가 있는 게 아니라 털을 통해 전해지는 각질이나 기타 물질들로 인해 발생되는 증상인데 애초에 털이 덜 날려 그러한 물질을 크게 퍼트리지 않으니<a href=\"https://namu.wiki/w/%ED%91%B8%EB%93%A4#fn-1\">[1]</a> 어지간히 예민하지 않은 이상 괜찮은 편이다. 따라서 알레르기 반응이 없는 가족이 털 관리를 해주는 게 가장 좋다. 실제로 유명하고 인기있는 푸들 잡종들도 유전자에서 푸들의 비중이 높을 수록 알레르기 반응이 있는 사람에게도 문제 없다고 평가되는 편.<br><br>훈련성으로 평가되는 <strong>개 지능이 탑3 안에 들 정도로 뛰어나다.</strong> 때문에 훈련이 매우 용이하다. 훈련만 잘 시키면 다른 품종의 애완견보다 몇 배는 더 많은 개인기를 훈련 시킬 수 있다. 대소변을 제대로 못 가리거나 이 갈이 할 때 짖거나 물거나 하는 등 문제 행동도 다른 견종에 비해 매우 양호하다.<br><br>순해 보이는 외모와 달리 높은 활동성을 요구하는 품종이다. 초보자가 키우기에 수월한 견종이긴 하지만 헛 짖음, 분리 불안 증, 예상 외로 높은 운동 요구도 등의 특징을 갖고 있다. 지능이 높아 어려움을 겪는 경우도 흔하므로 본인의 성격과 훈육 가능 환경 등을 잘 파악하고 분양에 신중해야한다. 다만 <a href=\"https://namu.wiki/w/%EC%8B%9C%EC%B8%84\">시츄</a> 같은 별종<a href=\"https://namu.wiki/w/%ED%91%B8%EB%93%A4#fn-2\">[2]</a>을 제외한다면 어차피 대부분의 개는 활동량이 높기 때문에 푸들 견주에게만 부담이 되는 부분은 결코 아니다. 푸들은 원래 수렵견이었던만큼 산 같은 곳으로 산책을 데리고 다녀보면 중장 거리를 달려도 지치지 않고 매우 잘 뛰어 다닌다.</p>",
       "id": 2
+    }
+  ],
+  "comments": [
+    {
+      "name": "지은",
+      "email": "aaa@naver.com",
+      "text": "수정되나",
+      "createdAt": "2023. 5. 10. 오후 3:25:54",
+      "id": 5
     }
   ]
 }

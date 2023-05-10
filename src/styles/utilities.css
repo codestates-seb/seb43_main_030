@@ -138,7 +138,11 @@
   }
 
   .radio-button {
-    @apply h-20  w-20 rounded-full border border-solid border-black-070 bg-center bg-no-repeat hover:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:bg-[url('../images/circle.svg')];
+    @apply h-20  w-20 rounded-full border border-solid border-black-070 bg-center bg-no-repeat hover:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:bg-[url('../images/circle.svg')] peer-disabled:bg-black-050;
+  }
+
+  .label-disabled {
+    @apply peer-disabled:text-black-070;
   }
 
   .list-title {
@@ -159,10 +163,6 @@
 
   .list-user-image {
     @apply h-40 w-40 shrink-0 rounded-xl bg-black-050 pr-24;
-  }
-
-  .list-user-image-small {
-    @apply h-16 w-16 rounded-md bg-black-050;
   }
 
   .list-flex {
@@ -192,9 +192,16 @@
 
   /* 유저이름 옆 유저 프로필 사진 h,w는 추가로 입력 필요 */
   .user-profile {
-    @apply flex items-center justify-center overflow-hidden rounded-[8px];
+    @apply flex shrink-0 items-center justify-center overflow-hidden rounded-[8px];
   }
   .user-profile img {
+    @apply h-full w-full object-cover object-center;
+  }
+
+  .user-profile-small {
+    @apply flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-[4px];
+  }
+  .user-profile-small img {
     @apply h-full w-full object-cover object-center;
   }
 
