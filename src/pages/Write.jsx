@@ -1,11 +1,56 @@
 import { useMediaQuery } from 'react-responsive';
-import Dog from '../images/dog.jpeg';
+import React, { useState, useEffect } from 'react';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import axios from 'axios';
 import Button from '../components/Button/Button';
 import InputSelectBox from '../components/Input/InputSelectBox';
 import TextArea from '../components/TextArea';
+import Dog from '../images/dog.jpeg';
 
 function Post() {
+  const [areaFilter, setAreaFilter] = useState(''); // category
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [userProfile, setUserProfile] = useState({});
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/profile1')
+      .then(response => {
+        setUserProfile(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
+
+  const saveTitle = event => {
+    setTitle(event.target.value);
+  };
+
+  const submitData = event => {
+    if (!areaFilter || !title || !content) {
+      alert('내용을 입력해주세요.');
+      return;
+    }
+
+    event.preventDefault();
+
+    axios
+      .post('http://localhost:3001/post', {
+        title,
+        content,
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">
       <div className="w-full max-w-[1162px] px-50 onlyMobile:px-20">
@@ -16,7 +61,9 @@ function Post() {
           {!isMobile ? (
             <div className="flex shrink-0">
               <Button className="btn-size-l mr-10">취소</Button>
-              <Button className="btn-size-l color-yellow">등록하기</Button>
+              <Button className="btn-size-l color-yellow" onClick={submitData}>
+                등록하기
+              </Button>
             </div>
           ) : (
             ''
@@ -30,13 +77,13 @@ function Post() {
           </p>
           <div className="flex">
             <div className="user-profile h-64 w-64">
-              <img src={Dog} alt="임시이미지" />
+              <img src={userProfile.imageUrl} alt="임시이미지" />
             </div>
             <div className=" ml-10 flex flex-col items-start justify-center">
               <p className="text-left text-16 font-bold onlyMobile:text-12">
-                쫑이콩이맘
+                {userProfile.name}
               </p>
-              <p className="text-10 text-black-350">dsfdsf@naver.com</p>
+              <p className="text-10 text-black-350">{userProfile.email}</p>
             </div>
           </div>
         </div>
@@ -48,9 +95,10 @@ function Post() {
           </p>
           <div>
             <InputSelectBox
-              options="공지,카테고리"
+              options="공지,커뮤니티"
               placeholder="카테고리를 선택해주세요."
               width="w-full"
+              setAreaFilter={setAreaFilter}
             />
           </div>
         </div>
@@ -61,7 +109,12 @@ function Post() {
             작성하시는 글의 제목을 입력해주세요.
           </p>
           <div>
-            <TextArea maxLength="80" placeholder="제목을 입력해주세요." />
+            <TextArea
+              value={title}
+              maxLength="80"
+              placeholder="제목을 입력해주세요."
+              onChange={saveTitle}
+            />
           </div>
         </div>
 
@@ -70,6 +123,16 @@ function Post() {
           <p className="write-sub-title">
             작성하시는 글의 내용을 입력해주세요.
           </p>
+          <div>
+            <CKEditor
+              editor={ClassicEditor}
+              data="<p>내용을 입력해주세요.</p>"
+              onChange={(event, editor) => {
+                const data = editor.getData();
+                setContent(data);
+              }}
+            />
+          </div>
         </div>
       </div>
       {isMobile ? (
