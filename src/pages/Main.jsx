@@ -69,11 +69,12 @@ function Main({
             print.map(kinderGarten => {
               return (
                 <MainCard
-                  key={kinderGarten.kinderGartenId}
+                  key={kinderGarten.kindergartenId}
                   name={kinderGarten.name}
                   ratedReviewsAvg={kinderGarten.ratedReviewsAvg}
                   ratedReviewsCount={kinderGarten.ratedReviewsCount}
                   locations={kinderGarten.locations}
+                  id={kinderGarten.kindergartenId}
                 />
               );
             })}
