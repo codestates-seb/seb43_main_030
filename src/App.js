@@ -92,7 +92,10 @@ function App() {
         />
 
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/kindergarten/1" element={<KinderDetail />} />
+        <Route
+          path="/kindergarten/:id"
+          element={<KinderDetail areaFilter={areaFilter} />}
+        />
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
         <Route path="/post" element={<Post />} />
