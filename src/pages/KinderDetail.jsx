@@ -85,6 +85,9 @@ function KinderDetail() {
                 </div>
                 <p>주소영역</p>
               </div>
+              <Button className="color-yellow btn-size-l mt-24">
+                커뮤니티 가기
+              </Button>
             </div>
           </div>
         </div>
