@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import NoList from '../images/perpett-nolist.png';
 import MainCard from '../components/Card/MainCard';
 import Button from '../components/Button/Button';
 import InputSelectBox from '../components/Input/InputSelectBox';
@@ -36,7 +37,11 @@ function Main({
   useEffect(() => {
     let timerId;
     if (isPending) {
-      setPrint(kinderGartens.slice(0, page.current));
+      if (kinderGartens.length === 0) {
+        setPrint([]);
+      } else {
+        setPrint(kinderGartens.slice(0, page.current));
+      }
       if (inView) {
         timerId = setTimeout(() => {
           page.current += 8;
@@ -65,7 +70,15 @@ function Main({
           />
         </div>
         <div className="grid w-[100%] grid-cols-cardGrid gap-x-[20px]">
-          {isPending &&
+          {print.length === 0 ? (
+            <div className="flex-center h-640 flex-col">
+              <img src={NoList} alt="NoList" className="mb-16 h-160 w-160" />
+              <span className="text-18 text-black-350">
+                이 지역에는 유치원이 없어요...
+              </span>
+            </div>
+          ) : (
+            isPending &&
             print.map(kinderGarten => {
               return (
                 <MainCard
@@ -77,7 +90,8 @@ function Main({
                   id={kinderGarten.kindergartenId}
                 />
               );
-            })}
+            })
+          )}
           <div className="flex-center fixed bottom-[30px] left-0 w-[100%] text-white">
             <Link to="/map">
               <Button
