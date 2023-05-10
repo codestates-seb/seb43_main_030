@@ -3,7 +3,7 @@ function ListNotice() {
     <div>
       <ul>
         <li className="list-flex max-w-664">
-          <div className="mr-24 flex w-504 flex-col justify-start pt-15">
+          <div className="mr-24 flex w-504 flex-col justify-start">
             <p className="list-title mb-8 ">
               공지제목공지제목공지제목공지제목공지제목공지제목
             </p>
