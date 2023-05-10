@@ -18,7 +18,7 @@ public class Kindergarten {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long kindergartenId;
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false)
     private String name;
     @Column(nullable = false)
     private Double latitude;
@@ -30,6 +30,10 @@ public class Kindergarten {
     private String openHours;
     private String closeHours;
     private String phoneNumber;
+    @Column(length = 1000)
+    private String pagetoken;
+    //구글에서 가져온 구글식 id;
+    private String placeId;
 
     // Post 와 매핑 (유치원 데이터 삭제시 관련 게시물도 삭제)
     @OneToOne(mappedBy = "kindergarten", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})

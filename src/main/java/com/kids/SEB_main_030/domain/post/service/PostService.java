@@ -10,16 +10,23 @@ import com.kids.SEB_main_030.domain.profile.entity.Profile;
 import com.kids.SEB_main_030.domain.profile.service.ProfileService;
 import com.kids.SEB_main_030.domain.user.entity.User;
 import com.kids.SEB_main_030.domain.user.service.UserService;
+import com.kids.SEB_main_030.global.image.entity.Image;
+import com.kids.SEB_main_030.global.image.service.ImageService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Transactional
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class PostService {
 
     private static final int SIZE = 10;
@@ -27,16 +34,7 @@ public class PostService {
     private final ProfileService profileService;
     private final UserService userService;
     private final CommunityService communityService;
-
-    public PostService(PostRepository postRepository,
-                       ProfileService profileService,
-                       UserService userService,
-                       CommunityService communityService) {
-        this.postRepository = postRepository;
-        this.profileService = profileService;
-        this.userService = userService;
-        this.communityService = communityService;
-    }
+    private final ImageService imageService;
 
     // 게시물 등록
     public Post createPost(Post post) {
@@ -47,12 +45,10 @@ public class PostService {
     public Post updatePost(Post post) {
         // 본인 인증
         identityVerify(post);
-
         Post findPost = findVerifiedPost(post.getPostId());
         Optional.ofNullable(post.getTitle()).ifPresent(title -> findPost.setTitle(title));
         Optional.ofNullable(post.getContent()).ifPresent(content -> findPost.setContent(content));
         Optional.ofNullable(post.getCategory()).ifPresent(category -> findPost.setCategory(category));
-
         return postRepository.save(findPost);
     }
 
@@ -60,6 +56,11 @@ public class PostService {
         Post findPost = findVerifiedPost(postId);
         // 본인 인증
         identityVerify(findPost);
+
+        // s3에서 포스트 관련 이미지 삭제
+        List<Image> images = imageService.findByPost(findPost);
+        for (Image image : images) imageService.s3imageDelete(image.getImageUrl());
+
         postRepository.delete(findPost);
     }
 

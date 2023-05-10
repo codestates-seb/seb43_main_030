@@ -9,6 +9,7 @@ import com.kids.SEB_main_030.global.dto.MultiResponseDto;
 import com.kids.SEB_main_030.global.dto.SingleResponseDto;
 import com.kids.SEB_main_030.domain.kindergarten.dto.KindergartenResponseDto;
 import com.kids.SEB_main_030.global.utils.UriCreator;
+import com.kids.SEB_main_030.global.place.service.PlaceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -31,11 +32,12 @@ public class KindergartenController {
     private final static String KINDERGARTEN_DEFAULT_URL="/api/kindergarten";
     private final KindergartenService kindergartenService;
     private final KindergartenMapper kindergartenMapper;
-
-    public KindergartenController(KindergartenService kindergartenService, KindergartenMapper kindergartenMapper) {
+    public KindergartenController(KindergartenService kindergartenService, KindergartenMapper kindergartenMapper, PlaceService placeService) {
         this.kindergartenService = kindergartenService;
         this.kindergartenMapper = kindergartenMapper;
+
     }
+
     @PostMapping
     public ResponseEntity postKindergarten(@Valid @RequestBody KindergartenPostDto kindergartenPostDto)
     {
@@ -67,5 +69,12 @@ public class KindergartenController {
         List<KindergartenResponseDto>response = kindergartenMapper.kindergartensToKindergartenResponseDtos(kindergartens);
         return new ResponseEntity<>(new MultiResponseDto<>(response,pageKindergartens),HttpStatus.OK);
     }
+    @GetMapping("/loc/{category-id}")
+    public ResponseEntity getKindergartensByLocationCategory(@PathVariable("category-id")int categoryId){
+        List<Kindergarten> kindergartens = kindergartenService.findKindergartensByLocationCategory(categoryId);
+        List<KindergartenResponseDto>response = kindergartenMapper.kindergartensToKindergartenResponseDtos(kindergartens);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
 
 }
