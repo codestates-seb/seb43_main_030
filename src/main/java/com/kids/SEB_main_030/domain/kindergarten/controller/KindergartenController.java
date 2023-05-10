@@ -69,6 +69,12 @@ public class KindergartenController {
         List<KindergartenResponseDto>response = kindergartenMapper.kindergartensToKindergartenResponseDtos(kindergartens);
         return new ResponseEntity<>(new MultiResponseDto<>(response,pageKindergartens),HttpStatus.OK);
     }
+    @GetMapping("/loc/{category-id}")
+    public ResponseEntity getKindergartensByLocationCategory(@PathVariable("category-id")int categoryId){
+        List<Kindergarten> kindergartens = kindergartenService.findKindergartensByLocationCategory(categoryId);
+        List<KindergartenResponseDto>response = kindergartenMapper.kindergartensToKindergartenResponseDtos(kindergartens);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
 
 
 }
