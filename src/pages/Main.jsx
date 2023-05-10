@@ -59,7 +59,7 @@ function Main({
           <InputSelectBox
             options="전체보기, 강서 · 구로 · 양천, 관악 · 금천 · 동작 · 영등포, 강남 · 강동 · 서초 · 송파, 마포 · 은평 · 서대문, 강북 · 노원 · 도봉 · 성북, 용산 · 성동 · 종로 · 중, 광진 · 동대문 · 중랑"
             width="min-w-260 onlyMobile:w-full onlyMobile:mt-10"
-            placeholder="지역을 선택해주세요."
+            placeholder="전체보기"
             setAreaFilter={setAreaFilter}
             setInputValue={setInputValue}
           />
@@ -69,11 +69,12 @@ function Main({
             print.map(kinderGarten => {
               return (
                 <MainCard
-                  key={kinderGarten.kinderGartenId}
+                  key={kinderGarten.kindergartenId}
                   name={kinderGarten.name}
                   ratedReviewsAvg={kinderGarten.ratedReviewsAvg}
                   ratedReviewsCount={kinderGarten.ratedReviewsCount}
                   locations={kinderGarten.locations}
+                  id={kinderGarten.kindergartenId}
                 />
               );
             })}
@@ -89,7 +90,9 @@ function Main({
           </div>
         </div>
       </div>
-      {isPending ? <div ref={ref} /> : null}
+      {isPending && page.current < kinderGartens.length ? (
+        <div ref={ref} />
+      ) : null}
     </div>
   );
 }
