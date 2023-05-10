@@ -6,10 +6,9 @@ import MainCard from '../components/Card/MainCard';
 import Button from '../components/Button/Button';
 import InputSelectBox from '../components/Input/InputSelectBox';
 
-function Main() {
+function Main({ areaFilter, setAreaFilter }) {
   const [kinderGartens, setKinderGartens] = useState([]);
   const [isPending, setIsPending] = useState(false);
-  const [areaFilter, setAreaFilter] = useState('');
 
   const [ref, inView] = useInView();
 
@@ -29,14 +28,18 @@ function Main() {
   }, [areaFilter]);
 
   useEffect(() => {
+    let timerId;
     if (isPending) {
       setPrint(kinderGartens.slice(0, page.current));
-      console.log(inView);
       if (inView) {
-        page.current += 8;
-        setPrint(kinderGartens.slice(0, page.current));
+        timerId = setTimeout(() => {
+          page.current += 8;
+          setPrint(kinderGartens.slice(0, page.current));
+        }, 1500);
       }
     }
+
+    return () => clearTimeout(timerId);
   }, [inView, isPending, kinderGartens]);
 
   return (

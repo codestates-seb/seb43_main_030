@@ -24,7 +24,7 @@ const myStyles = [
   },
 ];
 
-function Map() {
+function Map({ areaFilter, setAreaFilter }) {
   const [kinderGartens, setKinderGartens] = useState([]);
   const [isPending, setIsPending] = useState(false);
 
@@ -57,6 +57,45 @@ function Map() {
     lat: 37.5303564,
     lng: 126.9897517,
   });
+
+  useEffect(() => {
+    if (areaFilter === 0) {
+      setCenter({
+        lat: 37.523474,
+        lng: 126.844036,
+      });
+    }
+    if (areaFilter === 1) {
+      setCenter({
+        lat: 37.495092,
+        lng: 126.931558,
+      });
+    }
+    if (areaFilter === 2) {
+      setCenter({
+        lat: 37.498011,
+        lng: 127.113862,
+      });
+    }
+    if (areaFilter === 3) {
+      setCenter({
+        lat: 37.589416,
+        lng: 126.92703,
+      });
+    }
+    if (areaFilter === 4) {
+      setCenter({
+        lat: 37.648563,
+        lng: 127.03758,
+      });
+    }
+    if (areaFilter === 6) {
+      setCenter({
+        lat: 37.577173,
+        lng: 127.08513,
+      });
+    }
+  }, [areaFilter]);
 
   const onLoad = useCallback(
     function callback(mapValue) {

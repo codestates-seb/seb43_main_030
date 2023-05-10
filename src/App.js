@@ -8,6 +8,7 @@ import {
   useNavigate,
   useLocation,
 } from 'react-router-dom';
+import { useState } from 'react';
 import DropDownMenu from './components/DropDownMenu';
 import InputBtn from './components/InputBtn';
 import Button from './components/Button/Button';
@@ -44,14 +45,26 @@ function App() {
   const hideFooterRoutes = ['/map', '/login', '/signup', '/find-password'];
   const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
 
+  const [areaFilter, setAreaFilter] = useState('');
+
   return (
     <div className="h-[calc(100vh-80px)]">
       {isMobile ? <MHeader /> : <PcHeader />}
 
       <Routes>
-        <Route path="/" element={<Main />} />
+        <Route
+          path="/"
+          element={
+            <Main areaFilter={areaFilter} setAreaFilter={setAreaFilter} />
+          }
+        />
         <Route path="/login" element={<Login />} />
-        <Route path="/map" element={<Map />} />
+        <Route
+          path="/map"
+          element={
+            <Map areaFilter={areaFilter} setAreaFilter={setAreaFilter} />
+          }
+        />
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
       </Routes>
