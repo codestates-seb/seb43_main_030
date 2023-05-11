@@ -184,7 +184,10 @@ function Post() {
           <div>
             <CKEditor
               editor={ClassicEditor}
-              data={content || `<p>내용을 입력해주세요.</p>`}
+              config={{
+                placeholder: '내용을 입력해주세요.',
+              }}
+              data={content}
               onChange={(event, editor) => {
                 const data = editor.getData();
                 setContent(data);
