@@ -8,6 +8,7 @@ import {
   useNavigate,
   useLocation,
 } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { useState } from 'react';
 import DropDownMenu from './components/DropDownMenu';
 import InputBtn from './components/InputBtn';
