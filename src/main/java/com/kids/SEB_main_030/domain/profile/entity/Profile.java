@@ -1,14 +1,13 @@
 package com.kids.SEB_main_030.domain.profile.entity;
 
+import com.kids.SEB_main_030.domain.comment.entity.Comment;
 import com.kids.SEB_main_030.domain.like.entity.Like;
 import com.kids.SEB_main_030.domain.post.entity.Post;
 import com.kids.SEB_main_030.domain.review.entity.Review;
 import com.kids.SEB_main_030.domain.user.entity.User;
-import com.kids.SEB_main_030.global.image.entity.Image;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.parameters.P;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -45,6 +44,8 @@ public class Profile {
     @OneToMany(mappedBy = "profile")
     private List<Review> reviews = new ArrayList<>();
 
+    @OneToMany(mappedBy = "profile")
+    private List<Comment> comments = new ArrayList<>();
 
     public enum type{
         PERSON("사람"),

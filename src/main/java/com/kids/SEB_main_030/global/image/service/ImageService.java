@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class ImageService {
+
     private final ImageUploader imageUploader;
     private final ImageRepository imageRepository;
 

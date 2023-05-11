@@ -28,4 +28,8 @@ public class Community {
 
     @OneToMany(mappedBy = "community")
     private List<Post> posts;
+
+    public Community(String introduction) {
+        this.introduction = introduction;
+    }
 }

@@ -1,6 +1,6 @@
 package com.kids.SEB_main_030.domain.kindergarten.controller;
 
-import com.kids.SEB_main_030.domain.community.entity.Community;
+import com.kids.SEB_main_030.domain.community.service.CommunityService;
 import com.kids.SEB_main_030.domain.kindergarten.dto.KindergartenPostDto;
 import com.kids.SEB_main_030.domain.kindergarten.entity.Kindergarten;
 import com.kids.SEB_main_030.domain.kindergarten.mapper.KindergartenMapper;
@@ -32,17 +32,18 @@ public class KindergartenController {
     private final static String KINDERGARTEN_DEFAULT_URL="/api/kindergarten";
     private final KindergartenService kindergartenService;
     private final KindergartenMapper kindergartenMapper;
-    public KindergartenController(KindergartenService kindergartenService, KindergartenMapper kindergartenMapper, PlaceService placeService) {
+    private final CommunityService communityService;
+    public KindergartenController(KindergartenService kindergartenService, KindergartenMapper kindergartenMapper, PlaceService placeService, CommunityService communityService) {
         this.kindergartenService = kindergartenService;
         this.kindergartenMapper = kindergartenMapper;
-
+        this.communityService = communityService;
     }
 
     @PostMapping
     public ResponseEntity postKindergarten(@Valid @RequestBody KindergartenPostDto kindergartenPostDto)
     {
         Kindergarten kindergarten = kindergartenMapper.kindergartenPostDtoToKindergarten(kindergartenPostDto);
-        kindergarten.setCommunity(new Community());
+        kindergarten.setCommunity(communityService.setDefaultCommunity(kindergarten));
         Kindergarten createdKindergarten = kindergartenService.createKindergarten(kindergarten);
         URI location = UriCreator.createUri(KINDERGARTEN_DEFAULT_URL, createdKindergarten.getKindergartenId());
 

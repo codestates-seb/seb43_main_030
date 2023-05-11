@@ -38,7 +38,7 @@ public class PostService {
 
     // 게시물 등록
     public Post createPost(Post post) {
-        post.setProfile(getProfileByUserId());
+        post.setProfile(getProfile());
         return postRepository.save(post);
     }
 
@@ -66,7 +66,6 @@ public class PostService {
 
     public Post findPost(Long postId) {
         Post verifiedPost = findVerifiedPost(postId);
-        System.out.println(verifiedPost.getLikes());
         return verifiedPost;
     }
 
@@ -109,14 +108,14 @@ public class PostService {
         }
     }
 
-    public Profile getProfileByUserId() {
+    public Profile getProfile() {
         User user = userService.findVerifiedUser(userService.findSecurityContextHolderUserId());
         Long profileId = user.getCurrentProfileId();
         return profileService.findProfile(profileId);
     }
 
     private void identityVerify(Post post) {
-        Long profileId = getProfileByUserId().getProfileId();
+        Long profileId = getProfile().getProfileId();
         Long postProfileId = findVerifiedPost(post.getPostId()).getProfile().getProfileId();
         if (profileId != postProfileId)
             throw new LogicException(CustomException.NO_AUTHORITY);

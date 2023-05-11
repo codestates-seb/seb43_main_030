@@ -1,5 +1,6 @@
 package com.kids.SEB_main_030.domain.post.entity;
 
+import com.kids.SEB_main_030.domain.comment.entity.Comment;
 import com.kids.SEB_main_030.domain.community.entity.Community;
 import com.kids.SEB_main_030.global.image.entity.Image;
 import com.kids.SEB_main_030.domain.like.entity.Like;
@@ -54,6 +55,9 @@ public class Post {
     @JoinColumn(name = "communityId")
     private Community community;
 
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments = new ArrayList<>();
+
     // Post 와 매핑 Post 삭제시 관련 Like 도 삭제
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Like> likes = new ArrayList<>();
@@ -62,6 +66,7 @@ public class Post {
     // Post 와 매핑 Post 삭제시 관련 Like 도 삭제
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Image> images = new ArrayList<>();
+
 
     public enum Category {
         NOTIFICATION("공지"),

@@ -5,6 +5,7 @@ import com.kids.SEB_main_030.domain.post.entity.Post;
 import com.kids.SEB_main_030.domain.like.repository.LikeRepository;
 import com.kids.SEB_main_030.domain.post.service.PostService;
 import com.kids.SEB_main_030.domain.profile.entity.Profile;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,16 +14,11 @@ import java.util.List;
 
 @Transactional
 @Service
+@RequiredArgsConstructor
 public class LikeService {
 
     private final LikeRepository likeRepository;
     private final PostService postService;
-
-    public LikeService(LikeRepository likeRepository,
-                       PostService postService) {
-        this.likeRepository = likeRepository;
-        this.postService = postService;
-    }
 
     // 좋아요 갯수 카운트
     public int likeCnt(Post post) {
@@ -39,7 +35,7 @@ public class LikeService {
     }
 
     public void likeToggle(Long postId) {
-        Profile profile = postService.getProfileByUserId();
+        Profile profile = postService.getProfile();
         Post post = postService.findPost(postId);
         int likeCnt = likeRepository.findByLikeCountByPostIdOrProfileId(profile, post);
 

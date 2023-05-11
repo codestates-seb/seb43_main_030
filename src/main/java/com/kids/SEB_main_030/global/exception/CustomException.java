@@ -20,7 +20,8 @@ public enum CustomException {
     COMMUNITY_NOT_FOUND(404, "커뮤니티를 찾을 수 없습니다."),
     IMAGE_UPLOAD_ERROR(500, "이미지 등록에 실패했습니다."),
     IMAGE_NOT_FOUND(404, "이미지를 찾을 수 없습니다."),
-    IMAGE_EXTENSION_WRONG(400, "이미지 확장자가 아닙니다.");
+    IMAGE_EXTENSION_WRONG(400, "이미지 확장자가 아닙니다."),
+    COMMENT_NOT_FOUND(404, "댓글을 찾을 수 없습니다.");
     @Getter
     private int status;
 
