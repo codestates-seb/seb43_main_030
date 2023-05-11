@@ -93,9 +93,12 @@ function Post() {
   };
 
   return (
-    <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">
-      <div className="w-full max-w-[1162px] px-50 onlyMobile:px-20">
-        <div className="flex-between flex border-b border-black-070 pb-30">
+    <div className="relative mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">
+      <div className="w-full max-w-[1280px] px-80 onlyMobile:px-20">
+        <div
+          className="flex-between fixed top-[60px] z-[10] flex w-[calc(100%-160px)] max-w-[1120px] border-b border-black-070
+        bg-white pb-30 pt-70 onlyMobile:relative onlyMobile:top-0 onlyMobile:z-0 onlyMobile:w-full onlyMobile:pt-0"
+        >
           <h3 className="w-full text-28 font-bold onlyMobile:text-22">
             글쓰기
           </h3>
@@ -112,7 +115,8 @@ function Post() {
             ''
           )}
         </div>
-        <div className="border-b border-black-070 py-50 onlyMobile:py-32">
+
+        <div className="mt-80 border-b border-black-070 py-50 onlyMobile:mt-0 onlyMobile:py-32">
           <p className="write-title">현재 프로필</p>
           <p className="write-sub-title">
             다른 프로필로 글을 작성하고 싶으신 경우 프로필을 변경 후 글을
