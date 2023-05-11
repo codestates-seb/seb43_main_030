@@ -1,5 +1,6 @@
 import { useMediaQuery } from 'react-responsive';
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
@@ -7,14 +8,15 @@ import Button from '../components/Button/Button';
 import Radio from '../components/Radio/Radio';
 import RadioGroup from '../components/Radio/RadioGroup';
 import TextArea from '../components/TextArea';
-import Dog from '../images/dog.jpeg';
 
 function Post() {
-  const [areaFilter, setAreaFilter] = useState(''); // category
+  const [category, setCategory] = useState('community');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [userProfile, setUserProfile] = useState({});
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+  const navigate = useNavigate();
+  const { postId } = useParams();
 
   useEffect(() => {
     axios
@@ -27,32 +29,70 @@ function Post() {
       });
   }, []);
 
-  const saveTitle = event => {
-    setTitle(event.target.value);
-  };
-
-  const submitData = event => {
-    if (!areaFilter || !title || !content) {
-      alert('내용을 입력해주세요.');
-      return;
-    }
-
-    const currentDate = new Date();
-    const postObject = {
-      title,
-      content,
-      category: 'community',
-      date: currentDate,
-    };
-
+  useEffect(() => {
     axios
-      .post('http://localhost:3001/post', { postObject })
+      .get(`http://localhost:3001/post/${postId}`)
       .then(response => {
-        console.log(response);
+        setTitle(response.data.title);
+        setContent(response.data.content);
       })
       .catch(error => {
         console.log(error);
       });
+  }, [postId]);
+
+  const saveCategory = event => {
+    setCategory(event.target.value);
+  };
+
+  const saveTitle = event => {
+    setTitle(event.target.value);
+  };
+
+  const handleCancel = () => {
+    const result = window.confirm(
+      '글쓰기를 취소하고 이전 페이지로 돌아가시겠습니까?',
+    );
+    if (result) {
+      navigate(-1);
+    }
+  };
+
+  const submitData = event => {
+    if (!title || !content) {
+      alert('제목과 내용을 입력해주세요.');
+      return;
+    }
+
+    const currentDate = new Date();
+    const postData = {
+      title,
+      content,
+      category,
+      date: currentDate,
+      comment: [],
+      likes: 0,
+    };
+
+    if (postId) {
+      axios
+        .put(`http://localhost:3001/post/${postId}`, {
+          postData,
+        })
+        .then(navigate(`/post/${postId}`))
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      axios
+        .post(`http://localhost:3001/post`, {
+          postData,
+        })
+        .then(navigate(`/community`))
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -64,7 +104,9 @@ function Post() {
           </h3>
           {!isMobile ? (
             <div className="flex shrink-0">
-              <Button className="btn-size-l mr-10">취소</Button>
+              <Button className="btn-size-l mr-10" onClick={handleCancel}>
+                취소
+              </Button>
               <Button className="btn-size-l color-yellow" onClick={submitData}>
                 등록하기
               </Button>
@@ -104,6 +146,7 @@ function Post() {
               value="community"
               defaultChecked
               labelClass="text-14"
+              onChange={saveCategory}
             >
               커뮤니티
             </Radio>
@@ -112,6 +155,7 @@ function Post() {
               name="contact"
               value="notification"
               labelClass="text-14 disabled:black-200"
+              onChange={saveCategory}
               disabled
             >
               공지사항
@@ -127,6 +171,7 @@ function Post() {
           <div>
             <TextArea
               value={title}
+              // defaultValue={title}
               maxLength="80"
               placeholder="제목을 입력해주세요."
               onChange={saveTitle}
@@ -142,7 +187,7 @@ function Post() {
           <div>
             <CKEditor
               editor={ClassicEditor}
-              data="<p>내용을 입력해주세요.</p>"
+              data={content || `<p>내용을 입력해주세요.</p>`}
               onChange={(event, editor) => {
                 const data = editor.getData();
                 setContent(data);
@@ -153,8 +198,12 @@ function Post() {
       </div>
       {isMobile ? (
         <div className="fixed bottom-0 left-0 z-10 flex w-full bg-white px-20 py-10 shadow-bottomBoxShadow">
-          <Button className="btn-size-l grow">취소</Button>
-          <Button className="btn-size-l color-yellow grow">등록하기</Button>
+          <Button className="btn-size-l grow" onClick={handleCancel}>
+            취소
+          </Button>
+          <Button className="btn-size-l color-yellow grow" onClick={submitData}>
+            등록하기
+          </Button>
         </div>
       ) : (
         ''

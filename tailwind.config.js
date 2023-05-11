@@ -64,6 +64,7 @@ module.exports = {
       },
       screens: {
         onlyMobile: { max: '767px' },
+        onlyTablet: { max: '949px' },
       },
     },
   },
