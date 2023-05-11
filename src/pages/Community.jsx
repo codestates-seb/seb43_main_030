@@ -74,9 +74,10 @@ function Community() {
             </div>
             <div>
               <ul>
-                {postList.map(post => {
-                  return <ListCommunity post={post} id={post.id} />;
-                })}
+                {postList &&
+                  postList.map(post => {
+                    return <ListCommunity post={post} id={post.id} />;
+                  })}
               </ul>
             </div>
             <div className="mt-50 flex justify-center">

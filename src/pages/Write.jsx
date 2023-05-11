@@ -76,18 +76,14 @@ function Post() {
 
     if (postId) {
       axios
-        .put(`http://localhost:3001/post/${postId}`, {
-          postData,
-        })
+        .put(`http://localhost:3001/post/${postId}`, postData)
         .then(navigate(`/post/${postId}`))
         .catch(error => {
           console.log(error);
         });
     } else {
       axios
-        .post(`http://localhost:3001/post`, {
-          postData,
-        })
+        .post(`http://localhost:3001/post`, postData)
         .then(navigate(`/community`))
         .catch(error => {
           console.log(error);
