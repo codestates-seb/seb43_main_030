@@ -25,13 +25,13 @@ function Login({ setAuth, auth, setUser, user, setCurUser }) {
   };
 
   function loginFunc() {
-    if (loginData.email.length < 1) {
+    if (!loginData.email) {
       setErrId('아이디를 입력하세요.');
       setErrPw('');
       setCheck(false);
       return;
     }
-    if (loginData.password.length < 1) {
+    if (!loginData.password) {
       setErrId('');
       setErrPw('비밀번호를 입력하세요.');
       setCheck(false);
