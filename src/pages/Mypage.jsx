@@ -9,7 +9,7 @@ import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
 import { ReactComponent as Plus } from '../images/plus.svg';
 import ListReview from '../components/List/ListReview';
 
-function Mypage() {
+function Mypage({ auth, setAuth, user, serUser }) {
   const [isLogin, setIsLogin] = useState('true');
   const [nickname, setNickname] = useState('쫑이콩이맘');
   const [dropDown, setDropDown] = useState(false);
@@ -29,6 +29,7 @@ function Mypage() {
       .get(`http://localhost:3001/mypage`)
       .then(res => {
         setValue(res.data);
+        console.log(res.data);
       })
       .catch(error => {
         console.log(error);
@@ -164,6 +165,16 @@ function Mypage() {
               <div className="content-line">
                 <h5 className="mb-24 text-22 font-bold onlyMobile:text-18">
                   작성한 후기
+                </h5>
+                <div className="flex flex-col gap-8">
+                  {/* <ListReview />
+                  <ListReview />
+                  <ListReview /> */}
+                </div>
+              </div>
+              <div className="content-line">
+                <h5 className="mb-24 text-22 font-bold onlyMobile:text-18">
+                  작성한 게시글
                 </h5>
                 <div className="flex flex-col gap-8">
                   {/* <ListReview />
