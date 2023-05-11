@@ -71,6 +71,7 @@ function Post() {
       category,
       date: currentDate,
       comment: [],
+      likestate: false,
       likes: 0,
     };
 

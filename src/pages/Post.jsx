@@ -2,9 +2,8 @@ import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { ReactComponent as View } from '../images/view.svg';
-import { ReactComponent as PerpettOn } from '../images/perpett-on.svg';
-import { ReactComponent as PerpettOff } from '../images/perpett-off.svg';
-import { ReactComponent as More } from '../images/more.svg';
+import LikeOff from '../images/perpett-off.png';
+import LikeOn from '../images/community-like-on.png';
 import Comment from '../components/Comment';
 import Dog from '../images/dog.jpeg';
 import Button from '../components/Button/Button';
@@ -17,6 +16,8 @@ function Post() {
   const [userName, setUserName] = useState('지은');
   const [userEmail, setUserEmail] = useState('aaa@naver.com');
   const [commentInput, setCommentInput] = useState('');
+  const [like, setLike] = useState(false);
+  const [countLike, setCountLike] = useState(0);
   const navigate = useNavigate();
   const { postId } = useParams();
 
@@ -71,6 +72,8 @@ function Post() {
       .get(`http://localhost:3001/post/${postId}`)
       .then(response => {
         setPost(response.data);
+        setCountLike(response.data.likes);
+        setLike(response.data.likestate);
       })
       .catch(error => {
         console.log(error);
@@ -91,6 +94,41 @@ function Post() {
   const handleEdit = useCallback(() => {
     navigate(`/write/${postId}`);
   }, [navigate, postId]);
+
+  // const isLike = () => {
+  //   setLike(!like);
+
+  //   axios
+  //     .put(`http://localhost:3001/post/${postId}`, {
+  //       ...post,
+  //       likes: like ? countLike - 1 : countLike + 1,
+  //     })
+  //     .then(response => {
+  //       console.log(response.likes);
+  //     })
+  //     .catch(error => console.log(error));
+  // };
+
+  const isLike = () => {
+    const updatedLike = !like;
+    const updatedLikes = updatedLike ? countLike + 1 : countLike - 1;
+
+    setLike(updatedLike);
+    setCountLike(updatedLikes);
+
+    axios
+      .put(`http://localhost:3001/post/${postId}`, {
+        ...post,
+        likes: updatedLikes,
+        likestate: updatedLike,
+      })
+      .then(response => {
+        console.log(response.data.likes);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">
@@ -126,8 +164,13 @@ function Post() {
                       조회 1,212
                     </p>
                     <p className="list-gray-small flex items-center pl-12">
-                      <PerpettOff width="16" height="16" className="mr-5" />
-                      좋아요 {post.likes}
+                      {/* <PerpettOff width="16" height="16" className="mr-5" /> */}
+                      <img
+                        src={LikeOff}
+                        alt="좋아요OFF"
+                        className="mr-5 h-18 w-18"
+                      />
+                      좋아요 {countLike}
                     </p>
                   </div>
                 </div>
@@ -159,10 +202,24 @@ function Post() {
             </button>
           </div>
           <div className="flex justify-between">
-            <div className="items:center flex text-16 onlyMobile:text-14">
-              <PerpettOff width="24" height="24" className="mr-10" />
-              좋아요
-              <span className="pl-5 font-bold">{post.likes}</span>
+            <div className="flex items-center text-16 onlyMobile:text-14">
+              <button
+                type="button"
+                onClick={isLike}
+                className={
+                  like
+                    ? 'flex-center flex h-40 w-40 rounded-[16px] bg-yellow-500'
+                    : 'flex-center flex h-40 w-40 rounded-[16px] border-[1px] border-black-070'
+                }
+              >
+                <img
+                  src={like ? LikeOn : LikeOff}
+                  alt="좋아요OFF"
+                  className="h-24 w-24"
+                />
+              </button>
+              <span className="pl-10">좋아요</span>
+              <span className="pl-5 font-bold">{countLike}</span>
             </div>
             <div className="flex">
               <Button className="btn-size-m border-gray mr-10 ">이전글</Button>
