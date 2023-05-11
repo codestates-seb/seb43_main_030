@@ -6,6 +6,7 @@ import Dog from '../../images/dog.jpeg';
 
 function ListCommunity(props) {
   const { post, id, onClick } = props;
+
   return (
     <li className="flex items-center" key={id}>
       <div className="user-profile mr-24 h-108 w-108 onlyMobile:mr-15 onlyMobile:h-96 onlyMobile:w-96">
@@ -14,7 +15,8 @@ function ListCommunity(props) {
       <div className="my-30 w-full">
         <Link to={`/post/${post.id}`}>
           <p className="list-title">{post.title}</p>
-          <p className="list-content mt-5">{post.content.slice(0, 60)}</p>
+          <p className="list-content mt-5">{post.content.slice(0, 40)}</p>
+          {console.log(post.content)}
         </Link>
         <div className="mt-16 flex flex w-full items-center justify-between">
           <div className="flex">
