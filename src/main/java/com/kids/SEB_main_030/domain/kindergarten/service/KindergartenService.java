@@ -38,15 +38,6 @@ public class KindergartenService {
         kindergarten.setRatedReviewsAvg(reviewAvg);
         return kindergarten;
     }
-    public Double findReviewAvg(Kindergarten kindergarten){
-        List<Review> reviews = reviewRepository.findByKindergarten_KindergartenId(kindergarten.getKindergartenId());
-        Double total=0.0;
-        for (int i = 0; i < reviews.size(); i++) {
-            total=total+reviews.get(i).getRatedReview();
-        }
-        return total/reviews.size();
-    }
-
     public Page<Kindergarten> findKindergartens(int page, int size) {
         Page<Kindergarten> kindergartenPage = kindergartenRepository.findAll(PageRequest.of(page, size,
                 Sort.by("KindergartenId").descending()));
@@ -88,6 +79,19 @@ public class KindergartenService {
         }
         findReviewAvgs(kindergartens);
         return kindergartens;
+    }
+
+    public Double findReviewAvg(Kindergarten kindergarten){
+        List<Review> reviews = reviewRepository.findByKindergarten_KindergartenId(kindergarten.getKindergartenId());
+        if(reviews.size()==0)
+        {
+            return 0.0;
+        }
+        Double total=0.0;
+        for (int i = 0; i < reviews.size(); i++) {
+            total=total+reviews.get(i).getRatedReview();
+        }
+        return total/reviews.size();
     }
 
     private void findReviewAvgs(List<Kindergarten> kindergartens) {
