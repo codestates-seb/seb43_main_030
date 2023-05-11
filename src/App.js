@@ -40,12 +40,14 @@ import Write from './pages/Write';
 import SignUp from './pages/SignUp';
 import KinderDetail from './pages/KinderDetail';
 import Mypage from './pages/Mypage';
+import NotFound from './pages/NotFound';
+
 
 function App() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
   const location = useLocation();
 
-  const hideFooterRoutes = ['/map', '/login', '/signup', '/find-password'];
+  const hideFooterRoutes = ['/map', '/login', '/signup', '/find-password', '*'];
   const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
 
   // 로그인 관련 state
@@ -128,8 +130,10 @@ function App() {
         />
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
-        <Route path="/post" element={<Post />} />
         <Route path="/mypage" element={<Mypage />} />
+        <Route path="*" element={<NotFound />} />
+        <Route path="/write/:postId" element={<Write />} />
+        <Route path="/post/:postId" element={<Post />} />
       </Routes>
       {shouldHideFooter ? null : <Footer />}
     </div>

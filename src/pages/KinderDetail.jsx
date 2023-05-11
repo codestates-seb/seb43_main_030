@@ -71,13 +71,14 @@ function KinderDetail() {
       .get(`http://localhost:3001/kindergarten/${id}`)
       .then(res => {
         setValue(res.data);
-        setCenter({ lat: res.data.latitude, lng: res.data.longitude });
+        if (value) {
+          setCenter({ lat: res.data.latitude, lng: res.data.longitude });
+        }
       })
       .catch(error => {
         console.log(error);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [value, id]);
 
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-64 ">

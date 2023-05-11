@@ -11,7 +11,7 @@ function Footer() {
   const footer = () => {
     return (
       <>
-        <div className="flex items-center justify-between">
+        <div className="relative z-10 flex items-center justify-between">
           <Logo />
           <div className="flex gap-6">
             <a
