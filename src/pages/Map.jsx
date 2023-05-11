@@ -24,7 +24,7 @@ const myStyles = [
   },
 ];
 
-function Map({ areaFilter, setAreaFilter }) {
+function Map({ areaFilter }) {
   const [kinderGartens, setKinderGartens] = useState([]);
   const [isPending, setIsPending] = useState(false);
 
@@ -167,6 +167,7 @@ function Map({ areaFilter, setAreaFilter }) {
                           name={kinderGarten.name}
                           ratedReviewsAvg={kinderGarten.ratedReviewsAvg}
                           ratedReviewsCount={kinderGarten.ratedReviewsCount}
+                          id={kinderGarten.kindergartenId}
                         />
                       </div>
                     </InfoWindowF>
