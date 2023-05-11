@@ -30,7 +30,7 @@ function Map({ areaFilter, setAreaFilter }) {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/KinderGarten0')
+      .get(`${process.env.REACT_APP_API_URL}/kindergarten/loc/${areaFilter}`)
       .then(response => {
         setKinderGartens(response.data);
         setIsPending(true);
@@ -38,7 +38,7 @@ function Map({ areaFilter, setAreaFilter }) {
       .catch(error => {
         console.log(error);
       });
-  }, []);
+  }, [areaFilter]);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -85,8 +85,14 @@ function Map({ areaFilter, setAreaFilter }) {
     }
     if (areaFilter === 6) {
       setCenter({
-        lat: 37.577173,
-        lng: 127.08513,
+        lat: 37.533099,
+        lng: 126.979087,
+      });
+    }
+    if (areaFilter === 7) {
+      setCenter({
+        lat: 37.580728,
+        lng: 127.074702,
       });
     }
   }, [areaFilter]);
