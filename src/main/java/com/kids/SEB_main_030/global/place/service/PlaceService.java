@@ -145,6 +145,7 @@ public class PlaceService {
 
                 kindergarten.setLongitude(Double.valueOf(longitude));
                 kindergarten.setLatitude(Double.valueOf(latitude));
+                kindergarten.setRatedReviewsAvg(0.0);
 
                 kindergartenList.add(kindergartenRepository.save(kindergarten));
             }

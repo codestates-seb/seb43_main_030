@@ -42,6 +42,7 @@ public class PlaceController {
             String nextList = placeService.nextResponse(mapList);
             mapList.addAll(placeService.parseResponse(nextList));
         }
+
         return ResponseEntity.ok(mapList);
     }
 }
