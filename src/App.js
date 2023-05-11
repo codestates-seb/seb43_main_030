@@ -98,7 +98,8 @@ function App() {
         />
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
-        <Route path="/post" element={<Post />} />
+        <Route path="/write/:postId" element={<Write />} />
+        <Route path="/post/:postId" element={<Post />} />
       </Routes>
       {shouldHideFooter ? null : <Footer />}
     </div>
