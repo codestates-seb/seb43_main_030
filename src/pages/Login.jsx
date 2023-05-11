@@ -25,7 +25,6 @@ function Login(props) {
 
   const handleIdChange = e => {
     setValueId(e.target.value);
-    console.log(valueId);
   };
 
   const handlePwChange = e => {
@@ -74,7 +73,6 @@ function Login(props) {
         setErrId('이메일 또는 패스워드가 올바르지 않습니다.');
       });
   }
-  console.log('Authorization');
 
   const login = () => {
     return (

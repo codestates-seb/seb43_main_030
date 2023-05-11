@@ -42,7 +42,6 @@ import KinderDetail from './pages/KinderDetail';
 import Mypage from './pages/Mypage';
 import NotFound from './pages/NotFound';
 
-
 function App() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
   const location = useLocation();
