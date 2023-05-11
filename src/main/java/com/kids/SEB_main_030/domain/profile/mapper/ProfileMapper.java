@@ -4,6 +4,8 @@ import com.kids.SEB_main_030.domain.post.dto.MyPostResponseDto;
 import com.kids.SEB_main_030.domain.post.entity.Post;
 import com.kids.SEB_main_030.domain.profile.dto.*;
 import com.kids.SEB_main_030.domain.profile.entity.Profile;
+import com.kids.SEB_main_030.domain.review.dto.MyReviewResponseDto;
+import com.kids.SEB_main_030.domain.review.entity.Review;
 import com.kids.SEB_main_030.global.image.entity.Image;
 import com.kids.SEB_main_030.global.image.response.ImageInPostResponseDto;
 import org.mapstruct.Mapper;
@@ -22,4 +24,5 @@ public interface ProfileMapper {
     @Mapping(source = "user.email", target = "email")
     List<PersonProfileResponseDto> profilesToReponseDtos(List<Profile> profiles);
     List<MyPostResponseDto> postsInMyPage(List<Post> posts);
+    List<MyReviewResponseDto> reviewsInMyPage(List<Review> reviews);
 }

@@ -32,7 +32,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity postUser(@Valid @RequestBody UserPostDto userPostDto){
-        User user = userService.createUser(mapper.userPostDtoToUser(userPostDto));
+        User user = userService.createUser(mapper.userPostDtoToUser(userPostDto), userPostDto.isCheckTeacher());
         URI location = UriCreator.createUri(USER_DEFAULT_URL, user.getUserId());
         return ResponseEntity.created(location).build();
     }

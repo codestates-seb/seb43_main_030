@@ -1,6 +1,7 @@
 package com.kids.SEB_main_030.domain.profile.dto;
 
 import com.kids.SEB_main_030.domain.post.dto.MyPostResponseDto;
+import com.kids.SEB_main_030.domain.review.dto.MyReviewResponseDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,4 +17,5 @@ public class DogProfileResponseDto {
     private String imageUrl;
     private String email;
     private List<MyPostResponseDto> posts;
+    private List<MyReviewResponseDto> reviews;
 }

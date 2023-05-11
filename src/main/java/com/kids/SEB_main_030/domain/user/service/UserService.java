@@ -26,10 +26,15 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final RandomCreator randomCreator;
 
-    public User createUser(User user){
+    public User createUser(User user,boolean checkTeacher){
         verifyExistsEmail(user.getEmail());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(Role.USER);
+        if (checkTeacher){
+            user.setRole(Role.TEACHER);
+        }else {
+            user.setRole(Role.USER);
+        }
+
         // 기본 프로필 생성 및 적용
         Profile profile = randomCreator.initProfile();
         profile.setUser(user);
