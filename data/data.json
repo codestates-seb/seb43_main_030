@@ -493,6 +493,17 @@
       "comment": [],
       "likes": 0,
       "id": 17
+    },
+    {
+      "postData": {
+        "title": "테스트",
+        "content": "<p><strong>테스트</strong></p>",
+        "category": "community",
+        "date": "2023-05-11T01:59:03.467Z",
+        "comment": [],
+        "likes": 0
+      },
+      "id": 18
     }
   ],
   "comments": [
