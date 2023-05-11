@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { ReactComponent as View } from '../images/view.svg';
@@ -66,7 +66,6 @@ function Post() {
       });
   }
 
-  // post
   useEffect(() => {
     axios
       .get(`http://localhost:3001/post/${postId}`)
@@ -89,9 +88,9 @@ function Post() {
     }
   };
 
-  const handleEdit = () => {
+  const handleEdit = useCallback(() => {
     navigate(`/write/${postId}`);
-  };
+  }, [navigate, postId]);
 
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">

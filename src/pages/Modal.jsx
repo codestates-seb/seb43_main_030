@@ -68,6 +68,8 @@ function Modal(props) {
                   onChange={textCount}
                   maxLength="200"
                   placeholder="후기를 남겨주세요."
+                  className="flex flex-col items-end p-15"
+                  textClass="h-80"
                 />
               </div>
               {/* 사진등록 */}

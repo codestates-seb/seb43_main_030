@@ -16,7 +16,6 @@ function ListCommunity(props) {
         <Link to={`/post/${post.id}`}>
           <p className="list-title">{post.title}</p>
           <p className="list-content mt-5">{post.content.slice(0, 40)}</p>
-          {console.log(post.content)}
         </Link>
         <div className="mt-16 flex flex w-full items-center justify-between">
           <div className="flex">

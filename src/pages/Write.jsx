@@ -20,9 +20,9 @@ function Post() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/profile1')
+      .get('http://localhost:3001/profile/')
       .then(response => {
-        setUserProfile(response.data);
+        setUserProfile(response.data[0]);
       })
       .catch(error => {
         console.log(error);
@@ -167,10 +167,11 @@ function Post() {
           <div>
             <TextArea
               value={title}
-              // defaultValue={title}
               maxLength="80"
               placeholder="제목을 입력해주세요."
               onChange={saveTitle}
+              textClass="box-border h-20 w-full overflow-x-auto my-15"
+              className="flex items-center"
             />
           </div>
         </div>
