@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { GoogleMap, useJsApiLoader, MarkerF } from '@react-google-maps/api';
+import Modal from './Modal';
 import ListNotice from '../components/List/ListNotice';
 import ListReview from '../components/List/ListReview';
 import Button from '../components/Button/Button';
@@ -34,9 +35,9 @@ const containerStyle = {
 function KinderDetail() {
   const { id } = useParams();
   const [value, setValue] = useState('');
-
   const [map, setMap] = useState(null);
-  const [center, setCenter] = useState({ lat: 0, lan: 0 });
+  const [center, setCenter] = useState({ lat: 0, lng: 0 });
+  const [isModal, setisModal] = useState(false);
 
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
@@ -71,13 +72,22 @@ function KinderDetail() {
       .get(`http://localhost:3001/kindergarten/${id}`)
       .then(res => {
         setValue(res.data);
-        setCenter({ lat: res.data.latitude, lng: res.data.longitude });
+        if (value) {
+          setCenter({ lat: res.data.latitude, lng: res.data.longitude });
+        }
       })
       .catch(error => {
         console.log(error);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [value, id]);
+
+  const modalOnOff = () => {
+    setisModal(!isModal);
+  };
+
+  const closeModal = () => {
+    setisModal(false);
+  };
 
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-64 ">
@@ -169,7 +179,10 @@ function KinderDetail() {
                     {value.ratedReviewsAvg} 후기 {value.ratedReviewsCount}개
                   </span>
                 </div>
-                <Button className="color-yellow btn-size-l w-[160px]">
+                <Button
+                  className="color-yellow btn-size-l w-[160px]"
+                  onClick={modalOnOff}
+                >
                   후기쓰기
                 </Button>
               </div>
@@ -280,6 +293,7 @@ function KinderDetail() {
           ''
         )}
       </div>
+      {isModal ? <Modal onClick={closeModal} /> : ''}
     </div>
   );
 }

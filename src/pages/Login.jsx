@@ -25,7 +25,6 @@ function Login(props) {
 
   const handleIdChange = e => {
     setValueId(e.target.value);
-    console.log(valueId);
   };
 
   const handlePwChange = e => {

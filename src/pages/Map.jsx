@@ -30,7 +30,7 @@ function Map({ areaFilter, setAreaFilter }) {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/KinderGarten0')
+      .get(`${process.env.REACT_APP_API_URL}/kindergarten/loc/${areaFilter}`)
       .then(response => {
         setKinderGartens(response.data);
         setIsPending(true);
@@ -38,7 +38,7 @@ function Map({ areaFilter, setAreaFilter }) {
       .catch(error => {
         console.log(error);
       });
-  }, []);
+  }, [areaFilter]);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -85,8 +85,14 @@ function Map({ areaFilter, setAreaFilter }) {
     }
     if (areaFilter === 6) {
       setCenter({
-        lat: 37.577173,
-        lng: 127.08513,
+        lat: 37.533099,
+        lng: 126.979087,
+      });
+    }
+    if (areaFilter === 7) {
+      setCenter({
+        lat: 37.580728,
+        lng: 127.074702,
       });
     }
   }, [areaFilter]);
@@ -165,7 +171,7 @@ function Map({ areaFilter, setAreaFilter }) {
               </MarkerF>
             );
           })}
-        <div className="flex-center fixed bottom-[30px] left-0 w-[100%]">
+        <div className="flex-center fixed bottom-10 left-0 z-10 ml-[-10px] w-[100%]">
           <Link to="/">
             <Button
               className="color-black z-10 flex h-50 w-190 items-center justify-around"

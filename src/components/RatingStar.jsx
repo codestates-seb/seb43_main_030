@@ -10,24 +10,28 @@ function RatingStar() {
   return (
     <div className="flex">
       <Star
+        className="mr-2"
         onClick={() => {
           handleClick(1);
         }}
         fill={starIndex >= 1 ? '#ffd337 ' : ' #E3E5E8'}
       />
       <Star
+        className="mr-2"
         onClick={() => {
           handleClick(2);
         }}
         fill={starIndex >= 2 ? '#ffd337 ' : ' #E3E5E8'}
       />
       <Star
+        className="mr-2"
         onClick={() => {
           handleClick(3);
         }}
         fill={starIndex >= 3 ? '#ffd337 ' : ' #E3E5E8'}
       />
       <Star
+        className="mr-2"
         onClick={() => {
           handleClick(4);
         }}
