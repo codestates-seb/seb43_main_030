@@ -1,5 +1,7 @@
 package com.kids.SEB_main_030.domain.kindergarten.service;
 
+import com.kids.SEB_main_030.domain.review.entity.Review;
+import com.kids.SEB_main_030.domain.review.repository.ReviewRepository;
 import com.kids.SEB_main_030.global.exception.CustomException;
 import com.kids.SEB_main_030.global.exception.LogicException;
 import com.kids.SEB_main_030.domain.kindergarten.entity.Kindergarten;
@@ -18,9 +20,11 @@ import java.util.*;
 @Transactional
 public class KindergartenService {
     private final KindergartenRepository kindergartenRepository;
+    private final ReviewRepository reviewRepository;
 
-    public KindergartenService(KindergartenRepository kindergartenRepository) {
+    public KindergartenService(KindergartenRepository kindergartenRepository, ReviewRepository reviewRepository) {
         this.kindergartenRepository = kindergartenRepository;
+        this.reviewRepository = reviewRepository;
     }
 
     public Kindergarten createKindergarten(Kindergarten kindergarten) {
@@ -29,7 +33,18 @@ public class KindergartenService {
     }
 
     public Kindergarten findKindergarten(long kindergartenId) {
-        return findVerifiedKindergarten(kindergartenId);
+        Kindergarten kindergarten = findVerifiedKindergarten(kindergartenId);
+        Double reviewAvg = findReviewAvg(kindergarten);
+        kindergarten.setRatedReviewsAvg(reviewAvg);
+        return kindergarten;
+    }
+    public Double findReviewAvg(Kindergarten kindergarten){
+        List<Review> reviews = reviewRepository.findByKindergarten_KindergartenId(kindergarten.getKindergartenId());
+        Double total=0.0;
+        for (int i = 0; i < reviews.size(); i++) {
+            total=total+reviews.get(i).getRatedReview();
+        }
+        return total/reviews.size();
     }
 
     public Page<Kindergarten> findKindergartens(int page, int size) {
@@ -62,16 +77,24 @@ public class KindergartenService {
         List<Kindergarten> kindergartens = new ArrayList<>();
         if(categoryNum==0)
         {
-            return kindergartenRepository.findAll();
+            List<Kindergarten>kinderRepo= kindergartenRepository.findAll();
+            findReviewAvgs(kinderRepo);
+            return kinderRepo;
         }
         List<String> select = category.get(Integer.valueOf(categoryNum));
         for (int i = 0; i < select.size(); i++) {
             List<Kindergarten>findKindergartens = kindergartenRepository.findByLocationsContaining(select.get(i));
             kindergartens.addAll(findKindergartens);
         }
+        findReviewAvgs(kindergartens);
         return kindergartens;
     }
 
+    private void findReviewAvgs(List<Kindergarten> kindergartens) {
+        for (int i = 0; i < kindergartens.size(); i++) {
+            kindergartens.get(i).setRatedReviewsAvg(findReviewAvg(kindergartens.get(i)));
+        }
+    }
 
 
     public Kindergarten findVerifiedKindergarten(long kindergartenId) {
