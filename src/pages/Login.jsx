@@ -8,7 +8,7 @@ import { ReactComponent as Kakao } from '../images/logo-kakao.svg';
 import { ReactComponent as Google } from '../images/logo-google.svg';
 
 function Login(props) {
-  const { auth, setAuth, setUser } = props;
+  const { auth, setAuth, setUser, setCurUser, user } = props;
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
   const navi = useNavigate();
@@ -56,16 +56,6 @@ function Login(props) {
         setErrPw('');
         navi('/');
         localStorage.setItem('token', res.headers.get('Authorization'));
-
-        axios
-          .get(`${process.env.REACT_APP_API_URL}/users/profile`, {
-            headers: {
-              Authorization: localStorage.getItem('token'),
-            },
-          })
-          .then(res => {
-            setUser(res.data);
-          });
       })
       .catch(err => {
         console.log(err);
@@ -74,7 +64,6 @@ function Login(props) {
         setErrId('이메일 또는 패스워드가 올바르지 않습니다.');
       });
   }
-  console.log('Authorization');
 
   const login = () => {
     return (
