@@ -214,7 +214,7 @@ function Post() {
               >
                 <img
                   src={like ? LikeOn : LikeOff}
-                  alt="좋아요OFF"
+                  alt="좋아요"
                   className="h-24 w-24"
                 />
               </button>

@@ -65,11 +65,12 @@ function Post() {
     }
 
     const currentDate = new Date();
+    const dateString = currentDate.toLocaleString();
     const postData = {
       title,
       content,
       category,
-      date: currentDate,
+      date: dateString,
       comment: [],
       likestate: false,
       likes: 0,
