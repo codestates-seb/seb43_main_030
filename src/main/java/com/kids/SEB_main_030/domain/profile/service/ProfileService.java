@@ -65,6 +65,12 @@ public class ProfileService {
         return profile;
     }
 
+    public Profile getCurrentProfile(){
+        Long currentProfileId = userService.findCurrentProfileId();
+        Profile profile = verifyProfile(currentProfileId);
+        return profile;
+    }
+
     public List<Profile> findProfiles(){
         Long userId = userService.findSecurityContextHolderUserId();
         return profileRepository.findByUser_UserId(userId);
@@ -96,4 +102,6 @@ public class ProfileService {
                 () -> new LogicException(CustomException.PROFILE_NOT_FOUND)
         );
     }
+
+
 }

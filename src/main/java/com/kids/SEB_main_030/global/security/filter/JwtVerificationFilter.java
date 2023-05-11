@@ -1,5 +1,6 @@
 package com.kids.SEB_main_030.global.security.filter;
 
+import com.kids.SEB_main_030.domain.user.entity.Role;
 import com.kids.SEB_main_030.global.security.jwt.JwtTokenizer;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -48,9 +49,11 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     private void setAuthenticationToContext(Map<String, Object> claims){
         String email = (String) claims.get("email");
         Long userId = Long.valueOf(String.valueOf(claims.get("userId")));
+        String role = (String) claims.get("role");
         Map<String, Object> map = new HashMap<>();
         map.put("email", email);
         map.put("userId", userId);
+        map.put("role", role);
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(map, null, null);
         SecurityContextHolder.getContext().setAuthentication(authentication);

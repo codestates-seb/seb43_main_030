@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Transactional
@@ -78,7 +79,6 @@ public class UserService {
         return user;
     }
 
-
     public User findUserByEmail(String email){
         Optional<User> findUser = userRepository.findByEmail(email);
         User user = findUser.orElseThrow(() -> new LogicException(CustomException.USER_NOT_FOUND));
@@ -87,6 +87,10 @@ public class UserService {
     public Long findSecurityContextHolderUserId() {
         Map principal = (Map) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return (Long) principal.get("userId");
+    }
+    public String findSecurityContextHolderRole(){
+        Map principal = (Map) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return  (String) principal.get("role");
     }
     public Long findCurrentProfileId(){
         Long userId = findSecurityContextHolderUserId();

@@ -56,6 +56,12 @@ public class ProfileController {
         return new ResponseEntity(new SingleResponseDto<>(mapper.profileToDogProfileDto(profile)),HttpStatus.OK);
     }
 
+    @GetMapping("/currentProfile")
+    public ResponseEntity getCurrentProfile(){
+        Profile profile = profileService.getCurrentProfile();
+        return new ResponseEntity<>(new SingleResponseDto<>(mapper.profileToCurrentProfileResponseDto(profile)), HttpStatus.OK);
+    }
+
     @GetMapping
     public ResponseEntity getProfiles(){
         List<Profile> profiles = profileService.findProfiles();

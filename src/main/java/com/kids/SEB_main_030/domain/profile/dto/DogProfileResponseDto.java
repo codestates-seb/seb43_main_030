@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class DogProfileResponseDto {
+    private long userId;
     private long profileId;
     private String name;
     private String gender;

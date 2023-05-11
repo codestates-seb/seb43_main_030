@@ -18,11 +18,17 @@ public interface ProfileMapper {
     Profile profilePostToProfile(ProfilePostDto profilePostDto);
     Profile profilePatchToProfile(ProfilePatchDto profilePatchDto);
     @Mapping(source = "user.email", target = "email")
+    @Mapping(source = "user.userId", target = "userId")
     PersonProfileResponseDto profileToPersonProfileDto(Profile profile);
     @Mapping(source = "user.email", target = "email")
+    @Mapping(source = "user.userId", target = "userId")
     DogProfileResponseDto profileToDogProfileDto(Profile profile);
     @Mapping(source = "user.email", target = "email")
     List<PersonProfileResponseDto> profilesToReponseDtos(List<Profile> profiles);
+    @Mapping(source = "user.email", target = "email")
+    @Mapping(target = "postCount", expression = "java(profile.getPosts().size())")
+    @Mapping(target = "reviewsCount", expression = "java(profile.getReviews().size())")
+    CurrentProfileResponseDto profileToCurrentProfileResponseDto(Profile profile);
     List<MyPostResponseDto> postsInMyPage(List<Post> posts);
     List<MyReviewResponseDto> reviewsInMyPage(List<Review> reviews);
 }

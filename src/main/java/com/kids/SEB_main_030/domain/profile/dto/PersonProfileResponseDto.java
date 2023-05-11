@@ -11,6 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 public class PersonProfileResponseDto {
+    private long userId;
     private long profileId;
     private String name;
     private String imageUrl;
