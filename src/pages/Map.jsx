@@ -159,7 +159,10 @@ function Map({ areaFilter, setAreaFilter }) {
                       }}
                       onCloseClick={() => setClickedMarker(null)}
                     >
-                      <div style={{ backgroundColor: 'white' }}>
+                      <div
+                        className="flex-center onlyMobile:h-220 onlyMobile:w-226"
+                        style={{ backgroundColor: 'white' }}
+                      >
                         <MapCard
                           name={kinderGarten.name}
                           ratedReviewsAvg={kinderGarten.ratedReviewsAvg}
