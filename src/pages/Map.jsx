@@ -165,7 +165,7 @@ function Map({ areaFilter, setAreaFilter }) {
               </MarkerF>
             );
           })}
-        <div className="flex-center fixed bottom-[30px] left-0 w-[100%]">
+        <div className="flex-center fixed bottom-10 left-0 z-10 ml-[-10px] w-[100%]">
           <Link to="/">
             <Button
               className="color-black z-10 flex h-50 w-190 items-center justify-around"

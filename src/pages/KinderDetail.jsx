@@ -35,7 +35,7 @@ function KinderDetail() {
   const [value, setValue] = useState('');
 
   const [map, setMap] = useState(null);
-  const [center, setCenter] = useState({});
+  const [center, setCenter] = useState({ lat: 0, lng: 0 });
 
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
@@ -70,13 +70,14 @@ function KinderDetail() {
       .get(`http://localhost:3001/kindergarten/${id}`)
       .then(res => {
         setValue(res.data);
-        setCenter({ lat: res.data.latitude, lng: res.data.longitude });
+        if (value) {
+          setCenter({ lat: res.data.latitude, lng: res.data.longitude });
+        }
       })
       .catch(error => {
         console.log(error);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [value, id]);
 
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-64 ">

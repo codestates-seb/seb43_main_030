@@ -502,14 +502,23 @@
       "comment": [],
       "likes": 0,
       "id": 19
+    },
+    {
+      "title": "수정테스트",
+      "content": "<p>수정테스트</p>",
+      "category": "community",
+      "date": "2023-05-11T02:53:55.011Z",
+      "comment": [],
+      "likes": 0,
+      "id": 20
     }
   ],
   "comments": [
     {
       "name": "지은",
       "email": "aaa@naver.com",
-      "text": "수정되나",
-      "createdAt": "2023. 5. 10. 오후 3:25:54",
+      "text": "안녕하세염ㅇㄹㅇㅇ",
+      "createdAt": "2023. 5. 11. 오전 11:54:42",
       "id": 5
     }
   ]
