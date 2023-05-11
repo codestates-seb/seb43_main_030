@@ -99,7 +99,7 @@
   }
 
   .input-text {
-    @apply mt-1 text-left text-12;
+    @apply ml-4 mt-8 text-left text-12;
   }
   .input-array {
     @apply ml-[3.3%] mr-[3.3%] flex w-[100%] flex-col;

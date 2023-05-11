@@ -51,7 +51,7 @@ function App() {
 
   // 로그인 관련 state
   const [auth, setAuth] = useState(false);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState([]);
   const [curUser, setCurUser] = useState({});
 
   // 지도 관련 state
@@ -75,8 +75,6 @@ function App() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(user);
-  console.log(curUser);
 
   return (
     <div className="h-[calc(100vh-80px)]">
