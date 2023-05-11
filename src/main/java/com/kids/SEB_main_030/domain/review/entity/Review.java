@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -37,8 +36,6 @@ public class Review extends Auditable {
     @ManyToOne
     @JoinColumn(name ="PROFILE_ID")
     private Profile profile;
-    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
-    private List<Image> images = new ArrayList<>();
-
-    //private List<Image> imageList;
+//    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
+//    private List<Image> imageList;
 }
