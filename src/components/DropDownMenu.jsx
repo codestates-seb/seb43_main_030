@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import { ReactComponent as Search } from '../images/search.svg';
 
-function DropDownMenu() {
+function DropDownMenu({ setAuth }) {
   const profiles = ['쫑이콩이맘', '쫑이', '콩이'];
   const [activeIndex, setActiveIndex] = useState(null);
+
+  const handleLogout = () => {
+    setAuth(false);
+    localStorage.removeItem('token');
+  };
 
   const profileActive = event => {
     const classList = event.target.className.split(' ');
@@ -18,7 +23,7 @@ function DropDownMenu() {
       const activeClass = Number(activeIndex) === idx ? 'font-bold' : '';
       return (
         <li
-          className={`flex items-center justify-start profile${idx} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
+          className={`profile flex items-center justify-start${idx} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
           onClick={profileActive}
           role="presentation"
         >
@@ -39,10 +44,14 @@ function DropDownMenu() {
         <div className="mt-2 h-1 border-b" />
       </ul>
       <ul className="w-202 text-left">
-        <li className="flex cursor-pointer items-center justify-start rounded-md px-8 pb-12 pt-12 text-14 hover:bg-black-025">
+        <li className="flex cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025">
           마이페이지
         </li>
-        <li className="cursor-pointer items-center justify-start rounded-md px-8 pb-12 pt-12 text-14 hover:bg-black-025">
+        <li
+          role="presentation"
+          className="cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025"
+          onClick={() => handleLogout()}
+        >
           로그아웃
         </li>
       </ul>

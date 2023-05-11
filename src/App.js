@@ -8,7 +8,8 @@ import {
   useNavigate,
   useLocation,
 } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import DropDownMenu from './components/DropDownMenu';
 import InputBtn from './components/InputBtn';
 import Button from './components/Button/Button';
@@ -47,9 +48,31 @@ function App() {
   const hideFooterRoutes = ['/map', '/login', '/signup', '/find-password'];
   const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
 
+  // 로그인 관련 state
+  const [auth, setAuth] = useState(false);
+  const [user, setUser] = useState({});
+  const [curUser, setCurUser] = useState({});
+
+  // 지도 관련 state
   const [kinderGartens, setKinderGartens] = useState([]);
   const [areaFilter, setAreaFilter] = useState(0);
   const [inputValue, setInputValue] = useState('');
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/users/profile`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: localStorage.getItem('token'),
+          },
+        })
+        .then(res => {
+          setAuth(true);
+          setUser(res.data);
+        });
+    }
+  }, []);
 
   return (
     <div className="h-[calc(100vh-80px)]">
@@ -61,6 +84,9 @@ function App() {
           setInputValue={setInputValue}
           kinderGartens={kinderGartens}
           setKinderGartens={setKinderGartens}
+          auth={auth}
+          setAuth={setAuth}
+          user={user}
         />
       )}
 
@@ -78,7 +104,10 @@ function App() {
             />
           }
         />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={<Login auth={auth} setAuth={setAuth} setUser={setUser} />}
+        />
 
         <Route
           path="/map"

@@ -36,7 +36,7 @@ function KinderDetail() {
   const [value, setValue] = useState('');
 
   const [map, setMap] = useState(null);
-  const [center, setCenter] = useState({});
+  const [center, setCenter] = useState({ lat: 0, lan: 0 });
 
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
