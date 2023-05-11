@@ -56,7 +56,7 @@ module.exports = {
         dropDownShadow: '0px 0px 10px rgba(0, 0, 0, 0.08)',
         pinShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
         headerShadow: '0px 2px 6px rgba(0, 0, 0, 0.04)',
-        cardShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
+        cardShadow: '0px 0px 10px rgba(0, 0, 0, 0.24)',
         bottomBoxShadow: '0 -4px 10px rgba(0, 0, 0, 0.1)',
       },
       gridTemplateColumns: {
@@ -64,6 +64,7 @@ module.exports = {
       },
       screens: {
         onlyMobile: { max: '767px' },
+        onlyTablet: { max: '949px' },
       },
     },
   },

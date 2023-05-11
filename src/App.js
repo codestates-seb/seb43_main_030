@@ -8,6 +8,7 @@ import {
   useNavigate,
   useLocation,
 } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { useState } from 'react';
 import DropDownMenu from './components/DropDownMenu';
 import InputBtn from './components/InputBtn';
@@ -38,12 +39,13 @@ import Post from './pages/Post';
 import Write from './pages/Write';
 import SignUp from './pages/SignUp';
 import KinderDetail from './pages/KinderDetail';
+import NotFound from './pages/NotFound';
 
 function App() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
   const location = useLocation();
 
-  const hideFooterRoutes = ['/map', '/login', '/signup', '/find-password'];
+  const hideFooterRoutes = ['/map', '/login', '/signup', '/find-password', '*'];
   const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
 
   const [kinderGartens, setKinderGartens] = useState([]);
@@ -92,9 +94,13 @@ function App() {
         />
 
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/kindergarten/1" element={<KinderDetail />} />
+        <Route
+          path="/kindergarten/:id"
+          element={<KinderDetail areaFilter={areaFilter} />}
+        />
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
+        <Route path="*" element={<NotFound />} />
         <Route path="/write/:postId" element={<Write />} />
         <Route path="/post/:postId" element={<Post />} />
       </Routes>
