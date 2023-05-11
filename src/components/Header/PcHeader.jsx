@@ -13,8 +13,11 @@ function Header({
   setInputValue,
   kinderGartens,
   setKinderGartens,
+  auth,
+  setAuth,
+  user,
 }) {
-  const [isLogin, setIsLogin] = useState(false);
+  // const [isLogin, setIsLogin] = useState(false);
   const [nickname, setNickname] = useState('쫑이콩이맘');
   const [dropDown, setDropDown] = useState(false);
 
@@ -38,7 +41,7 @@ function Header({
             setKinderGartens={setKinderGartens}
           />
         </div>
-        {isLogin ? (
+        {auth ? (
           <div className="relative mr-12 flex h-48 w-150 items-center justify-between p-8">
             <Search className="min-h-32 min-w-32 rounded-md border" />
             <span className="mx-12 min-w-88 text-center text-14">
@@ -55,7 +58,7 @@ function Header({
                 onClick={() => onDropDown()}
               />
             )}
-            {dropDown ? <DropDownMenu /> : null}
+            {dropDown ? <DropDownMenu setAuth={setAuth} /> : null}
           </div>
         ) : (
           <div className="flex shrink-0 items-center justify-between">

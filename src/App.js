@@ -8,8 +8,8 @@ import {
   useNavigate,
   useLocation,
 } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import DropDownMenu from './components/DropDownMenu';
 import InputBtn from './components/InputBtn';
 import Button from './components/Button/Button';
@@ -39,7 +39,9 @@ import Post from './pages/Post';
 import Write from './pages/Write';
 import SignUp from './pages/SignUp';
 import KinderDetail from './pages/KinderDetail';
+import Mypage from './pages/Mypage';
 import NotFound from './pages/NotFound';
+
 
 function App() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
@@ -48,9 +50,31 @@ function App() {
   const hideFooterRoutes = ['/map', '/login', '/signup', '/find-password', '*'];
   const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
 
+  // 로그인 관련 state
+  const [auth, setAuth] = useState(false);
+  const [user, setUser] = useState({});
+  const [curUser, setCurUser] = useState({});
+
+  // 지도 관련 state
   const [kinderGartens, setKinderGartens] = useState([]);
   const [areaFilter, setAreaFilter] = useState(0);
   const [inputValue, setInputValue] = useState('');
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/users/profile`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: localStorage.getItem('token'),
+          },
+        })
+        .then(res => {
+          setAuth(true);
+          setUser(res.data);
+        });
+    }
+  }, []);
 
   return (
     <div className="h-[calc(100vh-80px)]">
@@ -62,6 +86,9 @@ function App() {
           setInputValue={setInputValue}
           kinderGartens={kinderGartens}
           setKinderGartens={setKinderGartens}
+          auth={auth}
+          setAuth={setAuth}
+          user={user}
         />
       )}
 
@@ -79,7 +106,10 @@ function App() {
             />
           }
         />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={<Login auth={auth} setAuth={setAuth} setUser={setUser} />}
+        />
 
         <Route
           path="/map"
@@ -100,6 +130,7 @@ function App() {
         />
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
+        <Route path="/mypage" element={<Mypage />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/write/:postId" element={<Write />} />
         <Route path="/post/:postId" element={<Post />} />
