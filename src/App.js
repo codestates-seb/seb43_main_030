@@ -64,16 +64,19 @@ function App() {
       axios
         .get(`${process.env.REACT_APP_API_URL}/users/profile`, {
           headers: {
-            'Content-Type': 'application/json',
             Authorization: localStorage.getItem('token'),
           },
         })
         .then(res => {
           setAuth(true);
           setUser(res.data);
+          setCurUser(res.data[0]);
         });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(user);
+  console.log(curUser);
 
   return (
     <div className="h-[calc(100vh-80px)]">
@@ -88,6 +91,8 @@ function App() {
           auth={auth}
           setAuth={setAuth}
           user={user}
+          curUser={curUser}
+          setCurUser={setCurUser}
         />
       )}
 
@@ -107,7 +112,15 @@ function App() {
         />
         <Route
           path="/login"
-          element={<Login auth={auth} setAuth={setAuth} setUser={setUser} />}
+          element={
+            <Login
+              auth={auth}
+              setAuth={setAuth}
+              user={user}
+              setUser={setUser}
+              setCurUser={setCurUser}
+            />
+          }
         />
 
         <Route

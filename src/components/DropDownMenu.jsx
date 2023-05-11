@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ReactComponent as Search } from '../images/search.svg';
 
-function DropDownMenu({ setAuth }) {
+function DropDownMenu({ setAuth, user, curUser, setCurUser }) {
   const profiles = ['쫑이콩이맘', '쫑이', '콩이'];
   const [activeIndex, setActiveIndex] = useState(null);
 
@@ -9,6 +9,11 @@ function DropDownMenu({ setAuth }) {
     setAuth(false);
     localStorage.removeItem('token');
   };
+
+  // const handleChangeUser = (e) => {
+  //   // setCurUser()
+
+  // }
 
   const profileActive = event => {
     const classList = event.target.className.split(' ');
