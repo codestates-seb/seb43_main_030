@@ -36,7 +36,14 @@ public class KindergartenService {
         Kindergarten kindergarten = findVerifiedKindergarten(kindergartenId);
         Double reviewAvg = findReviewAvg(kindergarten);
         kindergarten.setRatedReviewsAvg(reviewAvg);
+        kindergarten.setRatedReviewsCount(findReviewCnt(kindergarten));
         return kindergarten;
+    }
+    public List<Kindergarten> findKindergartensByTitle(String titleKeyword){
+        List<Kindergarten> kindergartens = kindergartenRepository.findByNameContaining(titleKeyword);
+        findReviewAvgs(kindergartens);
+        findReviewcnts(kindergartens);
+        return kindergartens;
     }
     public Page<Kindergarten> findKindergartens(int page, int size) {
         Page<Kindergarten> kindergartenPage = kindergartenRepository.findAll(PageRequest.of(page, size,
@@ -70,6 +77,7 @@ public class KindergartenService {
         {
             List<Kindergarten>kinderRepo= kindergartenRepository.findAll();
             findReviewAvgs(kinderRepo);
+            findReviewcnts(kinderRepo);
             return kinderRepo;
         }
         List<String> select = category.get(Integer.valueOf(categoryNum));
@@ -78,9 +86,20 @@ public class KindergartenService {
             kindergartens.addAll(findKindergartens);
         }
         findReviewAvgs(kindergartens);
+        findReviewcnts(kindergartens);
         return kindergartens;
     }
+    private void findReviewcnts(List<Kindergarten> kindergartens) {
+        for (int i = 0; i < kindergartens.size(); i++) {
+            kindergartens.get(i).setRatedReviewsCount(findReviewCnt(kindergartens.get(i)));
+        }
+    }
 
+
+    public Integer findReviewCnt(Kindergarten kindergarten){
+        List<Review> reviews = reviewRepository.findByKindergarten_KindergartenId(kindergarten.getKindergartenId());
+        return reviews.size();
+    }
     public Double findReviewAvg(Kindergarten kindergarten){
         List<Review> reviews = reviewRepository.findByKindergarten_KindergartenId(kindergarten.getKindergartenId());
         if(reviews.size()==0)

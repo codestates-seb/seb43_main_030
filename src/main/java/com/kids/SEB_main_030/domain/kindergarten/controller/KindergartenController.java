@@ -53,6 +53,11 @@ public class KindergartenController {
         Kindergarten kindergarten = kindergartenService.findKindergarten(kindergartenId);
         return new ResponseEntity<>(new SingleResponseDto<>(kindergartenMapper.kindergartenToKindergartenResponseDto(kindergarten)), HttpStatus.OK);
     }
+    @GetMapping("/name/{name-keyword}")
+    public ResponseEntity getKindergartensByTitle(@PathVariable("name-keyword") String nameKeyword ){
+        List<Kindergarten>kindergartens=kindergartenService.findKindergartensByTitle(nameKeyword);
+        return new ResponseEntity<>(kindergartens,HttpStatus.OK);
+    }
     @GetMapping
     public ResponseEntity getKindergartens(@Positive @RequestParam int page,@Positive @RequestParam int size){
         Page<Kindergarten> pageKindergartens=kindergartenService.findKindergartens(page-1,size);

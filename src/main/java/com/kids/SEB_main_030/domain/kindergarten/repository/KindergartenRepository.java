@@ -10,4 +10,5 @@ import java.util.List;
 public interface KindergartenRepository extends JpaRepository<Kindergarten,Long> {
     Page<Kindergarten> findByLocationsContaining(String locations, PageRequest pageRequest);
     List<Kindergarten> findByLocationsContaining(String locations);
+    List<Kindergarten> findByNameContaining(String titleKeyword);
 }

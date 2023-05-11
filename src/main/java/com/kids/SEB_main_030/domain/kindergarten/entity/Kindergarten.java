@@ -26,6 +26,7 @@ public class Kindergarten {
     private Double longitude;
     private String snsUrl;
     private Double ratedReviewsAvg;
+    private Integer ratedReviewsCount;
     private String locations;
     private String openHours;
     private String closeHours;
