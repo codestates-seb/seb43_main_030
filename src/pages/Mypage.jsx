@@ -4,7 +4,7 @@ import axios from 'axios';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import DropDownMenu from '../components/DropDownMenu';
-import Dog from '../images/dog.jpeg';
+import Profile from '../images/profile.png';
 import { ReactComponent as ArrowOpen } from '../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
 import { ReactComponent as Perpett } from '../images/perpett-on.svg';
@@ -31,6 +31,7 @@ function Mypage({ auth, setAuth, user, serUser }) {
       .get(`http://localhost:3001/mypage/${id}`)
       .then(res => {
         setValue(res.data);
+        setNickname(res.data.name);
         console.log(res.data);
       })
       .catch(error => {
@@ -83,7 +84,7 @@ function Mypage({ auth, setAuth, user, serUser }) {
         .patch(`http://localhost:3001/mypage/${id}`, editName)
         .then(() => {
           setNickname(prev => {
-            return { ...prev, name: nameValue };
+            return { ...prev, editName };
           });
         })
         .catch(err => {
@@ -91,7 +92,7 @@ function Mypage({ auth, setAuth, user, serUser }) {
         });
     }
   };
-  console.log(value);
+  // console.log(nickname);
 
   return (
     <div className="flex flex-col items-center pt-130 onlyMobile:pt-88 ">
@@ -103,7 +104,7 @@ function Mypage({ auth, setAuth, user, serUser }) {
               <div className="sticky-card">
                 <div className="flex-center flex-col">
                   <div className="user-profile mb-8 h-48 w-48 overflow-hidden rounded-[12px] onlyMobile:h-64 onlyMobile:w-64">
-                    <img src={Dog} alt="프로필예시이미지" />
+                    <img src={Profile} alt="프로필예시이미지" />
                   </div>
                   <div className="flex-center w-full max-w-190 items-center py-8">
                     <span className="min-w-88 px-8 text-center text-16 font-bold onlyMobile:text-14">
@@ -188,7 +189,7 @@ function Mypage({ auth, setAuth, user, serUser }) {
                     </Button>
                   </div>
                   <div className="user-profile h-80 w-80 onlyMobile:h-48 onlyMobile:w-48">
-                    <img src={Dog} alt="임시이미지" />
+                    <img src={Profile} alt="임시이미지" />
                   </div>
                 </div>
                 <div>

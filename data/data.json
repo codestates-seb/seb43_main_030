@@ -31,7 +31,7 @@
     {
       "id": 1,
       "email": "abc@gmail.com",
-      "name": "몽실이1111",
+      "name": "몽실이1223",
       "checkPerson": false,
       "breed": "진돗개",
       "imageUrl": "https://tgzzmmgvheix1905536.cdn.ntruss.com/2020/03/c320a089abe34b72942aeecc9b568295",
@@ -41,7 +41,7 @@
         {
           "postId": 1,
           "title": "글1",
-          "content": {
+          "contents": {
             "text": "내용1",
             "images": [
               {
@@ -62,10 +62,18 @@
         {
           "postId": 2,
           "title": "글1",
-          "content": {
+          "contents": {
             "text": "내용1",
-            "imageId": 1,
-            "imageUrl": null
+            "images": [
+              {
+                "imageId": 1,
+                "imageUrl": null
+              },
+              {
+                "imageId": 2,
+                "imageUrl": null
+              }
+            ]
           },
           "createdAt": "2023-05-03T10:54:56.870994",
           "motifiedAt": "2023-05-04T10:54:56.870994",
@@ -436,7 +444,19 @@
   "post": [
     {
       "title": "저는 몽실이인데요",
-      "content": "<p>\b사실 저는 몽실이가 아니라 몽실엄마임니당&nbsp;</p>",
+      "contents": {
+        "text": "<p>\b사실 저는 몽실이가 아니라 몽실엄마임니당&nbsp;</p>",
+        "images": [
+          {
+            "imageId": 1,
+            "imageUrl": null
+          },
+          {
+            "imageId": 2,
+            "imageUrl": null
+          }
+        ]
+      },
       "category": "community",
       "date": "2023-05-10T14:35:16.005Z",
       "comment": [],
@@ -446,7 +466,19 @@
     },
     {
       "title": "페이지네이션",
-      "content": "<p>아아아아아아</p>",
+      "contents": {
+        "text": "<p>\b사실 저는 몽실이가 아니라 몽실엄마임니당&nbsp;</p>",
+        "images": [
+          {
+            "imageId": 1,
+            "imageUrl": null
+          },
+          {
+            "imageId": 2,
+            "imageUrl": null
+          }
+        ]
+      },
       "category": "community",
       "date": "2023-05-10T14:47:17.641Z",
       "comment": [],
@@ -456,7 +488,19 @@
     },
     {
       "title": "5월 15일 스승의날",
-      "content": "<p>안쉼</p>",
+      "contents": {
+        "text": "<p>\b사실 저는 몽실이가 아니라 몽실엄마임니당&nbsp;</p>",
+        "images": [
+          {
+            "imageId": 1,
+            "imageUrl": null
+          },
+          {
+            "imageId": 2,
+            "imageUrl": null
+          }
+        ]
+      },
       "category": "community",
       "date": "2023-05-10T14:47:42.095Z",
       "comment": [],
@@ -466,53 +510,25 @@
     },
     {
       "title": "5월 27일 부처님 오신 날",
-      "content": "<ul><li><i><strong>토요일</strong></i></li></ul>",
+      "contents": {
+        "text": "<ul><li><i><strong>토요일</strong></i></li></ul>",
+        "images": [
+          {
+            "imageId": 1,
+            "imageUrl": null
+          },
+          {
+            "imageId": 2,
+            "imageUrl": null
+          }
+        ]
+      },
       "category": "community",
       "date": "2023-05-10T14:48:25.656Z",
       "comment": [],
       "likes": 4,
       "likestate": false,
       "id": 15
-    },
-    {
-      "title": "111ㄴㅇㄹㄴㅇㄹㅇㄴㄹㄴㅇㄹ",
-      "content": "<p>111ㄴㄹㄴㅇㄹㅇㄴㅎㅁㅇㅎㅁㅇㅎㅁㄹㅎㄹㅁㅇㅎ</p>",
-      "category": "community",
-      "date": "2023-05-10T14:52:38.874Z",
-      "comment": [],
-      "likes": 7,
-      "likestate": false,
-      "id": 16
-    },
-    {
-      "title": "테스트",
-      "content": "<p>\b테스트테스트</p>",
-      "category": "community",
-      "date": "2023-05-11T02:45:44.075Z",
-      "comment": [],
-      "likes": 606,
-      "likestate": false,
-      "id": 19
-    },
-    {
-      "title": "test",
-      "content": "<p>testtesttesttesttest</p>",
-      "category": "community",
-      "date": "2023-05-11T13:34:43.028Z",
-      "comment": [],
-      "likes": 0,
-      "likestate": false,
-      "id": 20
-    },
-    {
-      "title": "sfsdfsfaf",
-      "content": "<p>fsafsfasf</p>",
-      "category": "community",
-      "date": "2023-05-11T13:42:15.050Z",
-      "comment": [],
-      "likestate": true,
-      "likes": 1,
-      "id": 21
     }
   ],
   "comments": [

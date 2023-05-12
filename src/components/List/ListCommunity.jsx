@@ -15,9 +15,9 @@ function ListCommunity(props) {
       <div className="my-30 w-full">
         <Link to={`/post/${post.id}`}>
           <p className="list-title">{post.title}</p>
-          <p className="list-content mt-5">{post.content.slice(0, 40)}</p>
+          <p className="list-content mt-5">{post.contents.text.slice(0, 40)}</p>
         </Link>
-        <div className="mt-16 flex flex w-full items-center justify-between">
+        <div className="mt-16 flex w-full items-center justify-between">
           <div className="flex">
             <div className="flex items-center">
               <div className="user-profile-small">
