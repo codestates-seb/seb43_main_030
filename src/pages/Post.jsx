@@ -148,7 +148,7 @@ function Post() {
               <p className="text-28 font-bold onlyMobile:text-22">
                 {post.title}
               </p>
-              <div className="mt-12 flex flex w-full items-center justify-between">
+              <div className="mt-12 flex flex w-full items-end justify-between">
                 <div className="flex flex-col">
                   <div className="mb-12 flex items-center">
                     <div className="user-profile h-24 w-24">
@@ -164,7 +164,6 @@ function Post() {
                       조회 1,212
                     </p>
                     <p className="list-gray-small flex items-center pl-12">
-                      {/* <PerpettOff width="16" height="16" className="mr-5" /> */}
                       <img
                         src={LikeOff}
                         alt="좋아요OFF"
@@ -208,14 +207,14 @@ function Post() {
                 onClick={isLike}
                 className={
                   like
-                    ? 'flex-center flex h-40 w-40 rounded-[16px] bg-yellow-500'
-                    : 'flex-center flex h-40 w-40 rounded-[16px] border-[1px] border-black-070'
+                    ? 'flex-center flex h-40 w-40 rounded-[16px] bg-yellow-500 onlyMini:h-30 onlyMini:w-30 onlyMini:rounded-[12px]'
+                    : 'flex-center flex h-40 w-40 rounded-[16px] border-[1px] border-black-070 onlyMini:h-30 onlyMini:w-30 onlyMini:rounded-[12px]'
                 }
               >
                 <img
                   src={like ? LikeOn : LikeOff}
                   alt="좋아요"
-                  className="h-24 w-24"
+                  className="h-24 w-24 onlyMini:h-20 onlyMini:w-20"
                 />
               </button>
               <span className="pl-10">좋아요</span>

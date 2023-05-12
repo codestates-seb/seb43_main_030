@@ -29,34 +29,37 @@ function Community() {
       <div className="max-w-[1280px] px-80 onlyMobile:max-w-full onlyMobile:px-0">
         <div className="relative">
           <div className="relative h-432 overflow-hidden rounded-[16px] onlyMobile:h-300 onlyMobile:rounded-0">
-            <img src={Dog} alt="예시이미지" className="w-full blur-lg" />
+            <img
+              src={Dog}
+              alt="예시이미지"
+              className="w-full blur-lg onlyMobile:blur-[10px]"
+            />
             <div className="absolute left-0 top-0 h-full w-full bg-black opacity-50" />
           </div>
-          <div className=" absolute bottom-[48px] left-[48px] w-full text-white onlyMobile:bottom-[24px] onlyMobile:left-[20px]">
-            <p className=" mb-20 max-w-450 text-40 font-bold leading-tight onlyMobile:max-w-[60%] onlyMobile:text-32">
-              왈독 애견 유치원 왈독 애견 유치원원원투
+          <div className=" absolute bottom-[48px] left-[48px] w-full text-white onlyMobile:bottom-[24px] onlyMobile:left-[20px] onlyMobile:w-[calc(100%-20px)]">
+            <p className=" mb-20 max-w-450 text-40 font-bold leading-tight onlyMobile:max-w-[60vw] onlyMobile:text-32 onlyMini:mb-14 onlyMini:max-w-[70vw] onlyMini:text-26">
+              왈독왈독 애견 유치원
             </p>
-            <div className="mb-8 flex items-center">
+            <div className="mb-8 flex items-center onlyMini:mb-2">
               <Star />
-              <span className="text-16">4.3</span>(
-              <span className="text-16">12</span>)
+              <span className="text-16 onlyMini:text-14">4.3</span>(
+              <span className="text-16 onlyMini:text-14">12</span>)
             </div>
-            <p>안녕하세요 왈독 애견유치원입니당!</p>
+            <p className="onlyMini:text-14">
+              안녕하세요 왈독 애견유치원입니당!
+            </p>
           </div>
         </div>
         <InputBtn
           placeholder="검색어를 입력해주세요."
-          className="m-40 !mx-0 !w-full max-w-full onlyMobile:px-24"
+          className="m-40 !mx-0 !w-full max-w-full onlyMobile:px-24 onlyMini:my-30"
         />
         <div className="onlyMobile:px-24">
           <div className="w-full border-b border-black-070">
-            <button
-              className="community-tab-on mr-20 text-20 onlyMobile:text-18"
-              type="button"
-            >
+            <button className="community-tab-on" type="button">
               공지
             </button>
-            <button className="mr-20 text-20 onlyMobile:text-18" type="button">
+            <button className="community-tab-off" type="button">
               커뮤니티
             </button>
           </div>
