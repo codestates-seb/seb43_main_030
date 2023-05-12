@@ -26,8 +26,6 @@ const myStyles = [
 
 function Map({ areaFilter, kinderGartens }) {
   const [isPending, setIsPending] = useState(false);
-  console.log(kinderGartens);
-
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,

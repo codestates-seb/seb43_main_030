@@ -18,7 +18,6 @@ function InputBtn(props) {
   }
 
   function searchInput() {
-    const encodedValue = decodeURI(inputValue);
     const url = `${process.env.REACT_APP_API_URL}/kindergarten/name/${inputValue}`;
     axios
       .get(url)
