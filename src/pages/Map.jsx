@@ -24,22 +24,8 @@ const myStyles = [
   },
 ];
 
-function Map({ areaFilter }) {
-  const [kinderGartens, setKinderGartens] = useState([]);
+function Map({ areaFilter, kinderGartens }) {
   const [isPending, setIsPending] = useState(false);
-
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/kindergarten/loc/${areaFilter}`)
-      .then(response => {
-        setKinderGartens(response.data);
-        setIsPending(true);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [areaFilter]);
-
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
@@ -48,8 +34,8 @@ function Map({ areaFilter }) {
   const [map, setMap] = useState(null);
 
   const [center, setCenter] = useState({
-    lat: 37.5303564,
-    lng: 126.9897517,
+    lat: 37.568177,
+    lng: 126.992217,
   });
 
   useEffect(() => {
@@ -67,8 +53,8 @@ function Map({ areaFilter }) {
     }
     if (areaFilter === 3) {
       setCenter({
-        lat: 37.498011,
-        lng: 127.113862,
+        lat: 37.515894,
+        lng: 127.070571,
       });
     }
     if (areaFilter === 4) {
@@ -106,12 +92,12 @@ function Map({ areaFilter }) {
       const bounds = new window.google.maps.LatLngBounds(centerLatLng);
       const circle = new window.google.maps.Circle({
         center: centerLatLng,
-        radius: 5000, // 500m 반경
+        radius: areaFilter === 0 ? 10000 : 5000, // 500m 반경
       });
       bounds.union(circle.getBounds());
       mapValue.fitBounds(bounds);
     },
-    [center.lat, center.lng],
+    [center.lat, center.lng, areaFilter],
   );
 
   const onUnmount = useCallback(function callback() {

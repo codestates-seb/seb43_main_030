@@ -130,6 +130,8 @@ function App() {
               setAreaFilter={setAreaFilter}
               inputValue={inputValue}
               setInputValue={setInputValue}
+              kinderGartens={kinderGartens}
+              setKinderGartens={setKinderGartens}
             />
           }
         />
