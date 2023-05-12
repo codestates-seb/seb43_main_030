@@ -74,18 +74,18 @@ function Mypage({ auth, setAuth, user, serUser }) {
   console.log(value);
 
   return (
-    <div className="flex flex-col items-center pt-130 onlyMobile:pt-64 ">
-      <div className="w-full max-w-[1280px] px-80 onlyMobile:max-w-full onlyMobile:px-0">
+    <div className="flex flex-col items-center pt-130 onlyMobile:pt-88 ">
+      <div className="w-full max-w-[1280px] px-80 onlyMobile:max-w-full onlyMobile:px-24">
         {isLogin ? (
-          <div className="flex">
-            <div className="relative mr-[8.3%] w-[33.3%]">
+          <div className="flex onlyMobile:flex-col">
+            <div className="relative mr-[8.3%] w-[33.3%] onlyMobile:mr-0 onlyMobile:w-full">
               <div className="sticky-card">
                 <div className="flex-center flex-col">
-                  <div className="user-profile mb-8 h-48 w-48 overflow-hidden rounded-[12px]">
+                  <div className="user-profile mb-8 h-48 w-48 overflow-hidden rounded-[12px] onlyMobile:h-64 onlyMobile:w-64">
                     <img src={Dog} alt="예시이미지" />
                   </div>
                   <div className="flex-center w-full max-w-190 items-center py-8">
-                    <span className="min-w-88 px-8 text-center text-16 font-bold">
+                    <span className="min-w-88 px-8 text-center text-16 font-bold onlyMobile:text-14">
                       {value.name}
                     </span>
                     {dropDown ? (
@@ -105,36 +105,36 @@ function Mypage({ auth, setAuth, user, serUser }) {
                   <div className="flex-center mb-24 w-full gap-4">
                     <div className="flex-center w-full flex-col">
                       <p className="text-12 text-black-350">후기</p>
-                      <p className="text-28 font-bold">
+                      <p className="text-28 font-bold onlyMobile:text-18">
                         {value.ratedReviewsCount}
                       </p>
                     </div>
                     <div className="flex-center w-full flex-col">
                       <p className="text-12 text-black-350">게시글</p>
-                      <p className="text-28 font-bold">
+                      <p className="text-28 font-bold onlyMobile:text-18">
                         {value.ratedPostsCount}
                       </p>
                     </div>
                   </div>
                 </div>
                 <div className="flex justify-between border-t-[1px] border-black-070 pt-24 text-16 onlyMobile:py-32 onlyMobile:text-14">
-                  <div className="flex flex-col items-center">
+                  <div className="flex w-full flex-col items-center">
                     <Button
-                      className="color-yellow flex-center btn-size-l mb-8"
+                      className="color-yellow flex-center btn-size-l onlyMobile:btn-size-s mb-8 onlyMobile:w-32"
                       icon="plus"
                     />
                     <span className="text-12 text-black-350">프로필 추가</span>
                   </div>
-                  <div className="flex flex-col items-center">
+                  <div className="flex w-full flex-col items-center">
                     <Button
-                      className="border-gray flex-center btn-size-l mb-8"
+                      className="border-gray flex-center btn-size-l onlyMobile:btn-size-s mb-8 onlyMobile:w-32"
                       icon="setting"
                     />
                     <span className="text-12 text-black-350">계정 설정</span>
                   </div>
-                  <div className="flex flex-col items-center">
+                  <div className="flex w-full flex-col items-center">
                     <Button
-                      className="border-gray flex-center btn-size-l mb-8"
+                      className="border-gray flex-center btn-size-l onlyMobile:btn-size-s mb-8 onlyMobile:w-32"
                       icon="logout"
                     />
                     <span className="text-12 text-black-350">로그아웃</span>
@@ -142,9 +142,9 @@ function Mypage({ auth, setAuth, user, serUser }) {
                 </div>
               </div>
             </div>
-            <div className="relative w-[63%] pl-8 onlyMobile:w-full onlyMobile:px-24">
-              <div className="pb-48 onlyMobile:pb-32">
-                <h2 className="mb-24 text-22 font-bold text-black-900 onlyMobile:mb-12 onlyMobile:text-22">
+            <div className="relative w-[63%] pl-8 onlyMobile:w-full">
+              <div className="pb-48 onlyMobile:py-32">
+                <h2 className="mb-24 text-22 font-bold text-black-900 onlyMobile:mb-16 onlyMobile:text-18">
                   프로필
                 </h2>
                 <div className="mb-24 onlyMobile:mb-20">
@@ -177,7 +177,7 @@ function Mypage({ auth, setAuth, user, serUser }) {
                     )}
                   </div>
                   {!nameEdit ? (
-                    <p>{value.name}</p>
+                    <p className="onlyMobile:text-14">{value.name}</p>
                   ) : (
                     <div>
                       <div className="flex">
@@ -205,7 +205,7 @@ function Mypage({ auth, setAuth, user, serUser }) {
                 </div>
               </div>
               <div className="content-line">
-                <h5 className="mb-24 text-22 font-bold onlyMobile:text-18">
+                <h5 className="mb-24 text-22 font-bold onlyMobile:mb-16 onlyMobile:text-18">
                   작성한 후기
                 </h5>
                 {value && value.reviews.length !== 0 ? (
@@ -234,7 +234,7 @@ function Mypage({ auth, setAuth, user, serUser }) {
                 )}
               </div>
               <div className="content-line">
-                <h5 className="mb-24 text-22 font-bold onlyMobile:text-18">
+                <h5 className="mb-24 text-22 font-bold onlyMobile:mb-16 onlyMobile:text-18">
                   작성한 게시글
                 </h5>
                 {value && value.reviews.length !== 0 ? (
