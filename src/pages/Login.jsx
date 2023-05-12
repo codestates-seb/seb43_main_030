@@ -49,6 +49,7 @@ function Login({ setAuth, auth, setUser, user, setCurUser }) {
         setEmailErr('');
         setPwdErr('');
         navi('/');
+        navi(0);
         localStorage.setItem('token', res.headers.get('Authorization'));
         localStorage.setItem('tokenRefresh', res.headers.get('Refresh'));
       })
