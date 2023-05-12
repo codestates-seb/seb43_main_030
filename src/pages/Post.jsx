@@ -182,7 +182,7 @@ function Post() {
         </div>
         <div className="border-b border-solid border-black-070 pb-24">
           <div className="py-32 onlyMobile:py-24 onlyMobile:text-14">
-            {post.content}
+            {post.contents && post.contents.text}
           </div>
           <div className="mb-40">
             <button

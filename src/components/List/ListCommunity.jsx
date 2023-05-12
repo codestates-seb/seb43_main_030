@@ -5,10 +5,10 @@ import { ReactComponent as PerpettOff } from '../../images/perpett-off.svg';
 import Dog from '../../images/dog.jpeg';
 
 function ListCommunity(props) {
-  const { post, id, onClick } = props;
+  const { post, onClick } = props;
 
   return (
-    <li className="flex items-center" key={id}>
+    <li className="flex items-center" key={post.id}>
       <div className="user-profile mr-24 h-108 w-108 onlyMobile:mr-15 onlyMobile:h-96 onlyMobile:w-96 onlyMini:h-56 onlyMini:w-56">
         <img src={Dog} alt="임시이미지" />
       </div>

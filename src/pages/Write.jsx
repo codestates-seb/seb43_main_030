@@ -69,7 +69,7 @@ function Post() {
     const dateString = dateCalculate(currentDate);
     const postData = {
       title,
-      content,
+      contents: { text: content },
       category,
       date: dateString,
       comment: [],

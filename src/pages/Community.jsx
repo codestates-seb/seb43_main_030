@@ -79,7 +79,7 @@ function Community() {
               <ul>
                 {postList &&
                   postList.map(post => {
-                    return <ListCommunity post={post} id={post.id} />;
+                    return <ListCommunity post={post} />;
                   })}
               </ul>
             </div>
