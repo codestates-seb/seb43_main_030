@@ -26,6 +26,7 @@ function InputBtn(props) {
       .then(response => {
         setKinderGartens(response.data);
         setSearchValue(inputValue);
+        setInputValue('');
       })
       .catch(error => {
         console.log(error);
@@ -48,6 +49,7 @@ function InputBtn(props) {
           onFocus={() => setFocus(false)}
           onBlur={() => setFocus(true)}
           onChange={e => changeInput(e)}
+          value={inputValue}
         />
         <button
           type="button"
