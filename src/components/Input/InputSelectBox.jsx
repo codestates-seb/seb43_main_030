@@ -4,7 +4,14 @@ import { ReactComponent as ArrowOpen } from '../../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../../images/arrow-close.svg';
 
 function InputSelectBox(props) {
-  const { options, placeholder, className, width, setAreaFilter } = props;
+  const {
+    options,
+    placeholder,
+    className,
+    width,
+    setAreaFilter,
+    setSearchValue,
+  } = props;
   // options: 셀렉트박스 펼칠 때 나오는 옵션 리스트. <InputSelectBox options="a,b,c" />형태로 입력
   // className: button에 추가
   // width: <InputSelectBox width="w-500" /> 형태로 입력
@@ -19,6 +26,7 @@ function InputSelectBox(props) {
     setSelectUser(profiles[index]);
     setAreaFilter(index);
     setFocus(false);
+    setSearchValue('');
   };
 
   const handleButtonClick = () => {
@@ -38,7 +46,7 @@ function InputSelectBox(props) {
       {focus && (
         <div
           className={cls(
-            'absolute left-0 top-[58px] z-20 flex flex-col items-start justify-center rounded-[10px] bg-white shadow-dropDownShadow',
+            'absolute left-0 top-[58px] z-50 flex flex-col items-start justify-center rounded-[10px] bg-white shadow-dropDownShadow',
             width,
           )}
         >

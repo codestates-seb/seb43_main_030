@@ -59,6 +59,7 @@ function App() {
   const [kinderGartens, setKinderGartens] = useState([]);
   const [areaFilter, setAreaFilter] = useState(0);
   const [inputValue, setInputValue] = useState('');
+  const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -80,7 +81,19 @@ function App() {
   return (
     <div className="h-[calc(100vh-80px)]">
       {isMobile ? (
-        <MHeader inputValue={inputValue} setInputValue={setInputValue} />
+        <MHeader
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          kinderGartens={kinderGartens}
+          setKinderGartens={setKinderGartens}
+          auth={auth}
+          setAuth={setAuth}
+          user={user}
+          curUser={curUser}
+          setCurUser={setCurUser}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+        />
       ) : (
         <PcHeader
           inputValue={inputValue}
@@ -92,6 +105,8 @@ function App() {
           user={user}
           curUser={curUser}
           setCurUser={setCurUser}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
         />
       )}
 
@@ -106,6 +121,8 @@ function App() {
               setInputValue={setInputValue}
               kinderGartens={kinderGartens}
               setKinderGartens={setKinderGartens}
+              searchValue={searchValue}
+              setSearchValue={setSearchValue}
             />
           }
         />
@@ -144,7 +161,17 @@ function App() {
         />
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
-        <Route path="/mypage" element={<Mypage />} />
+        <Route
+          path="/mypage/:id"
+          element={
+            <Mypage
+              auth={auth}
+              setAuth={setAuth}
+              user={user}
+              setUser={setUser}
+            />
+          }
+        />
         <Route path="*" element={<NotFound />} />
         <Route path="/write/:postId" element={<Write />} />
         <Route path="/post/:postId" element={<Post />} />

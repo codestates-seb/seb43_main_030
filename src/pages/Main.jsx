@@ -13,6 +13,8 @@ function Main({
   setInputValue,
   kinderGartens,
   setKinderGartens,
+  searchValue,
+  setSearchValue,
 }) {
   const [isPending, setIsPending] = useState(false);
 
@@ -22,8 +24,14 @@ function Main({
   const [print, setPrint] = useState([]);
 
   useEffect(() => {
+    let url = ``;
+    if (searchValue) {
+      url = `${process.env.REACT_APP_API_URL}/kindergarten/name/${searchValue}`;
+    } else {
+      url = `${process.env.REACT_APP_API_URL}/kindergarten/loc/${areaFilter}`;
+    }
     axios
-      .get(`${process.env.REACT_APP_API_URL}/kindergarten/loc/${areaFilter}`)
+      .get(url)
       .then(response => {
         setKinderGartens(response.data);
         setIsPending(true);
@@ -31,7 +39,7 @@ function Main({
       .catch(error => {
         console.log(error);
       });
-  }, [areaFilter, setKinderGartens]);
+  }, [areaFilter, setKinderGartens, searchValue]);
 
   useEffect(() => {
     let timerId;
@@ -59,22 +67,23 @@ function Main({
           안냐세여
         </div>
         <div className="mb-24 mt-48 flex w-[100%] justify-between text-28 font-bold onlyMobile:flex-col">
-          <span>유치원 리스트</span>
+          <span>
+            {searchValue ? `"${searchValue}"에 대한 검색결과` : '유치원 리스트'}
+          </span>
           <InputSelectBox
             options="전체보기, 강서 · 구로 · 양천, 관악 · 금천 · 동작 · 영등포, 강남 · 강동 · 서초 · 송파, 마포 · 은평 · 서대문, 강북 · 노원 · 도봉 · 성북, 용산 · 성동 · 종로 · 중구, 광진 · 동대문 · 중랑"
             width="min-w-260 onlyMobile:w-full onlyMobile:mt-10"
             placeholder="전체보기"
             setAreaFilter={setAreaFilter}
             setInputValue={setInputValue}
+            setSearchValue={setSearchValue}
           />
         </div>
         <div className="grid w-[100%] grid-cols-cardGrid gap-x-[20px]">
           {print.length === 0 ? (
             <div className="flex-center h-640 flex-col">
               <img src={NoList} alt="NoList" className="mb-16 h-160 w-160" />
-              <span className="text-18 text-black-350">
-                이 지역에는 유치원이 없어요...
-              </span>
+              <span className="text-18 text-black-350">{`"${searchValue}"에 대한 검색결과가 없어요...`}</span>
             </div>
           ) : (
             isPending &&

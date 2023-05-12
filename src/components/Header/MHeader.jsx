@@ -6,10 +6,23 @@ import { ReactComponent as LogoSymbol } from '../../images/logo-symbol.svg';
 import { ReactComponent as Close } from '../../images/close.svg';
 import DropDownMenuM from '../DropDownMenuM';
 
-function MHeader() {
+function MHeader(props) {
   const [isLogin, setIsLogin] = useState(true);
   const [nickname, setNickname] = useState('쫑이콩이맘');
   const [dropDown, setDropDown] = useState(false);
+  const {
+    inputValue,
+    setInputValue,
+    kinderGartens,
+    setKinderGartens,
+    auth,
+    setAuth,
+    user,
+    curUser,
+    setCurUser,
+    searchValue,
+    setSearchValue,
+  } = props;
 
   function onDropDown() {
     setDropDown(!dropDown);
@@ -27,7 +40,14 @@ function MHeader() {
         </div>
       </Link>
       <div className="input-array">
-        <InputBtn />
+        <InputBtn
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          kinderGartens={kinderGartens}
+          setKinderGartens={setKinderGartens}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+        />
       </div>
       {dropDown ? (
         <button
