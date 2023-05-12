@@ -11,11 +11,14 @@ import { ReactComponent as ArrowPrev } from '../images/arrow-prev.svg';
 
 function Community() {
   const [postList, setPostList] = useState([]);
+  const [kinderInfo, setKinderInfo] = useState([]);
   const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const apiUrl2 = 'http://localhost:3001';
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/post`)
+      .get(`${apiUrl2}/post`)
       .then(response => {
         setPostList(response.data);
       })
@@ -24,6 +27,13 @@ function Community() {
       });
   }, [setPostList]);
 
+  useEffect(() => {
+    axios
+      .get(`${apiUrl}/community/1`)
+      .then(response => setKinderInfo(response.data))
+      .catch(error => console.log(error));
+  }, [apiUrl]);
+  console.log(kinderInfo);
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:mt-0 onlyMobile:pt-64 ">
       <div className="max-w-[1280px] px-80 onlyMobile:max-w-full onlyMobile:px-0">
@@ -38,15 +48,17 @@ function Community() {
           </div>
           <div className=" absolute bottom-[48px] left-[48px] w-full text-white onlyMobile:bottom-[24px] onlyMobile:left-[20px] onlyMobile:w-[calc(100%-20px)]">
             <p className=" mb-20 max-w-450 text-40 font-bold leading-tight onlyMobile:max-w-[60vw] onlyMobile:text-32 onlyMini:mb-14 onlyMini:max-w-[70vw] onlyMini:text-26">
-              왈독왈독 애견 유치원
+              {kinderInfo.data && kinderInfo.data.name.replace(/"/g, '')}
             </p>
             <div className="mb-8 flex items-center onlyMini:mb-2">
               <Star />
-              <span className="text-16 onlyMini:text-14">4.3</span>(
-              <span className="text-16 onlyMini:text-14">12</span>)
+              <span className="text-16 onlyMini:text-14">
+                {kinderInfo.data && kinderInfo.data.ratedReviewsAvg}
+              </span>
+              (<span className="text-16 onlyMini:text-14">12</span>)
             </div>
             <p className="onlyMini:text-14">
-              안녕하세요 왈독 애견유치원입니당!
+              {kinderInfo.data && kinderInfo.data.introduction}
             </p>
           </div>
         </div>
