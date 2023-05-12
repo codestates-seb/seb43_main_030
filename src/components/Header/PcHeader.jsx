@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import InputBtn from '../InputBtn';
 import Button from '../Button/Button';
 import DropDownMenu from '../DropDownMenu';
@@ -24,19 +24,23 @@ function Header({
   // const [isLogin, setIsLogin] = useState(false);
   // const [nickname, setNickname] = useState('쫑이콩이맘');
   const [dropDown, setDropDown] = useState(false);
+  const navi = useNavigate();
 
   function onDropDown() {
     setDropDown(!dropDown);
   }
 
+  function reload() {
+    navi('/');
+    window.location.reload();
+  }
+
   return (
     <div className="flex-center fixed z-20 w-full bg-white shadow-headerShadow">
       <div className="flex h-80 w-[100%] max-w-[1440px] items-center justify-between border-b border-black-050 px-[4.5%] py-16">
-        <Link to="/">
-          <div className="flex-center w-120">
-            <Logo />
-          </div>
-        </Link>
+        <div className="flex-center w-120" onClick={reload} role="presentation">
+          <Logo />
+        </div>
         <div className="input-array">
           <InputBtn
             inputValue={inputValue}
