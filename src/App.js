@@ -81,7 +81,19 @@ function App() {
   return (
     <div className="h-[calc(100vh-80px)]">
       {isMobile ? (
-        <MHeader inputValue={inputValue} setInputValue={setInputValue} />
+        <MHeader
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          kinderGartens={kinderGartens}
+          setKinderGartens={setKinderGartens}
+          auth={auth}
+          setAuth={setAuth}
+          user={user}
+          curUser={curUser}
+          setCurUser={setCurUser}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+        />
       ) : (
         <PcHeader
           inputValue={inputValue}
