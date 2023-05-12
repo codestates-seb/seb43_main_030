@@ -41,6 +41,7 @@ import SignUp from './pages/SignUp';
 import KinderDetail from './pages/KinderDetail';
 import Mypage from './pages/Mypage';
 import NotFound from './pages/NotFound';
+import FindPw from './pages/FindPw';
 
 function App() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
@@ -134,6 +135,7 @@ function App() {
         />
 
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/find-password" element={<FindPw />} />
         <Route
           path="/kindergarten/:id"
           element={<KinderDetail areaFilter={areaFilter} />}
