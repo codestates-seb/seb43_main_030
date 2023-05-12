@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
@@ -6,27 +7,24 @@ import DropDownMenu from '../components/DropDownMenu';
 import Dog from '../images/dog.jpeg';
 import { ReactComponent as ArrowOpen } from '../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
-import { ReactComponent as Plus } from '../images/plus.svg';
+import { ReactComponent as Perpett } from '../images/perpett-on.svg';
 import ListReview from '../components/List/ListReview';
+import Post from '../components/List/ListCommunity';
 
 function Mypage({ auth, setAuth, user, serUser }) {
-  const [isLogin, setIsLogin] = useState('true');
-  const [nickname, setNickname] = useState('쫑이콩이맘');
-  const [dropDown, setDropDown] = useState(false);
-  const [nameEdit, setNameEdit] = useState(false);
+  const { id } = useParams();
+
   const [value, setValue] = useState('');
-
-  const handleDropdown = () => {
-    setDropDown(!dropDown);
-  };
-
-  const handleNameEdit = () => {
-    setNameEdit(!nameEdit);
-  };
+  const [isLogin, setIsLogin] = useState('true');
+  const [nickname, setNickname] = useState('');
+  const [nameEdit, setNameEdit] = useState(false);
+  const [nameValue, setNameValue] = useState(nickname);
+  const [nameErr, setNameErr] = useState(false);
+  const [dropDown, setDropDown] = useState(false);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/mypage`)
+      .get(`http://localhost:3001/mypage/${id}`)
       .then(res => {
         setValue(res.data);
         console.log(res.data);
@@ -36,6 +34,43 @@ function Mypage({ auth, setAuth, user, serUser }) {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleDropdown = () => {
+    setDropDown(!dropDown);
+  };
+
+  const handleNameInput = () => {
+    setNameEdit(!nameEdit);
+    setNickname(value.name);
+  };
+  const handleNameChange = e => {
+    setNickname(e.target.value);
+    setNameValue(e.target.value);
+    console.log(nameValue);
+  };
+  // const handleErr = () => {
+  //   nickname.length === 0 ? setNameErr(true) : setNameErr(false);
+  // };
+  const handleNameEdit = () => {
+    const editName = {
+      name: nameValue,
+    };
+
+    setNameEdit(false);
+
+    if (nickname.length > 0) {
+      axios
+        .patch(`http://localhost:3001/mypage/${id}`, editName)
+        .then(() => {
+          setNickname(prev => {
+            return { ...prev, name: nameValue };
+          });
+        })
+        .catch(err => {
+          console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
+        });
+    }
+  };
   console.log(value);
 
   return (
@@ -50,8 +85,8 @@ function Mypage({ auth, setAuth, user, serUser }) {
                     <img src={Dog} alt="예시이미지" />
                   </div>
                   <div className="flex-center w-full max-w-190 items-center py-8">
-                    <span className="min-w-88 px-8 text-center text-14">
-                      {nickname}
+                    <span className="min-w-88 px-8 text-center text-16 font-bold">
+                      {value.name}
                     </span>
                     {dropDown ? (
                       <ArrowClose
@@ -70,11 +105,15 @@ function Mypage({ auth, setAuth, user, serUser }) {
                   <div className="flex-center mb-24 w-full gap-4">
                     <div className="flex-center w-full flex-col">
                       <p className="text-12 text-black-350">후기</p>
-                      <p className="text-28 font-bold">0</p>
+                      <p className="text-28 font-bold">
+                        {value.ratedReviewsCount}
+                      </p>
                     </div>
                     <div className="flex-center w-full flex-col">
                       <p className="text-12 text-black-350">게시글</p>
-                      <p className="text-28 font-bold">12</p>
+                      <p className="text-28 font-bold">
+                        {value.ratedPostsCount}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -129,7 +168,7 @@ function Mypage({ auth, setAuth, user, serUser }) {
                     {!nameEdit ? (
                       <Button
                         className="btn-text-default text-14 text-black-350 onlyMobile:text-12"
-                        onClick={handleNameEdit}
+                        onClick={handleNameInput}
                       >
                         수정
                       </Button>
@@ -138,22 +177,25 @@ function Mypage({ auth, setAuth, user, serUser }) {
                     )}
                   </div>
                   {!nameEdit ? (
-                    <p>쫑이콩이맘</p>
+                    <p>{value.name}</p>
                   ) : (
                     <div>
                       <div className="flex">
-                        <Input />
+                        <Input value={nickname} onChange={handleNameChange} />
                         <Button className="color-black btn-size-l ml-8 shrink-0">
                           중복 검사
                         </Button>
                       </div>
                       <div className="mt-16 flex gap-3">
-                        <Button className="color-yellow btn-size-l">
+                        <Button
+                          className="color-yellow btn-size-l"
+                          onClick={handleNameEdit}
+                        >
                           수정
                         </Button>
                         <Button
                           className="border-gray btn-size-l"
-                          onClick={handleNameEdit}
+                          onClick={handleNameInput}
                         >
                           취소
                         </Button>
@@ -166,21 +208,59 @@ function Mypage({ auth, setAuth, user, serUser }) {
                 <h5 className="mb-24 text-22 font-bold onlyMobile:text-18">
                   작성한 후기
                 </h5>
-                <div className="flex flex-col gap-8">
-                  {/* <ListReview />
-                  <ListReview />
-                  <ListReview /> */}
-                </div>
+                {value && value.reviews.length !== 0 ? (
+                  <div className="flex flex-col gap-8">
+                    {value.reviews &&
+                      value.reviews.map(el => {
+                        return (
+                          <ListReview
+                            key={el.reviewId}
+                            id={el.reviewId}
+                            contents={el.content.text}
+                            images={el.content.images}
+                            ratedReview={el.ratedReviewAvg}
+                            createdAt={el.createdAt}
+                          />
+                        );
+                      })}
+                  </div>
+                ) : (
+                  <div className="flex-center flex-col">
+                    <Perpett className="mb-16 h-104 w-104" />
+                    <p className="text-14 text-black-350">
+                      첫 후기를 등록해보세요!
+                    </p>
+                  </div>
+                )}
               </div>
               <div className="content-line">
                 <h5 className="mb-24 text-22 font-bold onlyMobile:text-18">
                   작성한 게시글
                 </h5>
-                <div className="flex flex-col gap-8">
-                  {/* <ListReview />
-                  <ListReview />
-                  <ListReview /> */}
-                </div>
+                {value && value.reviews.length !== 0 ? (
+                  <div className="flex flex-col gap-8">
+                    {value.reviews &&
+                      value.reviews.map(el => {
+                        return (
+                          <ListReview
+                            key={el.reviewId}
+                            id={el.reviewId}
+                            contents={el.content.text}
+                            images={el.content.images}
+                            ratedReview={el.ratedReviewAvg}
+                            createdAt={el.createdAt}
+                          />
+                        );
+                      })}
+                  </div>
+                ) : (
+                  <div className="flex-center flex-col">
+                    <Perpett className="mb-16 h-104 w-104" />
+                    <p className="text-14 text-black-350">
+                      첫 게시글을 등록해보세요!
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>

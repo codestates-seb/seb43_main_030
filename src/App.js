@@ -141,7 +141,7 @@ function App() {
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
         <Route
-          path="/mypage"
+          path="/mypage/:id"
           element={
             <Mypage
               auth={auth}

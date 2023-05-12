@@ -27,64 +27,76 @@
       "imageUrl": null
     }
   ],
-  "mypage": {
-    "profileId": 1,
-    "email": "abc@gmail.com",
-    "name": "몽실이",
-    "checkPerson": false,
-    "breed": "진돗개",
-    "imageUrl": "https://tgzzmmgvheix1905536.cdn.ntruss.com/2020/03/c320a089abe34b72942aeecc9b568295",
-    "posts": [
-      {
-        "postId": 1,
-        "title": "글1",
-        "content": {
-          "text": "내용1",
-          "images": [
-            {
-              "imageId": 1,
-              "imageUrl": null
-            },
-            {
-              "imageId": 2,
-              "imageUrl": null
-            }
-          ]
+  "mypage": [
+    {
+      "id": 1,
+      "email": "abc@gmail.com",
+      "name": "몽실이1111",
+      "checkPerson": false,
+      "breed": "진돗개",
+      "imageUrl": "https://tgzzmmgvheix1905536.cdn.ntruss.com/2020/03/c320a089abe34b72942aeecc9b568295",
+      "ratedReviewsCount": 1,
+      "ratedPostsCount": 2,
+      "post": [
+        {
+          "postId": 1,
+          "title": "글1",
+          "content": {
+            "text": "내용1",
+            "images": [
+              {
+                "imageId": 1,
+                "imageUrl": null
+              },
+              {
+                "imageId": 2,
+                "imageUrl": null
+              }
+            ]
+          },
+          "createdAt": "2023-05-03T10:54:56.870994",
+          "motifiedAt": "2023-05-04T10:54:56.870994",
+          "views": 300,
+          "likes": 14
         },
-        "createdAt": "2023-05-03T10:54:56.870994",
-        "motifiedAt": "2023-05-04T10:54:56.870994",
-        "views": 300,
-        "likes": 14
-      },
-      {
-        "postId": 2,
-        "title": "글1",
-        "content": {
-          "text": "내용1",
-          "imageId": 1,
-          "imageUrl": null
-        },
-        "createdAt": "2023-05-03T10:54:56.870994",
-        "motifiedAt": "2023-05-04T10:54:56.870994",
-        "views": 300,
-        "likes": 14
-      }
-    ],
-    "reviews": [
-      {
-        "reviewId": 1,
-        "title": "후기1",
-        "content": {
-          "text": "내용1",
-          "imageId": 1,
-          "imageUrl": null
-        },
-        "ratedReviewsAvg": 4.3,
-        "createdAt": "2023-05-03T10:54:56.870994",
-        "motifiedAt": "2023-05-04T10:54:56.870994"
-      }
-    ]
-  },
+        {
+          "postId": 2,
+          "title": "글1",
+          "content": {
+            "text": "내용1",
+            "imageId": 1,
+            "imageUrl": null
+          },
+          "createdAt": "2023-05-03T10:54:56.870994",
+          "motifiedAt": "2023-05-04T10:54:56.870994",
+          "views": 300,
+          "likes": 14
+        }
+      ],
+      "reviews": [
+        {
+          "reviewId": 1,
+          "title": "후기1",
+          "content": {
+            "text": "내용1",
+            "images": [
+              {
+                "imageId": 1,
+                "imageUrl": null
+              },
+              {
+                "imageId": 2,
+                "imageUrl": null
+              }
+            ]
+          },
+          "ratedReviewsAvg": 4.3,
+          "createdAt": "2023-05-03T10:54:56.870994",
+          "motifiedAt": "2023-05-04T10:54:56.870994"
+        }
+      ]
+    }
+  ],
   "KinderGarten0": [
     {
       "kindergartenId": 1,
