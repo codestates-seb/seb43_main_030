@@ -49,6 +49,7 @@ function Login({ setAuth, auth, setUser, user, setCurUser }) {
         setErrPw('');
         navi('/');
         localStorage.setItem('token', res.headers.get('Authorization'));
+        localStorage.setItem('tokenRefresh', res.headers.get('Refresh'));
       })
       .catch(err => {
         console.log(err);
