@@ -28,6 +28,10 @@ function MHeader(props) {
     setDropDown(!dropDown);
   }
 
+  function reload() {
+    window.location.reload();
+  }
+
   return (
     <div
       className={`${
@@ -35,7 +39,11 @@ function MHeader(props) {
       } fixed z-10 flex h-64 w-[100%] items-center justify-between border-b border-black-050 bg-white px-24 py-8`}
     >
       <Link to="/">
-        <div className="flex-center w-48 cursor-pointer">
+        <div
+          className="flex-center w-48 cursor-pointer"
+          onClick={reload}
+          role="presentation"
+        >
           <LogoSymbol />
         </div>
       </Link>

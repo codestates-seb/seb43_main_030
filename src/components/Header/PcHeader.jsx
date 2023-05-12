@@ -29,11 +29,19 @@ function Header({
     setDropDown(!dropDown);
   }
 
+  function reload() {
+    window.location.reload();
+  }
+
   return (
     <div className="flex-center fixed z-20 w-full bg-white shadow-headerShadow">
       <div className="flex h-80 w-[100%] max-w-[1440px] items-center justify-between border-b border-black-050 px-[4.5%] py-16">
         <Link to="/">
-          <div className="flex-center w-120">
+          <div
+            className="flex-center w-120"
+            onClick={reload}
+            role="presentation"
+          >
             <Logo />
           </div>
         </Link>

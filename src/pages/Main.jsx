@@ -77,6 +77,7 @@ function Main({
             setAreaFilter={setAreaFilter}
             setInputValue={setInputValue}
             setSearchValue={setSearchValue}
+            areaFilter={areaFilter}
           />
         </div>
         <div className="grid w-[100%] grid-cols-cardGrid gap-x-[20px]">
