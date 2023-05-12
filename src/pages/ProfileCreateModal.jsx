@@ -1,8 +1,10 @@
 import { useState } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import Dog from '../images/dog.jpeg';
+import Input from '../components/Input/Input';
 import RatingStar from '../components/RatingStar';
 import TextArea from '../components/TextArea';
 import UploadImage from '../components/UploadImage';
@@ -13,10 +15,10 @@ import { ReactComponent as Close } from '../images/close.svg';
 function ProfileCreateModal(props) {
   const { onClick } = props;
 
-  const [text, setText] = useState('');
+  const [value, setValue] = useState('');
 
-  const textCount = event => {
-    setText(event.target.value);
+  const handleChange = e => {
+    setValue(e.target.value);
   };
 
   return (
@@ -25,7 +27,6 @@ function ProfileCreateModal(props) {
         <div className="fixed top-[10px] z-[101] my-80 h-[calc(100vh-160px)] w-608 rounded-[16px] bg-white onlyMobile:top-0 onlyMobile:my-0 onlyMobile:h-full onlyMobile:w-full onlyMobile:rounded-0">
           <div className="relative flex h-full flex-col p-30">
             <div className=" w-full shrink-0">
-              {/* 후기 작성하기 */}
               <div className="relative flex justify-center">
                 <p className="write-title">프로필 추가하기</p>
                 <button
@@ -36,38 +37,32 @@ function ProfileCreateModal(props) {
                   <Close />
                 </button>
               </div>
-
-              {/* 유치원 정보 */}
-              <div className="mt-25 flex border-b-[1px] border-black-070 pb-25">
-                <div className="user-profile mr-15 h-116 w-116 onlyMobile:h-96 onlyMobile:w-96">
-                  <img src={Dog} alt="임시 이미지" />
-                </div>
-                <div className="flex flex-col justify-center">
-                  <p className="write-title">놀펫 강아지 어쩌구 유치원</p>
-                  <p className="flex items-center text-14">
-                    <Star /> 4.3 (12)
-                  </p>
-                  <p className="mt-6 text-14">주소주소 성수동 어쩌구</p>
-                </div>
-              </div>
             </div>
-            {/* 별점 */}
+
+            {/* 비밀번호 변경 */}
             <div className="mb-30 overflow-y-scroll">
-              <div className="mt-25 flex items-center border-b-[1px] border-black-070 pb-25">
-                <p className="write-title mr-15">유치원은 어떠셨나요?</p>
-                <RatingStar />
-              </div>
-              {/* 후기 */}
               <div className="mt-25 flex flex-col border-b-[1px] border-black-070 pb-25">
-                <p className="write-title mb-15 mr-15">
-                  솔직한 후기를 남겨주세요.
-                </p>
-                <TextArea
-                  areaClass="h-135 py-20 "
-                  value={text}
-                  onChange={textCount}
-                  maxLength="200"
-                  placeholder="후기를 남겨주세요."
+                <p className="write-title mb-15 mr-15">비밀번호 변경</p>
+                <Input
+                  labelText="현재 비밀번호"
+                  placeholder="비밀번호를 입력해주세요."
+                  type="password"
+                  value={value}
+                  onChange={handleChange}
+                />
+                <Input
+                  labelText="현재 비밀번호"
+                  placeholder="비밀번호를 입력해주세요."
+                  type="password"
+                  value={value}
+                  onChange={handleChange}
+                />
+                <Input
+                  labelText="현재 비밀번호"
+                  placeholder="비밀번호를 입력해주세요."
+                  type="password"
+                  value={value}
+                  onChange={handleChange}
                 />
               </div>
               {/* 사진등록 */}

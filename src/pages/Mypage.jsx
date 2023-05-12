@@ -23,7 +23,8 @@ function Mypage({ auth, setAuth, user, serUser }) {
   const [nameValue, setNameValue] = useState(nickname);
   const [nameErr, setNameErr] = useState(false);
   const [dropDown, setDropDown] = useState(false);
-  const [isModal, setIsModal] = useState(false);
+  const [profileModal, setProfileModal] = useState(false);
+  const [settingModal, setSettingModal] = useState(false);
 
   useEffect(() => {
     axios
@@ -38,12 +39,15 @@ function Mypage({ auth, setAuth, user, serUser }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const modalOnOff = () => {
-    setIsModal(!isModal);
+  const modalProfileOnOff = () => {
+    setProfileModal(!profileModal);
   };
-
-  const closeModal = () => {
-    setIsModal(false);
+  const modalSettingOnOff = () => {
+    setSettingModal(!settingModal);
+  };
+  const modalClose = () => {
+    setProfileModal(false);
+    setSettingModal(false);
   };
 
   const handleLogout = () => {
@@ -95,10 +99,11 @@ function Mypage({ auth, setAuth, user, serUser }) {
         {isLogin ? (
           <div className="flex onlyMobile:flex-col">
             <div className="relative mr-[8.3%] w-[33.3%] onlyMobile:mr-0 onlyMobile:w-full">
+              {/* 좌측 프로필 */}
               <div className="sticky-card">
                 <div className="flex-center flex-col">
                   <div className="user-profile mb-8 h-48 w-48 overflow-hidden rounded-[12px] onlyMobile:h-64 onlyMobile:w-64">
-                    <img src={Dog} alt="예시이미지" />
+                    <img src={Dog} alt="프로필예시이미지" />
                   </div>
                   <div className="flex-center w-full max-w-190 items-center py-8">
                     <span className="min-w-88 px-8 text-center text-16 font-bold onlyMobile:text-14">
@@ -117,6 +122,8 @@ function Mypage({ auth, setAuth, user, serUser }) {
                     )}
                     {dropDown ? <DropDownMenu /> : null}
                   </div>
+
+                  {/* 내가 쓴 총 후기 및 게시글 */}
                   <p className="mb-16 text-12 text-black-350">이메일</p>
                   <div className="flex-center mb-24 w-full gap-4">
                     <div className="flex-center w-full flex-col">
@@ -133,12 +140,14 @@ function Mypage({ auth, setAuth, user, serUser }) {
                     </div>
                   </div>
                 </div>
+
+                {/* 프로필 추가, 설정, 로그아웃 버튼 */}
                 <div className="flex justify-between border-t-[1px] border-black-070 pt-24 text-16 onlyMobile:py-32 onlyMobile:text-14">
                   <div className="flex w-full flex-col items-center">
                     <Button
                       className="color-yellow flex-center btn-size-l onlyMobile:btn-size-s mb-8 onlyMobile:w-32"
                       icon="plus"
-                      onClick={modalOnOff}
+                      onClick={modalProfileOnOff}
                     />
                     <span className="text-12 text-black-350">프로필 추가</span>
                   </div>
@@ -146,7 +155,7 @@ function Mypage({ auth, setAuth, user, serUser }) {
                     <Button
                       className="border-gray flex-center btn-size-l onlyMobile:btn-size-s mb-8 onlyMobile:w-32"
                       icon="setting"
-                      onClick={modalOnOff}
+                      onClick={modalSettingOnOff}
                     />
                     <span className="text-12 text-black-350">계정 설정</span>
                   </div>
@@ -161,11 +170,14 @@ function Mypage({ auth, setAuth, user, serUser }) {
                 </div>
               </div>
             </div>
+
+            {/* 우측 정보 */}
             <div className="relative w-[63%] pl-8 onlyMobile:w-full">
               <div className="pb-48 onlyMobile:py-32">
-                <h2 className="mb-24 text-22 font-bold text-black-900 onlyMobile:mb-16 onlyMobile:text-18">
+                <h5 className="mb-24 text-22 font-bold text-black-900 onlyMobile:mb-16 onlyMobile:text-18">
                   프로필
-                </h2>
+                </h5>
+                {/* 사진 및 닉네임 변경 */}
                 <div className="mb-24 onlyMobile:mb-20">
                   <div className="flex items-center justify-between">
                     <p className="mb-4 text-14 text-black-350 onlyMobile:text-12">
@@ -198,6 +210,7 @@ function Mypage({ auth, setAuth, user, serUser }) {
                   {!nameEdit ? (
                     <p className="onlyMobile:text-14">{value.name}</p>
                   ) : (
+                    // 닉네임 수정 시 인풋 과 버튼
                     <div>
                       <div className="flex">
                         <Input value={nickname} onChange={handleNameChange} />
@@ -223,6 +236,8 @@ function Mypage({ auth, setAuth, user, serUser }) {
                   )}
                 </div>
               </div>
+
+              {/* 작성한 후기 */}
               <div className="content-line">
                 <h5 className="mb-24 text-22 font-bold onlyMobile:mb-16 onlyMobile:text-18">
                   작성한 후기
@@ -252,23 +267,18 @@ function Mypage({ auth, setAuth, user, serUser }) {
                   </div>
                 )}
               </div>
+
+              {/* 작성한 게시글 */}
               <div className="content-line">
                 <h5 className="mb-24 text-22 font-bold onlyMobile:mb-16 onlyMobile:text-18">
                   작성한 게시글
                 </h5>
-                {value && value.reviews.length !== 0 ? (
+                {value && value.post.length !== 0 ? (
                   <div className="flex flex-col gap-8">
-                    {value.reviews &&
-                      value.reviews.map(el => {
+                    {value.post &&
+                      value.post.map(el => {
                         return (
-                          <ListReview
-                            key={el.reviewId}
-                            id={el.reviewId}
-                            contents={el.content.text}
-                            images={el.content.images}
-                            ratedReview={el.ratedReviewAvg}
-                            createdAt={el.createdAt}
-                          />
+                          <Post key={el.reviewId} id={el.reviewId} post={el} />
                         );
                       })}
                   </div>
@@ -287,8 +297,8 @@ function Mypage({ auth, setAuth, user, serUser }) {
           ''
         )}
       </div>
-      {isModal ? <ProfileCreateModal onClick={closeModal} /> : ''}
-      {isModal ? <SettingModal onClick={closeModal} /> : ''}
+      {profileModal ? <ProfileCreateModal onClick={modalClose} /> : ''}
+      {settingModal ? <SettingModal onClick={modalClose} /> : ''}
     </div>
   );
 }
