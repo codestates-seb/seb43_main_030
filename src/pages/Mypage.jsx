@@ -10,8 +10,8 @@ import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
 import { ReactComponent as Perpett } from '../images/perpett-on.svg';
 import ListReview from '../components/List/ListReview';
 import Post from '../components/List/ListCommunity';
-import ProfileCreateModal from './ProfileCreateModal';
 import SettingModal from './SettingModal';
+import ProfileCreateModal from './ProfileCreateModal';
 
 function Mypage({ auth, setAuth, user, serUser }) {
   const { id } = useParams();

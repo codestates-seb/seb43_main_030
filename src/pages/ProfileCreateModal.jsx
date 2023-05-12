@@ -1,15 +1,12 @@
 import { useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
-import Dog from '../images/dog.jpeg';
-import Input from '../components/Input/Input';
-import RatingStar from '../components/RatingStar';
-import TextArea from '../components/TextArea';
 import UploadImage from '../components/UploadImage';
 import Button from '../components/Button/Button';
-import { ReactComponent as Star } from '../images/star-on.svg';
+import RadioGroup from '../components/Radio/RadioGroup';
+import Radio from '../components/Radio/Radio';
+import Input from '../components/Input/Input';
+import InputSelectBox from '../components/Input/InputSelectBox';
+
 import { ReactComponent as Close } from '../images/close.svg';
 
 function ProfileCreateModal(props) {
@@ -17,14 +14,16 @@ function ProfileCreateModal(props) {
 
   const [value, setValue] = useState('');
 
-  const handleChange = e => {
-    setValue(e.target.value);
+  const [profile, setProfile] = useState('user');
+
+  const handleChange = event => {
+    setValue(event.target.value);
   };
 
   return (
     <>
       <div className="flex justify-center">
-        <div className="fixed top-[10px] z-[101] my-80 h-[calc(100vh-160px)] w-608 rounded-[16px] bg-white onlyMobile:top-0 onlyMobile:my-0 onlyMobile:h-full onlyMobile:w-full onlyMobile:rounded-0">
+        <div className="fixed top-[10px] z-40 my-80 h-[calc(100vh-160px)] w-608 rounded-[16px] bg-white onlyMobile:top-0 onlyMobile:my-0 onlyMobile:h-full onlyMobile:w-full onlyMobile:rounded-0">
           <div className="relative flex h-full flex-col p-30">
             <div className=" w-full shrink-0">
               <div className="relative flex justify-center">
@@ -38,52 +37,55 @@ function ProfileCreateModal(props) {
                 </button>
               </div>
             </div>
-
-            {/* 비밀번호 변경 */}
-            <div className="mb-30 overflow-y-scroll">
-              <div className="mt-25 flex flex-col border-b-[1px] border-black-070 pb-25">
-                <p className="write-title mb-15 mr-15">비밀번호 변경</p>
-                <Input
-                  labelText="현재 비밀번호"
-                  placeholder="비밀번호를 입력해주세요."
-                  type="password"
-                  value={value}
-                  onChange={handleChange}
-                />
-                <Input
-                  labelText="현재 비밀번호"
-                  placeholder="비밀번호를 입력해주세요."
-                  type="password"
-                  value={value}
-                  onChange={handleChange}
-                />
-                <Input
-                  labelText="현재 비밀번호"
-                  placeholder="비밀번호를 입력해주세요."
-                  type="password"
-                  value={value}
-                  onChange={handleChange}
-                />
-              </div>
-              {/* 사진등록 */}
-              <div className="mt-25 flex flex-col  pb-25">
-                <p className="write-title mb-15 mr-15">사진을 등록해주세요.</p>
-                <div className="flex">
-                  <UploadImage />
-                  <UploadImage />
-                  <UploadImage />
-                  <UploadImage />
+            {/* 프로필 종류 */}
+            <div className="mb-30 h-full overflow-y-scroll">
+              <div className="mt-25 flex items-center border-b-[1px] border-black-070">
+                <div className="mb-24 flex flex-col">
+                  <p className="write-title mb-15 mr-15">프로필 종류</p>
+                  <RadioGroup>
+                    <Radio id="1" name="contact" value="user" defaultChecked>
+                      견주님 프로필
+                    </Radio>
+                    <Radio id="2" name="contact" value="dog">
+                      강아지 프로필
+                    </Radio>
+                  </RadioGroup>
                 </div>
+              </div>
+              {/* 프로필 사진 등록 */}
+              <div className="mt-25 flex flex-col border-b-[1px] border-black-070 pb-24">
+                <p className="write-title mb-15 mr-15">프로필 사진 등록</p>
+                <UploadImage />
+              </div>
+              {/* 닉네임 등록 */}
+              <div className="mt-25 flex flex-col border-b-[1px] border-black-070 pb-24">
+                <p className="write-title mb-15 mr-15">닉네임</p>
+                <div className="flex">
+                  <Input placeholder="닉네임을 입력해주세요." />
+                  <Button className="color-black btn-size-l ml-8 shrink-0">
+                    중복 검사
+                  </Button>
+                </div>
+              </div>
+              {/* 견종 선택 */}
+              <div className="mt-25 flex flex-col pb-24">
+                <p className="write-title mb-15 mr-15">견종 선택</p>
+                <InputSelectBox
+                  options="뭐가 있지,뭐가있을까,종류 엄청 많은디,어카지"
+                  placeholder="견종을 선택해주세요."
+                  width="w-[98%]"
+                  className="text-black-200"
+                />
               </div>
             </div>
             {/* 버튼 */}
             <Button className="color-yellow btn-size-l absolute bottom-[30px] w-[calc(100%-60px)]">
-              후기 등록하기
+              프로필 등록하기
             </Button>
           </div>
         </div>
       </div>
-      <div className="fixed left-0 top-0 z-[100] h-[100vh] w-[100vw] bg-[rgba(0,0,0,0.7)] onlyMobile:hidden" />
+      <div className="fixed left-0 top-0 z-30 h-[100vh] w-[100vw] bg-[rgba(0,0,0,0.7)] onlyMobile:hidden" />
     </>
   );
 }
