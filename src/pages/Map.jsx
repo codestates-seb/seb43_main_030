@@ -24,7 +24,7 @@ const myStyles = [
   },
 ];
 
-function Map({ areaFilter, kinderGartens, setKinderGartens }) {
+function Map({ areaFilter, kinderGartens }) {
   const [isPending, setIsPending] = useState(false);
   console.log(kinderGartens);
 
