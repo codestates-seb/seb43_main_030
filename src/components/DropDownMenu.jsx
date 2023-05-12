@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import axios from 'axios';
 import { ReactComponent as Search } from '../images/search.svg';
 
-function DropDownMenu({ setAuth }) {
-  const profiles = ['쫑이콩이맘', '쫑이', '콩이'];
+function DropDownMenu({ setAuth, user, curUser, setCurUser }) {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const handleLogout = () => {
@@ -10,27 +10,42 @@ function DropDownMenu({ setAuth }) {
     localStorage.removeItem('token');
   };
 
-  const profileActive = event => {
-    const classList = event.target.className.split(' ');
+  function clickedProfile(idx) {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/users/profile/${idx}`, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      })
+      .then(res => {
+        setCurUser(res.data);
+      });
+  }
+
+  function profileActive(e) {
+    const classList = e.target.className.split(' ');
     if (classList.length > 1) {
       const index = classList[3].slice(-1);
       setActiveIndex(index);
     }
-  };
+  }
 
   const renderProfile = () => {
-    return profiles.map((profile, idx) => {
+    return user.map((profile, idx) => {
       const activeClass = Number(activeIndex) === idx ? 'font-bold' : '';
       return (
         <li
           className={`profile flex items-center justify-start${idx} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
-          onClick={profileActive}
+          onClick={e => {
+            profileActive(e);
+            clickedProfile(idx);
+          }}
           role="presentation"
         >
           {Number(activeIndex) === idx ? (
             <Search className="mr-10 inline-block h-24 w-24 rounded-md border" />
           ) : null}
-          {profiles[idx]}
+          {user[idx].name}
         </li>
       );
     });

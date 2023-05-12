@@ -23,7 +23,7 @@ function Main({
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/KinderGarten${areaFilter}`)
+      .get(`${process.env.REACT_APP_API_URL}/kindergarten/loc/${areaFilter}`)
       .then(response => {
         setKinderGartens(response.data);
         setIsPending(true);

@@ -41,6 +41,7 @@ import SignUp from './pages/SignUp';
 import KinderDetail from './pages/KinderDetail';
 import Mypage from './pages/Mypage';
 import NotFound from './pages/NotFound';
+import FindPw from './pages/FindPw';
 
 function App() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
@@ -51,7 +52,7 @@ function App() {
 
   // 로그인 관련 state
   const [auth, setAuth] = useState(false);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState([]);
   const [curUser, setCurUser] = useState({});
 
   // 지도 관련 state
@@ -64,15 +65,16 @@ function App() {
       axios
         .get(`${process.env.REACT_APP_API_URL}/users/profile`, {
           headers: {
-            'Content-Type': 'application/json',
             Authorization: localStorage.getItem('token'),
           },
         })
         .then(res => {
           setAuth(true);
           setUser(res.data);
+          setCurUser(res.data[0]);
         });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -88,6 +90,8 @@ function App() {
           auth={auth}
           setAuth={setAuth}
           user={user}
+          curUser={curUser}
+          setCurUser={setCurUser}
         />
       )}
 
@@ -107,7 +111,15 @@ function App() {
         />
         <Route
           path="/login"
-          element={<Login auth={auth} setAuth={setAuth} setUser={setUser} />}
+          element={
+            <Login
+              auth={auth}
+              setAuth={setAuth}
+              user={user}
+              setUser={setUser}
+              setCurUser={setCurUser}
+            />
+          }
         />
 
         <Route
@@ -118,11 +130,14 @@ function App() {
               setAreaFilter={setAreaFilter}
               inputValue={inputValue}
               setInputValue={setInputValue}
+              kinderGartens={kinderGartens}
+              setKinderGartens={setKinderGartens}
             />
           }
         />
 
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/find-password" element={<FindPw />} />
         <Route
           path="/kindergarten/:id"
           element={<KinderDetail areaFilter={areaFilter} />}
