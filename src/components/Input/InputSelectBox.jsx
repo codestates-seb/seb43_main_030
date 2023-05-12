@@ -46,7 +46,7 @@ function InputSelectBox(props) {
       {focus && (
         <div
           className={cls(
-            'absolute left-0 top-[58px] z-20 flex flex-col items-start justify-center rounded-[10px] bg-white shadow-dropDownShadow',
+            'absolute left-0 top-[58px] z-50 flex flex-col items-start justify-center rounded-[10px] bg-white shadow-dropDownShadow',
             width,
           )}
         >

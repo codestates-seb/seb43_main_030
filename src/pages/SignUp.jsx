@@ -1,6 +1,6 @@
 import { useMediaQuery } from 'react-responsive';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import RadioGroup from '../components/Radio/RadioGroup';
@@ -9,27 +9,48 @@ import { ReactComponent as Kakao } from '../images/logo-kakao.svg';
 import { ReactComponent as Google } from '../images/logo-google.svg';
 
 function SignUp() {
-  const [value, setValue] = useState('user');
-
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+
+  const navi = useNavigate();
+
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+    checkTeacher: '',
+  });
+  const [checkPw, setCheckPw] = useState('');
+  const [errId, setErrId] = useState('');
+  const [errPw, setErrPw] = useState('');
+  const [check, setCheck] = useState(true);
+
+  const signFunc = () => {
+    if (!user.email) {
+      setErrId('아이디를 입력하세요.');
+      setCheck(false);
+    }
+    if (!user.password) {
+      setErrPw('');
+      setCheck(false);
+    }
+  };
 
   const signup = () => {
     return (
       <>
         <div className="px-8">
-          <div className="mb-24 flex">
+          <div className="mb-24 flex items-end">
             <Input labelText="아이디" placeholder="아이디를 입력해주세요." />
             <Button className="color-yellow btn-size-l ml-8 h-50 shrink-0 grow-0">
-              인증번호 전송
+              인증하기
             </Button>
           </div>
-          <div className="mb-24 flex">
+          <div className="mb-24 flex items-end">
             <Input
               labelText="인증번호"
               placeholder="인증번호를 입력해주세요."
             />
             <Button className="color-yellow btn-size-l ml-8 h-50 shrink-0 grow-0">
-              인증번호 확인
+              인증 하기
             </Button>
           </div>
           <div className="mb-24 flex flex-col">

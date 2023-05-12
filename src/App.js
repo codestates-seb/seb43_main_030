@@ -161,7 +161,17 @@ function App() {
         />
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
-        <Route path="/mypage" element={<Mypage />} />
+        <Route
+          path="/mypage/:id"
+          element={
+            <Mypage
+              auth={auth}
+              setAuth={setAuth}
+              user={user}
+              setUser={setUser}
+            />
+          }
+        />
         <Route path="*" element={<NotFound />} />
         <Route path="/write/:postId" element={<Write />} />
         <Route path="/post/:postId" element={<Post />} />

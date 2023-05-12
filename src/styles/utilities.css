@@ -99,7 +99,7 @@
   }
 
   .input-text {
-    @apply mt-1 text-left text-12;
+    @apply ml-4 mt-8 text-left text-12;
   }
   .input-array {
     @apply ml-[3.3%] mr-[3.3%] flex w-[100%] flex-col;
@@ -214,7 +214,7 @@
 
   /* 유치원 상세 영역 */
   .sticky-card {
-    @apply sticky flex w-full flex-col rounded-2xl bg-white p-24 shadow-cardShadow;
+    @apply sticky flex w-full flex-col rounded-2xl bg-white p-24 shadow-stickyShadow;
   }
 
   .content-line {

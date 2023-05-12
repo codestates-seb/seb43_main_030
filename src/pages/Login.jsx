@@ -1,53 +1,47 @@
 import { useMediaQuery } from 'react-responsive';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import { ReactComponent as Kakao } from '../images/logo-kakao.svg';
 import { ReactComponent as Google } from '../images/logo-google.svg';
 
-function Login(props) {
-  const { auth, setAuth, setUser, setCurUser, user } = props;
+function Login({ setAuth, auth, setUser, user, setCurUser }) {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
   const navi = useNavigate();
 
-  const [loginInfo, setLoginInfo] = useState({
+  const [loginData, setLoginData] = useState({
     email: '',
     password: '',
   });
   const [errId, setErrId] = useState('');
   const [errPw, setErrPw] = useState('');
-  const [check, setCheck] = useState(false);
-  const [valueId, setValueId] = useState('');
-  const [valuePw, setValuePw] = useState('');
+  const [check, setCheck] = useState(true);
 
-  const handleIdChange = e => {
-    setValueId(e.target.value);
-  };
-
-  const handlePwChange = e => {
-    setValuePw(e.target.value);
+  const handleValueChange = key => e => {
+    setLoginData({ ...loginData, [key]: e.target.value });
   };
 
   function loginFunc() {
-    // if (loginInfo.email.length < 1) {
-    //   setErrId('아이디를 입력하세요.');
-    //   setErrPw('');
-    //   setCheck(false);
-    //   return;
-    // }
-    // if (loginInfo.password.length < 1) {
-    //   setErrId('');
-    //   setErrPw('비밀번호를 입력하세요.');
-    //   setCheck(false);
-    // }
+    if (!loginData.email) {
+      setErrId('아이디를 입력하세요.');
+      setErrPw('');
+      setCheck(false);
+      return;
+    }
+    if (!loginData.password) {
+      setErrId('');
+      setErrPw('비밀번호를 입력하세요.');
+      setCheck(false);
+      return;
+    }
 
-    return axios
+    axios
       .post(`${process.env.REACT_APP_API_URL}/login`, {
-        email: valueId,
-        password: valuePw,
+        email: loginData.email,
+        password: loginData.password,
       })
       .then(res => {
         setAuth(true);
@@ -67,21 +61,46 @@ function Login(props) {
   const login = () => {
     return (
       <>
-        <div>
-          <Input
-            labelText="아이디"
-            placeholder="아이디를 입력해주세요."
-            className="mb-24"
-            onChange={e => handleIdChange(e)}
-          />
-          <Input
-            labelText="비밀번호"
-            placeholder="비밀번호를 입력해주세요."
-            className="mb-8"
-            onChange={e => handlePwChange(e)}
-          />
+        <form onSubmit={e => e.preventDefault()}>
+          {check ? (
+            <div className="mb-24">
+              <Input
+                labelText="아이디"
+                placeholder="아이디를 입력해주세요."
+                type="text"
+                onChange={handleValueChange('email')}
+              />
+            </div>
+          ) : (
+            <div className="mb-24">
+              <Input
+                labelText="아이디"
+                placeholder="아이디를 입력해주세요."
+                type="text"
+                isError={errId}
+                onChange={handleValueChange('email')}
+              />
+            </div>
+          )}
+
+          {check ? (
+            <Input
+              labelText="비밀번호"
+              placeholder="비밀번호를 입력해주세요."
+              type="password"
+              onChange={handleValueChange('password')}
+            />
+          ) : (
+            <Input
+              labelText="비밀번호"
+              placeholder="비밀번호를 입력해주세요."
+              type="password"
+              isError={errPw}
+              onChange={handleValueChange('password')}
+            />
+          )}
           <Link to="/find-password">
-            <p className="mb-24 text-right text-14 text-black-200">
+            <p className="mb-24 mt-8 text-right text-14 text-black-200">
               비밀번호를 잊으셨나요?
             </p>
           </Link>
@@ -91,7 +110,7 @@ function Login(props) {
           >
             로그인
           </Button>
-        </div>
+        </form>
         <div className="login-line">또는</div>
         <div>
           <Button className="border-gray btn-size-l mb-16 w-full gap-1.5">
