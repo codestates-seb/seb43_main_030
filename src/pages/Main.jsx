@@ -24,8 +24,14 @@ function Main({
   const [print, setPrint] = useState([]);
 
   useEffect(() => {
+    let url = ``;
+    if (searchValue) {
+      url = `${process.env.REACT_APP_API_URL}/kindergarten/name/${searchValue}`;
+    } else {
+      url = `${process.env.REACT_APP_API_URL}/kindergarten/loc/${areaFilter}`;
+    }
     axios
-      .get(`${process.env.REACT_APP_API_URL}/kindergarten/loc/${areaFilter}`)
+      .get(url)
       .then(response => {
         setKinderGartens(response.data);
         setIsPending(true);
@@ -33,7 +39,7 @@ function Main({
       .catch(error => {
         console.log(error);
       });
-  }, [areaFilter, setKinderGartens]);
+  }, [areaFilter, setKinderGartens, searchValue]);
 
   useEffect(() => {
     let timerId;
