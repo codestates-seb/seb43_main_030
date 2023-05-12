@@ -59,6 +59,7 @@ function App() {
   const [kinderGartens, setKinderGartens] = useState([]);
   const [areaFilter, setAreaFilter] = useState(0);
   const [inputValue, setInputValue] = useState('');
+  const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -92,6 +93,8 @@ function App() {
           user={user}
           curUser={curUser}
           setCurUser={setCurUser}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
         />
       )}
 
@@ -106,6 +109,8 @@ function App() {
               setInputValue={setInputValue}
               kinderGartens={kinderGartens}
               setKinderGartens={setKinderGartens}
+              searchValue={searchValue}
+              setSearchValue={setSearchValue}
             />
           }
         />

@@ -10,6 +10,8 @@ function InputBtn(props) {
     inputValue,
     setInputValue,
     setKinderGartens,
+    searchValue,
+    setSearchValue,
   } = props;
   const [focus, setFocus] = useState(true);
 
@@ -23,6 +25,7 @@ function InputBtn(props) {
       .get(url)
       .then(response => {
         setKinderGartens(response.data);
+        setSearchValue(inputValue);
       })
       .catch(error => {
         console.log(error);
