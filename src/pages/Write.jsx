@@ -20,9 +20,9 @@ function Post() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/profile1')
+      .get('http://localhost:3001/profile/')
       .then(response => {
-        setUserProfile(response.data);
+        setUserProfile(response.data[0]);
       })
       .catch(error => {
         console.log(error);
@@ -71,6 +71,7 @@ function Post() {
       category,
       date: currentDate,
       comment: [],
+      likestate: false,
       likes: 0,
     };
 
@@ -92,9 +93,12 @@ function Post() {
   };
 
   return (
-    <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">
-      <div className="w-full max-w-[1162px] px-50 onlyMobile:px-20">
-        <div className="flex-between flex border-b border-black-070 pb-30">
+    <div className="relative mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">
+      <div className="w-full max-w-[1280px] px-80 onlyMobile:px-20">
+        <div
+          className="flex-between fixed top-[60px] z-[10] flex w-[calc(100%-160px)] max-w-[1120px] border-b border-black-070
+        bg-white pb-30 pt-70 onlyMobile:relative onlyMobile:top-0 onlyMobile:z-0 onlyMobile:w-full onlyMobile:pt-0"
+        >
           <h3 className="w-full text-28 font-bold onlyMobile:text-22">
             글쓰기
           </h3>
@@ -111,7 +115,8 @@ function Post() {
             ''
           )}
         </div>
-        <div className="border-b border-black-070 py-50 onlyMobile:py-32">
+
+        <div className="mt-80 border-b border-black-070 py-50 onlyMobile:mt-0 onlyMobile:py-32">
           <p className="write-title">현재 프로필</p>
           <p className="write-sub-title">
             다른 프로필로 글을 작성하고 싶으신 경우 프로필을 변경 후 글을
@@ -167,10 +172,11 @@ function Post() {
           <div>
             <TextArea
               value={title}
-              // defaultValue={title}
               maxLength="80"
               placeholder="제목을 입력해주세요."
               onChange={saveTitle}
+              textClass="box-border h-20 w-full overflow-x-auto my-15"
+              className="flex items-center"
             />
           </div>
         </div>
@@ -183,7 +189,10 @@ function Post() {
           <div>
             <CKEditor
               editor={ClassicEditor}
-              data={content || `<p>내용을 입력해주세요.</p>`}
+              config={{
+                placeholder: '내용을 입력해주세요.',
+              }}
+              data={content}
               onChange={(event, editor) => {
                 const data = editor.getData();
                 setContent(data);
