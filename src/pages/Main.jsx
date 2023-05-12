@@ -83,9 +83,7 @@ function Main({
           {print.length === 0 ? (
             <div className="flex-center h-640 flex-col">
               <img src={NoList} alt="NoList" className="mb-16 h-160 w-160" />
-              <span className="text-18 text-black-350">
-                이 지역에는 유치원이 없어요...
-              </span>
+              <span className="text-18 text-black-350">{`"${searchValue}"에 대한 검색결과가 없어요...`}</span>
             </div>
           ) : (
             isPending &&

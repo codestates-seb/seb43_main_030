@@ -33,6 +33,12 @@ function InputBtn(props) {
       });
   }
 
+  function handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      searchInput();
+    }
+  }
+
   return (
     <div className={cls(className)}>
       <div
@@ -50,6 +56,7 @@ function InputBtn(props) {
           onBlur={() => setFocus(true)}
           onChange={e => changeInput(e)}
           value={inputValue}
+          onKeyPress={handleKeyPress}
         />
         <button
           type="button"
