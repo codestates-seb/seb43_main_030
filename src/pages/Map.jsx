@@ -24,8 +24,7 @@ const myStyles = [
   },
 ];
 
-function Map({ areaFilter }) {
-  const [kinderGartens, setKinderGartens] = useState([]);
+function Map({ areaFilter, kinderGartens, setKinderGartens }) {
   const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
@@ -38,7 +37,7 @@ function Map({ areaFilter }) {
       .catch(error => {
         console.log(error);
       });
-  }, [areaFilter]);
+  }, [areaFilter, setKinderGartens]);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -67,8 +66,8 @@ function Map({ areaFilter }) {
     }
     if (areaFilter === 3) {
       setCenter({
-        lat: 37.498011,
-        lng: 127.113862,
+        lat: 37.517374,
+        lng: 127.070863,
       });
     }
     if (areaFilter === 4) {
