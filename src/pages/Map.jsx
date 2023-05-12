@@ -161,7 +161,7 @@ function Map({ areaFilter, kinderGartens }) {
               </MarkerF>
             );
           })}
-        <div className="flex-center fixed bottom-10 left-0 z-10 ml-[-10px] w-[100%]">
+        <div className="flex-center fixed bottom-10 left-0 z-10 w-[100vw]">
           <Link to="/">
             <Button
               className="color-black z-10 flex h-50 w-190 items-center justify-around"
