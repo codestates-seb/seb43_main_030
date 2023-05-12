@@ -428,26 +428,9 @@
       "category": "community",
       "date": "2023-05-10T14:35:16.005Z",
       "comment": [],
-      "likes": 0,
+      "likes": 11,
+      "likestate": true,
       "id": 9
-    },
-    {
-      "title": "올리는바뵤야",
-      "content": "<p>올리는 바보야 근데 핵귀여운&nbsp;</p>",
-      "category": "community",
-      "date": "2023-05-10T14:41:20.958Z",
-      "comment": [],
-      "likes": 0,
-      "id": 11
-    },
-    {
-      "title": "올리는 귀여워",
-      "content": "<p>올리는 귀여워</p>",
-      "category": "community",
-      "date": "2023-05-10T14:46:35.725Z",
-      "comment": [],
-      "likes": 0,
-      "id": 12
     },
     {
       "title": "페이지네이션",
@@ -455,7 +438,8 @@
       "category": "community",
       "date": "2023-05-10T14:47:17.641Z",
       "comment": [],
-      "likes": 0,
+      "likes": 10,
+      "likestate": false,
       "id": 13
     },
     {
@@ -464,7 +448,8 @@
       "category": "community",
       "date": "2023-05-10T14:47:42.095Z",
       "comment": [],
-      "likes": 0,
+      "likes": 4,
+      "likestate": true,
       "id": 14
     },
     {
@@ -473,7 +458,8 @@
       "category": "community",
       "date": "2023-05-10T14:48:25.656Z",
       "comment": [],
-      "likes": 0,
+      "likes": 4,
+      "likestate": false,
       "id": 15
     },
     {
@@ -482,17 +468,9 @@
       "category": "community",
       "date": "2023-05-10T14:52:38.874Z",
       "comment": [],
-      "likes": 0,
+      "likes": 7,
+      "likestate": false,
       "id": 16
-    },
-    {
-      "title": "ㄴㄹㅇㄴㄹㄴㅇㄹㅇㄴㄹㄴㅇㄹㅇㅁㅎㄷ뮤혿ㅁ솜",
-      "content": "<p>ㅇㅎㅁㅎㅁ유율눓눌훌훌훌ㄴ훌훌훔ㅎㄹㅁㅎ</p>",
-      "category": "community",
-      "date": "2023-05-10T14:52:13.011Z",
-      "comment": [],
-      "likes": 0,
-      "id": 17
     },
     {
       "title": "테스트",
@@ -500,17 +478,29 @@
       "category": "community",
       "date": "2023-05-11T02:45:44.075Z",
       "comment": [],
-      "likes": 0,
+      "likes": 606,
+      "likestate": false,
       "id": 19
     },
     {
-      "title": "수정테스트",
-      "content": "<p>수정테스트</p>",
+      "title": "test",
+      "content": "<p>testtesttesttesttest</p>",
       "category": "community",
-      "date": "2023-05-11T02:53:55.011Z",
+      "date": "2023-05-11T13:34:43.028Z",
       "comment": [],
       "likes": 0,
+      "likestate": false,
       "id": 20
+    },
+    {
+      "title": "sfsdfsfaf",
+      "content": "<p>fsafsfasf</p>",
+      "category": "community",
+      "date": "2023-05-11T13:42:15.050Z",
+      "comment": [],
+      "likestate": true,
+      "likes": 1,
+      "id": 21
     }
   ],
   "comments": [
