@@ -1,5 +1,6 @@
+import axios from 'axios';
 import { useMediaQuery } from 'react-responsive';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
@@ -9,47 +10,127 @@ import { ReactComponent as Kakao } from '../images/logo-kakao.svg';
 import { ReactComponent as Google } from '../images/logo-google.svg';
 
 function SignUp() {
-  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
-
   const navi = useNavigate();
+  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
   const [user, setUser] = useState({
     email: '',
     password: '',
     checkTeacher: '',
   });
-  const [checkPw, setCheckPw] = useState('');
-  const [errId, setErrId] = useState('');
-  const [errPw, setErrPw] = useState('');
-  const [check, setCheck] = useState(true);
+  const [officials, setOfficials] = useState(false);
+  const [email, setEmail] = useState('');
+  const [pwd, setPwd] = useState('');
+  const [confirmPwd, setConfirmPwd] = useState('');
 
-  const signFunc = () => {
-    if (!user.email) {
-      setErrId('아이디를 입력하세요.');
-      setCheck(false);
-    }
-    if (!user.password) {
-      setErrPw('');
-      setCheck(false);
-    }
+  // 오류메시지
+  const [emailErr, setEmailErr] = useState('');
+  const [pwdErr, setPwdErr] = useState('');
+  const [confirmPwdErr, setConfirmPwdErr] = useState('');
+
+  // 유효성검사
+  const [isEmail, setIsEmail] = useState(false);
+  const [isPwd, setIsPwd] = useState(false);
+  const [isConfirmPwd, setIsConfirmPwd] = useState(false);
+
+  const handleOfficialsClick = value => () => {
+    setOfficials(value);
   };
+
+  const onSignup = useCallback(
+    e => {
+      e.preventDefault();
+      axios
+        .post(`${process.env.REACT_APP_API_URL}/users`, {
+          email,
+          password: pwd,
+          checkOfficials: officials,
+        })
+        .then(res => {
+          navi('/login');
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+          if (err.response && err.response.state === 409) {
+            setEmailErr('이미 있는 이메일입니다.');
+          }
+        });
+    },
+    [email, pwd, officials, navi],
+  );
+
+  const onCheckEmail = useCallback(e => {
+    const valiEmail =
+      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    const CurrentEmail = e.target.value;
+    setEmail(CurrentEmail);
+
+    if (!valiEmail.test(CurrentEmail)) {
+      setEmailErr('이메일 형식이 올바르지 않습니다.');
+      setIsEmail(false);
+    } else {
+      setEmailErr('');
+      setIsEmail(true);
+    }
+  }, []);
+
+  const onCheckPwd = useCallback(e => {
+    const valiPwd = /^[^\s]{8,15}$/;
+    const CurrentPwd = e.target.value;
+    setPwd(CurrentPwd);
+
+    if (!CurrentPwd) {
+      setPwdErr('비밀번호를 입력해주세요.');
+      setIsPwd(false);
+    } else if (!valiPwd.test(CurrentPwd)) {
+      setPwdErr('8~15자의 비밀번호를 입력해주세요.');
+      setIsPwd(false);
+    } else {
+      setPwdErr('');
+      setIsPwd(true);
+    }
+  }, []);
+
+  const onCheckConfirmPwd = useCallback(
+    e => {
+      const CurrentConfirmPwd = e.target.value;
+      setConfirmPwd(CurrentConfirmPwd);
+
+      if (pwd === CurrentConfirmPwd) {
+        setConfirmPwdErr('');
+        setIsConfirmPwd(true);
+      } else {
+        setConfirmPwdErr('비밀번호를 다시 확인해주세요.');
+        setIsConfirmPwd(false);
+      }
+    },
+    [pwd],
+  );
 
   const signup = () => {
     return (
       <>
-        <div className="px-8">
-          <div className="mb-24 flex items-end">
-            <Input labelText="아이디" placeholder="아이디를 입력해주세요." />
-            <Button className="color-yellow btn-size-l ml-8 h-50 shrink-0 grow-0">
-              인증하기
+        <form className="px-8" onSubmit={onSignup}>
+          <div className="mb-24 flex">
+            <Input
+              labelText="아이디"
+              type="email"
+              placeholder="아이디를 입력해주세요."
+              onChange={onCheckEmail}
+              isError={emailErr}
+            />
+            <Button className="color-yellow btn-size-l ml-8 mt-28 h-50 shrink-0 grow-0">
+              인증번호
             </Button>
           </div>
-          <div className="mb-24 flex items-end">
+          <div className="mb-24 flex">
             <Input
               labelText="인증번호"
+              type="number"
               placeholder="인증번호를 입력해주세요."
             />
-            <Button className="color-yellow btn-size-l ml-8 h-50 shrink-0 grow-0">
+            <Button className="color-yellow btn-size-l ml-8 mt-28 h-50 shrink-0 grow-0">
               인증 하기
             </Button>
           </div>
@@ -58,28 +139,51 @@ function SignUp() {
               생성 계정 선택
             </p>
             <RadioGroup>
-              <Radio id="1" name="contact" value="user" defaultChecked>
+              <Radio
+                id="1"
+                name="contact"
+                value="user"
+                onClick={handleOfficialsClick(false)}
+                defaultChecked
+              >
                 견주님
               </Radio>
-              <Radio id="2" name="contact" value="owner">
+              <Radio
+                id="2"
+                name="contact"
+                value="owner"
+                onClick={handleOfficialsClick(true)}
+              >
                 유치원 원장님
               </Radio>
             </RadioGroup>
           </div>
-          <Input
-            labelText="비밀번호"
-            placeholder="비밀번호를 입력해주세요."
-            className="mb-24"
-          />
-          <Input
-            labelText="비밀번호 확인"
-            placeholder="비밀번호를 다시 입력해주세요."
-            className="mb-24"
-          />
-          <Button className="color-yellow btn-size-l w-full">
+          <div className="mb-24">
+            <Input
+              labelText="비밀번호"
+              placeholder="비밀번호를 입력해주세요."
+              type="password"
+              onChange={onCheckPwd}
+              isError={pwdErr}
+            />
+          </div>
+          <div className="mb-24">
+            <Input
+              labelText="비밀번호 확인"
+              placeholder="비밀번호를 다시 입력해주세요."
+              type="password"
+              onChange={onCheckConfirmPwd}
+              isError={confirmPwdErr}
+            />
+          </div>
+          <Button
+            className="color-yellow btn-size-l w-full"
+            disabled={!(isEmail && isPwd && isConfirmPwd)}
+            onClick={onSignup}
+          >
             이메일로 회원가입
           </Button>
-        </div>
+        </form>
         <div className="login-line">또는</div>
         <div>
           <Button className="border-gray btn-size-l mb-16 w-full gap-1.5">

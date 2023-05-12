@@ -77,6 +77,7 @@ function App() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(user);
 
   return (
     <div className="h-[calc(100vh-80px)]">

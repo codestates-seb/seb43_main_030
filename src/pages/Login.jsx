@@ -16,8 +16,9 @@ function Login({ setAuth, auth, setUser, user, setCurUser }) {
     email: '',
     password: '',
   });
-  const [errId, setErrId] = useState('');
-  const [errPw, setErrPw] = useState('');
+  const [emailErr, setEmailErr] = useState('');
+  const [pwdErr, setPwdErr] = useState('');
+
   const [check, setCheck] = useState(true);
 
   const handleValueChange = key => e => {
@@ -26,14 +27,14 @@ function Login({ setAuth, auth, setUser, user, setCurUser }) {
 
   function loginFunc() {
     if (!loginData.email) {
-      setErrId('아이디를 입력하세요.');
-      setErrPw('');
+      setEmailErr('아이디를 입력하세요.');
+      setPwdErr('');
       setCheck(false);
       return;
     }
     if (!loginData.password) {
-      setErrId('');
-      setErrPw('비밀번호를 입력하세요.');
+      setEmailErr('');
+      setPwdErr('비밀번호를 입력하세요.');
       setCheck(false);
       return;
     }
@@ -45,16 +46,18 @@ function Login({ setAuth, auth, setUser, user, setCurUser }) {
       })
       .then(res => {
         setAuth(true);
-        setErrId('');
-        setErrPw('');
+        setEmailErr('');
+        setPwdErr('');
         navi('/');
+        navi(0);
         localStorage.setItem('token', res.headers.get('Authorization'));
+        localStorage.setItem('tokenRefresh', res.headers.get('Refresh'));
       })
       .catch(err => {
         console.log(err);
         setAuth(false);
         setCheck(false);
-        setErrId('이메일 또는 패스워드가 올바르지 않습니다.');
+        setEmailErr('이메일 또는 패스워드가 올바르지 않습니다.');
       });
   }
 
@@ -77,7 +80,7 @@ function Login({ setAuth, auth, setUser, user, setCurUser }) {
                 labelText="아이디"
                 placeholder="아이디를 입력해주세요."
                 type="text"
-                isError={errId}
+                isError={emailErr}
                 onChange={handleValueChange('email')}
               />
             </div>
@@ -95,7 +98,7 @@ function Login({ setAuth, auth, setUser, user, setCurUser }) {
               labelText="비밀번호"
               placeholder="비밀번호를 입력해주세요."
               type="password"
-              isError={errPw}
+              isError={pwdErr}
               onChange={handleValueChange('password')}
             />
           )}
