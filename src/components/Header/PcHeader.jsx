@@ -18,6 +18,8 @@ function Header({
   user,
   curUser,
   setCurUser,
+  searchValue,
+  setSearchValue,
 }) {
   // const [isLogin, setIsLogin] = useState(false);
   // const [nickname, setNickname] = useState('쫑이콩이맘');
@@ -41,6 +43,8 @@ function Header({
             setInputValue={setInputValue}
             kinderGartens={kinderGartens}
             setKinderGartens={setKinderGartens}
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
           />
         </div>
         {auth ? (
