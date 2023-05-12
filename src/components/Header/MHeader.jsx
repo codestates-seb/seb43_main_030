@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import InputBtn from '../InputBtn';
 import { ReactComponent as Menu } from '../../images/menu.svg';
 import { ReactComponent as LogoSymbol } from '../../images/logo-symbol.svg';
@@ -24,11 +24,14 @@ function MHeader(props) {
     setSearchValue,
   } = props;
 
+  const navi = useNavigate();
+
   function onDropDown() {
     setDropDown(!dropDown);
   }
 
   function reload() {
+    navi('/');
     window.location.reload();
   }
 
