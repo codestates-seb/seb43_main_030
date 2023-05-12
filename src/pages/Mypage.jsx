@@ -10,6 +10,8 @@ import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
 import { ReactComponent as Perpett } from '../images/perpett-on.svg';
 import ListReview from '../components/List/ListReview';
 import Post from '../components/List/ListCommunity';
+import ProfileCreateModal from './ProfileCreateModal';
+import SettingModal from './SettingModal';
 
 function Mypage({ auth, setAuth, user, serUser }) {
   const { id } = useParams();
@@ -21,6 +23,7 @@ function Mypage({ auth, setAuth, user, serUser }) {
   const [nameValue, setNameValue] = useState(nickname);
   const [nameErr, setNameErr] = useState(false);
   const [dropDown, setDropDown] = useState(false);
+  const [isModal, setIsModal] = useState(false);
 
   useEffect(() => {
     axios
@@ -34,6 +37,19 @@ function Mypage({ auth, setAuth, user, serUser }) {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const modalOnOff = () => {
+    setIsModal(!isModal);
+  };
+
+  const closeModal = () => {
+    setIsModal(false);
+  };
+
+  const handleLogout = () => {
+    setAuth(false);
+    localStorage.removeItem('token');
+  };
 
   const handleDropdown = () => {
     setDropDown(!dropDown);
@@ -122,6 +138,7 @@ function Mypage({ auth, setAuth, user, serUser }) {
                     <Button
                       className="color-yellow flex-center btn-size-l onlyMobile:btn-size-s mb-8 onlyMobile:w-32"
                       icon="plus"
+                      onClick={modalOnOff}
                     />
                     <span className="text-12 text-black-350">프로필 추가</span>
                   </div>
@@ -129,6 +146,7 @@ function Mypage({ auth, setAuth, user, serUser }) {
                     <Button
                       className="border-gray flex-center btn-size-l onlyMobile:btn-size-s mb-8 onlyMobile:w-32"
                       icon="setting"
+                      onClick={modalOnOff}
                     />
                     <span className="text-12 text-black-350">계정 설정</span>
                   </div>
@@ -136,6 +154,7 @@ function Mypage({ auth, setAuth, user, serUser }) {
                     <Button
                       className="border-gray flex-center btn-size-l onlyMobile:btn-size-s mb-8 onlyMobile:w-32"
                       icon="logout"
+                      onClick={handleLogout}
                     />
                     <span className="text-12 text-black-350">로그아웃</span>
                   </div>
@@ -268,6 +287,8 @@ function Mypage({ auth, setAuth, user, serUser }) {
           ''
         )}
       </div>
+      {isModal ? <ProfileCreateModal onClick={closeModal} /> : ''}
+      {isModal ? <SettingModal onClick={closeModal} /> : ''}
     </div>
   );
 }
