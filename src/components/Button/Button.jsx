@@ -8,13 +8,14 @@ import { ReactComponent as Setting } from '../../images/setting.svg';
 import { ReactComponent as Logout } from '../../images/logout.svg';
 
 function Button(props) {
-  const { className, onClick, children, icon } = props;
+  const { className, onClick, children, icon, disabled } = props;
 
   return (
     <button
       type="button"
       onClick={onClick}
       className={cls('flex-center rounded-md', className)}
+      disabled={disabled}
     >
       {icon === 'search' ? <Search /> : ''}
       {icon === 'map' ? <Map className="mr-10 h-20 w-20 text-white" /> : ''}
