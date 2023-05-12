@@ -8,6 +8,7 @@ import Comment from '../components/Comment';
 import Dog from '../images/dog.jpeg';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
+import dateCalculate from '../components/dateCalculate';
 
 function Post() {
   const [post, setPost] = useState([]);
@@ -18,8 +19,13 @@ function Post() {
   const [commentInput, setCommentInput] = useState('');
   const [like, setLike] = useState(false);
   const [countLike, setCountLike] = useState(0);
+  const [previousPost, setPreviousPost] = useState(null);
+  const [nextPost, setNextPost] = useState(null);
   const navigate = useNavigate();
   const { postId } = useParams();
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const apiUrl2 = 'http://localhost:3001';
+  const token = process.env.REACT_APP_TOKEN;
 
   useEffect(() => {
     axios
@@ -69,16 +75,50 @@ function Post() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/post/${postId}`)
+      .get(`${apiUrl}/community/1/post/${postId}`)
       .then(response => {
-        setPost(response.data);
-        setCountLike(response.data.likes);
-        setLike(response.data.likestate);
+        setPost(response.data.data);
+        setCountLike(response.data.data.likes);
+        // setLike(response.data.data.likestate);
       })
       .catch(error => {
         console.log(error);
       });
-  }, [setPost, postId]);
+  }, [setPost, postId, apiUrl]);
+
+  useEffect(() => {
+    axios
+      .get(`${apiUrl}/community/1/post?page=1`)
+      .then(response => {
+        const posts = response.data.data;
+
+        // 현재 게시글 인덱스 찾기
+        const currentIndex = posts.findIndex(
+          post => post.postId === Number(postId),
+        );
+        console.log(currentIndex);
+
+        // 유효한 게시글만 필터링
+        const validPosts = posts.filter(post => post.postId !== '');
+        // 이전글 찾기
+        const previousIndex = currentIndex - 1;
+        const previous = previousIndex >= 0 ? validPosts[previousIndex] : null;
+        setPreviousPost(previous);
+
+        // 다음글 찾기
+        const nextIndex = currentIndex + 1;
+        const next =
+          nextIndex < validPosts.length ? validPosts[nextIndex] : null;
+        setNextPost(next);
+
+        if (!next) {
+          alert('마지막 글입니다.');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [apiUrl, postId]);
 
   const handleDelete = () => {
     const result = window.confirm('게시물을 삭제하시겠습니까?');
@@ -109,6 +149,7 @@ function Post() {
   //     .catch(error => console.log(error));
   // };
 
+  // 좋아요 버튼 코드
   const isLike = () => {
     const updatedLike = !like;
     const updatedLikes = updatedLike ? countLike + 1 : countLike - 1;
@@ -116,12 +157,22 @@ function Post() {
     setLike(updatedLike);
     setCountLike(updatedLikes);
 
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
     axios
-      .put(`http://localhost:3001/post/${postId}`, {
-        ...post,
-        likes: updatedLikes,
-        likestate: updatedLike,
-      })
+      .put(
+        `${apiUrl}/post/${postId}/like`,
+        {
+          ...post,
+          likes: updatedLikes,
+          // likestate: updatedLike,
+        },
+        config,
+      )
       .then(response => {
         console.log(response.data.likes);
       })
@@ -155,7 +206,7 @@ function Post() {
                       <img src={Dog} alt="임시이미지" />
                     </div>
                     <p className="relative pl-5 pr-12 text-14 text-black-900 onlyMobile:text-12">
-                      콩이쫑이맘
+                      {post.name}
                     </p>
                   </div>
                   <div className="flex">
@@ -174,7 +225,7 @@ function Post() {
                   </div>
                 </div>
                 <p className="text-14 text-black-350 onlyMobile:text-12 ">
-                  {post.date}
+                  {dateCalculate(post.createdAt)}
                 </p>
               </div>
             </div>
@@ -182,7 +233,7 @@ function Post() {
         </div>
         <div className="border-b border-solid border-black-070 pb-24">
           <div className="py-32 onlyMobile:py-24 onlyMobile:text-14">
-            {post.contents && post.contents.text}
+            {post.content}
           </div>
           <div className="mb-40">
             <button
@@ -221,8 +272,31 @@ function Post() {
               <span className="pl-5 font-bold">{countLike}</span>
             </div>
             <div className="flex">
-              <Button className="btn-size-m border-gray mr-10 ">이전글</Button>
-              <Button className="btn-size-m border-gray">다음글</Button>
+              {previousPost ? (
+                <Link
+                  to={`/post/${previousPost.postId}`}
+                  // to="/post"
+                  className="felx flex-center btn-size-m border-gray mr-10 rounded-md"
+                >
+                  이전글
+                </Link>
+              ) : (
+                <Button className="btn-size-m border-gray mr-10" disabled>
+                  이전글
+                </Button>
+              )}
+              {nextPost ? (
+                <Link
+                  to={`/post/${nextPost.postId}`}
+                  className="flex-center btn-size-m border-gray rounded-md"
+                >
+                  다음글
+                </Link>
+              ) : (
+                <Button className="btn-size-m border-gray" disabled>
+                  다음글
+                </Button>
+              )}
             </div>
           </div>
         </div>
