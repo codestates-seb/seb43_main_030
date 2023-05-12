@@ -17,9 +17,11 @@ import com.kids.SEB_main_030.global.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -40,8 +42,9 @@ public class ProfileController {
 
 
     @PostMapping
-    public ResponseEntity postProfile(@Valid @RequestBody ProfilePostDto postDto){
-        Profile profile = profileService.createProfile(mapper.profilePostToProfile(postDto));
+    public ResponseEntity postProfile(@Valid @RequestPart ProfilePostDto postDto,
+                                      @RequestPart(required = false) MultipartFile image){
+        Profile profile = profileService.createProfile(mapper.profilePostToProfile(postDto), image);
         URI uri = UriCreator.createUri(PROFILE_DEFAULT_URL, profile.getProfileId());
         return ResponseEntity.created(uri).build();
     }
@@ -75,10 +78,11 @@ public class ProfileController {
     }
 
     @PatchMapping("/{profile-id}")
-    public ResponseEntity patchProfile(@Valid @RequestBody ProfilePatchDto patchDto,
+    public ResponseEntity patchProfile(@Valid @RequestPart ProfilePatchDto patchDto,
+                                       @RequestPart MultipartFile image,
                                        @PathVariable("profile-id") long profileId){
         Profile profile = mapper.profilePatchToProfile(patchDto);
-        Profile result = profileService.updateProfile(profile, profileId);
+        Profile result = profileService.updateProfile(profile, profileId, image);
         if (result.getType().equals(Profile.type.PERSON)){
             return new ResponseEntity(new SingleResponseDto<>(mapper.profileToPersonProfileDto(result)),HttpStatus.OK);
         }

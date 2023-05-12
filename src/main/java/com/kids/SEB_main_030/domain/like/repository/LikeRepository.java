@@ -13,12 +13,12 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 
     int countByPost(Post post);
 
-    @Query(value = "SELECT COUNT(1) FROM LIKES WHERE profile_id = :profile AND post_id = :post", nativeQuery = true)
+    @Query(value = "SELECT COUNT(1) FROM likes WHERE profile_id = :profile AND post_id = :post", nativeQuery = true)
     int findByLikeCountByPostIdOrProfileId(Profile profile, Post post);
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM LIKES WHERE profile_id = :profile AND post_id = :post", nativeQuery = true)
+    @Query(value = "DELETE FROM likes WHERE profile_id = :profile AND post_id = :post", nativeQuery = true)
     void deleteLikeByPostIdOrProfileId(Profile profile, Post post);
 
 }
