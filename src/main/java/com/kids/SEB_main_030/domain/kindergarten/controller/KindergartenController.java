@@ -57,7 +57,8 @@ public class KindergartenController {
     @GetMapping("/name/{name-keyword}")
     public ResponseEntity getKindergartensByTitle(@PathVariable("name-keyword") String nameKeyword ){
         List<Kindergarten>kindergartens=kindergartenService.findKindergartensByTitle(nameKeyword);
-        return new ResponseEntity<>(kindergartens,HttpStatus.OK);
+        List<KindergartenResponseDto>response = kindergartenMapper.kindergartensToKindergartenResponseDtos(kindergartens);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
     @GetMapping
     public ResponseEntity getKindergartens(@Positive @RequestParam int page,@Positive @RequestParam int size){

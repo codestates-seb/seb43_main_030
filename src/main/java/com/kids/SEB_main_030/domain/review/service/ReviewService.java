@@ -56,5 +56,11 @@ public class ReviewService {
                 new LogicException(CustomException.REVIEW_NOT_FOUND));
         return findReview;
     }
+    public void deleteReview(long reviewId){
+        Review findReview = findVerifiedReview(reviewId);
+        if(findReview.getProfile().getProfileId()== userService.findCurrentProfileId()){
+            reviewRepository.delete(findReview);
+        }else throw new LogicException(CustomException.NO_AUTHORITY);
+    }
 
 }

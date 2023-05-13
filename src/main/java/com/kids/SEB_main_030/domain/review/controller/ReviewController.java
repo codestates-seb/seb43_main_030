@@ -61,4 +61,10 @@ public class ReviewController {
         List<Review>reviewList=reviewService.findReviews(kindergartenId);
         return new ResponseEntity<>(reviewMapper.reviewsToReviewResponseDtos(reviewList),HttpStatus.OK);
     }
+    @DeleteMapping("/{review-id}")
+    public ResponseEntity deleteReview(@PathVariable("review-id")@Positive long reviewId)
+    {
+        reviewService.deleteReview(reviewId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
