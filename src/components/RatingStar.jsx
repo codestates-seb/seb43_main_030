@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { ReactComponent as Star } from '../images/star.svg';
 
-function RatingStar() {
-  const [starIndex, setStarIndex] = useState(5);
+function RatingStar({ handleStarIndexChange }) {
+  const [starIndex, setStarIndex] = useState(0);
   const handleClick = index => {
     setStarIndex(index);
+    handleStarIndexChange(index);
   };
 
   return (
