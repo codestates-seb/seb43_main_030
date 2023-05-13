@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import Pagination from 'react-js-pagination';
 import InputBtn from '../components/InputBtn';
 import Button from '../components/Button/Button';
 import ListCommunity from '../components/List/ListCommunity';
@@ -12,20 +14,24 @@ import { ReactComponent as ArrowPrev } from '../images/arrow-prev.svg';
 function Community() {
   const [postList, setPostList] = useState([]);
   const [kinderInfo, setKinderInfo] = useState([]);
+  const [page, setPage] = useState(1);
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
   const apiUrl2 = 'http://localhost:3001';
 
   useEffect(() => {
     axios
-      .get(`${apiUrl2}/post`)
+      // .get(`${apiUrl2}/post`)
+      .get(`${apiUrl}/community/1/post?page=${page}`)
       .then(response => {
-        setPostList(response.data);
+        // setPostList(response.data);
+        setPostList(response.data.data);
       })
       .catch(error => {
         console.log(error);
       });
-  }, [setPostList]);
+    // }, [setPostList, apiUrl, page]);
+  }, [setPostList, apiUrl, page]);
 
   useEffect(() => {
     axios
@@ -33,7 +39,14 @@ function Community() {
       .then(response => setKinderInfo(response.data))
       .catch(error => console.log(error));
   }, [apiUrl]);
-  console.log(kinderInfo);
+
+  // 버튼 눌렀을 때 이동되면서 공지글을
+
+  // 페이지네이션
+  const handlePageChange = page => {
+    setPage(page);
+  };
+
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:mt-0 onlyMobile:pt-64 ">
       <div className="max-w-[1280px] px-80 onlyMobile:max-w-full onlyMobile:px-0">
@@ -97,15 +110,27 @@ function Community() {
             </div>
             <div className="mt-50 flex justify-center">
               <Button className="btn-pagination-default">
-                <ArrowPrev />
-              </Button>
-              <Button className="btn-pagination-default">1</Button>
-              <Button className="btn-pagination-default">2</Button>
-              <Button className="btn-pagination-default">3</Button>
-              <Button className="btn-pagination-default">4</Button>
-              <Button className="btn-pagination-default">5</Button>
-              <Button className="btn-pagination-default">
-                <ArrowNext />
+                <Pagination
+                  activePage={page}
+                  itemsCountPerPage={10}
+                  totalItemsCount={postList.length - 1}
+                  pageRangeDisplayed={5}
+                  onChange={handlePageChange}
+                  prevPageText={<ArrowPrev />}
+                  nextPageText={<ArrowNext />}
+                  lastPageText={
+                    <div className="flex">
+                      <ArrowNext className="mr-[-6px]" />
+                      <ArrowNext className="mr-[-3px]" />
+                    </div>
+                  }
+                  firstPageText={
+                    <div className="flex">
+                      <ArrowPrev className="mr-[-6px]" />
+                      <ArrowPrev className="mr-[2px]" />
+                    </div>
+                  }
+                />
               </Button>
             </div>
           </div>

@@ -96,7 +96,6 @@ function Post() {
         const currentIndex = posts.findIndex(
           post => post.postId === Number(postId),
         );
-        console.log(currentIndex);
 
         // 유효한 게시글만 필터링
         const validPosts = posts.filter(post => post.postId !== '');
@@ -110,10 +109,6 @@ function Post() {
         const next =
           nextIndex < validPosts.length ? validPosts[nextIndex] : null;
         setNextPost(next);
-
-        if (!next) {
-          alert('마지막 글입니다.');
-        }
       })
       .catch(error => {
         console.log(error);
@@ -149,7 +144,6 @@ function Post() {
   //     .catch(error => console.log(error));
   // };
 
-  // 좋아요 버튼 코드
   const isLike = () => {
     const updatedLike = !like;
     const updatedLikes = updatedLike ? countLike + 1 : countLike - 1;
@@ -217,7 +211,7 @@ function Post() {
                     <p className="list-gray-small flex items-center pl-12">
                       <img
                         src={LikeOff}
-                        alt="좋아요OFF"
+                        alt="좋아요"
                         className="mr-5 h-18 w-18"
                       />
                       좋아요 {countLike}
@@ -269,19 +263,22 @@ function Post() {
                 />
               </button>
               <span className="pl-10">좋아요</span>
-              <span className="pl-5 font-bold">{countLike}</span>
+              {/* <span className="pl-5 font-bold">{countLike}</span> */}
             </div>
             <div className="flex">
               {previousPost ? (
                 <Link
                   to={`/post/${previousPost.postId}`}
                   // to="/post"
-                  className="felx flex-center btn-size-m border-gray mr-10 rounded-md"
+                  className="flex-center btn-size-m border-gray mr-10 flex rounded-md"
                 >
                   이전글
                 </Link>
               ) : (
-                <Button className="btn-size-m border-gray mr-10" disabled>
+                <Button
+                  disabled
+                  className="flex-center btn-size-m mr-10 flex rounded-md bg-black-050 text-black-200"
+                >
                   이전글
                 </Button>
               )}
@@ -293,7 +290,10 @@ function Post() {
                   다음글
                 </Link>
               ) : (
-                <Button className="btn-size-m border-gray" disabled>
+                <Button
+                  disabled
+                  className="flex-center btn-size-m mr-2 flex rounded-md bg-black-050 text-black-200"
+                >
                   다음글
                 </Button>
               )}
