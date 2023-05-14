@@ -8,17 +8,19 @@ import { ReactComponent as Kakao } from '../images/logo-kakao.svg';
 import { ReactComponent as Google } from '../images/logo-google.svg';
 
 function Login({ setAuth, auth, setUser, user, setCurUser }) {
-  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
-
   const navi = useNavigate();
+  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
   });
+
+  // 오류메시지
   const [emailErr, setEmailErr] = useState('');
   const [pwdErr, setPwdErr] = useState('');
 
+  // 유효성 검사
   const [check, setCheck] = useState(true);
 
   const handleValueChange = key => e => {
