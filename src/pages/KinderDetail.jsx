@@ -18,6 +18,7 @@ import { ReactComponent as Perpett } from '../images/perpett-on.svg';
 import { ReactComponent as ArrowNext } from '../images/arrow-next.svg';
 import { ReactComponent as ArrowPrev } from '../images/arrow-prev.svg';
 
+// 지도 관련 스타일 정의
 const myStyles = [
   {
     featureType: 'poi',
@@ -34,6 +35,7 @@ const containerStyle = {
 
 function KinderDetail() {
   const { id } = useParams();
+
   const [value, setValue] = useState('');
   const [map, setMap] = useState(null);
   const [center, setCenter] = useState({ lat: 0, lng: 0 });
@@ -41,6 +43,7 @@ function KinderDetail() {
 
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
+  // 지도
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
@@ -81,6 +84,7 @@ function KinderDetail() {
       });
   }, [value, id]);
 
+  // 모달 관련 함수
   const modalOnOff = () => {
     setisModal(!isModal);
   };
@@ -92,17 +96,22 @@ function KinderDetail() {
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-64 ">
       <div className="max-w-[1280px] px-80 onlyMobile:max-w-full onlyMobile:px-0">
+        {/* 메인 이미지 */}
         <div className="relative mb-48 h-432 overflow-hidden rounded-[16px] onlyMobile:mb-24 onlyMobile:h-300 onlyMobile:rounded-0">
           <img src={Dog} alt="예시이미지" className="w-full" />
         </div>
         <div className="flex">
+          {/* 좌측 컨텐츠 영역 */}
           <div className="relative w-[63%] pl-8 onlyMobile:w-full onlyMobile:px-24">
             <div className="pb-48 onlyMobile:pb-32">
+              {/* 유치원 이름 */}
               <h2 className="mb-24 text-28 font-bold text-black-900 onlyMobile:mb-12 onlyMobile:text-22">
                 {value.name}
               </h2>
-              <p className="onlyMobile:text-14">유치원 소개 영역</p>
+              <p className="onlyMobile:text-14">유치원 소개 내용 입력</p>
             </div>
+
+            {/* 유치원 정보 */}
             <div className="content-line">
               <h5 className="mb-24 text-22 font-bold onlyMobile:text-18">
                 유치원 정보
@@ -138,6 +147,8 @@ function KinderDetail() {
                 </div>
               </div>
             </div>
+
+            {/* 유치원 공지사항 */}
             <div className="content-line">
               <h5 className="mb-24 text-22 font-bold onlyMobile:text-18">
                 유치원 공지사항
@@ -171,6 +182,8 @@ function KinderDetail() {
                 )}
               </div>
             </div>
+
+            {/* 유치원 후기 영역 */}
             <div className="content-line">
               <div className="mb-24 flex">
                 <div className="flex w-full items-center ">
@@ -221,6 +234,8 @@ function KinderDetail() {
               </div>
             </div>
           </div>
+
+          {/* 좌측 고정 영역 */}
           {!isMobile ? (
             <div className="relative z-10 ml-[8.3%] w-[33.3%]">
               <div className="sticky-card top-[128px] mb-48">
@@ -243,6 +258,8 @@ function KinderDetail() {
             ''
           )}
         </div>
+
+        {/* 유치원 지도 영역 */}
         <div className="content-line onlyMobile:mx-24 onlyMobile:w-auto">
           <div className="mb-24 flex w-full items-center">
             <h5 className="w-full text-22 font-bold onlyMobile:text-18">
