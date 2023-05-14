@@ -63,10 +63,7 @@ public class ImageUploader {
             fileName = fileName.substring(0, fileName.lastIndexOf('/'));
         }
         imageUrl = imageUrl.substring(fileName.lastIndexOf('/') + 1);
-        log.info("=".repeat(100) + imageUrl);
-        log.info("=".repeat(100) + bucket);
         boolean isObjectExist = s3Client.doesObjectExist(bucket, imageUrl);
-        log.info("=".repeat(100) + isObjectExist);
         if (!isObjectExist) throw new LogicException(CustomException.IMAGE_NOT_FOUND);
 
         // s3 객체 삭제 로직

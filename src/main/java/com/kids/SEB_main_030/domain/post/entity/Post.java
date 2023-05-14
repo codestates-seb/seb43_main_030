@@ -66,8 +66,7 @@ public class Post {
     // Post 와 매핑 Post 삭제시 관련 Like 도 삭제
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Image> images = new ArrayList<>();
-
-
+    
     public enum Category {
         NOTIFICATION("공지"),
         COMMUNITY("커뮤니티");

@@ -14,7 +14,16 @@ public interface ReviewMapper {
     @Mapping(source = "kindergartenId",target = "kindergarten.kindergartenId")
     @Mapping(source = "profileId",target = "profile.profileId")
     Review reviewPostDtoToReview(ReviewPostDto reviewPostDto);
-    Review reviewPatchDtoToReview(ReviewPatchDto reviewPatchDto);
+    default Review reviewPatchDtoToReview(ReviewPatchDto reviewPatchDto) {
+        Review review = new Review();
+        if ( reviewPatchDto == null ) {
+            return review;
+        }
+        review.setContents( reviewPatchDto.getContents() );
+        review.setRatedReview( reviewPatchDto.getRatedReview() );
+
+        return review;
+    };
     @Mapping(source="kindergarten.name",target="kindergartenName")
     @Mapping(source="kindergarten.locations",target="kindergartenLocations")
     @Mapping(source="kindergarten.kindergartenId",target="kindergartenId")

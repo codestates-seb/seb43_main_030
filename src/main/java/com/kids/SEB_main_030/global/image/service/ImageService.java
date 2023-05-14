@@ -2,6 +2,7 @@ package com.kids.SEB_main_030.global.image.service;
 
 
 import com.kids.SEB_main_030.domain.post.dto.PostDto;
+import com.kids.SEB_main_030.domain.review.entity.Review;
 import com.kids.SEB_main_030.global.exception.CustomException;
 import com.kids.SEB_main_030.global.exception.LogicException;
 
@@ -9,7 +10,9 @@ import com.kids.SEB_main_030.global.image.repository.ImageRepository;
 import com.kids.SEB_main_030.global.image.entity.Image;
 import com.kids.SEB_main_030.domain.kindergarten.entity.Kindergarten;
 import com.kids.SEB_main_030.domain.post.entity.Post;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +26,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ImageService {
 
+    @Getter
+    @Value("${url.image.profile}")
+    private String defaultProfileImage;
+    @Getter
+    @Value("${url.image.kindergarten}")
+    private String defaultKindergartenImage;
+
     private final ImageUploader imageUploader;
     private final ImageRepository imageRepository;
 
@@ -35,11 +45,11 @@ public class ImageService {
             Image image = new Image();
             image.setImageUrl(imagePath);
             if (object instanceof Post) {
-                Post object1 = (Post) object;
-                image.setPost(object1);
-            } else {
-                Kindergarten object1 = (Kindergarten) object;
-//                image.setKindergarten(object1);
+                Post post = (Post) object;
+                image.setPost(post);
+            } else if (object instanceof Review) {
+                Review review = (Review) object;
+                image.setReview(review);
             }
             imageRepository.save(image);
         }
@@ -67,7 +77,10 @@ public class ImageService {
 
     // post 로 이미지 찾기
     public List<Image> findByPost(Post post) {
-        return imageRepository.findByPost(post).get();
+        return imageRepository.findByPost(post);
+    }
+    public List<Image> findByReview(Review review) {
+        return imageRepository.findByReview(review);
     }
 
     // 게시물 리스트 대표사진 URLS

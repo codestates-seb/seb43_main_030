@@ -7,11 +7,14 @@ import com.kids.SEB_main_030.global.dto.SingleResponseDto;
 import com.kids.SEB_main_030.domain.review.entity.Review;
 import com.kids.SEB_main_030.domain.review.service.ReviewService;
 import com.kids.SEB_main_030.domain.user.service.UserService;
+import com.kids.SEB_main_030.global.image.entity.Image;
+import com.kids.SEB_main_030.global.image.service.ImageService;
 import com.kids.SEB_main_030.global.utils.UriCreator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -26,28 +29,44 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final ReviewMapper reviewMapper;
     private final UserService userService;
+    private final ImageService imageService;
 
-    public ReviewController(ReviewService reviewService, ReviewMapper reviewMapper, UserService userService) {
+    public ReviewController(ReviewService reviewService, ReviewMapper reviewMapper, UserService userService, ImageService imageService) {
         this.reviewService = reviewService;
         this.reviewMapper = reviewMapper;
         this.userService = userService;
+        this.imageService = imageService;
     }
 
     @PostMapping("/{kindergarten-id}")
     public ResponseEntity postReview(@PathVariable("kindergarten-id") long kindergartenId,
-                                     @Valid @RequestBody ReviewPostDto reviewPostDto){
+                                     @Valid @RequestPart ReviewPostDto reviewPostDto,
+                                     @RequestPart(required = false) List<MultipartFile> images){
         reviewPostDto.setKindergartenId(kindergartenId);
         reviewPostDto.setProfileId(userService.findCurrentProfileId());
-
         Review review = reviewService.createReview(reviewMapper.reviewPostDtoToReview(reviewPostDto));
+        // 이미지 s3 업로드 및 db 저장 로직
+        if (images != null) imageService.imagesUpload(images, review, Image.Location.REVIEW.getLocation());
         URI location = UriCreator.createUri(REVIEW_DEFAULT_URL, review.getReviewId());
         return ResponseEntity.created(location).build();
     }
     @PatchMapping("/{review-id}")
     public ResponseEntity patchReview(@PathVariable("review-id")@Positive long reviewId,
-                                      @Valid @RequestBody ReviewPatchDto reviewPatchDto){
-        Review review = reviewService.updateReview(reviewMapper.reviewPatchDtoToReview(reviewPatchDto),reviewId);
-        URI location = UriCreator.createUri(REVIEW_DEFAULT_URL, review.getReviewId());
+                                      @Valid @RequestPart(required = false) ReviewPatchDto reviewPatchDto,
+                                      @RequestPart(required = false) List<MultipartFile> images){
+        Review review = reviewService.updateReview(
+                reviewMapper.reviewPatchDtoToReview(reviewPatchDto), reviewId);
+
+        // 이미지 삭제 및 업로드 로직
+        if (reviewPatchDto != null && reviewPatchDto.getDeleteImageIds() != null) {
+            List<Image> findImages = imageService.findImagesByImageIds(reviewPatchDto.getDeleteImageIds());
+            imageService.imagesDelete(findImages);
+        }
+        if (images != null) {
+            imageService.imagesUpload(images, review, Image.Location.REVIEW.getLocation());
+        }
+
+        URI location = UriCreator.createUri(REVIEW_DEFAULT_URL, reviewId);
         return ResponseEntity.created(location).build();
     }
     @GetMapping("/{review-id}")

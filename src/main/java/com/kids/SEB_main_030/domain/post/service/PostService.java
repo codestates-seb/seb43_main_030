@@ -121,6 +121,10 @@ public class PostService {
             throw new LogicException(CustomException.NO_AUTHORITY);
     }
 
+    public List<Post> findNotificationPosts(long communityId) {
+        Community findCommunity = communityService.findCommunity(communityId);
+        return postRepository.findByCategoryAndCommunityId(findCommunity, Post.Category.NOTIFICATION.toString());
+    }
 
 
 }

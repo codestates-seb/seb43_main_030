@@ -15,6 +15,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface PostMapper {
 
+    PostDto.getNotification postToGetNotification(Post post);
+
+    List<PostDto.getNotification> postsToGetNotifications(List<Post> posts);
+
     default PostDto.Response postToPostResponseDto(Post post, List<Image> images) {
         if ( post == null ) {
             return null;

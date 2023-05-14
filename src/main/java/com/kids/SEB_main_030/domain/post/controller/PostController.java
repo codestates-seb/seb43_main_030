@@ -88,7 +88,7 @@ public class PostController {
         int likes = likeService.likeCnt(post);
         Profile profile = post.getProfile();
         List<Image> images = imageService.findByPost(post);
-        String profileImageUrl = null; // 예시임 profileService 에 이미지 관련로직 생기면 바꿔야함
+        String profileImageUrl = profile.getImageUrl();
         return new ResponseEntity(
                 new SingleResponseDto(postMapper.postToDetailPageResponse(post, likes, profile, images, profileImageUrl)),
                 HttpStatus.OK);
@@ -115,5 +115,13 @@ public class PostController {
         postService.deletePost(postId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
+    // 유치원 상세 페이지 공지글 조회(최대2개)
+    @GetMapping("/notification")
+    public ResponseEntity getNotificationPosts(@PathVariable("community-id") @Positive long communityId) {
+        List<Post> findPosts = postService.findNotificationPosts(communityId);
+        return new ResponseEntity(new SingleResponseDto(postMapper.postsToGetNotifications(findPosts)), HttpStatus.OK);
+    }
+
 
 }

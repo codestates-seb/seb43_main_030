@@ -2,18 +2,18 @@ spring:
   profiles:
     include: oauth
 
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://db-perpett.csukwlthqcnp.ap-northeast-2.rds.amazonaws.com:3306/test?serverTimezone=UTC&characterEncoding=UTF-8
-#    username: admin
-#    password: 12341234
-
-  h2:
-    console:
-      enabled: true
-      path: /h2
   datasource:
-    url: jdbc:h2:mem:test
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://db-perpett.csukwlthqcnp.ap-northeast-2.rds.amazonaws.com:3306/test?serverTimezone=UTC&characterEncoding=UTF-8
+    username: admin
+    password: 12341234
+
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2
+#  datasource:
+#    url: jdbc:h2:mem:test
 
   jpa:
     hibernate:
@@ -59,3 +59,8 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+
+url:
+  image:
+    profile: "https://perpett.s3.ap-northeast-2.amazonaws.com/default/profile/default_profile_image.png"
+    kindergarten: "https://perpett.s3.ap-northeast-2.amazonaws.com/default/kindergarten/default_kindergarten_image.jfif"
