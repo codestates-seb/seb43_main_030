@@ -1,8 +1,26 @@
+import { useState } from 'react';
 import RatingStar from '../RatingStar';
 import Button from '../Button/Button';
 import dateCalculate from '../dateCalculate';
+import { ReactComponent as StarOn } from '../../images/star-on.svg';
+import { ReactComponent as StarOff } from '../../images/star-off.svg';
 
-function ListReview({ id, contents, images, ratedReview, createdAt }) {
+function ListReview({ post, onClick }) {
+  // post.ratedReview 따라서 별 보이기
+  const starScore = () => {
+    const ratedStar = Math.floor(post.ratedReview);
+    const ratingStar = [];
+
+    for (let i = 1; i <= 5; i += 1) {
+      if (i <= ratedStar) {
+        ratingStar.push(<StarOn key={i} />);
+      } else {
+        ratingStar.push(<StarOff key={i} />);
+      }
+    }
+    return ratingStar.map(star => star);
+  };
+
   return (
     <div>
       <ul>
@@ -14,30 +32,33 @@ function ListReview({ id, contents, images, ratedReview, createdAt }) {
                 <div className="flex w-full flex-col">
                   <div className="flex items-center gap-2">
                     <p className="text-16 font-bold onlyMobile:text-14">
-                      작성자
+                      {post.profileName}
                     </p>
                     <p className="text-14 text-black-350 onlyMobile:text-12">
                       이메일
                     </p>
                   </div>
                   <div className="flex w-full items-center justify-between">
-                    <RatingStar />
+                    <div className="flex">{starScore()}</div>
                     <p className="list-gray-small">
-                      {dateCalculate(createdAt)}
+                      {dateCalculate(post.createdAt)}
                     </p>
                   </div>
                 </div>
               </div>
             </div>
             <p className="list-content h-text-max mt-16 max-h-[50px]">
-              {contents}
-              {/* 후기내용후기내용후기내용후기내용후기내용미리보기용후기내용미리보기 */}
+              {post.contents}
             </p>
             <Button className="btn-text-default py-4 text-left text-14 font-bold text-black-900">
               더보기
             </Button>
           </div>
-          {images.length !== 0 ? <div className="list-notice-image" /> : ''}
+          {post.images && post.images.length !== 0 ? (
+            <div className="list-notice-image" />
+          ) : (
+            ''
+          )}
         </li>
       </ul>
     </div>
