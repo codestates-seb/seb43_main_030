@@ -1,8 +1,16 @@
 import cls from '../../utils/tailwind';
 
 function Radio(props) {
-  const { children, value, name, defaultChecked, disabled, id, labelClass } =
-    props;
+  const {
+    children,
+    value,
+    name,
+    defaultChecked,
+    disabled,
+    id,
+    labelClass,
+    onClick,
+  } = props;
 
   return (
     <label htmlFor={id} className={cls('flex-center gap-1.5', labelClass)}>
@@ -14,6 +22,7 @@ function Radio(props) {
         defaultChecked={defaultChecked}
         disabled={disabled}
         className="peer hidden"
+        onClick={onClick}
       />
       <div className="flex-center radio-button" />
 

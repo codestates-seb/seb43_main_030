@@ -50,8 +50,8 @@ function SignUp() {
         })
         .catch(err => {
           console.log(err);
-          if (err.response && err.response.state === 409) {
-            setEmailErr('이미 있는 이메일입니다.');
+          if (err.response && err.response.status === 409) {
+            setEmailErr('이미 가입되어 있는 이메일입니다.');
           }
         });
     },
