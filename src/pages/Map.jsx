@@ -112,6 +112,7 @@ function Map({ areaFilter, kinderGartens }) {
 
   return isLoaded ? (
     <div className="w-[100vw]">
+      {console.log(center)}
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}

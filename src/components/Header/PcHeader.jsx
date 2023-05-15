@@ -54,7 +54,9 @@ function Header({
         {auth ? (
           <div className="relative mr-12 flex h-48 w-150 items-center justify-between p-8">
             <Search className="min-h-32 min-w-32 rounded-md border" />
-            <span className="mx-12 min-w-88 text-center text-14">dddd</span>
+            <span className="text-max mx-12 min-w-88 text-center text-14">
+              {curUser.name}
+            </span>
             {dropDown ? (
               <ArrowClose
                 className="h-6 min-w-10 cursor-pointer"
