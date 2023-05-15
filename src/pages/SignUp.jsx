@@ -162,7 +162,7 @@ function SignUp() {
                 value="owner"
                 onClick={handleOfficialsClick(true)}
               >
-                유치원 원장님
+                유치원 관계자
               </Radio>
             </RadioGroup>
           </div>
