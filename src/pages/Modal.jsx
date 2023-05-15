@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -12,11 +12,56 @@ import { ReactComponent as Close } from '../images/close.svg';
 
 function Modal(props) {
   const { onClick } = props;
-
   const [text, setText] = useState('');
+  const [kinderInfo, setKinderInfo] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const token = process.env.REACT_APP_TOKEN;
+  const [kinderName, setKinderName] = useState('');
+  const [kinderAddress, setKinderAddress] = useState('');
+
+  const [starIndex, setStarIndex] = useState(0);
+
+  const handleStarIndexChange = useCallback(index => {
+    setStarIndex(index);
+  }, []);
 
   const textCount = event => {
     setText(event.target.value);
+  };
+
+  // replace
+  useEffect(() => {
+    axios
+      .get(`${apiUrl}/kindergarten/1`)
+      .then(response => {
+        setKinderInfo(response.data.data);
+        setKinderName(response.data.data.name);
+        setKinderAddress(response.data.data.locations);
+        console.log('useEffect');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [apiUrl]);
+
+  const submitReview = () => {
+    if (!text || !starIndex) {
+      alert('내용과 별점을 입력해주세요.');
+    } else {
+      axios
+        .post(
+          `${apiUrl}/review/1`,
+          {
+            contents: text,
+            ratedReview: starIndex,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        )
+        .then(response => onClick)
+        .catch(error => console.log(`submitReviewError: ${error}`));
+    }
   };
 
   return (
@@ -43,11 +88,18 @@ function Modal(props) {
                   <img src={Dog} alt="임시 이미지" />
                 </div>
                 <div className="flex flex-col justify-center">
-                  <p className="write-title">놀펫 강아지 어쩌구 유치원</p>
-                  <p className="flex items-center text-14">
-                    <Star /> 4.3 (12)
+                  <p className="write-title">
+                    {kinderInfo.name &&
+                      kinderInfo.name.slice().replace(/"/g, '')}
                   </p>
-                  <p className="mt-6 text-14">주소주소 성수동 어쩌구</p>
+                  <p className="flex items-center text-14">
+                    <Star /> {kinderInfo.ratedReviewsAvg} (
+                    {kinderInfo.ratedReviewsCount})
+                  </p>
+                  <p className="mt-6 text-14">
+                    {kinderInfo.locations &&
+                      kinderInfo.locations.slice().replace(/"/g, '')}
+                  </p>
                 </div>
               </div>
             </div>
@@ -55,7 +107,7 @@ function Modal(props) {
             <div className="mb-30 overflow-y-scroll">
               <div className="mt-25 flex items-center border-b-[1px] border-black-070 pb-25">
                 <p className="write-title mr-15">유치원은 어떠셨나요?</p>
-                <RatingStar />
+                <RatingStar handleStarIndexChange={handleStarIndexChange} />
               </div>
               {/* 후기 */}
               <div className="mt-25 flex flex-col border-b-[1px] border-black-070 pb-25">
@@ -84,7 +136,10 @@ function Modal(props) {
               </div>
             </div>
             {/* 버튼 */}
-            <Button className="color-yellow btn-size-l absolute bottom-[30px] w-[calc(100%-60px)]">
+            <Button
+              onClick={submitReview}
+              className="color-yellow btn-size-l absolute bottom-[30px] w-[calc(100%-60px)]"
+            >
               후기 등록하기
             </Button>
           </div>
