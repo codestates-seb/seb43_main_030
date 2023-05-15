@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
+import dateCalculate from '../components/dateCalculate';
 import Button from '../components/Button/Button';
 import Radio from '../components/Radio/Radio';
 import RadioGroup from '../components/Radio/RadioGroup';
@@ -65,11 +66,12 @@ function Post() {
     }
 
     const currentDate = new Date();
+    const dateString = dateCalculate(currentDate);
     const postData = {
       title,
-      content,
+      contents: { text: content },
       category,
-      date: currentDate,
+      date: dateString,
       comment: [],
       likestate: false,
       likes: 0,

@@ -10,3 +10,37 @@
   min-height: 400px;
   margin-bottom: 20px;
 }
+
+.pagination {
+  display: flex;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul.pagination li {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  border-radius: 4px;
+  margin: 0 2px 0 2px;
+}
+
+ul.pagination li a {
+  text-decoration: none;
+  color: #121210;
+}
+
+ul.pagination li.active {
+  background-color: #ffd337;
+}
+
+ul.pagination li:hover {
+  background-color: #ffd337;
+}

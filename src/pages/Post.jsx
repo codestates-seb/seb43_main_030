@@ -8,6 +8,7 @@ import Comment from '../components/Comment';
 import Dog from '../images/dog.jpeg';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
+import dateCalculate from '../components/dateCalculate';
 
 function Post() {
   const [post, setPost] = useState([]);
@@ -18,8 +19,13 @@ function Post() {
   const [commentInput, setCommentInput] = useState('');
   const [like, setLike] = useState(false);
   const [countLike, setCountLike] = useState(0);
+  const [previousPost, setPreviousPost] = useState(null);
+  const [nextPost, setNextPost] = useState(null);
   const navigate = useNavigate();
   const { postId } = useParams();
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const apiUrl2 = 'http://localhost:3001';
+  const token = process.env.REACT_APP_TOKEN;
 
   useEffect(() => {
     axios
@@ -69,16 +75,45 @@ function Post() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/post/${postId}`)
+      .get(`${apiUrl}/community/1/post/${postId}`)
       .then(response => {
-        setPost(response.data);
-        setCountLike(response.data.likes);
-        setLike(response.data.likestate);
+        setPost(response.data.data);
+        setCountLike(response.data.data.likes);
+        // setLike(response.data.data.likestate);
       })
       .catch(error => {
         console.log(error);
       });
-  }, [setPost, postId]);
+  }, [setPost, postId, apiUrl]);
+
+  useEffect(() => {
+    axios
+      .get(`${apiUrl}/community/1/post?page=1`)
+      .then(response => {
+        const posts = response.data.data;
+
+        // 현재 게시글 인덱스 찾기
+        const currentIndex = posts.findIndex(
+          post => post.postId === Number(postId),
+        );
+
+        // 유효한 게시글만 필터링
+        const validPosts = posts.filter(post => post.postId !== '');
+        // 이전글 찾기
+        const previousIndex = currentIndex - 1;
+        const previous = previousIndex >= 0 ? validPosts[previousIndex] : null;
+        setPreviousPost(previous);
+
+        // 다음글 찾기
+        const nextIndex = currentIndex + 1;
+        const next =
+          nextIndex < validPosts.length ? validPosts[nextIndex] : null;
+        setNextPost(next);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [apiUrl, postId]);
 
   const handleDelete = () => {
     const result = window.confirm('게시물을 삭제하시겠습니까?');
@@ -116,12 +151,22 @@ function Post() {
     setLike(updatedLike);
     setCountLike(updatedLikes);
 
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
     axios
-      .put(`http://localhost:3001/post/${postId}`, {
-        ...post,
-        likes: updatedLikes,
-        likestate: updatedLike,
-      })
+      .put(
+        `${apiUrl}/post/${postId}/like`,
+        {
+          ...post,
+          likes: updatedLikes,
+          // likestate: updatedLike,
+        },
+        config,
+      )
       .then(response => {
         console.log(response.data.likes);
       })
@@ -148,14 +193,14 @@ function Post() {
               <p className="text-28 font-bold onlyMobile:text-22">
                 {post.title}
               </p>
-              <div className="mt-12 flex flex w-full items-center justify-between">
+              <div className="mt-12 flex flex w-full items-end justify-between">
                 <div className="flex flex-col">
                   <div className="mb-12 flex items-center">
                     <div className="user-profile h-24 w-24">
                       <img src={Dog} alt="임시이미지" />
                     </div>
                     <p className="relative pl-5 pr-12 text-14 text-black-900 onlyMobile:text-12">
-                      콩이쫑이맘
+                      {post.name}
                     </p>
                   </div>
                   <div className="flex">
@@ -164,10 +209,9 @@ function Post() {
                       조회 1,212
                     </p>
                     <p className="list-gray-small flex items-center pl-12">
-                      {/* <PerpettOff width="16" height="16" className="mr-5" /> */}
                       <img
                         src={LikeOff}
-                        alt="좋아요OFF"
+                        alt="좋아요"
                         className="mr-5 h-18 w-18"
                       />
                       좋아요 {countLike}
@@ -175,7 +219,7 @@ function Post() {
                   </div>
                 </div>
                 <p className="text-14 text-black-350 onlyMobile:text-12 ">
-                  {post.date}
+                  {dateCalculate(post.createdAt)}
                 </p>
               </div>
             </div>
@@ -208,22 +252,51 @@ function Post() {
                 onClick={isLike}
                 className={
                   like
-                    ? 'flex-center flex h-40 w-40 rounded-[16px] bg-yellow-500'
-                    : 'flex-center flex h-40 w-40 rounded-[16px] border-[1px] border-black-070'
+                    ? 'flex-center flex h-40 w-40 rounded-[16px] bg-yellow-500 onlyMini:h-30 onlyMini:w-30 onlyMini:rounded-[12px]'
+                    : 'flex-center flex h-40 w-40 rounded-[16px] border-[1px] border-black-070 onlyMini:h-30 onlyMini:w-30 onlyMini:rounded-[12px]'
                 }
               >
                 <img
                   src={like ? LikeOn : LikeOff}
-                  alt="좋아요OFF"
-                  className="h-24 w-24"
+                  alt="좋아요"
+                  className="h-24 w-24 onlyMini:h-20 onlyMini:w-20"
                 />
               </button>
               <span className="pl-10">좋아요</span>
-              <span className="pl-5 font-bold">{countLike}</span>
+              {/* <span className="pl-5 font-bold">{countLike}</span> */}
             </div>
             <div className="flex">
-              <Button className="btn-size-m border-gray mr-10 ">이전글</Button>
-              <Button className="btn-size-m border-gray">다음글</Button>
+              {previousPost ? (
+                <Link
+                  to={`/post/${previousPost.postId}`}
+                  // to="/post"
+                  className="flex-center btn-size-m border-gray mr-10 flex rounded-md"
+                >
+                  이전글
+                </Link>
+              ) : (
+                <Button
+                  disabled
+                  className="flex-center btn-size-m mr-10 flex rounded-md bg-black-050 text-black-200"
+                >
+                  이전글
+                </Button>
+              )}
+              {nextPost ? (
+                <Link
+                  to={`/post/${nextPost.postId}`}
+                  className="flex-center btn-size-m border-gray rounded-md"
+                >
+                  다음글
+                </Link>
+              ) : (
+                <Button
+                  disabled
+                  className="flex-center btn-size-m mr-2 flex rounded-md bg-black-050 text-black-200"
+                >
+                  다음글
+                </Button>
+              )}
             </div>
           </div>
         </div>

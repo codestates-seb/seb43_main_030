@@ -174,7 +174,11 @@
   }
 
   .community-tab-on {
-    @apply border-b-[4px] border-yellow-500 font-bold;
+    @apply mr-20 border-b-[4px] border-yellow-500 text-20 font-bold onlyMobile:text-18 onlyMini:text-16;
+  }
+
+  .community-tab-off {
+    @apply mr-20 text-20 text-black-350 onlyMobile:text-18 onlyMini:text-16;
   }
 
   /* login line 생성 */
