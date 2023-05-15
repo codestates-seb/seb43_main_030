@@ -146,7 +146,7 @@ function Map({ areaFilter, kinderGartens }) {
                       onCloseClick={() => setClickedMarker(null)}
                     >
                       <div
-                        className="flex-center onlyMobile:h-220 onlyMobile:w-226 onlyMini:w-190"
+                        className="flex-center onlyMobile:h-220 onlyMobile:w-226 onlyMini:w-160"
                         style={{ backgroundColor: 'white' }}
                       >
                         <MapCard

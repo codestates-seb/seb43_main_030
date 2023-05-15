@@ -8,9 +8,9 @@ function MapCard(props) {
 
   return (
     <Link to={`/kindergarten/${id}`}>
-      <div className="onlyMini:flex-center relative ml-6 mt-6 w-302 rounded-2xl onlyMobile:mt-[-2px] onlyMobile:h-205 onlyMobile:w-220 onlyMini:flex-col">
+      <div className="onlyMini:flex-center relative ml-6 mt-6 w-302 rounded-2xl onlyMobile:mt-[-2px] onlyMobile:h-205 onlyMobile:w-220 onlyMini:w-150 onlyMini:flex-col">
         <img
-          className="h-200 w-full rounded-2xl onlyMobile:h-140"
+          className="h-200 w-full rounded-2xl onlyMobile:h-140 onlyMini:w-150"
           src={Dog}
           alt="dog"
         />
