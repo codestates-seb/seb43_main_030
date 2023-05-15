@@ -24,7 +24,6 @@ function Main({
   const [print, setPrint] = useState([]);
 
   const areaFilter = useSelector(state => state.areaFilter);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     let url = ``;

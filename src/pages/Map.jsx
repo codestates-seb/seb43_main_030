@@ -25,10 +25,12 @@ const myStyles = [
   },
 ];
 
-function Map({ areaFilter, kinderGartens }) {
+function Map({ kinderGartens }) {
   const [isPending, setIsPending] = useState(false);
+  const areaFilter = useSelector(state => state.areaFilter);
 
   const [map, setMap] = useState(null);
+  const dispatch = useDispatch();
 
   const [center, setCenter] = useState({
     lat: 37.568177,
