@@ -1,4 +1,5 @@
 import dateCalculate from '../dateCalculate';
+import profile from '../../images/profile.png';
 
 function ListNotice(props) {
   const { post, onClick } = props;
@@ -18,11 +19,18 @@ function ListNotice(props) {
               {dateCalculate(post.createdAt)}
             </span>
           </div>
-          {post.images && post.images.length !== 0 ? (
+          {/* {post.images && post.images.length !== 0 ? (
             <div className="list-notice-image ml-24" />
           ) : (
             ''
-          )}
+          )} */}
+          <div className="user-profile ml-24 h-108  w-108">
+            {post.imageUrl ? (
+              <img src={post.imageUrl} alt="img" />
+            ) : (
+              <img src={profile} alt="defaultImage" />
+            )}
+          </div>
         </li>
       </ul>
     </div>

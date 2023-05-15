@@ -93,8 +93,8 @@ function KinderDetail({ auth }) {
 
           if (res1.data) {
             setCenter({
-              lat: res1.data.latitude,
-              lng: res1.data.longitude,
+              lat: res1.data.data.latitude,
+              lng: res1.data.data.longitude,
             });
           }
         }),

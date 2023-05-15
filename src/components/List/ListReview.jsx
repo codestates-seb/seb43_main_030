@@ -54,11 +54,7 @@ function ListReview({ post, onClick }) {
               더보기
             </Button>
           </div>
-          {post.images && post.images.length !== 0 ? (
-            <div className="list-notice-image" />
-          ) : (
-            ''
-          )}
+          {post.imageUrl ? <img src={post.imageUrl} alt="img" /> : ''}
         </li>
       </ul>
     </div>
