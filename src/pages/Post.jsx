@@ -306,21 +306,25 @@ function Post() {
             <span className="pl-2">{isPending ? comments.length : null}</span>
           </p>
           <div className="w-full rounded-[12px] bg-black-025 px-32 pt-32">
-            {comments.map(comment => {
-              return (
-                <Comment
-                  key={comment.id}
-                  commentId={comment.id}
-                  profileId={comment.profileId}
-                  name={comment.name}
-                  imageUrl={comment.imageUrl}
-                  email={comment.email}
-                  text={comment.text}
-                  postId={postId}
-                  createdAt={comment.createdAt}
-                />
-              );
-            })}
+            {comments.length !== 0 ? (
+              comments.map(comment => {
+                return (
+                  <Comment
+                    key={comment.id}
+                    commentId={comment.id}
+                    profileId={comment.profileId}
+                    name={comment.name}
+                    imageUrl={comment.imageUrl}
+                    email={comment.email}
+                    text={comment.text}
+                    postId={postId}
+                    createdAt={comment.createdAt}
+                  />
+                );
+              })
+            ) : (
+              <div className="pb-32">댓글이 없어요🥺</div>
+            )}
           </div>
           <div className="mt-20 flex w-full">
             <Input
