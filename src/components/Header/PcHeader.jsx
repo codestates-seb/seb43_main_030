@@ -11,8 +11,6 @@ import { ReactComponent as Logo } from '../../images/logo-txt.svg';
 function Header({
   inputValue,
   setInputValue,
-  kinderGartens,
-  setKinderGartens,
   auth,
   setAuth,
   user,
@@ -47,11 +45,8 @@ function Header({
           <InputBtn
             inputValue={inputValue}
             setInputValue={setInputValue}
-            kinderGartens={kinderGartens}
-            setKinderGartens={setKinderGartens}
             searchValue={searchValue}
             setSearchValue={setSearchValue}
-            setAreaFilter={setAreaFilter}
           />
         </div>
         {auth ? (
