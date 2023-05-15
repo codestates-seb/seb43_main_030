@@ -52,15 +52,8 @@ function Post() {
     const dateString = now.toLocaleString();
 
     const data = {
-      id: comments.length + 5,
-      profileId: 5,
-      email: userEmail,
-      name: userName,
-      imageUrl:
-        'https://tgzzmmgvheix1905536.cdn.ntruss.com/2020/03/c320a089abe34b72942aeecc9b568295',
-      text: commentInput,
-      createdAt: dateString,
-      motifiedAt: '2023-05-06T10:54:56.870994',
+      postId,
+      content: commentInput,
     };
 
     axios

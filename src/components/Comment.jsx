@@ -36,10 +36,11 @@ function Comment({
       .put(
         `${process.env.REACT_APP_API_URL}/post/${postId}/comment/${commentId}`,
         {
-          name,
-          email,
-          content: editedText,
-          createdAt: dateString,
+          data: {
+            postId,
+            commenetId: commentId,
+            content: editedText,
+          },
         },
         {
           headers: {
@@ -48,7 +49,6 @@ function Comment({
         },
       )
       .then(response => {
-        console.log(response.data);
         window.location.reload();
       })
       .catch(error => {
@@ -75,7 +75,6 @@ function Comment({
         },
       )
       .then(response => {
-        console.log(response.data);
         window.location.reload();
       })
       .catch(error => {
