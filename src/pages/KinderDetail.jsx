@@ -33,7 +33,7 @@ const containerStyle = {
   borderRadius: '16px',
 };
 
-function KinderDetail({ auth, kinderGartens }) {
+function KinderDetail({ auth }) {
   const { id } = useParams();
 
   // 유치원 정보

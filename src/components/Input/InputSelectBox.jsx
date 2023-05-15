@@ -70,18 +70,10 @@ function InputSelectBox(props) {
             {profiles.map((profile, idx) => {
               const activeClass = activeIndex === idx ? 'font-bold' : '';
 
-              const handleClick = () => {
-                if (isSelect) {
-                  typeActive(idx);
-                } else {
-                  profileActive(idx);
-                }
-              };
-
               return (
                 <li
                   className={`li profile${idx} w-full cursor-pointer p-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
-                  onClick={handleClick}
+                  onClick={profileActive}
                   role="presentation"
                 >
                   {profile}

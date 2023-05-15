@@ -124,6 +124,7 @@ function Mypage({
     }
   };
 
+  // 프로필 삭제하기
   const handleProfileDelete = () => {
     axios
       .delete(`${process.env.REACT_APP_API_URL}/user/profile/${profileId}`, {
@@ -195,7 +196,13 @@ function Mypage({
                 {/* 프로필 추가, 설정, 로그아웃 버튼 */}
                 <div className="flex justify-between border-t-[1px] border-black-070 pt-24 text-16 onlyMobile:py-32 onlyMobile:text-14">
                   <div className="flex w-full flex-col items-center">
-                    {user && user.length > 4 ? (
+                    <Button
+                      className="color-yellow flex-center btn-size-l onlyMobile:btn-size-s mb-8 onlyMobile:w-32"
+                      icon="plus"
+                      onClick={modalProfileOnOff}
+                    />
+                    <span className="text-12 text-black-350">프로필 추가</span>
+                    {/* {user && user.length > 4 ? (
                       <>
                         <Button
                           className="color-yellow flex-center btn-size-l onlyMobile:btn-size-s mb-8 onlyMobile:w-32"
@@ -219,7 +226,7 @@ function Mypage({
                           프로필 추가
                         </span>
                       </>
-                    )}
+                    )} */}
                   </div>
                   <div className="flex w-full flex-col items-center">
                     <Button
