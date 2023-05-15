@@ -4,9 +4,10 @@ import {
   MarkerF,
   InfoWindowF,
 } from '@react-google-maps/api';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useState, useCallback, memo, useEffect } from 'react';
-import axios from 'axios';
+import setAreaFilter from '../actions/areaFilterActions';
 import PinOn from '../images/pin-on.png';
 import MapCard from '../components/Card/MapCard';
 import Button from '../components/Button/Button';
@@ -24,24 +25,27 @@ const myStyles = [
   },
 ];
 
-function Map({ areaFilter, kinderGartens }) {
+function Map({ kinderGartens }) {
   const [isPending, setIsPending] = useState(false);
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
-  });
+  const areaFilter = useSelector(state => state.areaFilter);
 
   const [map, setMap] = useState(null);
+  const dispatch = useDispatch();
 
-  const [center, setCenter] = useState({ lat: 37.568177, lng: 126.992217 });
+  const [center, setCenter] = useState({
+    lat: 37.568177,
+    lng: 126.992217,
+  });
+
+  const { isLoaded } = useJsApiLoader(
+    {
+      id: 'google-map-script',
+      googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
+    },
+    [center],
+  );
 
   useEffect(() => {
-    if (areaFilter === 0) {
-      setCenter({
-        lat: 37.568177,
-        lng: 126.992217,
-      });
-    }
     if (areaFilter === 1) {
       setCenter({
         lat: 37.523474,
@@ -100,7 +104,7 @@ function Map({ areaFilter, kinderGartens }) {
       bounds.union(circle.getBounds());
       mapValue.fitBounds(bounds);
     },
-    [center.lat, center.lng, areaFilter],
+    [center, areaFilter],
   );
 
   const onUnmount = useCallback(function callback() {
@@ -115,7 +119,6 @@ function Map({ areaFilter, kinderGartens }) {
 
   return isLoaded ? (
     <div className="w-[100vw]">
-      {console.log(center)}
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}

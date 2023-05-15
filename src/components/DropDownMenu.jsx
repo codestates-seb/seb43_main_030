@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { ReactComponent as Search } from '../images/search.svg';
 
-function DropDownMenu({ setAuth, user, curUser, setCurUser }) {
+function DropDownMenu({ setAuth, user, curUser, setCurUser, setCurProfile }) {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const handleLogout = () => {
@@ -11,15 +11,16 @@ function DropDownMenu({ setAuth, user, curUser, setCurUser }) {
     localStorage.removeItem('token');
   };
 
-  function clickedProfile(idx) {
+  function clickedProfile(idx, id) {
+    setCurUser(user[idx]);
     axios
-      .get(`${process.env.REACT_APP_API_URL}/users/profile/${idx}`, {
+      .get(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
         headers: {
           Authorization: localStorage.getItem('token'),
         },
       })
       .then(res => {
-        setCurUser(res.data);
+        setCurProfile(res.data.data);
       });
   }
 
@@ -39,7 +40,7 @@ function DropDownMenu({ setAuth, user, curUser, setCurUser }) {
           className={`profile flex items-center justify-start${idx} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
           onClick={e => {
             profileActive(e);
-            clickedProfile(idx);
+            clickedProfile(idx, profile.profileId);
           }}
           role="presentation"
         >
@@ -53,7 +54,7 @@ function DropDownMenu({ setAuth, user, curUser, setCurUser }) {
   };
 
   return (
-    <div className="absolute left-0 top-[64px] z-10 flex h-284 w-226 flex-col items-start justify-center rounded-[10px] bg-white px-12 py-16 shadow-dropDownShadow">
+    <div className="absolute left-0 top-[64px] z-10 flex w-226 flex-col items-start justify-center rounded-[10px] bg-white px-12 py-16 shadow-dropDownShadow">
       <ul className="profile w-202 py-2 text-left">
         <li className="px-8 pb-8 text-12 text-black-350">프로필</li>
         {renderProfile()}

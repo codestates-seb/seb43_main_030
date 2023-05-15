@@ -1,15 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import setAreaFilter from '../actions/areaFilterActions';
 import NoList from '../images/perpett-nolist.png';
 import MainCard from '../components/Card/MainCard';
 import Button from '../components/Button/Button';
 import InputSelectBox from '../components/Input/InputSelectBox';
 
 function Main({
-  areaFilter,
-  setAreaFilter,
   setInputValue,
   kinderGartens,
   setKinderGartens,
@@ -22,6 +22,8 @@ function Main({
 
   const page = useRef(8);
   const [print, setPrint] = useState([]);
+
+  const areaFilter = useSelector(state => state.areaFilter);
 
   useEffect(() => {
     let url = ``;

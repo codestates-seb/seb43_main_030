@@ -33,7 +33,7 @@ function Post() {
       .then(response => {
         setIsPending(true);
         // setPost(response.data[0]);
-        setComments(response.data);
+        setComments(response.data.data);
       })
       .catch(error => {
         console.log(error);
@@ -41,6 +41,7 @@ function Post() {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(comments);
 
   function changeInput(e) {
     setCommentInput(e.target.value);
@@ -51,19 +52,16 @@ function Post() {
     const dateString = now.toLocaleString();
 
     const data = {
-      id: comments.length + 5,
-      profileId: 5,
-      email: userEmail,
-      name: userName,
-      imageUrl:
-        'https://tgzzmmgvheix1905536.cdn.ntruss.com/2020/03/c320a089abe34b72942aeecc9b568295',
-      text: commentInput,
-      createdAt: dateString,
-      motifiedAt: '2023-05-06T10:54:56.870994',
+      postId,
+      content: commentInput,
     };
 
     axios
-      .post(`${process.env.REACT_APP_API_URL}/post/${postId}/comment`, data)
+      .post(`${process.env.REACT_APP_API_URL}/post/${postId}/comment`, data, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      })
       .then(response => {
         console.log(response.data);
         window.location.reload();
@@ -75,7 +73,7 @@ function Post() {
 
   useEffect(() => {
     axios
-      .get(`${apiUrl}/community/1/post/${postId}`)
+      .get(`${apiUrl}/community/1/post/10`)
       .then(response => {
         setPost(response.data.data);
         setCountLike(response.data.data.likes);
@@ -306,17 +304,17 @@ function Post() {
             <span className="pl-2">{isPending ? comments.length : null}</span>
           </p>
           <div className="w-full rounded-[12px] bg-black-025 px-32 pt-32">
-            {comments.length !== 0 ? (
+            {comments && comments.length !== 0 ? (
               comments.map(comment => {
                 return (
                   <Comment
-                    key={comment.id}
-                    commentId={comment.id}
+                    key={comment.commentId}
+                    commentId={comment.commentId}
                     profileId={comment.profileId}
                     name={comment.name}
                     imageUrl={comment.imageUrl}
                     email={comment.email}
-                    text={comment.text}
+                    text={comment.content}
                     postId={postId}
                     createdAt={comment.createdAt}
                   />
