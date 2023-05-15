@@ -54,6 +54,7 @@ function App() {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState([]);
   const [curUser, setCurUser] = useState({});
+  const [curProfile, setCurProfile] = useState({});
 
   // 지도 관련 state
   const [kinderGartens, setKinderGartens] = useState([]);
@@ -108,6 +109,7 @@ function App() {
           searchValue={searchValue}
           setSearchValue={setSearchValue}
           setAreaFilter={setAreaFilter}
+          setCurProfile={setCurProfile}
         />
       )}
 

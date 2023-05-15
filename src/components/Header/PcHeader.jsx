@@ -21,6 +21,7 @@ function Header({
   searchValue,
   setSearchValue,
   setAreaFilter,
+  setCurProfile,
 }) {
   // const [isLogin, setIsLogin] = useState(false);
   // const [nickname, setNickname] = useState('쫑이콩이맘');
@@ -76,6 +77,7 @@ function Header({
                 user={user}
                 curUser={curUser}
                 setCurUser={setCurUser}
+                setCurProfile={setCurProfile}
               />
             ) : null}
           </div>
