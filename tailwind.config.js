@@ -61,7 +61,7 @@ module.exports = {
         bottomBoxShadow: '0 -4px 10px rgba(0, 0, 0, 0.1)',
       },
       gridTemplateColumns: {
-        cardGrid: 'repeat(auto-fit, minmax(302px, 1fr))',
+        cardGrid: 'repeat(auto-fit, minmax(270px, 1fr))',
       },
       screens: {
         onlyMobile: { max: '767px' },
