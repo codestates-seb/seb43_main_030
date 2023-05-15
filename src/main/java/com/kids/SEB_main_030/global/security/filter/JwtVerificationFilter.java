@@ -22,8 +22,6 @@ import java.util.Map;
 public class JwtVerificationFilter extends OncePerRequestFilter {
     private final JwtTokenizer jwtTokenizer;
 
-
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
@@ -41,9 +39,9 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     }
 
     private Map<String, Object> verifyJws(HttpServletRequest request) {
-        String jws = request.getHeader("Authorization").replace("Bearer ", "");
+        String accessToken = request.getHeader("Authorization").replace("Bearer ", "");
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
-        return jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody();
+        return jwtTokenizer.getClaims(accessToken, base64EncodedSecretKey).getBody();
     }
 
     private void setAuthenticationToContext(Map<String, Object> claims){

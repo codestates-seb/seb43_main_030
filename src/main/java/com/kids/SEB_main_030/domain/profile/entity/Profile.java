@@ -58,31 +58,31 @@ public class Profile {
         }
     }
 
-    public List<Post> getPostsFromMyPage(){
-        return posts.stream().map(
-                post -> {
-                    Post p = new Post();
-                    p.setPostId(post.getPostId());
-                    p.setTitle(post.getTitle());
-                    p.setContent(post.getContent());
-                    p.setViews(post.getViews());
-                    p.setCreatedAt(post.getCreatedAt());
-                    p.setCategory(post.getCategory());
-                    p.setLikeCount(post.getLikes().size());
-
-                    return p;
-                }).collect(Collectors.toList());
-    }
-
-    public List<Review> getReviewsFromMyPage(){
-        return reviews.stream().map(
-                review -> {
-                    Review r = new Review();
-                    r.setReviewId(review.getReviewId());
-                    r.setContents(review.getContents());
-                    r.setRatedReview(review.getRatedReview());
-
-                    return r;
-                }).collect(Collectors.toList());
-    }
+//    public List<Post> getPostsFromMyPage(){
+//        return posts.stream().map(
+//                post -> {
+//                    Post p = new Post();
+//                    p.setPostId(post.getPostId());
+//                    p.setTitle(post.getTitle());
+//                    p.setContent(post.getContent());
+//                    p.setViews(post.getViews());
+//                    p.setCreatedAt(post.getCreatedAt());
+//                    p.setCategory(post.getCategory());
+//                    p.setLikeCount(post.getLikes().size());
+//
+//                    return p;
+//                }).collect(Collectors.toList());
+//    }
+//
+//    public List<Review> getReviewsFromMyPage(){
+//        return reviews.stream().map(
+//                review -> {
+//                    Review r = new Review();
+//                    r.setReviewId(review.getReviewId());
+//                    r.setContents(review.getContents());
+//                    r.setRatedReview(review.getRatedReview());
+//
+//                    return r;
+//                }).collect(Collectors.toList());
+//    }
 }

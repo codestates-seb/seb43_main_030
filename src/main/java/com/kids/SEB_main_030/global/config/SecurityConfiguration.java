@@ -91,7 +91,7 @@ public class SecurityConfiguration {
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
         configuration.addAllowedHeader("*");
-        configuration.addExposedHeader("*, Authorization");
+        configuration.addExposedHeader("*, Authorization, Refresh");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

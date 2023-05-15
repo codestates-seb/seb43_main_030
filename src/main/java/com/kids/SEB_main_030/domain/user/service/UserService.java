@@ -27,11 +27,11 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final RandomCreator randomCreator;
 
-    public User createUser(User user,boolean checkTeacher){
+    public User createUser(User user,boolean checkOfficials){
         verifyExistsEmail(user.getEmail());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if (checkTeacher){
-            user.setRole(Role.TEACHER);
+        if (checkOfficials){
+            user.setRole(Role.OFFICIAL);
         }else {
             user.setRole(Role.USER);
         }

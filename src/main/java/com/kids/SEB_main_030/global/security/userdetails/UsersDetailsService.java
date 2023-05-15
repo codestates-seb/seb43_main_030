@@ -43,6 +43,8 @@ public class UsersDetailsService implements UserDetailsService {
                 authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
             } else if (getRole() == Role.GUEST) {
                 authorities.add(new SimpleGrantedAuthority("ROLE_GUEST"));
+            } else if (getRole() == Role.OFFICIAL) {
+                authorities.add(new SimpleGrantedAuthority("ROLE_OFFICIAL"));
             }
             return authorities;
         }

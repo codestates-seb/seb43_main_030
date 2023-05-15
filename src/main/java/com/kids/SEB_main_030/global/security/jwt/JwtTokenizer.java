@@ -1,5 +1,6 @@
 package com.kids.SEB_main_030.global.security.jwt;
 
+import com.nimbusds.oauth2.sdk.token.RefreshToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -72,15 +73,6 @@ public class JwtTokenizer {
                 .build()
                 .parseClaimsJws(jws);
     }
-    // 검증하기
-    public void verifySignature(String jws, String base64EncodedSecretKey){
-        Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
-
-        Jwts.parserBuilder()// 파서빌더 생성 : JWS 개체를 구문 분석하고 확인하는 데 사용할 수 있는 JWS 구문 분석기를 구성하고 빌드하는 데 사용
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(jws);
-    }
 
     public Date getTokenExpiration(int expirationMinutes){
         Calendar calendar = Calendar.getInstance();
@@ -89,4 +81,6 @@ public class JwtTokenizer {
 
         return date;
     }
+
+
 }
