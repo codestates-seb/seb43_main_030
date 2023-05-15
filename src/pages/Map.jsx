@@ -33,7 +33,7 @@ function Map({ areaFilter, kinderGartens }) {
 
   const [map, setMap] = useState(null);
 
-  const [center, setCenter] = useState({});
+  const [center, setCenter] = useState({ lat: 37.568177, lng: 126.992217 });
 
   useEffect(() => {
     if (areaFilter === 0) {
