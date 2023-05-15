@@ -1,10 +1,26 @@
-import { createReducer } from '@reduxjs/toolkit';
-import setAreaFilter from '../actions/areaFilterActions';
+import { createReducer, combineReducers } from '@reduxjs/toolkit';
+import { setAreaFilter, setCenter } from '../actions/areaFilterActions';
 
-const initialState = 0; // 초기 상태는 0으로 설정
+// 상태 정의
+const initialState = {
+  areaFilter: 0,
+  center: {
+    lat: 37.568177,
+    lng: 126.992217,
+  },
+};
 
-const areaFilterReducer = createReducer(initialState, builder => {
+const areaFilterReducer = createReducer(initialState.areaFilter, builder => {
   builder.addCase(setAreaFilter, (state, action) => action.payload);
 });
 
-export default areaFilterReducer;
+const centerReducer = createReducer(initialState.center, builder => {
+  builder.addCase(setCenter, (state, action) => action.payload);
+});
+
+const rootReducer = combineReducers({
+  areaFilter: areaFilterReducer,
+  center: centerReducer, // 새로운 리듀서
+});
+
+export default rootReducer;

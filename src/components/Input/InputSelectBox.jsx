@@ -1,19 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import setAreaFilter from '../../actions/areaFilterActions';
+import { setAreaFilter } from '../../actions/areaFilterActions';
 import cls from '../../utils/tailwind';
 import { ReactComponent as ArrowOpen } from '../../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../../images/arrow-close.svg';
 
 function InputSelectBox(props) {
-  const {
-    options,
-    placeholder,
-    className,
-    width,
-    setAreaFilter,
-    setSearchValue,
-  } = props;
+  const { options, placeholder, className, width, setSearchValue } = props;
   // options: 셀렉트박스 펼칠 때 나오는 옵션 리스트. <InputSelectBox options="a,b,c" />형태로 입력
   // className: button에 추가
   // width: <InputSelectBox width="w-500" /> 형태로 입력

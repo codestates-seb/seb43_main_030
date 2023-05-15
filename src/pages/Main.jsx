@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import setAreaFilter from '../actions/areaFilterActions';
+import { setAreaFilter, setCenter } from '../actions/areaFilterActions';
 import NoList from '../images/perpett-nolist.png';
 import MainCard from '../components/Card/MainCard';
 import Button from '../components/Button/Button';
