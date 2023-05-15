@@ -33,7 +33,7 @@ const containerStyle = {
   borderRadius: '16px',
 };
 
-function KinderDetail({ auth }) {
+function KinderDetail({ auth, kinderGartens }) {
   const { id } = useParams();
 
   // 유치원 정보
@@ -192,7 +192,7 @@ function KinderDetail({ auth }) {
                 유치원 공지사항
               </h5>
               <div className="flex flex-col gap-8 onlyMobile:gap-6">
-                {postData && postData.length !== 0 ? (
+                {postData ? (
                   <>
                     {postData.map(el => {
                       return <ListNotice key={el.postId} post={el} />;
@@ -239,7 +239,7 @@ function KinderDetail({ auth }) {
                   </Link>
                 )}
               </div>
-              {reviewData && reviewData.length !== 0 ? (
+              {reviewData ? (
                 <div className="flex flex-col gap-8">
                   {reviewData.map(el => {
                     return <ListReview key={el.reviewId} post={el} />;

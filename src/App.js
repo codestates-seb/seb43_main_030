@@ -73,11 +73,13 @@ function App() {
           setAuth(true);
           setUser(res.data);
           setCurUser(res.data[0]);
+          console.log(res.data[0]);
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   console.log(user);
+  console.log(curUser);
 
   return (
     <div className="h-[calc(100vh-80px)]">
@@ -158,7 +160,7 @@ function App() {
         <Route path="/find-password" element={<FindPw />} />
         <Route
           path="/kindergarten/:id"
-          element={<KinderDetail areaFilter={areaFilter} auth={auth} />}
+          element={<KinderDetail auth={auth} kinderGartens={kinderGartens} />}
         />
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
@@ -170,6 +172,8 @@ function App() {
               setAuth={setAuth}
               user={user}
               setUser={setUser}
+              curUser={curUser}
+              setCurUser={setCurUser}
             />
           }
         />

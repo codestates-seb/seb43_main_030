@@ -60,7 +60,7 @@ function DropDownMenu({ setAuth, user, curUser, setCurUser }) {
         <div className="mt-2 h-1 border-b" />
       </ul>
       <ul className="w-202 text-left">
-        <Link to="/mypage/1">
+        <Link to={`/mypage/${curUser.profileId}`}>
           <li className="flex cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025">
             마이페이지
           </li>

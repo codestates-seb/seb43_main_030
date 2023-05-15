@@ -13,14 +13,14 @@ import Post from '../components/List/ListCommunity';
 import SettingModal from './SettingModal';
 import ProfileCreateModal from './ProfileCreateModal';
 
-function Mypage({ auth, setAuth, user, serUser }) {
+function Mypage({ auth, setAuth, user, serUser, curUser, setCurUser }) {
   const { id } = useParams();
 
+  const [profileId, setProfileId] = useState(curUser.profileId);
   const [value, setValue] = useState('');
-  const [isLogin, setIsLogin] = useState('true');
-  const [nickname, setNickname] = useState('');
+  const [nickname, setNickname] = useState(curUser.name);
   const [nameEdit, setNameEdit] = useState(false);
-  const [nameValue, setNameValue] = useState(nickname);
+  // const [nameValue, setNameValue] = useState(nickname);
   const [nameErr, setNameErr] = useState(false);
   const [dropDown, setDropDown] = useState(false);
   const [profileModal, setProfileModal] = useState(false);
@@ -28,11 +28,20 @@ function Mypage({ auth, setAuth, user, serUser }) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/mypage/${id}`)
+      // .get(`http://localhost:3001/mypage/${id}`)
+      // .then(res => {
+      //   setValue(res.data);
+      //   setNickname(res.data.name);
+      //   console.log(res.data);
+      // })
+      .get(`${process.env.REACT_APP_API_URL}/user/profile/${profileId}`, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      })
       .then(res => {
-        setValue(res.data);
-        setNickname(res.data.name);
-        console.log(res.data);
+        // setValue(res.data);
+        console.log(res);
       })
       .catch(error => {
         console.log(error);
@@ -40,6 +49,7 @@ function Mypage({ auth, setAuth, user, serUser }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // 모달 관련 함수
   const modalProfileOnOff = () => {
     setProfileModal(!profileModal);
   };
@@ -51,11 +61,13 @@ function Mypage({ auth, setAuth, user, serUser }) {
     setSettingModal(false);
   };
 
+  // 로그아웃 함수
   const handleLogout = () => {
     setAuth(false);
     localStorage.removeItem('token');
   };
 
+  // 프로필 변경 드롭다운 함수
   const handleDropdown = () => {
     setDropDown(!dropDown);
   };
@@ -66,24 +78,29 @@ function Mypage({ auth, setAuth, user, serUser }) {
   };
   const handleNameChange = e => {
     setNickname(e.target.value);
-    setNameValue(e.target.value);
-    console.log(nameValue);
   };
-  // const handleErr = () => {
-  //   nickname.length === 0 ? setNameErr(true) : setNameErr(false);
-  // };
+  const handleErr = () => {
+    nickname.length === 0 ? setNameErr(true) : setNameErr(false);
+  };
+
   const handleNameEdit = () => {
+    handleErr();
+
     const editName = {
-      name: nameValue,
+      ...value,
+      name: nickname,
     };
 
     setNameEdit(false);
 
     if (nickname.length > 0) {
       axios
-        .patch(`http://localhost:3001/mypage/${id}`, editName)
+        .patch(
+          `${process.env.REACT_APP_API_URL}/user/profile/${profileId}`,
+          editName,
+        )
         .then(() => {
-          setNickname(prev => {
+          setValue(prev => {
             return { ...prev, editName };
           });
         })
@@ -92,18 +109,18 @@ function Mypage({ auth, setAuth, user, serUser }) {
         });
     }
   };
-  // console.log(nickname);
 
   return (
     <div className="flex flex-col items-center pt-130 onlyMobile:pt-88 ">
       <div className="w-full max-w-[1280px] px-80 onlyMobile:max-w-full onlyMobile:px-24">
-        {isLogin ? (
+        {auth ? (
           <div className="flex onlyMobile:flex-col">
             <div className="relative mr-[8.3%] w-[33.3%] onlyMobile:mr-0 onlyMobile:w-full">
               {/* 좌측 프로필 */}
               <div className="sticky-card">
                 <div className="flex-center flex-col">
                   <div className="user-profile mb-8 h-48 w-48 overflow-hidden rounded-[12px] onlyMobile:h-64 onlyMobile:w-64">
+                    {/* {value.imageUrl} */}
                     <img src={Profile} alt="프로필예시이미지" />
                   </div>
                   <div className="flex-center w-full max-w-190 items-center py-8">
@@ -215,14 +232,14 @@ function Mypage({ auth, setAuth, user, serUser }) {
                     <div>
                       <div className="flex">
                         <Input value={nickname} onChange={handleNameChange} />
-                        <Button className="color-black btn-size-l ml-8 shrink-0">
+                        {/* <Button className="color-black btn-size-l ml-8 shrink-0">
                           중복 검사
-                        </Button>
+                        </Button> */}
                       </div>
                       <div className="mt-16 flex gap-3">
                         <Button
                           className="color-yellow btn-size-l"
-                          onClick={handleNameEdit}
+                          // onClick={handleNameEdit}
                         >
                           수정
                         </Button>
@@ -243,7 +260,7 @@ function Mypage({ auth, setAuth, user, serUser }) {
                 <h5 className="mb-24 text-22 font-bold onlyMobile:mb-16 onlyMobile:text-18">
                   작성한 후기
                 </h5>
-                {value && value.reviews.length !== 0 ? (
+                {/* {value && value.reviews.length !== 0 ? (
                   <div className="flex flex-col gap-8">
                     {value.reviews &&
                       value.reviews.map(el => {
@@ -258,6 +275,20 @@ function Mypage({ auth, setAuth, user, serUser }) {
                           />
                         );
                       })}
+                  </div>
+                ) : (
+                  <div className="flex-center flex-col">
+                    <Perpett className="mb-16 h-104 w-104" />
+                    <p className="text-14 text-black-350">
+                      첫 후기를 등록해보세요!
+                    </p>
+                  </div>
+                )} */}
+                {value.review ? (
+                  <div className="flex flex-col gap-8">
+                    {value.review.map(el => {
+                      return <ListReview key={el.reviewId} post={el} />;
+                    })}
                   </div>
                 ) : (
                   <div className="flex-center flex-col">
