@@ -9,6 +9,8 @@ import com.kids.SEB_main_030.domain.kindergarten.service.KindergartenService;
 import com.kids.SEB_main_030.domain.profile.entity.Profile;
 import com.kids.SEB_main_030.domain.profile.service.ProfileService;
 import com.kids.SEB_main_030.domain.user.service.UserService;
+import com.kids.SEB_main_030.global.image.entity.Image;
+import com.kids.SEB_main_030.global.image.service.ImageService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,12 +22,14 @@ public class ReviewService {
     private final KindergartenService kindergartenService;
     private final ProfileService profileService;
     private final UserService userService;
+    private final ImageService imageService;
 
-    public ReviewService(ReviewRepository reviewRepository, KindergartenService kindergartenService, ProfileService profileService, UserService userService) {
+    public ReviewService(ReviewRepository reviewRepository, KindergartenService kindergartenService, ProfileService profileService, UserService userService, ImageService imageService) {
         this.reviewRepository = reviewRepository;
         this.kindergartenService = kindergartenService;
         this.profileService = profileService;
         this.userService = userService;
+        this.imageService = imageService;
     }
 
     public Review createReview(Review review){
@@ -55,6 +59,16 @@ public class ReviewService {
         Review findReview = reviewOptional.orElseThrow(()->
                 new LogicException(CustomException.REVIEW_NOT_FOUND));
         return findReview;
+    }
+    public void deleteReview(long reviewId){
+        Review findReview = findVerifiedReview(reviewId);
+        if(findReview.getProfile().getProfileId()== userService.findCurrentProfileId()){
+            // s3에서 리뷰 관련 이미지 삭제
+            List<Image> images = imageService.findByReview(findReview);
+            for (Image image : images) imageService.s3imageDelete(image.getImageUrl());
+
+            reviewRepository.delete(findReview);
+        }else throw new LogicException(CustomException.NO_AUTHORITY);
     }
 
 }

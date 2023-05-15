@@ -78,7 +78,7 @@ public class ProfileController {
     }
 
     @PatchMapping("/{profile-id}")
-    public ResponseEntity patchProfile(@Valid @RequestPart ProfilePatchDto patchDto,
+    public ResponseEntity patchProfile(@Valid @RequestPart(required = false) ProfilePatchDto patchDto,
                                        @RequestPart(required = false) MultipartFile image,
                                        @PathVariable("profile-id") long profileId){
         Profile profile = mapper.profilePatchToProfile(patchDto);

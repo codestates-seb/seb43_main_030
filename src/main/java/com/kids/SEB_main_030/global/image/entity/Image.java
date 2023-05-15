@@ -32,7 +32,7 @@ public class Image {
     public enum Location {
         POST("/post/image"),
         KINDERGARTEN("/kindergarten/image"),
-        USER("/user/image"),
+        REVIEW("/review/image"),
         PROFILE("/profile/image");
 
         @Getter

@@ -90,4 +90,15 @@ public class PostDto {
         private Long imageId;
         private String imageUrl;
     }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class getNotification {
+        private long postId;
+        private String title;
+        private String content;
+        private String createdAt;
+    }
 }

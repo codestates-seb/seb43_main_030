@@ -26,7 +26,7 @@ public class Community {
     @JoinColumn(name = "kindergartenId")
     private Kindergarten kindergarten;
 
-    @OneToMany(mappedBy = "community")
+    @OneToMany(mappedBy = "community", cascade = CascadeType.REMOVE)
     private List<Post> posts;
 
     public Community(String introduction) {

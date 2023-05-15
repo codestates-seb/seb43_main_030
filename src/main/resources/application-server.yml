@@ -71,3 +71,8 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+
+url:
+  image:
+    profile: "https://perpett.s3.ap-northeast-2.amazonaws.com/default/profile/default_profile_image.png"
+    kindergarten: "https://perpett.s3.ap-northeast-2.amazonaws.com/default/kindergarten/default_kindergarten_image.jfif"

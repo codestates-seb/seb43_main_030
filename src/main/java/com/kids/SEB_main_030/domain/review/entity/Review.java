@@ -36,6 +36,6 @@ public class Review extends Auditable {
     @ManyToOne
     @JoinColumn(name ="PROFILE_ID")
     private Profile profile;
-//    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
-//    private List<Image> imageList;
+    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
+    private List<Image> images;
 }

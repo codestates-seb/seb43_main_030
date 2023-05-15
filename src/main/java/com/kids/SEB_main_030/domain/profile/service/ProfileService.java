@@ -8,6 +8,7 @@ import com.kids.SEB_main_030.domain.user.entity.User;
 import com.kids.SEB_main_030.domain.user.service.UserService;
 import com.kids.SEB_main_030.global.image.entity.Image;
 import com.kids.SEB_main_030.global.image.service.ImageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 @Transactional
 @Service
+@Slf4j
 public class ProfileService {
     private final int maximumProfile = 4;
     private final ProfileRepository profileRepository;
@@ -39,10 +41,12 @@ public class ProfileService {
         }else{
             profile.setType(Profile.type.DOG);
         }
-        // 이미지 저장 로직 추가
+        // 이미지 업로드 로직
         if (image != null) {
             String imageUrl = imageService.imageUpload(image, Image.Location.PROFILE.getLocation());
             profile.setImageUrl(imageUrl);
+        } else {
+            profile.setImageUrl(imageService.getDefaultProfileImage());
         }
         return profileRepository.save(profile);
     }
@@ -52,8 +56,6 @@ public class ProfileService {
         if (findProfile.getUser().getUserId() != userService.findSecurityContextHolderUserId()){
             throw new LogicException(CustomException.NO_PERMISSION);
         }
-        Optional.ofNullable(profile.getName()).ifPresent(name -> findProfile.setName(name));
-
         // 이미지 관련 로직
         if (image != null) {
             imageService.s3imageDelete(findProfile.getImageUrl());
@@ -61,16 +63,20 @@ public class ProfileService {
             Optional.ofNullable(imageUrl).ifPresent(url -> findProfile.setImageUrl(url));
         }
 
-//        Optional.ofNullable(profile.getImageUrl()).ifPresent(url -> findProfile.setImageUrl(url));
-        if (profile.isCheckPerson()){
-            findProfile.setType(Profile.type.PERSON);
-        } else if ( !profile.isCheckPerson()) {
-            findProfile.setType(Profile.type.DOG);
-        }
+        if (profile != null) {
+            Optional.ofNullable(profile.getName()).ifPresent(name -> findProfile.setName(name));
 
-        if (findProfile.getType().equals(Profile.type.DOG)) {
-            Optional.ofNullable(profile.getBreed()).ifPresent(breed -> findProfile.setBreed(breed));
-            Optional.ofNullable(profile.getGender()).ifPresent(gender -> findProfile.setGender(gender));
+    //        Optional.ofNullable(profile.getImageUrl()).ifPresent(url -> findProfile.setImageUrl(url));
+            if (profile.isCheckPerson()){
+                findProfile.setType(Profile.type.PERSON);
+            } else if (!profile.isCheckPerson()) {
+                findProfile.setType(Profile.type.DOG);
+            }
+
+            if (findProfile.getType().equals(Profile.type.DOG)) {
+                Optional.ofNullable(profile.getBreed()).ifPresent(breed -> findProfile.setBreed(breed));
+                Optional.ofNullable(profile.getGender()).ifPresent(gender -> findProfile.setGender(gender));
+            }
         }
 
         return profileRepository.save(findProfile);
