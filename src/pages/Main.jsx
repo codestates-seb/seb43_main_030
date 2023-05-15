@@ -38,7 +38,6 @@ function Main({ setInputValue, searchValue, setSearchValue }) {
         console.log(error);
       });
   }, [areaFilter, searchValue, dispatch]);
-  console.log(kinderGartens);
 
   useEffect(() => {
     let timerId;

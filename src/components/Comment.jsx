@@ -51,6 +51,9 @@ function Comment({
       })
       .catch(error => {
         console.log(error);
+        if (error.response && error.response.status === 403) {
+          alert('본인이 작성한 댓글만 수정할 수 있어요❗️');
+        }
       });
   };
 

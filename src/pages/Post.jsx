@@ -41,7 +41,6 @@ function Post() {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(comments);
 
   function changeInput(e) {
     setCommentInput(e.target.value);

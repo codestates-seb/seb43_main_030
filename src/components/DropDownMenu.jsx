@@ -1,10 +1,18 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCurUser, setCurProfile } from '../actions/areaFilterActions';
 import { ReactComponent as Search } from '../images/search.svg';
 
-function DropDownMenu({ setAuth, user, curUser, setCurUser, setCurProfile }) {
+function DropDownMenu({ setAuth }) {
   const [activeIndex, setActiveIndex] = useState(null);
+
+  const user = useSelector(state => state.user);
+  const curUser = useSelector(state => state.curUser);
+  const curProfile = useSelector(state => state.curProfile);
+
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
     setAuth(false);
@@ -12,7 +20,7 @@ function DropDownMenu({ setAuth, user, curUser, setCurUser, setCurProfile }) {
   };
 
   function clickedProfile(idx, id) {
-    setCurUser(user[idx]);
+    dispatch(setCurUser(user[idx]));
     axios
       .get(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
         headers: {
@@ -20,17 +28,21 @@ function DropDownMenu({ setAuth, user, curUser, setCurUser, setCurProfile }) {
         },
       })
       .then(res => {
-        setCurProfile(res.data.data);
+        dispatch(setCurProfile(res.data.data));
       });
   }
 
   function profileActive(e) {
     const classList = e.target.className.split(' ');
+    console.log(classList);
     if (classList.length > 1) {
       const index = classList[3].slice(-1);
       setActiveIndex(index);
     }
   }
+
+  console.log('user:', curUser);
+  console.log('profile', curProfile);
 
   const renderProfile = () => {
     return user.map((profile, idx) => {

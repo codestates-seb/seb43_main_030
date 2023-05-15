@@ -1,5 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUser, setCurUser } from '../../actions/areaFilterActions';
 import InputBtn from '../InputBtn';
 import Button from '../Button/Button';
 import DropDownMenu from '../DropDownMenu';
@@ -13,18 +16,35 @@ function Header({
   setInputValue,
   auth,
   setAuth,
-  user,
-  curUser,
-  setCurUser,
   searchValue,
   setSearchValue,
-  setAreaFilter,
-  setCurProfile,
 }) {
   // const [isLogin, setIsLogin] = useState(false);
   // const [nickname, setNickname] = useState('쫑이콩이맘');
   const [dropDown, setDropDown] = useState(false);
   const navi = useNavigate();
+  const dispatch = useDispatch();
+
+  const user = useSelector(state => state.user);
+  const curUser = useSelector(state => state.curUser);
+  const curProfile = useSelector(state => state.curProfile);
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/users/profile`, {
+          headers: {
+            Authorization: localStorage.getItem('token'),
+          },
+        })
+        .then(res => {
+          setAuth(true);
+          dispatch(setUser(res.data));
+          dispatch(setCurUser(res.data[0]));
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function onDropDown() {
     setDropDown(!dropDown);
@@ -66,15 +86,7 @@ function Header({
                 onClick={() => onDropDown()}
               />
             )}
-            {dropDown ? (
-              <DropDownMenu
-                setAuth={setAuth}
-                user={user}
-                curUser={curUser}
-                setCurUser={setCurUser}
-                setCurProfile={setCurProfile}
-              />
-            ) : null}
+            {dropDown ? <DropDownMenu setAuth={setAuth} /> : null}
           </div>
         ) : (
           <div className="flex shrink-0 items-center justify-between">

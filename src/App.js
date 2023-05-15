@@ -28,32 +28,10 @@ function App() {
 
   // 로그인 관련 state
   const [auth, setAuth] = useState(false);
-  const [user, setUser] = useState([]);
-  const [curUser, setCurUser] = useState({});
-  const [curProfile, setCurProfile] = useState({});
 
   // 지도 관련 state
-  const [kinderGartens, setKinderGartens] = useState([]);
-  const [areaFilter, setAreaFilter] = useState(0);
   const [inputValue, setInputValue] = useState('');
   const [searchValue, setSearchValue] = useState('');
-
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      axios
-        .get(`${process.env.REACT_APP_API_URL}/users/profile`, {
-          headers: {
-            Authorization: localStorage.getItem('token'),
-          },
-        })
-        .then(res => {
-          setAuth(true);
-          setUser(res.data);
-          setCurUser(res.data[0]);
-        });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className="h-[calc(100vh-80px)]">
@@ -63,9 +41,6 @@ function App() {
           setInputValue={setInputValue}
           auth={auth}
           setAuth={setAuth}
-          user={user}
-          curUser={curUser}
-          setCurUser={setCurUser}
           searchValue={searchValue}
           setSearchValue={setSearchValue}
         />
@@ -73,17 +48,10 @@ function App() {
         <PcHeader
           inputValue={inputValue}
           setInputValue={setInputValue}
-          kinderGartens={kinderGartens}
-          setKinderGartens={setKinderGartens}
           auth={auth}
           setAuth={setAuth}
-          user={user}
-          curUser={curUser}
-          setCurUser={setCurUser}
           searchValue={searchValue}
           setSearchValue={setSearchValue}
-          setAreaFilter={setAreaFilter}
-          setCurProfile={setCurProfile}
         />
       )}
 
@@ -101,15 +69,7 @@ function App() {
         />
         <Route
           path="/login"
-          element={
-            <Login
-              auth={auth}
-              setAuth={setAuth}
-              user={user}
-              setUser={setUser}
-              setCurUser={setCurUser}
-            />
-          }
+          element={<Login auth={auth} setAuth={setAuth} />}
         />
 
         <Route
@@ -123,20 +83,13 @@ function App() {
         <Route path="/find-password" element={<FindPw />} />
         <Route
           path="/kindergarten/:id"
-          element={<KinderDetail areaFilter={areaFilter} auth={auth} />}
+          element={<KinderDetail auth={auth} />}
         />
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
         <Route
           path="/mypage/:id"
-          element={
-            <Mypage
-              auth={auth}
-              setAuth={setAuth}
-              user={user}
-              setUser={setUser}
-            />
-          }
+          element={<Mypage auth={auth} setAuth={setAuth} />}
         />
         <Route path="*" element={<NotFound />} />
         <Route path="/write/:postId" element={<Write />} />
