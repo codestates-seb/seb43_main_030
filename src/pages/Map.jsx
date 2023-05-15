@@ -4,9 +4,10 @@ import {
   MarkerF,
   InfoWindowF,
 } from '@react-google-maps/api';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useState, useCallback, memo, useEffect } from 'react';
-import axios from 'axios';
+import setAreaFilter from '../actions/areaFilterActions';
 import PinOn from '../images/pin-on.png';
 import MapCard from '../components/Card/MapCard';
 import Button from '../components/Button/Button';

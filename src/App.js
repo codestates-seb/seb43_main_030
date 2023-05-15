@@ -118,8 +118,6 @@ function App() {
           path="/"
           element={
             <Main
-              areaFilter={areaFilter}
-              setAreaFilter={setAreaFilter}
               inputValue={inputValue}
               setInputValue={setInputValue}
               kinderGartens={kinderGartens}
