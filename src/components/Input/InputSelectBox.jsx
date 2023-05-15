@@ -12,6 +12,7 @@ function InputSelectBox(props) {
     setAreaFilter,
     setSearchValue,
     areaFilter,
+    isSelect,
   } = props;
   // options: 셀렉트박스 펼칠 때 나오는 옵션 리스트. <InputSelectBox options="a,b,c" />형태로 입력
   // className: button에 추가
@@ -37,6 +38,13 @@ function InputSelectBox(props) {
     setSearchValue('');
   };
 
+  const typeActive = event => {
+    const index = Number(event.target.className.split(' ')[1].slice(-1));
+    setActiveIndex(index);
+    setSelectUser(profiles[index]);
+    setFocus(false);
+  };
+
   const handleButtonClick = () => {
     setFocus(!focus);
   };
@@ -58,13 +66,22 @@ function InputSelectBox(props) {
             width,
           )}
         >
-          <ul className="ul profile w-full px-8 py-12 text-left">
+          <ul className="ul profile max-h-216 w-full overflow-hidden overflow-y-scroll px-8 py-12 text-left">
             {profiles.map((profile, idx) => {
               const activeClass = activeIndex === idx ? 'font-bold' : '';
+
+              const handleClick = () => {
+                if (isSelect) {
+                  typeActive(idx);
+                } else {
+                  profileActive(idx);
+                }
+              };
+
               return (
                 <li
                   className={`li profile${idx} w-full cursor-pointer p-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
-                  onClick={profileActive}
+                  onClick={handleClick}
                   role="presentation"
                 >
                   {profile}

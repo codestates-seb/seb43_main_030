@@ -4,19 +4,29 @@ import axios from 'axios';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import DropDownMenu from '../components/DropDownMenu';
-import Profile from '../images/profile.png';
-import { ReactComponent as ArrowOpen } from '../images/arrow-open.svg';
-import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
-import { ReactComponent as Perpett } from '../images/perpett-on.svg';
 import ListReview from '../components/List/ListReview';
 import Post from '../components/List/ListCommunity';
 import SettingModal from './SettingModal';
 import ProfileCreateModal from './ProfileCreateModal';
+import Profile from '../images/profile.png';
+import { ReactComponent as ArrowOpen } from '../images/arrow-open.svg';
+import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
+import { ReactComponent as Perpett } from '../images/perpett-on.svg';
+import { ReactComponent as Plus } from '../images/plus.svg';
 
-function Mypage({ auth, setAuth, user, serUser, curUser, setCurUser }) {
+function Mypage({
+  auth,
+  setAuth,
+  user,
+  serUser,
+  curUser,
+  setCurUser,
+  curUserDetail,
+  setCurUserDetail,
+}) {
   const { id } = useParams();
 
-  const [profileId, setProfileId] = useState(curUser.profileId);
+  const [profileId, setProfileId] = useState(curUserDetail.profileId);
   const [value, setValue] = useState('');
   const [nickname, setNickname] = useState(curUser.name);
   const [nameEdit, setNameEdit] = useState(false);
@@ -28,26 +38,21 @@ function Mypage({ auth, setAuth, user, serUser, curUser, setCurUser }) {
 
   useEffect(() => {
     axios
-      // .get(`http://localhost:3001/mypage/${id}`)
-      // .then(res => {
-      //   setValue(res.data);
-      //   setNickname(res.data.name);
-      //   console.log(res.data);
-      // })
-      .get(`${process.env.REACT_APP_API_URL}/user/profile/${profileId}`, {
+      .get(`${process.env.REACT_APP_API_URL}/users/profile/${profileId}`, {
         headers: {
           Authorization: localStorage.getItem('token'),
         },
       })
       .then(res => {
-        // setValue(res.data);
-        console.log(res);
+        setValue(res.data.data);
       })
       .catch(error => {
         console.log(error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(curUserDetail);
+  console.log(user);
 
   // 모달 관련 함수
   const modalProfileOnOff = () => {
@@ -78,11 +83,13 @@ function Mypage({ auth, setAuth, user, serUser, curUser, setCurUser }) {
   };
   const handleNameChange = e => {
     setNickname(e.target.value);
+    console.log(nickname);
   };
   const handleErr = () => {
-    nickname.length === 0 ? setNameErr(true) : setNameErr(false);
+    return nickname ? setNameErr(true) : setNameErr(false);
   };
 
+  // 닉네임 수정하기
   const handleNameEdit = () => {
     handleErr();
 
@@ -98,16 +105,38 @@ function Mypage({ auth, setAuth, user, serUser, curUser, setCurUser }) {
         .patch(
           `${process.env.REACT_APP_API_URL}/user/profile/${profileId}`,
           editName,
+          {
+            headers: {
+              Authorization: localStorage.getItem('token'),
+            },
+          },
         )
         .then(() => {
           setValue(prev => {
             return { ...prev, editName };
           });
+          setCurUserDetail(...curUserDetail, editName);
+          setCurUser(...user, editName);
         })
         .catch(err => {
           console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
         });
     }
+  };
+
+  const handleProfileDelete = () => {
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/user/profile/${profileId}`, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return (
@@ -121,7 +150,11 @@ function Mypage({ auth, setAuth, user, serUser, curUser, setCurUser }) {
                 <div className="flex-center flex-col">
                   <div className="user-profile mb-8 h-48 w-48 overflow-hidden rounded-[12px] onlyMobile:h-64 onlyMobile:w-64">
                     {/* {value.imageUrl} */}
-                    <img src={Profile} alt="프로필예시이미지" />
+                    {value.imageUrl ? (
+                      <img src={value.imageUrl} alt="img" />
+                    ) : (
+                      <img src={Profile} alt="defaultImage" />
+                    )}
                   </div>
                   <div className="flex-center w-full max-w-190 items-center py-8">
                     <span className="min-w-88 px-8 text-center text-16 font-bold onlyMobile:text-14">
@@ -142,18 +175,18 @@ function Mypage({ auth, setAuth, user, serUser, curUser, setCurUser }) {
                   </div>
 
                   {/* 내가 쓴 총 후기 및 게시글 */}
-                  <p className="mb-16 text-12 text-black-350">이메일</p>
+                  <p className="mb-16 text-12 text-black-350">{value.email}</p>
                   <div className="flex-center mb-24 w-full gap-4">
                     <div className="flex-center w-full flex-col">
                       <p className="text-12 text-black-350">후기</p>
                       <p className="text-28 font-bold onlyMobile:text-18">
-                        {value.ratedReviewsCount}
+                        {value && value.reviews.length}
                       </p>
                     </div>
                     <div className="flex-center w-full flex-col">
                       <p className="text-12 text-black-350">게시글</p>
                       <p className="text-28 font-bold onlyMobile:text-18">
-                        {value.ratedPostsCount}
+                        {value && value.posts.length}
                       </p>
                     </div>
                   </div>
@@ -162,12 +195,31 @@ function Mypage({ auth, setAuth, user, serUser, curUser, setCurUser }) {
                 {/* 프로필 추가, 설정, 로그아웃 버튼 */}
                 <div className="flex justify-between border-t-[1px] border-black-070 pt-24 text-16 onlyMobile:py-32 onlyMobile:text-14">
                   <div className="flex w-full flex-col items-center">
-                    <Button
-                      className="color-yellow flex-center btn-size-l onlyMobile:btn-size-s mb-8 onlyMobile:w-32"
-                      icon="plus"
-                      onClick={modalProfileOnOff}
-                    />
-                    <span className="text-12 text-black-350">프로필 추가</span>
+                    {user && user.length > 4 ? (
+                      <>
+                        <Button
+                          className="color-yellow flex-center btn-size-l onlyMobile:btn-size-s mb-8 onlyMobile:w-32"
+                          icon="plus"
+                          onClick={modalProfileOnOff}
+                        />
+                        <span className="text-12 text-black-350">
+                          프로필 추가
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          className="color-yellow flex-center btn-size-l onlyMobile:btn-size-s mb-8 onlyMobile:w-32"
+                          onClick={modalProfileOnOff}
+                          disabled
+                        >
+                          <Plus />
+                        </Button>
+                        <span className="text-12 text-black-100">
+                          프로필 추가
+                        </span>
+                      </>
+                    )}
                   </div>
                   <div className="flex w-full flex-col items-center">
                     <Button
@@ -192,9 +244,14 @@ function Mypage({ auth, setAuth, user, serUser, curUser, setCurUser }) {
             {/* 우측 정보 */}
             <div className="relative w-[63%] pl-8 onlyMobile:w-full">
               <div className="pb-48 onlyMobile:py-32">
-                <h5 className="mb-24 text-22 font-bold text-black-900 onlyMobile:mb-16 onlyMobile:text-18">
-                  프로필
-                </h5>
+                <div className="mb-24 flex items-center justify-between onlyMobile:mb-16 ">
+                  <h5 className="text-black-900onlyMobile:text-18 text-22 font-bold">
+                    프로필
+                  </h5>
+                  <Button className="btn-text-default text-14 text-red-400 onlyMobile:text-12">
+                    프로필 삭제
+                  </Button>
+                </div>
                 {/* 사진 및 닉네임 변경 */}
                 <div className="mb-24 onlyMobile:mb-20">
                   <div className="flex items-center justify-between">
@@ -225,21 +282,19 @@ function Mypage({ auth, setAuth, user, serUser, curUser, setCurUser }) {
                       ''
                     )}
                   </div>
+
+                  {/* 닉네임 수정 시 인풋 과 버튼 */}
                   {!nameEdit ? (
                     <p className="onlyMobile:text-14">{value.name}</p>
                   ) : (
-                    // 닉네임 수정 시 인풋 과 버튼
                     <div>
                       <div className="flex">
                         <Input value={nickname} onChange={handleNameChange} />
-                        {/* <Button className="color-black btn-size-l ml-8 shrink-0">
-                          중복 검사
-                        </Button> */}
                       </div>
                       <div className="mt-16 flex gap-3">
                         <Button
                           className="color-yellow btn-size-l"
-                          // onClick={handleNameEdit}
+                          onClick={handleNameEdit}
                         >
                           수정
                         </Button>
@@ -260,33 +315,9 @@ function Mypage({ auth, setAuth, user, serUser, curUser, setCurUser }) {
                 <h5 className="mb-24 text-22 font-bold onlyMobile:mb-16 onlyMobile:text-18">
                   작성한 후기
                 </h5>
-                {/* {value && value.reviews.length !== 0 ? (
+                {value && value.reviews.length !== 0 ? (
                   <div className="flex flex-col gap-8">
-                    {value.reviews &&
-                      value.reviews.map(el => {
-                        return (
-                          <ListReview
-                            key={el.reviewId}
-                            id={el.reviewId}
-                            contents={el.content.text}
-                            images={el.content.images}
-                            ratedReview={el.ratedReviewAvg}
-                            createdAt={el.createdAt}
-                          />
-                        );
-                      })}
-                  </div>
-                ) : (
-                  <div className="flex-center flex-col">
-                    <Perpett className="mb-16 h-104 w-104" />
-                    <p className="text-14 text-black-350">
-                      첫 후기를 등록해보세요!
-                    </p>
-                  </div>
-                )} */}
-                {value.review ? (
-                  <div className="flex flex-col gap-8">
-                    {value.review.map(el => {
+                    {value.reviews.map(el => {
                       return <ListReview key={el.reviewId} post={el} />;
                     })}
                   </div>
@@ -294,7 +325,7 @@ function Mypage({ auth, setAuth, user, serUser, curUser, setCurUser }) {
                   <div className="flex-center flex-col">
                     <Perpett className="mb-16 h-104 w-104" />
                     <p className="text-14 text-black-350">
-                      첫 후기를 등록해보세요!
+                      아직 작성한 후기가 없어요.
                     </p>
                   </div>
                 )}
@@ -305,20 +336,17 @@ function Mypage({ auth, setAuth, user, serUser, curUser, setCurUser }) {
                 <h5 className="mb-24 text-22 font-bold onlyMobile:mb-16 onlyMobile:text-18">
                   작성한 게시글
                 </h5>
-                {value && value.post.length !== 0 ? (
+                {value && value.reviews.length !== 0 ? (
                   <div className="flex flex-col gap-8">
-                    {value.post &&
-                      value.post.map(el => {
-                        return (
-                          <Post key={el.reviewId} id={el.reviewId} post={el} />
-                        );
-                      })}
+                    {value.reviews.map(el => {
+                      return <Post key={el.reviewId} post={el} />;
+                    })}
                   </div>
                 ) : (
                   <div className="flex-center flex-col">
                     <Perpett className="mb-16 h-104 w-104" />
                     <p className="text-14 text-black-350">
-                      첫 게시글을 등록해보세요!
+                      아직 작성한 게시글이 없어요.
                     </p>
                   </div>
                 )}
