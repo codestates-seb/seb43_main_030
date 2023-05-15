@@ -31,16 +31,14 @@ function Comment({
 
     const now = new Date();
     const dateString = now.toLocaleString();
-
+    console.log(postId);
     axios
-      .put(
+      .patch(
         `${process.env.REACT_APP_API_URL}/post/${postId}/comment/${commentId}`,
         {
-          data: {
-            postId,
-            commenetId: commentId,
-            content: editedText,
-          },
+          postId,
+          commenetId: commentId,
+          content: editedText,
         },
         {
           headers: {
@@ -78,7 +76,9 @@ function Comment({
         window.location.reload();
       })
       .catch(error => {
-        console.log(error);
+        if (error.response && error.response.status === 403) {
+          alert('본인이 작성한 댓글만 삭제할 수 있어요❗️');
+        }
       });
   }
 
@@ -128,14 +128,14 @@ function Comment({
             onChange={e => handleChange(e)}
             onKeyDown={e => {
               if (e.key === 'Enter') {
-                handleSaveClick(commentId);
+                handleSaveClick(postId);
               }
             }}
             className="mb-10 mt-5 w-[100%] text-16 text-black-900 onlyMobile:text-12"
           />
           <Button
             className="btn-size-l color-yellow ml-8 shrink-0"
-            onClick={() => handleSaveClick(commentId)}
+            onClick={() => handleSaveClick(postId)}
           >
             수정
           </Button>
