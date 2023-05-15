@@ -5,7 +5,16 @@ import Dog from '../images/dog.jpeg';
 import Input from './Input/Input';
 import Button from './Button/Button';
 
-function Comment({ profileId, id, name, imageUrl, email, text, createdAt }) {
+function Comment({
+  profileId,
+  commentId,
+  name,
+  imageUrl,
+  email,
+  text,
+  createdAt,
+  postId,
+}) {
   const [moreSelect, setMoreSelect] = useState(false);
 
   const [isEditMode, setIsEditMode] = useState(false);
@@ -16,7 +25,7 @@ function Comment({ profileId, id, name, imageUrl, email, text, createdAt }) {
     setMoreSelect(!moreSelect);
   };
 
-  const handleSaveClick = id => {
+  const handleSaveClick = postId => {
     setEditedText(text);
     setIsEditMode(false);
 
@@ -24,12 +33,15 @@ function Comment({ profileId, id, name, imageUrl, email, text, createdAt }) {
     const dateString = now.toLocaleString();
 
     axios
-      .put(`http://localhost:3001/comments/${id}`, {
-        name,
-        email,
-        text: editedText,
-        createdAt: dateString,
-      })
+      .put(
+        `${process.env.REACT_APP_API_URL}/post/${postId}/comment/${commentId}`,
+        {
+          name,
+          email,
+          text: editedText,
+          createdAt: dateString,
+        },
+      )
       .then(response => {
         console.log(response.data);
         window.location.reload();
@@ -47,9 +59,11 @@ function Comment({ profileId, id, name, imageUrl, email, text, createdAt }) {
     setMoreSelect(!moreSelect);
   };
 
-  function deleteComment(id) {
+  function deleteComment(commentId) {
     axios
-      .delete(`http://localhost:3001/comments/${id}`)
+      .delete(
+        `${process.env.REACT_APP_API_URL}/post/${postId}/comment/${commentId}`,
+      )
       .then(response => {
         console.log(response.data);
         window.location.reload();
@@ -85,7 +99,7 @@ function Comment({ profileId, id, name, imageUrl, email, text, createdAt }) {
                 수정
               </li>
               <li
-                onClick={() => deleteComment(id)}
+                onClick={() => deleteComment(commentId)}
                 role="presentation"
                 className="flex w-full cursor-pointer items-center justify-center rounded-md px-8 py-10 text-14 hover:bg-black-025 onlyMobile:text-12"
               >
@@ -105,14 +119,14 @@ function Comment({ profileId, id, name, imageUrl, email, text, createdAt }) {
             onChange={e => handleChange(e)}
             onKeyDown={e => {
               if (e.key === 'Enter') {
-                handleSaveClick(id);
+                handleSaveClick(commentId);
               }
             }}
             className="mb-10 mt-5 w-[100%] text-16 text-black-900 onlyMobile:text-12"
           />
           <Button
             className="btn-size-l color-yellow ml-8 shrink-0"
-            onClick={() => handleSaveClick(id)}
+            onClick={() => handleSaveClick(commentId)}
           >
             수정
           </Button>

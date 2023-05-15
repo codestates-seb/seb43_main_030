@@ -29,7 +29,7 @@ function Post() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/comments')
+      .get(`${process.env.REACT_APP_API_URL}/post/${postId}/comment`)
       .then(response => {
         setIsPending(true);
         // setPost(response.data[0]);
@@ -63,7 +63,7 @@ function Post() {
     };
 
     axios
-      .post('http://localhost:3001/comments', data)
+      .post(`${process.env.REACT_APP_API_URL}/post/${postId}/comment`, data)
       .then(response => {
         console.log(response.data);
         window.location.reload();
@@ -310,12 +310,13 @@ function Post() {
               return (
                 <Comment
                   key={comment.id}
-                  id={comment.id}
+                  commentId={comment.id}
                   profileId={comment.profileId}
                   name={comment.name}
                   imageUrl={comment.imageUrl}
                   email={comment.email}
                   text={comment.text}
+                  postId={postId}
                   createdAt={comment.createdAt}
                 />
               );
