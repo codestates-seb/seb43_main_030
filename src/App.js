@@ -77,6 +77,7 @@ function App() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(user);
 
   return (
     <div className="h-[calc(100vh-80px)]">
@@ -157,7 +158,7 @@ function App() {
         <Route path="/find-password" element={<FindPw />} />
         <Route
           path="/kindergarten/:id"
-          element={<KinderDetail areaFilter={areaFilter} />}
+          element={<KinderDetail areaFilter={areaFilter} auth={auth} />}
         />
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
