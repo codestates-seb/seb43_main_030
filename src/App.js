@@ -54,6 +54,7 @@ function App() {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState([]);
   const [curUser, setCurUser] = useState({});
+  const [curProfile, setCurProfile] = useState({});
 
   // 지도 관련 state
   const [kinderGartens, setKinderGartens] = useState([]);
@@ -78,8 +79,6 @@ function App() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(user);
-  console.log(curUser);
 
   return (
     <div className="h-[calc(100vh-80px)]">
@@ -110,6 +109,8 @@ function App() {
           setCurUser={setCurUser}
           searchValue={searchValue}
           setSearchValue={setSearchValue}
+          setAreaFilter={setAreaFilter}
+          setCurProfile={setCurProfile}
         />
       )}
 

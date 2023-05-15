@@ -26,10 +26,6 @@ const myStyles = [
 
 function Map({ areaFilter, kinderGartens }) {
   const [isPending, setIsPending] = useState(false);
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
-  });
 
   const [map, setMap] = useState(null);
 
@@ -37,6 +33,14 @@ function Map({ areaFilter, kinderGartens }) {
     lat: 37.568177,
     lng: 126.992217,
   });
+
+  const { isLoaded } = useJsApiLoader(
+    {
+      id: 'google-map-script',
+      googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
+    },
+    [center],
+  );
 
   useEffect(() => {
     if (areaFilter === 1) {
@@ -97,7 +101,7 @@ function Map({ areaFilter, kinderGartens }) {
       bounds.union(circle.getBounds());
       mapValue.fitBounds(bounds);
     },
-    [center.lat, center.lng, areaFilter],
+    [center, areaFilter],
   );
 
   const onUnmount = useCallback(function callback() {
@@ -146,7 +150,7 @@ function Map({ areaFilter, kinderGartens }) {
                       onCloseClick={() => setClickedMarker(null)}
                     >
                       <div
-                        className="flex-center onlyMobile:h-220 onlyMobile:w-226 onlyMini:w-190"
+                        className="flex-center onlyMobile:h-220 onlyMobile:w-226 onlyMini:w-160"
                         style={{ backgroundColor: 'white' }}
                       >
                         <MapCard

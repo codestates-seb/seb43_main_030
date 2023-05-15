@@ -12,6 +12,7 @@ function InputBtn(props) {
     setKinderGartens,
     searchValue,
     setSearchValue,
+    setAreaFilter,
   } = props;
   const [focus, setFocus] = useState(true);
 
@@ -27,6 +28,7 @@ function InputBtn(props) {
         setKinderGartens(response.data);
         setSearchValue(inputValue);
         setInputValue('');
+        setAreaFilter(0);
       })
       .catch(error => {
         console.log(error);

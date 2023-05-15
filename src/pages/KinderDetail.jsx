@@ -78,18 +78,18 @@ function KinderDetail({ auth, kinderGartens }) {
       .all([
         axios.get(`${process.env.REACT_APP_API_URL}/kindergarten/${id}`),
         axios.get(`${process.env.REACT_APP_API_URL}/review/kindergarten/${id}`),
-        axios.get(
-          `${process.env.REACT_APP_API_URL}/community/${id}/post/notification`,
-        ),
+        // axios.get(
+        //   `${process.env.REACT_APP_API_URL}/community/${id}/post/notification`,
+        // ),
       ])
       .then(
         axios.spread((res1, res2, res3) => {
           const resKinder = res1.data.data;
           const resReview = res2.data;
-          const resPost = res3.data.data;
+          // const resPost = res3.data.data;
           setKinderData(resKinder);
           setReviewData(resReview);
-          setPostData(resPost);
+          // setPostData(resPost);
 
           if (res1.data) {
             setCenter({

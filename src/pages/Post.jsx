@@ -29,7 +29,7 @@ function Post() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/comments')
+      .get(`${process.env.REACT_APP_API_URL}/post/${postId}/comment`)
       .then(response => {
         setIsPending(true);
         // setPost(response.data[0]);
@@ -63,7 +63,7 @@ function Post() {
     };
 
     axios
-      .post('http://localhost:3001/comments', data)
+      .post(`${process.env.REACT_APP_API_URL}/post/${postId}/comment`, data)
       .then(response => {
         console.log(response.data);
         window.location.reload();
@@ -306,20 +306,25 @@ function Post() {
             <span className="pl-2">{isPending ? comments.length : null}</span>
           </p>
           <div className="w-full rounded-[12px] bg-black-025 px-32 pt-32">
-            {comments.map(comment => {
-              return (
-                <Comment
-                  key={comment.id}
-                  id={comment.id}
-                  profileId={comment.profileId}
-                  name={comment.name}
-                  imageUrl={comment.imageUrl}
-                  email={comment.email}
-                  text={comment.text}
-                  createdAt={comment.createdAt}
-                />
-              );
-            })}
+            {comments && comments.length !== 0 ? (
+              comments.map(comment => {
+                return (
+                  <Comment
+                    key={comment.id}
+                    commentId={comment.id}
+                    profileId={comment.profileId}
+                    name={comment.name}
+                    imageUrl={comment.imageUrl}
+                    email={comment.email}
+                    text={comment.text}
+                    postId={postId}
+                    createdAt={comment.createdAt}
+                  />
+                );
+              })
+            ) : (
+              <div className="pb-32">댓글이 없어요🥺</div>
+            )}
           </div>
           <div className="mt-20 flex w-full">
             <Input
