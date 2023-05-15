@@ -306,7 +306,7 @@ function Post() {
             <span className="pl-2">{isPending ? comments.length : null}</span>
           </p>
           <div className="w-full rounded-[12px] bg-black-025 px-32 pt-32">
-            {comments.length !== 0 ? (
+            {comments && comments.length !== 0 ? (
               comments.map(comment => {
                 return (
                   <Comment

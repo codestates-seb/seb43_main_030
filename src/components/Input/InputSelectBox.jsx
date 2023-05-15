@@ -26,7 +26,7 @@ function InputSelectBox(props) {
       setSelectUser(profiles[areaFilter]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [areaFilter]);
 
   const profileActive = event => {
     const index = Number(event.target.className.split(' ')[1].slice(-1));

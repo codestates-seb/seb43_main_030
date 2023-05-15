@@ -20,6 +20,7 @@ function Header({
   setCurUser,
   searchValue,
   setSearchValue,
+  setAreaFilter,
 }) {
   // const [isLogin, setIsLogin] = useState(false);
   // const [nickname, setNickname] = useState('쫑이콩이맘');
@@ -49,6 +50,7 @@ function Header({
             setKinderGartens={setKinderGartens}
             searchValue={searchValue}
             setSearchValue={setSearchValue}
+            setAreaFilter={setAreaFilter}
           />
         </div>
         {auth ? (

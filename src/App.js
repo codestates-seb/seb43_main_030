@@ -107,6 +107,7 @@ function App() {
           setCurUser={setCurUser}
           searchValue={searchValue}
           setSearchValue={setSearchValue}
+          setAreaFilter={setAreaFilter}
         />
       )}
 
