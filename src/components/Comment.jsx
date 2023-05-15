@@ -38,8 +38,13 @@ function Comment({
         {
           name,
           email,
-          text: editedText,
+          content: editedText,
           createdAt: dateString,
+        },
+        {
+          headers: {
+            Authorization: localStorage.getItem('token'),
+          },
         },
       )
       .then(response => {
@@ -63,6 +68,11 @@ function Comment({
     axios
       .delete(
         `${process.env.REACT_APP_API_URL}/post/${postId}/comment/${commentId}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem('token'),
+          },
+        },
       )
       .then(response => {
         console.log(response.data);

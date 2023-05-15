@@ -33,7 +33,7 @@ function Post() {
       .then(response => {
         setIsPending(true);
         // setPost(response.data[0]);
-        setComments(response.data);
+        setComments(response.data.data);
       })
       .catch(error => {
         console.log(error);
@@ -41,6 +41,7 @@ function Post() {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(comments);
 
   function changeInput(e) {
     setCommentInput(e.target.value);
@@ -63,7 +64,11 @@ function Post() {
     };
 
     axios
-      .post(`${process.env.REACT_APP_API_URL}/post/${postId}/comment`, data)
+      .post(`${process.env.REACT_APP_API_URL}/post/${postId}/comment`, data, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      })
       .then(response => {
         console.log(response.data);
         window.location.reload();
@@ -75,7 +80,7 @@ function Post() {
 
   useEffect(() => {
     axios
-      .get(`${apiUrl}/community/1/post/${postId}`)
+      .get(`${apiUrl}/community/1/post/10`)
       .then(response => {
         setPost(response.data.data);
         setCountLike(response.data.data.likes);
@@ -310,13 +315,13 @@ function Post() {
               comments.map(comment => {
                 return (
                   <Comment
-                    key={comment.id}
-                    commentId={comment.id}
+                    key={comment.commentId}
+                    commentId={comment.commentId}
                     profileId={comment.profileId}
                     name={comment.name}
                     imageUrl={comment.imageUrl}
                     email={comment.email}
-                    text={comment.text}
+                    text={comment.content}
                     postId={postId}
                     createdAt={comment.createdAt}
                   />
