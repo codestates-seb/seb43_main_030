@@ -4,9 +4,10 @@ import {
   MarkerF,
   InfoWindowF,
 } from '@react-google-maps/api';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useState, useCallback, memo, useEffect } from 'react';
-import axios from 'axios';
+import { setCenter } from '../actions/areaFilterActions';
 import PinOn from '../images/pin-on.png';
 import MapCard from '../components/Card/MapCard';
 import Button from '../components/Button/Button';
@@ -24,15 +25,13 @@ const myStyles = [
   },
 ];
 
-function Map({ areaFilter, kinderGartens }) {
+function Map({ kinderGartens }) {
   const [isPending, setIsPending] = useState(false);
+  const areaFilter = useSelector(state => state.areaFilter);
+  const center = useSelector(state => state.center);
 
   const [map, setMap] = useState(null);
-
-  const [center, setCenter] = useState({
-    lat: 37.568177,
-    lng: 126.992217,
-  });
+  const dispatch = useDispatch();
 
   const { isLoaded } = useJsApiLoader(
     {
@@ -43,49 +42,73 @@ function Map({ areaFilter, kinderGartens }) {
   );
 
   useEffect(() => {
+    console.log(areaFilter);
+    if (areaFilter === 0) {
+      dispatch(
+        setCenter({
+          lat: 37.568177,
+          lng: 126.992217,
+        }),
+      );
+    }
     if (areaFilter === 1) {
-      setCenter({
-        lat: 37.523474,
-        lng: 126.844036,
-      });
+      dispatch(
+        setCenter({
+          lat: 37.523474,
+          lng: 126.844036,
+        }),
+      );
     }
     if (areaFilter === 2) {
-      setCenter({
-        lat: 37.495092,
-        lng: 126.931558,
-      });
+      dispatch(
+        setCenter({
+          lat: 37.495092,
+          lng: 126.931558,
+        }),
+      );
     }
     if (areaFilter === 3) {
-      setCenter({
-        lat: 37.515894,
-        lng: 127.070571,
-      });
+      dispatch(
+        setCenter({
+          lat: 37.515894,
+          lng: 127.070571,
+        }),
+      );
     }
     if (areaFilter === 4) {
-      setCenter({
-        lat: 37.589416,
-        lng: 126.92703,
-      });
+      dispatch(
+        setCenter({
+          lat: 37.589416,
+          lng: 126.92703,
+        }),
+      );
     }
     if (areaFilter === 5) {
-      setCenter({
-        lat: 37.648563,
-        lng: 127.03758,
-      });
+      dispatch(
+        setCenter({
+          lat: 37.648563,
+          lng: 127.03758,
+        }),
+      );
     }
     if (areaFilter === 6) {
-      setCenter({
-        lat: 37.533099,
-        lng: 126.979087,
-      });
+      dispatch(
+        setCenter({
+          lat: 37.533099,
+          lng: 126.979087,
+        }),
+      );
     }
     if (areaFilter === 7) {
-      setCenter({
-        lat: 37.580728,
-        lng: 127.074702,
-      });
+      dispatch(
+        setCenter({
+          lat: 37.583792,
+          lng: 127.081658,
+        }),
+      );
     }
-  }, [areaFilter]);
+  }, [areaFilter, dispatch]);
+  console.log(center);
 
   const onLoad = useCallback(
     function callback(mapValue) {

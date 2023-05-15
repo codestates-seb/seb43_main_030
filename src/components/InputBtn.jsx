@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { ReactComponent as Search } from '../images/search.svg';
+import { setAreaFilter } from '../actions/areaFilterActions';
 import cls from '../utils/tailwind';
 
 function InputBtn(props) {
@@ -12,9 +14,9 @@ function InputBtn(props) {
     setKinderGartens,
     searchValue,
     setSearchValue,
-    setAreaFilter,
   } = props;
   const [focus, setFocus] = useState(true);
+  const dispatch = useDispatch();
 
   function changeInput(e) {
     setInputValue(e.target.value);
@@ -28,7 +30,7 @@ function InputBtn(props) {
         setKinderGartens(response.data);
         setSearchValue(inputValue);
         setInputValue('');
-        setAreaFilter(0);
+        dispatch(setAreaFilter(0));
       })
       .catch(error => {
         console.log(error);

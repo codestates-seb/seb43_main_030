@@ -7,7 +7,7 @@ import { ReactComponent as Close } from '../../images/close.svg';
 import DropDownMenuM from '../DropDownMenuM';
 
 function MHeader(props) {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [nickname, setNickname] = useState('쫑이콩이맘');
   const [dropDown, setDropDown] = useState(false);
   const {
