@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { ReactComponent as Search } from '../images/search.svg';
 
@@ -59,9 +60,11 @@ function DropDownMenu({ setAuth, user, curUser, setCurUser }) {
         <div className="mt-2 h-1 border-b" />
       </ul>
       <ul className="w-202 text-left">
-        <li className="flex cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025">
-          마이페이지
-        </li>
+        <Link to="/mypage/1">
+          <li className="flex cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025">
+            마이페이지
+          </li>
+        </Link>
         <li
           role="presentation"
           className="cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025"
