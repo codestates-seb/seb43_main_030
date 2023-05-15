@@ -53,8 +53,10 @@ function App() {
   // 로그인 관련 state
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState([]);
+  // 클릭했을 때 정보만 담음(이름, 사진)
   const [curUser, setCurUser] = useState({});
-  const [curProfile, setCurProfile] = useState({});
+  // 선택한 디테일 프로필 정보가 있는 애
+  const [curUserDetail, setCurUserDetail] = useState({});
 
   // 지도 관련 state
   const [kinderGartens, setKinderGartens] = useState([]);
@@ -74,11 +76,12 @@ function App() {
           setAuth(true);
           setUser(res.data);
           setCurUser(res.data[0]);
-          console.log(res.data[0]);
+          setCurUserDetail(res.data[0]);
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(curUserDetail);
 
   return (
     <div className="h-[calc(100vh-80px)]">
@@ -110,7 +113,7 @@ function App() {
           searchValue={searchValue}
           setSearchValue={setSearchValue}
           setAreaFilter={setAreaFilter}
-          setCurProfile={setCurProfile}
+          setCurUserDetail={setCurUserDetail}
         />
       )}
 
@@ -175,6 +178,8 @@ function App() {
               setUser={setUser}
               curUser={curUser}
               setCurUser={setCurUser}
+              curUserDetail={curUserDetail}
+              setCurUserDetail={setCurUserDetail}
             />
           }
         />

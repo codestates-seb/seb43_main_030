@@ -3,13 +3,22 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { ReactComponent as Search } from '../images/search.svg';
 
-function DropDownMenu({ setAuth, user, curUser, setCurUser, setCurProfile }) {
+function DropDownMenu({
+  setAuth,
+  user,
+  curUser,
+  setCurUser,
+  setCurUserDetail,
+}) {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const handleLogout = () => {
     setAuth(false);
     localStorage.removeItem('token');
   };
+
+  // setCurUser(user[0]);
+  // console.log(user[0]);
 
   function clickedProfile(idx, id) {
     setCurUser(user[idx]);
@@ -20,7 +29,7 @@ function DropDownMenu({ setAuth, user, curUser, setCurUser, setCurProfile }) {
         },
       })
       .then(res => {
-        setCurProfile(res.data.data);
+        setCurUserDetail(res.data.data);
       });
   }
 
