@@ -24,22 +24,8 @@ const myStyles = [
   },
 ];
 
-function Map({ areaFilter, setAreaFilter }) {
-  const [kinderGartens, setKinderGartens] = useState([]);
+function Map({ areaFilter, kinderGartens }) {
   const [isPending, setIsPending] = useState(false);
-
-  useEffect(() => {
-    axios
-      .get('http://localhost:3001/KinderGarten')
-      .then(response => {
-        setKinderGartens(response.data);
-        setIsPending(true);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
-
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
@@ -48,36 +34,36 @@ function Map({ areaFilter, setAreaFilter }) {
   const [map, setMap] = useState(null);
 
   const [center, setCenter] = useState({
-    lat: 37.5303564,
-    lng: 126.9897517,
+    lat: 37.568177,
+    lng: 126.992217,
   });
 
   useEffect(() => {
-    if (areaFilter === 0) {
+    if (areaFilter === 1) {
       setCenter({
         lat: 37.523474,
         lng: 126.844036,
       });
     }
-    if (areaFilter === 1) {
+    if (areaFilter === 2) {
       setCenter({
         lat: 37.495092,
         lng: 126.931558,
       });
     }
-    if (areaFilter === 2) {
+    if (areaFilter === 3) {
       setCenter({
-        lat: 37.498011,
-        lng: 127.113862,
+        lat: 37.515894,
+        lng: 127.070571,
       });
     }
-    if (areaFilter === 3) {
+    if (areaFilter === 4) {
       setCenter({
         lat: 37.589416,
         lng: 126.92703,
       });
     }
-    if (areaFilter === 4) {
+    if (areaFilter === 5) {
       setCenter({
         lat: 37.648563,
         lng: 127.03758,
@@ -85,8 +71,14 @@ function Map({ areaFilter, setAreaFilter }) {
     }
     if (areaFilter === 6) {
       setCenter({
-        lat: 37.577173,
-        lng: 127.08513,
+        lat: 37.533099,
+        lng: 126.979087,
+      });
+    }
+    if (areaFilter === 7) {
+      setCenter({
+        lat: 37.580728,
+        lng: 127.074702,
       });
     }
   }, [areaFilter]);
@@ -100,12 +92,12 @@ function Map({ areaFilter, setAreaFilter }) {
       const bounds = new window.google.maps.LatLngBounds(centerLatLng);
       const circle = new window.google.maps.Circle({
         center: centerLatLng,
-        radius: 5000, // 500m 반경
+        radius: areaFilter === 0 ? 10000 : 5000, // 500m 반경
       });
       bounds.union(circle.getBounds());
       mapValue.fitBounds(bounds);
     },
-    [center.lat, center.lng],
+    [center.lat, center.lng, areaFilter],
   );
 
   const onUnmount = useCallback(function callback() {
@@ -153,11 +145,15 @@ function Map({ areaFilter, setAreaFilter }) {
                       }}
                       onCloseClick={() => setClickedMarker(null)}
                     >
-                      <div style={{ backgroundColor: 'white' }}>
+                      <div
+                        className="flex-center onlyMobile:h-220 onlyMobile:w-226 onlyMini:w-190"
+                        style={{ backgroundColor: 'white' }}
+                      >
                         <MapCard
                           name={kinderGarten.name}
                           ratedReviewsAvg={kinderGarten.ratedReviewsAvg}
                           ratedReviewsCount={kinderGarten.ratedReviewsCount}
+                          id={kinderGarten.kindergartenId}
                         />
                       </div>
                     </InfoWindowF>
@@ -165,7 +161,7 @@ function Map({ areaFilter, setAreaFilter }) {
               </MarkerF>
             );
           })}
-        <div className="flex-center fixed bottom-[30px] left-0 w-[100%]">
+        <div className="flex-center fixed bottom-10 left-0 z-10 w-[100vw]">
           <Link to="/">
             <Button
               className="color-black z-10 flex h-50 w-190 items-center justify-around"

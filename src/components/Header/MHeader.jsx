@@ -1,18 +1,38 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import InputBtn from '../InputBtn';
 import { ReactComponent as Menu } from '../../images/menu.svg';
 import { ReactComponent as LogoSymbol } from '../../images/logo-symbol.svg';
 import { ReactComponent as Close } from '../../images/close.svg';
 import DropDownMenuM from '../DropDownMenuM';
 
-function MHeader() {
+function MHeader(props) {
   const [isLogin, setIsLogin] = useState(true);
   const [nickname, setNickname] = useState('쫑이콩이맘');
   const [dropDown, setDropDown] = useState(false);
+  const {
+    inputValue,
+    setInputValue,
+    kinderGartens,
+    setKinderGartens,
+    auth,
+    setAuth,
+    user,
+    curUser,
+    setCurUser,
+    searchValue,
+    setSearchValue,
+  } = props;
+
+  const navi = useNavigate();
 
   function onDropDown() {
     setDropDown(!dropDown);
+  }
+
+  function reload() {
+    navi('/');
+    window.location.reload();
   }
 
   return (
@@ -22,12 +42,23 @@ function MHeader() {
       } fixed z-10 flex h-64 w-[100%] items-center justify-between border-b border-black-050 bg-white px-24 py-8`}
     >
       <Link to="/">
-        <div className="flex-center w-48 cursor-pointer">
+        <div
+          className="flex-center w-48 cursor-pointer"
+          onClick={reload}
+          role="presentation"
+        >
           <LogoSymbol />
         </div>
       </Link>
       <div className="input-array">
-        <InputBtn />
+        <InputBtn
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          kinderGartens={kinderGartens}
+          setKinderGartens={setKinderGartens}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+        />
       </div>
       {dropDown ? (
         <button

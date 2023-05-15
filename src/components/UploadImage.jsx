@@ -6,7 +6,7 @@ function UploadImage(props) {
   return (
     <div>
       <label htmlFor="uploadImage">
-        <div className={className}>
+        <div className="flex-center mr-10 flex h-80 w-80 rounded-[8px] bg-black-050">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"

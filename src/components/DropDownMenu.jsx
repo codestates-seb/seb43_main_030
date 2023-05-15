@@ -1,31 +1,51 @@
 import { useState } from 'react';
+import axios from 'axios';
 import { ReactComponent as Search } from '../images/search.svg';
 
-function DropDownMenu() {
-  const profiles = ['쫑이콩이맘', '쫑이', '콩이'];
+function DropDownMenu({ setAuth, user, curUser, setCurUser }) {
   const [activeIndex, setActiveIndex] = useState(null);
 
-  const profileActive = event => {
-    const classList = event.target.className.split(' ');
+  const handleLogout = () => {
+    setAuth(false);
+    localStorage.removeItem('token');
+  };
+
+  function clickedProfile(idx) {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/users/profile/${idx}`, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      })
+      .then(res => {
+        setCurUser(res.data);
+      });
+  }
+
+  function profileActive(e) {
+    const classList = e.target.className.split(' ');
     if (classList.length > 1) {
       const index = classList[3].slice(-1);
       setActiveIndex(index);
     }
-  };
+  }
 
   const renderProfile = () => {
-    return profiles.map((profile, idx) => {
+    return user.map((profile, idx) => {
       const activeClass = Number(activeIndex) === idx ? 'font-bold' : '';
       return (
         <li
-          className={`flex items-center justify-start profile${idx} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
-          onClick={profileActive}
+          className={`profile flex items-center justify-start${idx} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
+          onClick={e => {
+            profileActive(e);
+            clickedProfile(idx);
+          }}
           role="presentation"
         >
           {Number(activeIndex) === idx ? (
             <Search className="mr-10 inline-block h-24 w-24 rounded-md border" />
           ) : null}
-          {profiles[idx]}
+          {user[idx].name}
         </li>
       );
     });
@@ -39,10 +59,14 @@ function DropDownMenu() {
         <div className="mt-2 h-1 border-b" />
       </ul>
       <ul className="w-202 text-left">
-        <li className="flex cursor-pointer items-center justify-start rounded-md px-8 pb-12 pt-12 text-14 hover:bg-black-025">
+        <li className="flex cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025">
           마이페이지
         </li>
-        <li className="cursor-pointer items-center justify-start rounded-md px-8 pb-12 pt-12 text-14 hover:bg-black-025">
+        <li
+          role="presentation"
+          className="cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025"
+          onClick={() => handleLogout()}
+        >
           로그아웃
         </li>
       </ul>
