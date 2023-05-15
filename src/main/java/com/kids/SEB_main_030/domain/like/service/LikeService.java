@@ -6,11 +6,13 @@ import com.kids.SEB_main_030.domain.like.repository.LikeRepository;
 import com.kids.SEB_main_030.domain.post.service.PostService;
 import com.kids.SEB_main_030.domain.profile.entity.Profile;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Transactional
 @Service
@@ -23,6 +25,15 @@ public class LikeService {
     // 좋아요 갯수 카운트
     public int likeCnt(Post post) {
         return likeRepository.countByPost(post);
+    }
+
+    public boolean isToLike(Post post) {
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof Map) {
+            Profile profile = postService.getProfile();
+            int likeCnt = likeRepository.findByLikeCountByPostIdOrProfileId(profile, post);
+            if (likeCnt > 0) return true;
+        }
+        return false;
     }
 
     // 좋아요 여러 포스트에서 카운트

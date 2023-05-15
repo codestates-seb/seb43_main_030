@@ -7,8 +7,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
+import com.kids.SEB_main_030.domain.community.service.CommunityService;
 import com.kids.SEB_main_030.domain.kindergarten.entity.Kindergarten;
 import com.kids.SEB_main_030.domain.kindergarten.repository.KindergartenRepository;
+import com.kids.SEB_main_030.global.image.service.ImageService;
 import lombok.extern.slf4j.Slf4j;
 
 import okhttp3.OkHttpClient;
@@ -26,9 +28,13 @@ import java.util.List;
 @Slf4j
 public class PlaceService {
     private final KindergartenRepository kindergartenRepository;
+    private final ImageService imageService;
+    private final CommunityService communityService;
 
-    public PlaceService(KindergartenRepository kindergartenRepository) {
+    public PlaceService(KindergartenRepository kindergartenRepository, ImageService imageService, CommunityService communityService) {
         this.kindergartenRepository = kindergartenRepository;
+        this.imageService = imageService;
+        this.communityService = communityService;
     }
 
     public String getResponse() {
@@ -97,7 +103,7 @@ public class PlaceService {
     }
 
     @NotNull
-    public static Kindergarten getKindergarten(JsonObject jsonObject, JsonArray resultArray, int i) {
+    public Kindergarten getKindergarten(JsonObject jsonObject, JsonArray resultArray, int i) {
         Kindergarten kindergarten = new Kindergarten();
         kindergarten.setPagetoken(String.valueOf(jsonObject.get("next_page_token")));
 
@@ -114,6 +120,9 @@ public class PlaceService {
         kindergarten.setLongitude(Double.valueOf(longitude));
         kindergarten.setLatitude(Double.valueOf(latitude));
         kindergarten.setRatedReviewsAvg(0.0);
+        kindergarten.setCommunity(communityService.setDefaultCommunity(kindergarten));
+        kindergarten.setImageUrl(imageService.getDefaultKindergartenImage());
+
         return kindergarten;
     }
 

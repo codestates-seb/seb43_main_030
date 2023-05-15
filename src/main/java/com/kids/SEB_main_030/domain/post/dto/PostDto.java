@@ -58,9 +58,11 @@ public class PostDto {
         private long postId;
         private String title;
         private String content;
-        private String imageUrl;
+        private String postImageUrl;
         private Integer views;
         private int likes;
+        private String profileImageUrl;
+        private String name;
 
     }
 
@@ -75,10 +77,13 @@ public class PostDto {
         private String content;
         private String category;
         private List<Image> images;
+        private long profileId;
         private String profileImageUrl;
         private String name;
         private LocalDateTime createdAt;
+        private int views;
         private int likes;
+        private boolean isLike;
 
     }
 

@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.kids.SEB_main_030.global.exception.CustomException;
 import com.kids.SEB_main_030.global.exception.LogicException;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +26,10 @@ import java.util.UUID;
 public class ImageUploader {
 
     private final AmazonS3Client s3Client;
-
+    @Value("${url.image.profile}")
+    private String defaultProfileImage;
+    @Value("${url.image.kindergarten}")
+    private String defaultKindergartenImage;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
@@ -58,6 +62,9 @@ public class ImageUploader {
     }
 
     public void delete(String imageUrl) {
+        if (imageUrl.equals(defaultProfileImage) || imageUrl.equals(defaultKindergartenImage))
+            return;
+
         String fileName = imageUrl;
         for (int i = 0; i < 2; i++) {
             fileName = fileName.substring(0, fileName.lastIndexOf('/'));

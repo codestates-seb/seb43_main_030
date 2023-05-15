@@ -28,6 +28,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/community/{community-id}/post")
@@ -87,10 +88,11 @@ public class PostController {
         Post post = postService.findPostIncrementViews(postId);
         int likes = likeService.likeCnt(post);
         Profile profile = post.getProfile();
+        boolean isToLike = likeService.isToLike(post);
         List<Image> images = imageService.findByPost(post);
         String profileImageUrl = profile.getImageUrl();
         return new ResponseEntity(
-                new SingleResponseDto(postMapper.postToDetailPageResponse(post, likes, profile, images, profileImageUrl)),
+                new SingleResponseDto(postMapper.postToDetailPageResponse(post, likes, isToLike, profile, images, profileImageUrl)),
                 HttpStatus.OK);
     }
 
@@ -102,11 +104,13 @@ public class PostController {
                                    @RequestParam(required = false) String keyword) {
         Page<Post> pagePosts = postService.findPosts(communityId, page - 1, category, keyword);
         List<Post> posts = pagePosts.getContent();
+        List<Profile> profiles = posts.stream()
+                .map(post -> post.getProfile()).collect(Collectors.toList());
         List<Integer> likes = likeService.likes(posts);
         List<String> imageUrls = imageService.findTopImages(posts);
 
         return new ResponseEntity(new MultiResponseDto<>(
-                postMapper.postsToPostCardViewResponseDtos(posts, likes, imageUrls), pagePosts), HttpStatus.OK);
+                postMapper.postsToPostCardViewResponseDtos(posts, profiles, likes, imageUrls), pagePosts), HttpStatus.OK);
     }
 
     // 게시물 삭제

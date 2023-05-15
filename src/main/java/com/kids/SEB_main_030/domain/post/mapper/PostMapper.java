@@ -6,7 +6,6 @@ import com.kids.SEB_main_030.global.exception.LogicException;
 import com.kids.SEB_main_030.domain.post.dto.PostDto;
 import com.kids.SEB_main_030.domain.profile.entity.Profile;
 import com.kids.SEB_main_030.global.image.entity.Image;
-import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;
@@ -50,18 +49,8 @@ public interface PostMapper {
         return post1;
     };
 
-    default PostDto.CardViewResponse postToPostCardViewResponseDto(Post post, int likes, String imageUrl) {
-        PostDto.CardViewResponse response = new PostDto.CardViewResponse();
-        response.setPostId(post.getPostId());
-        response.setTitle(post.getTitle());
-        response.setContent(post.getContent());
-        response.setViews(post.getViews());
-        response.setLikes(likes);
-        response.setImageUrl(imageUrl);
-        return response;
-    }
 
-    default PostDto.DetailPageResponse postToDetailPageResponse(Post post, int likes, Profile profile, List<Image> images, String profileImageUrl) {
+    default PostDto.DetailPageResponse postToDetailPageResponse(Post post, int likes, boolean isToLike, Profile profile, List<Image> images, String profileImageUrl) {
         PostDto.DetailPageResponse detailPageResponse = new PostDto.DetailPageResponse();
         detailPageResponse.setPostId(post.getPostId());
         detailPageResponse.setTitle(post.getTitle());
@@ -72,6 +61,9 @@ public interface PostMapper {
         detailPageResponse.setCreatedAt(post.getCreatedAt());
         detailPageResponse.setImages(imagesToPostImageDtos(images));
         detailPageResponse.setProfileImageUrl(profileImageUrl);
+        detailPageResponse.setViews(post.getViews());
+        detailPageResponse.setProfileId(profile.getProfileId());
+        detailPageResponse.setLike(isToLike);
         return detailPageResponse;
     }
 
@@ -111,11 +103,23 @@ public interface PostMapper {
         return post;
     };
 
+    default PostDto.CardViewResponse postToPostCardViewResponseDto(Post post, Profile profile, int likes, String imageUrl) {
+        PostDto.CardViewResponse response = new PostDto.CardViewResponse();
+        response.setPostId(post.getPostId());
+        response.setTitle(post.getTitle());
+        response.setContent(post.getContent());
+        response.setViews(post.getViews());
+        response.setLikes(likes);
+        response.setPostImageUrl(imageUrl);
+        response.setName(profile.getName());
+        response.setProfileImageUrl(profile.getImageUrl());
+        return response;
+    }
 
-    default List<PostDto.CardViewResponse> postsToPostCardViewResponseDtos(List<Post> posts, List<Integer> likes, List<String> imageUrls) {
+    default List<PostDto.CardViewResponse> postsToPostCardViewResponseDtos(List<Post> posts, List<Profile> profiles, List<Integer> likes, List<String> imageUrls) {
         List<PostDto.CardViewResponse> responses = new ArrayList<>();
         for (int i = 0; i < posts.size(); i++)
-            responses.add(postToPostCardViewResponseDto(posts.get(i), likes.get(i), imageUrls.get(i)));
+            responses.add(postToPostCardViewResponseDto(posts.get(i), profiles.get(i), likes.get(i), imageUrls.get(i)));
         return responses;
     };
 
