@@ -54,11 +54,11 @@ function Header() {
     navi('/');
     window.location.reload();
     const timerId = setTimeout(() => {
+      dispatch(setAreaFilter(0));
       dispatch(setKinderGartens([]));
       dispatch(setInputValue(''));
       dispatch(setSearchValue(''));
-      dispatch(setAreaFilter(0));
-    }, 20);
+    }, 200);
   }
 
   return (

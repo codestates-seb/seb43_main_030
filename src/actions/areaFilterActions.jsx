@@ -9,6 +9,7 @@ const setCurProfile = createAction('curProfile/setCurProfile');
 const setInputValue = createAction('inputValue/setInputValue');
 const setSearchValue = createAction('searchValue/setSearchValue');
 const setAuth = createAction('auth/setAuth');
+const setActiveIndex = createAction('activeIndex/setActiveIndex');
 
 export {
   setAreaFilter,
@@ -20,4 +21,5 @@ export {
   setInputValue,
   setSearchValue,
   setAuth,
+  setActiveIndex,
 };
