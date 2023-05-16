@@ -4,13 +4,16 @@ import com.kids.SEB_main_030.domain.review.dto.ReviewPatchDto;
 import com.kids.SEB_main_030.domain.review.dto.ReviewPostDto;
 import com.kids.SEB_main_030.domain.review.dto.ReviewResponseDto;
 import com.kids.SEB_main_030.domain.review.entity.Review;
+import com.kids.SEB_main_030.global.image.entity.Image;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface ReviewMapper {
+
     @Mapping(source = "kindergartenId",target = "kindergarten.kindergartenId")
     @Mapping(source = "profileId",target = "profile.profileId")
     Review reviewPostDtoToReview(ReviewPostDto reviewPostDto);
@@ -32,5 +35,11 @@ public interface ReviewMapper {
     @Mapping(source="profile.name",target="profileName")
     @Mapping(target="images",expression = "java(mapImage(review.getImages()))")
     ReviewResponseDto reviewToReviewResponseDto(Review review);
-    List<ReviewResponseDto>reviewsToReviewResponseDtos(List<Review>review);
+
+    default List<Image>mapImage(List<Image>images){
+        return images.stream()
+                .map(image -> new Image(image.getImageId(), image.getImageUrl()))
+                .collect(Collectors.toList());
+    }
+
 }
