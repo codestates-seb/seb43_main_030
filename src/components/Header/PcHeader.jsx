@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUser, setCurUser } from '../../actions/areaFilterActions';
+import { setUser, setCurUser, setAuth } from '../../actions/areaFilterActions';
 import InputBtn from '../InputBtn';
 import Button from '../Button/Button';
 import DropDownMenu from '../DropDownMenu';
@@ -11,23 +11,15 @@ import { ReactComponent as ArrowOpen } from '../../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../../images/arrow-close.svg';
 import { ReactComponent as Logo } from '../../images/logo-txt.svg';
 
-function Header({
-  inputValue,
-  setInputValue,
-  auth,
-  setAuth,
-  searchValue,
-  setSearchValue,
-}) {
+function Header() {
   // const [isLogin, setIsLogin] = useState(false);
   // const [nickname, setNickname] = useState('쫑이콩이맘');
   const [dropDown, setDropDown] = useState(false);
   const navi = useNavigate();
   const dispatch = useDispatch();
 
-  const user = useSelector(state => state.user);
   const curUser = useSelector(state => state.curUser);
-  const curProfile = useSelector(state => state.curProfile);
+  const auth = useSelector(state => state.auth);
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -38,7 +30,7 @@ function Header({
           },
         })
         .then(res => {
-          setAuth(true);
+          dispatch(setAuth(true));
           dispatch(setUser(res.data));
           dispatch(setCurUser(res.data[0]));
         });
@@ -62,12 +54,7 @@ function Header({
           <Logo />
         </div>
         <div className="input-array">
-          <InputBtn
-            inputValue={inputValue}
-            setInputValue={setInputValue}
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
-          />
+          <InputBtn />
         </div>
         {auth ? (
           <div className="relative mr-12 flex h-48 w-150 items-center justify-between p-8">

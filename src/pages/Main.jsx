@@ -3,13 +3,13 @@ import { useInView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { setAreaFilter, setKinderGartens } from '../actions/areaFilterActions';
+import { setKinderGartens } from '../actions/areaFilterActions';
 import NoList from '../images/perpett-nolist.png';
 import MainCard from '../components/Card/MainCard';
 import Button from '../components/Button/Button';
 import InputSelectBox from '../components/Input/InputSelectBox';
 
-function Main({ setInputValue, searchValue, setSearchValue }) {
+function Main() {
   const [isPending, setIsPending] = useState(false);
 
   const [ref, inView] = useInView();
@@ -20,6 +20,7 @@ function Main({ setInputValue, searchValue, setSearchValue }) {
 
   const areaFilter = useSelector(state => state.areaFilter);
   const kinderGartens = useSelector(state => state.kinderGartens);
+  const searchValue = useSelector(state => state.searchValue);
 
   useEffect(() => {
     let url = ``;
@@ -72,10 +73,6 @@ function Main({ setInputValue, searchValue, setSearchValue }) {
             options="전체보기, 강서 · 구로 · 양천, 관악 · 금천 · 동작 · 영등포, 강남 · 강동 · 서초 · 송파, 마포 · 은평 · 서대문, 강북 · 노원 · 도봉 · 성북, 용산 · 성동 · 종로 · 중구, 광진 · 동대문 · 중랑"
             width="min-w-260 onlyMobile:w-full onlyMobile:mt-10"
             placeholder="전체보기"
-            setAreaFilter={setAreaFilter}
-            setInputValue={setInputValue}
-            setSearchValue={setSearchValue}
-            areaFilter={areaFilter}
           />
         </div>
         <div className="grid w-[100%] grid-cols-cardGrid gap-x-[20px]">

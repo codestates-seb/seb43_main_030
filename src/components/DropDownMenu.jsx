@@ -2,20 +2,22 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurUser, setCurProfile } from '../actions/areaFilterActions';
+import {
+  setCurUser,
+  setCurProfile,
+  setAuth,
+} from '../actions/areaFilterActions';
 import { ReactComponent as Search } from '../images/search.svg';
 
-function DropDownMenu({ setAuth }) {
+function DropDownMenu() {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const user = useSelector(state => state.user);
-  const curUser = useSelector(state => state.curUser);
-  const curProfile = useSelector(state => state.curProfile);
 
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    setAuth(false);
+    dispatch(setAuth(false));
     localStorage.removeItem('token');
   };
 
@@ -34,15 +36,11 @@ function DropDownMenu({ setAuth }) {
 
   function profileActive(e) {
     const classList = e.target.className.split(' ');
-    console.log(classList);
     if (classList.length > 1) {
       const index = classList[3].slice(-1);
       setActiveIndex(index);
     }
   }
-
-  console.log('user:', curUser);
-  console.log('profile', curProfile);
 
   const renderProfile = () => {
     return user.map((profile, idx) => {

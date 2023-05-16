@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { setAuth } from '../actions/areaFilterActions';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import DropDownMenu from '../components/DropDownMenu';
@@ -13,7 +15,7 @@ import Post from '../components/List/ListCommunity';
 import SettingModal from './SettingModal';
 import ProfileCreateModal from './ProfileCreateModal';
 
-function Mypage({ auth, setAuth, user, serUser }) {
+function Mypage() {
   const { id } = useParams();
 
   const [value, setValue] = useState('');
@@ -25,6 +27,7 @@ function Mypage({ auth, setAuth, user, serUser }) {
   const [dropDown, setDropDown] = useState(false);
   const [profileModal, setProfileModal] = useState(false);
   const [settingModal, setSettingModal] = useState(false);
+  const auth = useSelector(state => state.auth);
 
   useEffect(() => {
     axios

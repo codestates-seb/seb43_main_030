@@ -35,7 +35,7 @@ const containerStyle = {
   borderRadius: '16px',
 };
 
-function KinderDetail({ auth }) {
+function KinderDetail() {
   const { id } = useParams();
 
   // 유치원 정보
@@ -45,6 +45,7 @@ function KinderDetail({ auth }) {
   const [map, setMap] = useState(null);
   const [isModal, setisModal] = useState(false);
   const center = useSelector(state => state.center);
+  const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });

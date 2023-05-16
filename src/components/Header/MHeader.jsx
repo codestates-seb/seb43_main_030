@@ -1,24 +1,15 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import InputBtn from '../InputBtn';
 import { ReactComponent as Menu } from '../../images/menu.svg';
 import { ReactComponent as LogoSymbol } from '../../images/logo-symbol.svg';
 import { ReactComponent as Close } from '../../images/close.svg';
 import DropDownMenuM from '../DropDownMenuM';
 
-function MHeader(props) {
-  const [isLogin, setIsLogin] = useState(false);
-  const [nickname, setNickname] = useState('쫑이콩이맘');
+function MHeader() {
   const [dropDown, setDropDown] = useState(false);
-  const {
-    inputValue,
-    setInputValue,
-    auth,
-    setAuth,
-    searchValue,
-    setSearchValue,
-  } = props;
+  const auth = useSelector(state => state.auth);
 
   const navi = useNavigate();
 
@@ -47,12 +38,7 @@ function MHeader(props) {
         </div>
       </Link>
       <div className="input-array">
-        <InputBtn
-          inputValue={inputValue}
-          setInputValue={setInputValue}
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-        />
+        <InputBtn />
       </div>
       {dropDown ? (
         <button
@@ -66,7 +52,7 @@ function MHeader(props) {
         <Menu className="h-32 w-32" onClick={() => onDropDown()} />
       )}
       {dropDown ? (
-        isLogin ? (
+        auth ? (
           <DropDownMenuM />
         ) : (
           <div className="absolute right-0 top-[64px] flex w-full flex-col items-start justify-center rounded-[10px] border-b border-black-050 bg-white px-24 py-8 shadow-headerShadow">
