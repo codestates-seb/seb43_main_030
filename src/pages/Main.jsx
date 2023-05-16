@@ -2,28 +2,26 @@ import { useState, useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { PulseLoader } from 'react-spinners';
 import { Link } from 'react-router-dom';
-import setAreaFilter from '../actions/areaFilterActions';
+import { setKinderGartens } from '../actions/areaFilterActions';
 import NoList from '../images/perpett-nolist.png';
 import MainCard from '../components/Card/MainCard';
 import Button from '../components/Button/Button';
 import InputSelectBox from '../components/Input/InputSelectBox';
 
-function Main({
-  setInputValue,
-  kinderGartens,
-  setKinderGartens,
-  searchValue,
-  setSearchValue,
-}) {
+function Main() {
   const [isPending, setIsPending] = useState(false);
 
   const [ref, inView] = useInView();
 
   const page = useRef(8);
   const [print, setPrint] = useState([]);
+  const dispatch = useDispatch();
 
   const areaFilter = useSelector(state => state.areaFilter);
+  const kinderGartens = useSelector(state => state.kinderGartens);
+  const searchValue = useSelector(state => state.searchValue);
 
   useEffect(() => {
     let url = ``;
@@ -35,13 +33,13 @@ function Main({
     axios
       .get(url)
       .then(response => {
-        setKinderGartens(response.data);
+        dispatch(setKinderGartens(response.data));
         setIsPending(true);
       })
       .catch(error => {
         console.log(error);
       });
-  }, [areaFilter, setKinderGartens, searchValue]);
+  }, [areaFilter, searchValue, dispatch]);
 
   useEffect(() => {
     let timerId;
@@ -76,32 +74,37 @@ function Main({
             options="전체보기, 강서 · 구로 · 양천, 관악 · 금천 · 동작 · 영등포, 강남 · 강동 · 서초 · 송파, 마포 · 은평 · 서대문, 강북 · 노원 · 도봉 · 성북, 용산 · 성동 · 종로 · 중구, 광진 · 동대문 · 중랑"
             width="min-w-260 onlyMobile:w-full onlyMobile:mt-10"
             placeholder="전체보기"
-            setAreaFilter={setAreaFilter}
-            setInputValue={setInputValue}
-            setSearchValue={setSearchValue}
-            areaFilter={areaFilter}
           />
         </div>
         <div className="grid w-[100%] grid-cols-cardGrid gap-x-[20px]">
-          {print.length === 0 ? (
-            <div className="flex-center h-640 flex-col">
-              <img src={NoList} alt="NoList" className="mb-16 h-160 w-160" />
-              <span className="text-18 text-black-350">{`"${searchValue}"에 대한 검색결과가 없어요...`}</span>
-            </div>
+          {isPending ? (
+            print.length === 0 ? (
+              <div className="flex-center h-640 flex-col">
+                <img src={NoList} alt="NoList" className="mb-16 h-160 w-160" />
+                <span className="text-18 text-black-350">
+                  {searchValue
+                    ? `"${searchValue}"에 대한 검색결과가 없어요...`
+                    : '여기는 유치원이 없어요...'}
+                </span>
+              </div>
+            ) : (
+              print.map(kinderGarten => {
+                return (
+                  <MainCard
+                    key={kinderGarten.kindergartenId}
+                    name={kinderGarten.name}
+                    ratedReviewsAvg={kinderGarten.ratedReviewsAvg}
+                    ratedReviewsCount={kinderGarten.ratedReviewsCount}
+                    locations={kinderGarten.locations}
+                    id={kinderGarten.kindergartenId}
+                  />
+                );
+              })
+            )
           ) : (
-            isPending &&
-            print.map(kinderGarten => {
-              return (
-                <MainCard
-                  key={kinderGarten.kindergartenId}
-                  name={kinderGarten.name}
-                  ratedReviewsAvg={kinderGarten.ratedReviewsAvg}
-                  ratedReviewsCount={kinderGarten.ratedReviewsCount}
-                  locations={kinderGarten.locations}
-                  id={kinderGarten.kindergartenId}
-                />
-              );
-            })
+            <div className="flex-center h-[50vh] w-[100%]">
+              <PulseLoader color="#FFD337" />
+            </div>
           )}
         </div>
         <div className="flex-center sticky bottom-10 left-0 w-[100%] text-white">

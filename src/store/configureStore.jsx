@@ -1,10 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import areaFilterReducer from '../reducers/areaFilterReducers';
+import persistedReducer from '../reducers/areaFilterReducers';
 
 const store = configureStore({
-  reducer: {
-    areaFilter: areaFilterReducer,
-  },
+  reducer: persistedReducer,
 });
 
 export default store;

@@ -31,7 +31,6 @@ function Comment({
 
     const now = new Date();
     const dateString = now.toLocaleString();
-    console.log(postId);
     axios
       .patch(
         `${process.env.REACT_APP_API_URL}/post/${postId}/comment/${commentId}`,
@@ -51,6 +50,9 @@ function Comment({
       })
       .catch(error => {
         console.log(error);
+        if (error.response && error.response.status === 403) {
+          alert('본인이 작성한 댓글만 수정할 수 있어요❗️');
+        }
       });
   };
 
@@ -145,7 +147,9 @@ function Comment({
           {text}
         </p>
       )}
-      <p className="text-14 text-black-350 onlyMobile:text-12">{createdAt}</p>
+      <p className="text-14 text-black-350 onlyMobile:text-12">
+        {new Date(createdAt).toLocaleString()}
+      </p>
     </div>
   );
 }

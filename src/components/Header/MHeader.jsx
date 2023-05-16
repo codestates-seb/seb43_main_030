@@ -1,28 +1,22 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, dispatch, useDispatch } from 'react-redux';
+import {
+  setKinderGartens,
+  setInputValue,
+  setAreaFilter,
+  setSearchValue,
+} from '../../actions/areaFilterActions';
 import InputBtn from '../InputBtn';
 import { ReactComponent as Menu } from '../../images/menu.svg';
 import { ReactComponent as LogoSymbol } from '../../images/logo-symbol.svg';
 import { ReactComponent as Close } from '../../images/close.svg';
 import DropDownMenuM from '../DropDownMenuM';
 
-function MHeader(props) {
-  const [isLogin, setIsLogin] = useState(false);
-  const [nickname, setNickname] = useState('쫑이콩이맘');
+function MHeader() {
   const [dropDown, setDropDown] = useState(false);
-  const {
-    inputValue,
-    setInputValue,
-    kinderGartens,
-    setKinderGartens,
-    auth,
-    setAuth,
-    user,
-    curUser,
-    setCurUser,
-    searchValue,
-    setSearchValue,
-  } = props;
+  const auth = useSelector(state => state.auth);
+  const dispatch = useDispatch();
 
   const navi = useNavigate();
 
@@ -31,6 +25,10 @@ function MHeader(props) {
   }
 
   function reload() {
+    dispatch(setKinderGartens([]));
+    dispatch(setInputValue(''));
+    dispatch(setSearchValue(''));
+    dispatch(setAreaFilter(0));
     navi('/');
     window.location.reload();
   }
@@ -51,14 +49,7 @@ function MHeader(props) {
         </div>
       </Link>
       <div className="input-array">
-        <InputBtn
-          inputValue={inputValue}
-          setInputValue={setInputValue}
-          kinderGartens={kinderGartens}
-          setKinderGartens={setKinderGartens}
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-        />
+        <InputBtn />
       </div>
       {dropDown ? (
         <button
@@ -72,7 +63,7 @@ function MHeader(props) {
         <Menu className="h-32 w-32" onClick={() => onDropDown()} />
       )}
       {dropDown ? (
-        isLogin ? (
+        auth ? (
           <DropDownMenuM />
         ) : (
           <div className="absolute right-0 top-[64px] flex w-full flex-col items-start justify-center rounded-[10px] border-b border-black-050 bg-white px-24 py-8 shadow-headerShadow">

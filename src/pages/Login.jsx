@@ -2,13 +2,16 @@ import { useMediaQuery } from 'react-responsive';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setAuth } from '../actions/areaFilterActions';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import { ReactComponent as Kakao } from '../images/logo-kakao.svg';
 import { ReactComponent as Google } from '../images/logo-google.svg';
 
-function Login({ setAuth, auth, setUser, user, setCurUser }) {
+function Login() {
   const navi = useNavigate();
+  const dispatch = useDispatch();
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
   const [loginData, setLoginData] = useState({
@@ -47,7 +50,7 @@ function Login({ setAuth, auth, setUser, user, setCurUser }) {
         password: loginData.password,
       })
       .then(res => {
-        setAuth(true);
+        dispatch(setAuth(true));
         setEmailErr('');
         setPwdErr('');
         navi('/');
@@ -57,7 +60,7 @@ function Login({ setAuth, auth, setUser, user, setCurUser }) {
       })
       .catch(err => {
         console.log(err);
-        setAuth(false);
+        dispatch(setAuth(false));
         setCheck(false);
         setEmailErr('이메일 또는 패스워드가 올바르지 않습니다.');
       });

@@ -1,18 +1,32 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setCurUser,
+  setCurProfile,
+  setAuth,
+} from '../actions/areaFilterActions';
 import { ReactComponent as Search } from '../images/search.svg';
 
-function DropDownMenu({ setAuth, user, curUser, setCurUser, setCurProfile }) {
+function DropDownMenu() {
   const [activeIndex, setActiveIndex] = useState(null);
 
+  const user = useSelector(state => state.user);
+  const curUser = useSelector(state => state.curUser);
+
+  const dispatch = useDispatch();
+
   const handleLogout = () => {
-    setAuth(false);
+    dispatch(setAuth(false));
     localStorage.removeItem('token');
   };
 
+  // setCurUser(user[0]);
+  // console.log(user[0]);
+
   function clickedProfile(idx, id) {
-    setCurUser(user[idx]);
+    dispatch(setCurUser(user[idx]));
     axios
       .get(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
         headers: {
@@ -20,7 +34,7 @@ function DropDownMenu({ setAuth, user, curUser, setCurUser, setCurProfile }) {
         },
       })
       .then(res => {
-        setCurProfile(res.data.data);
+        dispatch(setCurProfile(res.data.data));
       });
   }
 
@@ -61,18 +75,20 @@ function DropDownMenu({ setAuth, user, curUser, setCurUser, setCurProfile }) {
         <div className="mt-2 h-1 border-b" />
       </ul>
       <ul className="w-202 text-left">
-        <Link to="/mypage/1">
+        <Link to={`/mypage/${curUser.profileId}`}>
           <li className="flex cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025">
             마이페이지
           </li>
         </Link>
-        <li
-          role="presentation"
-          className="cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025"
-          onClick={() => handleLogout()}
-        >
-          로그아웃
-        </li>
+        <Link to="/">
+          <li
+            role="presentation"
+            className="cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025"
+            onClick={() => handleLogout()}
+          >
+            로그아웃
+          </li>
+        </Link>
       </ul>
     </div>
   );
