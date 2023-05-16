@@ -26,10 +26,41 @@ const myStyles = [
 ];
 
 function Map() {
-  const [isPending, setIsPending] = useState(false);
   const areaFilter = useSelector(state => state.areaFilter);
   const center = useSelector(state => state.center);
   const kinderGartens = useSelector(state => state.kinderGartens);
+  const searchValue = useSelector(state => state.searchValue);
+  const centerArr = [
+    { lat: 37.568177, lng: 126.992217 },
+    {
+      lat: 37.523474,
+      lng: 126.844036,
+    },
+    {
+      lat: 37.495092,
+      lng: 126.931558,
+    },
+    {
+      lat: 37.515894,
+      lng: 127.070571,
+    },
+    {
+      lat: 37.589416,
+      lng: 126.92703,
+    },
+    {
+      lat: 37.648563,
+      lng: 127.03758,
+    },
+    {
+      lat: 37.533099,
+      lng: 126.979087,
+    },
+    {
+      lat: 37.583792,
+      lng: 127.081658,
+    },
+  ];
 
   const [map, setMap] = useState(null);
   const dispatch = useDispatch();
@@ -42,73 +73,85 @@ function Map() {
     [center],
   );
 
+  const getCenterValue = areaFilter => {
+    dispatch(setCenter(centerArr[areaFilter]));
+    if (searchValue) {
+      dispatch(setCenter(centerArr[0]));
+    }
+  };
+
   useEffect(() => {
-    if (areaFilter === 0) {
-      dispatch(
-        setCenter({
-          lat: 37.568177,
-          lng: 126.992217,
-        }),
-      );
-    }
-    if (areaFilter === 1) {
-      dispatch(
-        setCenter({
-          lat: 37.523474,
-          lng: 126.844036,
-        }),
-      );
-    }
-    if (areaFilter === 2) {
-      dispatch(
-        setCenter({
-          lat: 37.495092,
-          lng: 126.931558,
-        }),
-      );
-    }
-    if (areaFilter === 3) {
-      dispatch(
-        setCenter({
-          lat: 37.515894,
-          lng: 127.070571,
-        }),
-      );
-    }
-    if (areaFilter === 4) {
-      dispatch(
-        setCenter({
-          lat: 37.589416,
-          lng: 126.92703,
-        }),
-      );
-    }
-    if (areaFilter === 5) {
-      dispatch(
-        setCenter({
-          lat: 37.648563,
-          lng: 127.03758,
-        }),
-      );
-    }
-    if (areaFilter === 6) {
-      dispatch(
-        setCenter({
-          lat: 37.533099,
-          lng: 126.979087,
-        }),
-      );
-    }
-    if (areaFilter === 7) {
-      dispatch(
-        setCenter({
-          lat: 37.583792,
-          lng: 127.081658,
-        }),
-      );
-    }
-  }, [areaFilter, dispatch]);
-  console.log(center);
+    getCenterValue(areaFilter);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [areaFilter]);
+
+  // useEffect(() => {
+  //   if (areaFilter === 0) {
+  //     dispatch(
+  //       setCenter({
+  //         lat: 37.568177,
+  //         lng: 126.992217,
+  //       }),
+  //     );
+  //   }
+  //   if (areaFilter === 1) {
+  //     dispatch(
+  //       setCenter({
+  //         lat: 37.523474,
+  //         lng: 126.844036,
+  //       }),
+  //     );
+  //   }
+  //   if (areaFilter === 2) {
+  //     dispatch(
+  //       setCenter({
+  //         lat: 37.495092,
+  //         lng: 126.931558,
+  //       }),
+  //     );
+  //   }
+  //   if (areaFilter === 3) {
+  //     dispatch(
+  //       setCenter({
+  //         lat: 37.515894,
+  //         lng: 127.070571,
+  //       }),
+  //     );
+  //   }
+  //   if (areaFilter === 4) {
+  //     dispatch(
+  //       setCenter({
+  //         lat: 37.589416,
+  //         lng: 126.92703,
+  //       }),
+  //     );
+  //   }
+  //   if (areaFilter === 5) {
+  //     dispatch(
+  //       setCenter({
+  //         lat: 37.648563,
+  //         lng: 127.03758,
+  //       }),
+  //     );
+  //   }
+  //   if (areaFilter === 6) {
+  //     dispatch(
+  //       setCenter({
+  //         lat: 37.533099,
+  //         lng: 126.979087,
+  //       }),
+  //     );
+  //   }
+  //   if (areaFilter === 7) {
+  //     dispatch(
+  //       setCenter({
+  //         lat: 37.583792,
+  //         lng: 127.081658,
+  //       }),
+  //     );
+  //   }
+  // }, [areaFilter, dispatch]);
+  // console.log(center);
 
   const onLoad = useCallback(
     function callback(mapValue) {
