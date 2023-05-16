@@ -73,7 +73,7 @@ function Post() {
 
   useEffect(() => {
     axios
-      .get(`${apiUrl}/community/1/post/10`)
+      .get(`${apiUrl}/community/1/post/${postId}`)
       .then(response => {
         setPost(response.data.data);
         setCountLike(response.data.data.likes);
