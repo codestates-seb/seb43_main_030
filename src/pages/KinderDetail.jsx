@@ -198,7 +198,7 @@ function KinderDetail() {
                 유치원 공지사항
               </h5>
               <div className="flex flex-col gap-8 onlyMobile:gap-6">
-                {postData && postData.length !== 0 ? (
+                {postData ? (
                   <>
                     {postData.map(el => {
                       return <ListNotice key={el.postId} post={el} />;
@@ -245,7 +245,7 @@ function KinderDetail() {
                   </Link>
                 )}
               </div>
-              {reviewData && reviewData.length !== 0 ? (
+              {reviewData ? (
                 <div className="flex flex-col gap-8">
                   {reviewData.map(el => {
                     return <ListReview key={el.reviewId} post={el} />;

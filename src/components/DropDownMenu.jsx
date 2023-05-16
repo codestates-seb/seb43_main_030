@@ -13,6 +13,7 @@ function DropDownMenu() {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const user = useSelector(state => state.user);
+  const curUser = useSelector(state => state.curUser);
 
   const dispatch = useDispatch();
 
@@ -20,6 +21,9 @@ function DropDownMenu() {
     dispatch(setAuth(false));
     localStorage.removeItem('token');
   };
+
+  // setCurUser(user[0]);
+  // console.log(user[0]);
 
   function clickedProfile(idx, id) {
     dispatch(setCurUser(user[idx]));
@@ -71,18 +75,20 @@ function DropDownMenu() {
         <div className="mt-2 h-1 border-b" />
       </ul>
       <ul className="w-202 text-left">
-        <Link to="/mypage/1">
+        <Link to={`/mypage/${curUser.profileId}`}>
           <li className="flex cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025">
             마이페이지
           </li>
         </Link>
-        <li
-          role="presentation"
-          className="cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025"
-          onClick={() => handleLogout()}
-        >
-          로그아웃
-        </li>
+        <Link to="/">
+          <li
+            role="presentation"
+            className="cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025"
+            onClick={() => handleLogout()}
+          >
+            로그아웃
+          </li>
+        </Link>
       </ul>
     </div>
   );

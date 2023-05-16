@@ -1,41 +1,51 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { setAuth } from '../actions/areaFilterActions';
+import { setCurProfile, setAuth } from '../actions/areaFilterActions';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import DropDownMenu from '../components/DropDownMenu';
-import Profile from '../images/profile.png';
-import { ReactComponent as ArrowOpen } from '../images/arrow-open.svg';
-import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
-import { ReactComponent as Perpett } from '../images/perpett-on.svg';
 import ListReview from '../components/List/ListReview';
 import Post from '../components/List/ListCommunity';
 import SettingModal from './SettingModal';
 import ProfileCreateModal from './ProfileCreateModal';
+import Profile from '../images/profile.png';
+import { ReactComponent as ArrowOpen } from '../images/arrow-open.svg';
+import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
+import { ReactComponent as Perpett } from '../images/perpett-on.svg';
+import { ReactComponent as Plus } from '../images/plus.svg';
 
 function Mypage() {
   const { id } = useParams();
+  const dispatch = useDispatch();
 
-  const [value, setValue] = useState('');
-  const [isLogin, setIsLogin] = useState('true');
-  const [nickname, setNickname] = useState('');
+  // const [value, setValue] = useState('');
+  const value = useSelector(state => state.curProfile);
+  const [nickname, setNickname] = useState(
+    useSelector(state => state.curProfile.name),
+  );
+  const user = useSelector(state => state.user);
   const [nameEdit, setNameEdit] = useState(false);
-  const [nameValue, setNameValue] = useState(nickname);
   const [nameErr, setNameErr] = useState(false);
   const [dropDown, setDropDown] = useState(false);
   const [profileModal, setProfileModal] = useState(false);
   const [settingModal, setSettingModal] = useState(false);
   const auth = useSelector(state => state.auth);
 
+  // console.log(useSelector(state => state.curUser));
+  // console.log(useSelector(state => state.curProfile));
+
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/mypage/${id}`)
+      .get(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      })
       .then(res => {
-        setValue(res.data);
-        setNickname(res.data.name);
-        console.log(res.data);
+        dispatch(setCurProfile(res.data.data));
+        // setValue(res.data.data);
       })
       .catch(error => {
         console.log(error);
@@ -43,6 +53,7 @@ function Mypage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // 모달 관련 함수
   const modalProfileOnOff = () => {
     setProfileModal(!profileModal);
   };
@@ -54,61 +65,137 @@ function Mypage() {
     setSettingModal(false);
   };
 
+  // 로그아웃 함수
   const handleLogout = () => {
-    setAuth(false);
+    dispatch(setAuth(false));
     localStorage.removeItem('token');
   };
 
+  // 프로필 변경 드롭다운 함수
   const handleDropdown = () => {
     setDropDown(!dropDown);
   };
 
+  // 닉네임 수정 함수
   const handleNameInput = () => {
     setNameEdit(!nameEdit);
     setNickname(value.name);
   };
   const handleNameChange = e => {
     setNickname(e.target.value);
-    setNameValue(e.target.value);
-    console.log(nameValue);
   };
-  // const handleErr = () => {
-  //   nickname.length === 0 ? setNameErr(true) : setNameErr(false);
-  // };
-  const handleNameEdit = () => {
-    const editName = {
-      name: nameValue,
-    };
+  const handleErr = () => {
+    return nickname ? setNameErr(true) : setNameErr(false);
+  };
 
+  // 닉네임 수정하기
+  const handleNameEdit = () => {
+    handleErr();
+    const formData = new FormData();
+    const data = {
+      // checkPerson: false,
+      name: nickname,
+      // gender: 'female',
+      // breed: 'Yorkshire Terrier',
+    };
+    formData.append(
+      'patchDto',
+      new Blob([JSON.stringify(data)], { type: 'application/json' }),
+    );
     setNameEdit(false);
 
     if (nickname.length > 0) {
       axios
-        .patch(`http://localhost:3001/mypage/${id}`, editName)
+        .patch(
+          `${process.env.REACT_APP_API_URL}/users/profile/${id}`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: localStorage.getItem('token'),
+            },
+          },
+        )
         .then(() => {
-          setNickname(prev => {
-            return { ...prev, editName };
-          });
+          // setValue(prev => {
+          //   return { ...prev, editName };
+          // });
+          window.location.reload();
         })
         .catch(err => {
           console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
         });
     }
   };
-  // console.log(nickname);
+  // console.log(value);
+
+  // 프로필 삭제하기
+  const handleProfileDelete = () => {
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const onChangeImg = e => {
+    e.preventDefault();
+
+    if (e.target.files) {
+      const uploadFile = e.target.files;
+      console.log(uploadFile);
+      const formData = new FormData();
+      formData.append('image', uploadFile);
+
+      axios
+        .patch(
+          `${process.env.REACT_APP_API_URL}/users/profile/${id}`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: localStorage.getItem('token'),
+            },
+          },
+        )
+        .then(() => {
+          // setValue(prev => {
+          //   return { ...prev, editName };
+          // });
+          console.log('ㅎㅎ');
+          // window.location.reload();
+        })
+        .catch(err => {
+          console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
+        });
+    }
+  };
 
   return (
     <div className="flex flex-col items-center pt-130 onlyMobile:pt-88 ">
       <div className="w-full max-w-[1280px] px-80 onlyMobile:max-w-full onlyMobile:px-24">
-        {isLogin ? (
+        {auth ? (
           <div className="flex onlyMobile:flex-col">
             <div className="relative mr-[8.3%] w-[33.3%] onlyMobile:mr-0 onlyMobile:w-full">
               {/* 좌측 프로필 */}
               <div className="sticky-card">
                 <div className="flex-center flex-col">
                   <div className="user-profile mb-8 h-48 w-48 overflow-hidden rounded-[12px] onlyMobile:h-64 onlyMobile:w-64">
-                    <img src={Profile} alt="프로필예시이미지" />
+                    <img src={Profile} alt="defaultImage" />
+                    {value.imageUrl ? (
+                      <img src={value.imageUrl} alt="img" />
+                    ) : (
+                      <img src={Profile} alt="defaultImage" />
+                    )}
                   </div>
+                  <input id="uploadImage" type="file" onChange={onChangeImg} />
                   <div className="flex-center w-full max-w-190 items-center py-8">
                     <span className="min-w-88 px-8 text-center text-16 font-bold onlyMobile:text-14">
                       {value.name}
@@ -128,18 +215,18 @@ function Mypage() {
                   </div>
 
                   {/* 내가 쓴 총 후기 및 게시글 */}
-                  <p className="mb-16 text-12 text-black-350">이메일</p>
+                  <p className="mb-16 text-12 text-black-350">{value.email}</p>
                   <div className="flex-center mb-24 w-full gap-4">
                     <div className="flex-center w-full flex-col">
                       <p className="text-12 text-black-350">후기</p>
                       <p className="text-28 font-bold onlyMobile:text-18">
-                        {value.ratedReviewsCount}
+                        {value && value.reviews.length}
                       </p>
                     </div>
                     <div className="flex-center w-full flex-col">
                       <p className="text-12 text-black-350">게시글</p>
                       <p className="text-28 font-bold onlyMobile:text-18">
-                        {value.ratedPostsCount}
+                        {value && value.posts.length}
                       </p>
                     </div>
                   </div>
@@ -154,6 +241,31 @@ function Mypage() {
                       onClick={modalProfileOnOff}
                     />
                     <span className="text-12 text-black-350">프로필 추가</span>
+                    {/* {user && user.length > 4 ? (
+                      <>
+                        <Button
+                          className="color-yellow flex-center btn-size-l onlyMobile:btn-size-s mb-8 onlyMobile:w-32"
+                          icon="plus"
+                          onClick={modalProfileOnOff}
+                        />
+                        <span className="text-12 text-black-350">
+                          프로필 추가
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          className="color-yellow flex-center btn-size-l onlyMobile:btn-size-s mb-8 onlyMobile:w-32"
+                          onClick={modalProfileOnOff}
+                          disabled
+                        >
+                          <Plus />
+                        </Button>
+                        <span className="text-12 text-black-100">
+                          프로필 추가
+                        </span>
+                      </>
+                    )} */}
                   </div>
                   <div className="flex w-full flex-col items-center">
                     <Button
@@ -178,9 +290,21 @@ function Mypage() {
             {/* 우측 정보 */}
             <div className="relative w-[63%] pl-8 onlyMobile:w-full">
               <div className="pb-48 onlyMobile:py-32">
-                <h5 className="mb-24 text-22 font-bold text-black-900 onlyMobile:mb-16 onlyMobile:text-18">
-                  프로필
-                </h5>
+                <div className="mb-24 flex items-center justify-between onlyMobile:mb-16 ">
+                  <h5 className="text-black-900onlyMobile:text-18 text-22 font-bold">
+                    프로필
+                  </h5>
+                  {user && user.length === 1 ? (
+                    ''
+                  ) : (
+                    <Button
+                      className="btn-text-default text-14 text-red-400 onlyMobile:text-12"
+                      onClick={handleProfileDelete}
+                    >
+                      프로필 삭제
+                    </Button>
+                  )}
+                </div>
                 {/* 사진 및 닉네임 변경 */}
                 <div className="mb-24 onlyMobile:mb-20">
                   <div className="flex items-center justify-between">
@@ -211,16 +335,14 @@ function Mypage() {
                       ''
                     )}
                   </div>
+
+                  {/* 닉네임 수정 시 인풋 과 버튼 */}
                   {!nameEdit ? (
                     <p className="onlyMobile:text-14">{value.name}</p>
                   ) : (
-                    // 닉네임 수정 시 인풋 과 버튼
                     <div>
                       <div className="flex">
                         <Input value={nickname} onChange={handleNameChange} />
-                        <Button className="color-black btn-size-l ml-8 shrink-0">
-                          중복 검사
-                        </Button>
                       </div>
                       <div className="mt-16 flex gap-3">
                         <Button
@@ -248,25 +370,15 @@ function Mypage() {
                 </h5>
                 {value && value.reviews.length !== 0 ? (
                   <div className="flex flex-col gap-8">
-                    {value.reviews &&
-                      value.reviews.map(el => {
-                        return (
-                          <ListReview
-                            key={el.reviewId}
-                            id={el.reviewId}
-                            contents={el.content.text}
-                            images={el.content.images}
-                            ratedReview={el.ratedReviewAvg}
-                            createdAt={el.createdAt}
-                          />
-                        );
-                      })}
+                    {value.reviews.map(el => {
+                      return <ListReview key={el.reviewId} post={el} />;
+                    })}
                   </div>
                 ) : (
                   <div className="flex-center flex-col">
                     <Perpett className="mb-16 h-104 w-104" />
                     <p className="text-14 text-black-350">
-                      첫 후기를 등록해보세요!
+                      아직 작성한 후기가 없어요.
                     </p>
                   </div>
                 )}
@@ -277,20 +389,17 @@ function Mypage() {
                 <h5 className="mb-24 text-22 font-bold onlyMobile:mb-16 onlyMobile:text-18">
                   작성한 게시글
                 </h5>
-                {value && value.post.length !== 0 ? (
+                {value && value.reviews.length !== 0 ? (
                   <div className="flex flex-col gap-8">
-                    {value.post &&
-                      value.post.map(el => {
-                        return (
-                          <Post key={el.reviewId} id={el.reviewId} post={el} />
-                        );
-                      })}
+                    {value.reviews.map(el => {
+                      return <Post key={el.reviewId} post={el} />;
+                    })}
                   </div>
                 ) : (
                   <div className="flex-center flex-col">
                     <Perpett className="mb-16 h-104 w-104" />
                     <p className="text-14 text-black-350">
-                      첫 게시글을 등록해보세요!
+                      아직 작성한 게시글이 없어요.
                     </p>
                   </div>
                 )}
