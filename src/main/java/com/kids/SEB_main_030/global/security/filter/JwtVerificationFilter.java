@@ -39,7 +39,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
                 response.getWriter().write("Bearer " + accessToken);
                 return;
             } else { // refresh 토큰까지 만료된 경우
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "모든 토큰이 만료되었습니다. \n다시 로그인 해주세요.");
+                response.getWriter().write("모든 토큰이 만료되었습니다. \n다시 로그인 해주세요.");
+                response.setStatus(401);
                 return;
             }
 
