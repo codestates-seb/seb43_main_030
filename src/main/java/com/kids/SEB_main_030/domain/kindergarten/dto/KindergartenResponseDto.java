@@ -17,4 +17,5 @@ public class KindergartenResponseDto {
     private String openHours;
     private String closeHours;
     private String phoneNumber;
+    private String imageUrl;
 }
