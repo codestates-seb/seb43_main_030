@@ -24,8 +24,9 @@ function Post() {
   const navigate = useNavigate();
   const { postId } = useParams();
   const apiUrl = process.env.REACT_APP_API_URL;
-  const apiUrl2 = 'http://localhost:3001';
-  const token = process.env.REACT_APP_TOKEN;
+  const bearerToken = localStorage.getItem('token');
+  const token = bearerToken ? bearerToken.replace('Bearer ', '') : null;
+  const [testLike, setTestLike] = useState(false);
 
   useEffect(() => {
     axios
@@ -41,7 +42,6 @@ function Post() {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(comments);
 
   function changeInput(e) {
     setCommentInput(e.target.value);
@@ -77,7 +77,7 @@ function Post() {
       .then(response => {
         setPost(response.data.data);
         setCountLike(response.data.data.likes);
-        // setLike(response.data.data.likestate);
+        setLike(response.data.data.like);
       })
       .catch(error => {
         console.log(error);
@@ -128,20 +128,6 @@ function Post() {
     navigate(`/write/${postId}`);
   }, [navigate, postId]);
 
-  // const isLike = () => {
-  //   setLike(!like);
-
-  //   axios
-  //     .put(`http://localhost:3001/post/${postId}`, {
-  //       ...post,
-  //       likes: like ? countLike - 1 : countLike + 1,
-  //     })
-  //     .then(response => {
-  //       console.log(response.likes);
-  //     })
-  //     .catch(error => console.log(error));
-  // };
-
   const isLike = () => {
     const updatedLike = !like;
     const updatedLikes = updatedLike ? countLike + 1 : countLike - 1;
@@ -149,24 +135,22 @@ function Post() {
     setLike(updatedLike);
     setCountLike(updatedLikes);
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
     axios
-      .put(
+      .patch(
         `${apiUrl}/post/${postId}/like`,
         {
-          ...post,
+          // ...post,
           likes: updatedLikes,
-          // likestate: updatedLike,
+          like: updatedLike,
         },
-        config,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       )
       .then(response => {
-        console.log(response.data.likes);
+        console.log(response.config.data);
       })
       .catch(error => {
         console.log(error);
