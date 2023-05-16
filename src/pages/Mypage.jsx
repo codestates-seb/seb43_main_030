@@ -14,6 +14,7 @@ import ListReview from '../components/List/ListReview';
 import Post from '../components/List/ListCommunity';
 import SettingModal from './SettingModal';
 import ProfileCreateModal from './ProfileCreateModal';
+import { RenderProfile } from '../utils/util';
 import Profile from '../images/profile.png';
 import { ReactComponent as ArrowOpen } from '../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
@@ -40,11 +41,14 @@ function Mypage() {
 
   const [profileModal, setProfileModal] = useState(false);
   const [settingModal, setSettingModal] = useState(false);
+  // const isMypage = true;
+  const [isMypage, setIsMypage] = useState(false);
 
-  // console.log(useSelector(state => state.curUser));
-  // console.log(useSelector(state => state.curProfile));
+  console.log(useSelector(state => state.user));
+  console.log(useSelector(state => state.curUser));
+  console.log(useSelector(state => state.curProfile));
 
-  useEffect(() => {
+  useEffect(idx => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
         headers: {
@@ -53,6 +57,7 @@ function Mypage() {
       })
       .then(res => {
         dispatch(setCurProfile(res.data.data));
+        setIsMypage(true);
         // setValue(res.data.data);
       })
       .catch(error => {
@@ -101,13 +106,13 @@ function Mypage() {
     dispatch(setCurUser(user[idx]));
   };
 
-  // const dropdownActive = e => {
-  //   const classList = e.target.className.split(' ');
-  //   if(classList.length > 1) {
-  //     const index = classList[3].slice(-1);
-  //     setActiveIndex(index);
-  //   }
-  // }
+  const profileActive = e => {
+    const classList = e.target.className.split(' ');
+    if (classList.length > 1) {
+      const index = classList[3].slice(-1);
+      setActiveIndex(index);
+    }
+  };
 
   // 닉네임 수정하기
   const handleNameEdit = () => {
@@ -218,22 +223,44 @@ function Mypage() {
                   </div>
                   <input id="uploadImage" type="file" onChange={onChangeImg} />
                   <div className="flex-center w-full max-w-190 items-center py-8">
-                    <span className="min-w-88 px-8 text-center text-16 font-bold onlyMobile:text-14">
-                      {value.name}
-                    </span>
-                    <div />
                     {dropDown ? (
-                      <ArrowClose
-                        className="h-6 min-w-10 cursor-pointer"
+                      <Button
+                        type="button"
                         onClick={handleDropdown}
-                      />
+                        className="btn-size-s color-white active:bg-black-025 "
+                      >
+                        <span className="min-w-88 px-8 text-center text-16 font-bold onlyMobile:text-14">
+                          {value.name}
+                        </span>
+                        <ArrowClose className="h-6 min-w-10 cursor-pointer" />
+                      </Button>
                     ) : (
-                      <ArrowOpen
-                        className="h-6 min-w-10 cursor-pointer"
+                      <Button
+                        type="button"
                         onClick={handleDropdown}
-                      />
+                        className="btn-size-s color-white active:bg-black-025"
+                      >
+                        <span className="min-w-88 px-8 text-center text-16 font-bold onlyMobile:text-14">
+                          {value.name}
+                        </span>
+                        <ArrowOpen className="h-6 min-w-10 cursor-pointer" />
+                      </Button>
                     )}
-                    {dropDown ? <DropDownMenu /> : null}
+                    {dropDown ? (
+                      <div className="dropdown-box top-[160px] z-10 w-full px-12 py-16">
+                        <ul className="profile w-full py-2 text-left">
+                          <RenderProfile
+                            activeIndex={activeIndex}
+                            profileActive={e => profileActive(e)}
+                            clickedProfile={(idx, id) =>
+                              clickedProfile(idx, id)
+                            }
+                            isMypage={isMypage}
+                            handleDelete={handleProfileDelete}
+                          />
+                        </ul>
+                      </div>
+                    ) : null}
                   </div>
 
                   {/* 내가 쓴 총 후기 및 게시글 */}
@@ -248,7 +275,7 @@ function Mypage() {
                     <div className="flex-center w-full flex-col">
                       <p className="text-12 text-black-350">게시글</p>
                       <p className="text-28 font-bold onlyMobile:text-18">
-                        {value && value.posts.length}
+                        {value.reviews && value.posts.length}
                       </p>
                     </div>
                   </div>
@@ -257,13 +284,13 @@ function Mypage() {
                 {/* 프로필 추가, 설정, 로그아웃 버튼 */}
                 <div className="flex justify-between border-t-[1px] border-black-070 pt-24 text-16 onlyMobile:py-32 onlyMobile:text-14">
                   <div className="flex w-full flex-col items-center">
-                    <Button
+                    {/* <Button
                       className="color-yellow flex-center btn-size-l onlyMobile:btn-size-s mb-8 onlyMobile:w-32"
                       icon="plus"
                       onClick={modalProfileOnOff}
-                    />
-                    <span className="text-12 text-black-350">프로필 추가</span>
-                    {/* {user && user.length > 4 ? (
+                    /> */}
+                    {/* <span className="text-12 text-black-350">프로필 추가</span> */}
+                    {user && user.length < 4 ? (
                       <>
                         <Button
                           className="color-yellow flex-center btn-size-l onlyMobile:btn-size-s mb-8 onlyMobile:w-32"
@@ -287,7 +314,7 @@ function Mypage() {
                           프로필 추가
                         </span>
                       </>
-                    )} */}
+                    )}
                   </div>
                   <div className="flex w-full flex-col items-center">
                     <Button

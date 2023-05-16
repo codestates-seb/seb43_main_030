@@ -131,7 +131,7 @@ function ProfileCreateModal(props) {
                       {focus ? <ArrowClose /> : <ArrowOpen />}
                     </button>
                     {focus && (
-                      <div className="dropdown-box w-[98%] text-black-900">
+                      <div className="dropdown-box top-[58px] z-50 w-[98%] text-black-900">
                         <ul className="ul profile dropdown-ul">
                           {breadArr.map((el, idx) => {
                             const activeClass =

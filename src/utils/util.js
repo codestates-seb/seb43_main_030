@@ -1,5 +1,8 @@
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import cls from './tailwind';
+import Button from '../components/Button/Button';
+
 import Profile from '../images/profile.png';
 
 // 성공 시 then 은 각 파일에서 추가로 작성하기
@@ -29,8 +32,15 @@ export const axiosPost = (url, data) => {
     });
 };
 
-export function RenderProfile({ activeIndex, profileActive, clickedProfile }) {
+export function RenderProfile({
+  activeIndex,
+  profileActive,
+  clickedProfile,
+  isMypage,
+  handleDelete,
+}) {
   const user = useSelector(state => state.user);
+  const curProfile = useSelector(state => state.curProfile);
 
   const renderProfile = () => {
     return user.map((profile, idx) => {
@@ -45,12 +55,26 @@ export function RenderProfile({ activeIndex, profileActive, clickedProfile }) {
           }}
           role="presentation"
         >
-          {Number(activeIndex) === idx && (
-            <div className="mr-10 inline-block h-24 w-24 rounded-md">
-              <img src={profile.imageUrl || Profile} alt="profileimage" />
+          <div className="flex w-full justify-between">
+            <div className="flex">
+              {Number(activeIndex) === idx && (
+                <div className="mr-10 inline-block h-24 w-24 rounded-md">
+                  <img src={profile.imageUrl || Profile} alt="profileimage" />
+                </div>
+              )}
+              {profile.name}
             </div>
-          )}
-          {profile.name}
+            {!isMypage && curProfile ? (
+              ''
+            ) : (
+              <Button
+                className="btn-text-default text-red-400 onlyMobile:text-12"
+                onClick={handleDelete(idx)}
+              >
+                삭제
+              </Button>
+            )}
+          </div>
         </li>
       );
     });
