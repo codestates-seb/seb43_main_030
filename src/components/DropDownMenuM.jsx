@@ -1,17 +1,18 @@
-import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setCurUser,
   setCurProfile,
   setAuth,
+  setActiveIndex,
 } from '../actions/areaFilterActions';
 import { ReactComponent as Search } from '../images/search.svg';
 
 function DropDownMenuM() {
-  const [activeIndex, setActiveIndex] = useState(null);
-
   const user = useSelector(state => state.user);
+  const curUser = useSelector(state => state.curUser);
+  const activeIndex = useSelector(state => state.activeIndex);
 
   const dispatch = useDispatch();
 
@@ -37,7 +38,7 @@ function DropDownMenuM() {
     const classList = e.target.className.split(' ');
     if (classList.length > 1) {
       const index = classList[3].slice(-1);
-      setActiveIndex(index);
+      dispatch(setActiveIndex(index));
     }
   }
 
@@ -70,14 +71,20 @@ function DropDownMenuM() {
         <div className="mt-4 h-1 border-b" />
       </ul>
       <ul className="menu w-full px-8 text-left">
-        <li className="h-58 cursor-pointer pb-12 pt-12 text-14">마이페이지</li>
-        <li
-          className="h-58 cursor-pointer pb-12 pt-12 text-14"
-          onClick={() => handleLogout()}
-          role="presentation"
-        >
-          로그아웃
-        </li>
+        <Link to={`/mypage/${curUser.profileId}`}>
+          <li className="h-58 cursor-pointer pb-12 pt-12 text-14">
+            마이페이지
+          </li>
+        </Link>
+        <Link to="/">
+          <li
+            className="h-58 cursor-pointer pb-12 pt-12 text-14"
+            onClick={() => handleLogout()}
+            role="presentation"
+          >
+            로그아웃
+          </li>
+        </Link>
       </ul>
     </div>
   );

@@ -11,6 +11,7 @@ import {
   setInputValue,
   setSearchValue,
   setAuth,
+  setActiveIndex,
 } from '../actions/areaFilterActions';
 
 // 상태 정의
@@ -27,6 +28,7 @@ const initialState = {
   inputValue: '',
   searchValue: '',
   auth: false,
+  activeIndex: 0,
 };
 
 const areaFilterReducer = createReducer(initialState.areaFilter, builder => {
@@ -68,6 +70,10 @@ const authReducer = createReducer(initialState.auth, builder => {
   builder.addCase(setAuth, (state, action) => action.payload);
 });
 
+const activeIndexReducer = createReducer(initialState.activeIndex, builder => {
+  builder.addCase(setActiveIndex, (state, action) => action.payload);
+});
+
 const rootReducer = combineReducers({
   areaFilter: areaFilterReducer,
   center: centerReducer,
@@ -78,6 +84,7 @@ const rootReducer = combineReducers({
   inputValue: inputValueReducer,
   searchValue: searchValueReducer,
   auth: authReducer,
+  activeIndex: activeIndexReducer,
 });
 
 const persistConfig = {
@@ -93,6 +100,7 @@ const persistConfig = {
     'inputValue',
     'searchValue',
     'auth',
+    'activeIndex',
   ], // 유지 할 데이터를 정의해요
 };
 
