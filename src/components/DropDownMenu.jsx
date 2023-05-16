@@ -75,13 +75,15 @@ function DropDownMenu({
             마이페이지
           </li>
         </Link>
-        <li
-          role="presentation"
-          className="cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025"
-          onClick={() => handleLogout()}
-        >
-          로그아웃
-        </li>
+        <Link to="/">
+          <li
+            role="presentation"
+            className="cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025"
+            onClick={() => handleLogout()}
+          >
+            로그아웃
+          </li>
+        </Link>
       </ul>
     </div>
   );

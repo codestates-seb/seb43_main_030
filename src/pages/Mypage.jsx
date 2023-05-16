@@ -38,7 +38,7 @@ function Mypage({
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/users/profile/${profileId}`, {
+      .get(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
         headers: {
           Authorization: localStorage.getItem('token'),
         },
@@ -51,8 +51,6 @@ function Mypage({
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(curUserDetail);
-  console.log(user);
 
   // 모달 관련 함수
   const modalProfileOnOff = () => {
@@ -77,13 +75,13 @@ function Mypage({
     setDropDown(!dropDown);
   };
 
+  // 닉네임 수정 함수
   const handleNameInput = () => {
     setNameEdit(!nameEdit);
     setNickname(value.name);
   };
   const handleNameChange = e => {
     setNickname(e.target.value);
-    console.log(nickname);
   };
   const handleErr = () => {
     return nickname ? setNameErr(true) : setNameErr(false);
@@ -92,42 +90,48 @@ function Mypage({
   // 닉네임 수정하기
   const handleNameEdit = () => {
     handleErr();
-
-    const editName = {
-      ...value,
+    const formData = new FormData();
+    const data = {
+      // checkPerson: false,
       name: nickname,
+      // gender: 'female',
+      // breed: 'Yorkshire Terrier',
     };
-
+    formData.append(
+      'patchDto',
+      new Blob([JSON.stringify(data)], { type: 'application/json' }),
+    );
     setNameEdit(false);
 
     if (nickname.length > 0) {
       axios
         .patch(
-          `${process.env.REACT_APP_API_URL}/user/profile/${profileId}`,
-          editName,
+          `${process.env.REACT_APP_API_URL}/users/profile/${id}`,
+          formData,
           {
             headers: {
+              'Content-Type': 'multipart/form-data',
               Authorization: localStorage.getItem('token'),
             },
           },
         )
         .then(() => {
-          setValue(prev => {
-            return { ...prev, editName };
-          });
-          setCurUserDetail(...curUserDetail, editName);
-          setCurUser(...user, editName);
+          // setValue(prev => {
+          //   return { ...prev, editName };
+          // });
+          // window.location.reload();
         })
         .catch(err => {
           console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
         });
     }
   };
+  // console.log(value);
 
   // 프로필 삭제하기
   const handleProfileDelete = () => {
     axios
-      .delete(`${process.env.REACT_APP_API_URL}/user/profile/${profileId}`, {
+      .delete(`${process.env.REACT_APP_API_URL}/users/profile/${profileId}`, {
         headers: {
           Authorization: localStorage.getItem('token'),
         },
@@ -138,6 +142,39 @@ function Mypage({
       .catch(err => {
         console.log(err);
       });
+  };
+
+  const onChangeImg = e => {
+    e.preventDefault();
+
+    if (e.target.files) {
+      const uploadFile = e.target.files;
+      console.log(uploadFile);
+      const formData = new FormData();
+      formData.append('image', uploadFile);
+
+      axios
+        .patch(
+          `${process.env.REACT_APP_API_URL}/users/profile/${id}`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: localStorage.getItem('token'),
+            },
+          },
+        )
+        .then(() => {
+          // setValue(prev => {
+          //   return { ...prev, editName };
+          // });
+          console.log('ㅎㅎ');
+          // window.location.reload();
+        })
+        .catch(err => {
+          console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
+        });
+    }
   };
 
   return (
@@ -157,6 +194,7 @@ function Mypage({
                       <img src={Profile} alt="defaultImage" />
                     )}
                   </div>
+                  <input id="uploadImage" type="file" onChange={onChangeImg} />
                   <div className="flex-center w-full max-w-190 items-center py-8">
                     <span className="min-w-88 px-8 text-center text-16 font-bold onlyMobile:text-14">
                       {value.name}
@@ -255,9 +293,16 @@ function Mypage({
                   <h5 className="text-black-900onlyMobile:text-18 text-22 font-bold">
                     프로필
                   </h5>
-                  <Button className="btn-text-default text-14 text-red-400 onlyMobile:text-12">
-                    프로필 삭제
-                  </Button>
+                  {user && user.length === 1 ? (
+                    ''
+                  ) : (
+                    <Button
+                      className="btn-text-default text-14 text-red-400 onlyMobile:text-12"
+                      onClick={handleProfileDelete}
+                    >
+                      프로필 삭제
+                    </Button>
+                  )}
                 </div>
                 {/* 사진 및 닉네임 변경 */}
                 <div className="mb-24 onlyMobile:mb-20">
