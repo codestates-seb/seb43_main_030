@@ -13,6 +13,7 @@ function DropDownMenu() {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const user = useSelector(state => state.user);
+  const curUser = useSelector(state => state.curUser);
 
   const dispatch = useDispatch();
 
