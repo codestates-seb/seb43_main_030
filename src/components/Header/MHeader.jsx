@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, dispatch, useDispatch } from 'react-redux';
+import {
+  setKinderGartens,
+  setInputValue,
+  setAreaFilter,
+  setSearchValue,
+} from '../../actions/areaFilterActions';
 import InputBtn from '../InputBtn';
 import { ReactComponent as Menu } from '../../images/menu.svg';
 import { ReactComponent as LogoSymbol } from '../../images/logo-symbol.svg';
@@ -10,6 +16,7 @@ import DropDownMenuM from '../DropDownMenuM';
 function MHeader() {
   const [dropDown, setDropDown] = useState(false);
   const auth = useSelector(state => state.auth);
+  const dispatch = useDispatch();
 
   const navi = useNavigate();
 
@@ -18,6 +25,10 @@ function MHeader() {
   }
 
   function reload() {
+    dispatch(setKinderGartens([]));
+    dispatch(setInputValue(''));
+    dispatch(setSearchValue(''));
+    dispatch(setAreaFilter(0));
     navi('/');
     window.location.reload();
   }

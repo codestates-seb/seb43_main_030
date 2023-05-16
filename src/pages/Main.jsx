@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { PulseLoader } from 'react-spinners';
 import { Link } from 'react-router-dom';
 import { setKinderGartens } from '../actions/areaFilterActions';
 import NoList from '../images/perpett-nolist.png';
@@ -76,25 +77,34 @@ function Main() {
           />
         </div>
         <div className="grid w-[100%] grid-cols-cardGrid gap-x-[20px]">
-          {print.length === 0 ? (
-            <div className="flex-center h-640 flex-col">
-              <img src={NoList} alt="NoList" className="mb-16 h-160 w-160" />
-              <span className="text-18 text-black-350">{`"${searchValue}"에 대한 검색결과가 없어요...`}</span>
-            </div>
+          {isPending ? (
+            print.length === 0 ? (
+              <div className="flex-center h-640 flex-col">
+                <img src={NoList} alt="NoList" className="mb-16 h-160 w-160" />
+                <span className="text-18 text-black-350">
+                  {searchValue
+                    ? `"${searchValue}"에 대한 검색결과가 없어요...`
+                    : '여기는 유치원이 없어요...'}
+                </span>
+              </div>
+            ) : (
+              print.map(kinderGarten => {
+                return (
+                  <MainCard
+                    key={kinderGarten.kindergartenId}
+                    name={kinderGarten.name}
+                    ratedReviewsAvg={kinderGarten.ratedReviewsAvg}
+                    ratedReviewsCount={kinderGarten.ratedReviewsCount}
+                    locations={kinderGarten.locations}
+                    id={kinderGarten.kindergartenId}
+                  />
+                );
+              })
+            )
           ) : (
-            isPending &&
-            print.map(kinderGarten => {
-              return (
-                <MainCard
-                  key={kinderGarten.kindergartenId}
-                  name={kinderGarten.name}
-                  ratedReviewsAvg={kinderGarten.ratedReviewsAvg}
-                  ratedReviewsCount={kinderGarten.ratedReviewsCount}
-                  locations={kinderGarten.locations}
-                  id={kinderGarten.kindergartenId}
-                />
-              );
-            })
+            <div className="flex-center h-[50vh] w-[100%]">
+              <PulseLoader color="#FFD337" />
+            </div>
           )}
         </div>
         <div className="flex-center sticky bottom-10 left-0 w-[100%] text-white">
