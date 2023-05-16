@@ -24,9 +24,6 @@ function Post() {
   const navigate = useNavigate();
   const { postId } = useParams();
   const apiUrl = process.env.REACT_APP_API_URL;
-  const bearerToken = localStorage.getItem('token');
-  const token = bearerToken ? bearerToken.replace('Bearer ', '') : null;
-  const [testLike, setTestLike] = useState(false);
 
   useEffect(() => {
     axios
@@ -73,7 +70,9 @@ function Post() {
 
   useEffect(() => {
     axios
-      .get(`${apiUrl}/community/1/post/${postId}`)
+      .get(`${apiUrl}/community/1/post/${postId}`, {
+        headers: { Authorization: localStorage.getItem('token') },
+      })
       .then(response => {
         setPost(response.data.data);
         setCountLike(response.data.data.likes);
@@ -129,6 +128,11 @@ function Post() {
   }, [navigate, postId]);
 
   const isLike = () => {
+    if (!localStorage.getItem('token')) {
+      alert('비회원은 좋아요가 불가능합니다.');
+      return;
+      // navigate(`/login`);
+    }
     const updatedLike = !like;
     const updatedLikes = updatedLike ? countLike + 1 : countLike - 1;
 
@@ -136,21 +140,13 @@ function Post() {
     setCountLike(updatedLikes);
 
     axios
-      .patch(
-        `${apiUrl}/post/${postId}/like`,
-        {
-          // ...post,
-          likes: updatedLikes,
-          like: updatedLike,
+      .get(`${apiUrl}/post/${postId}/like`, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      )
+      })
       .then(response => {
-        console.log(response.config.data);
+        console.log(response);
       })
       .catch(error => {
         console.log(error);
