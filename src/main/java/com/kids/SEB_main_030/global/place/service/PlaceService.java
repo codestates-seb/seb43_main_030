@@ -11,6 +11,7 @@ import com.kids.SEB_main_030.domain.community.service.CommunityService;
 import com.kids.SEB_main_030.domain.kindergarten.entity.Kindergarten;
 import com.kids.SEB_main_030.domain.kindergarten.repository.KindergartenRepository;
 import com.kids.SEB_main_030.global.image.service.ImageService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import okhttp3.OkHttpClient;
@@ -26,15 +27,31 @@ import java.util.List;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class PlaceService {
     private final KindergartenRepository kindergartenRepository;
     private final ImageService imageService;
     private final CommunityService communityService;
 
-    public PlaceService(KindergartenRepository kindergartenRepository, ImageService imageService, CommunityService communityService) {
-        this.kindergartenRepository = kindergartenRepository;
-        this.imageService = imageService;
-        this.communityService = communityService;
+
+    public List<Kindergarten> getPlaces() throws Exception {
+        List<Kindergarten> mapList = new ArrayList<>();
+        mapList.addAll(parseResponse(getResponse()));
+        while(true) {
+            delayTime();
+            String nextList = nextResponse(mapList);
+            if(nextList.contains("INVALID_REQUEST"))
+                break;
+            mapList.addAll(parseResponse(nextList));
+        }
+        return mapList;
+    }
+    public void delayTime(){
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getResponse() {

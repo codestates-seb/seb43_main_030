@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public class ReviewResponseDto {
     private Long reviewId;
     private String contents;
+    private String imageUrl;
     private Double ratedReview;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;

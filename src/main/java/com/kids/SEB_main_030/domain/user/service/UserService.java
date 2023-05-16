@@ -10,6 +10,7 @@ import com.kids.SEB_main_030.domain.user.entity.User;
 import com.kids.SEB_main_030.domain.user.repository.UserRepository;
 import com.kids.SEB_main_030.global.utils.RandomCreator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ import java.util.Set;
 @Transactional
 @Service
 public class UserService {
+    @Value("${url.image.profile}")
+    private String defaultProfileImage;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RandomCreator randomCreator;
@@ -39,6 +42,7 @@ public class UserService {
         // 기본 프로필 생성 및 적용
         Profile profile = randomCreator.initProfile();
         profile.setUser(user);
+        profile.setImageUrl(defaultProfileImage);
         user.setCurrentProfileId(profile.getProfileId());
 
         return userRepository.save(user);
