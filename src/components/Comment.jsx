@@ -147,7 +147,9 @@ function Comment({
           {text}
         </p>
       )}
-      <p className="text-14 text-black-350 onlyMobile:text-12">{createdAt}</p>
+      <p className="text-14 text-black-350 onlyMobile:text-12">
+        {new Date(createdAt).toLocaleString()}
+      </p>
     </div>
   );
 }
