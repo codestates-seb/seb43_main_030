@@ -54,7 +54,7 @@ function InputSelectBox(props) {
             width,
           )}
         >
-          <ul className="ul profile max-h-216 w-full overflow-hidden overflow-y-scroll px-8 py-12 text-left">
+          <ul className="ul profile w-full px-8 py-12 text-left">
             {profiles.map((profile, idx) => {
               const activeClass = activeIndex === idx ? 'font-bold' : '';
 

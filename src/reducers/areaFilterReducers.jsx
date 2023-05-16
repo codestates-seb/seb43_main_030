@@ -1,4 +1,6 @@
 import { createReducer, combineReducers } from '@reduxjs/toolkit';
+import { persistReducer } from 'redux-persist';
+import storageSession from 'redux-persist/lib/storage/session';
 import {
   setAreaFilter,
   setCenter,
@@ -9,6 +11,7 @@ import {
   setInputValue,
   setSearchValue,
   setAuth,
+  setActiveIndex,
 } from '../actions/areaFilterActions';
 
 // 상태 정의
@@ -25,6 +28,7 @@ const initialState = {
   inputValue: '',
   searchValue: '',
   auth: false,
+  activeIndex: 0,
 };
 
 const areaFilterReducer = createReducer(initialState.areaFilter, builder => {
@@ -66,6 +70,10 @@ const authReducer = createReducer(initialState.auth, builder => {
   builder.addCase(setAuth, (state, action) => action.payload);
 });
 
+const activeIndexReducer = createReducer(initialState.activeIndex, builder => {
+  builder.addCase(setActiveIndex, (state, action) => action.payload);
+});
+
 const rootReducer = combineReducers({
   areaFilter: areaFilterReducer,
   center: centerReducer,
@@ -76,6 +84,27 @@ const rootReducer = combineReducers({
   inputValue: inputValueReducer,
   searchValue: searchValueReducer,
   auth: authReducer,
+  activeIndex: activeIndexReducer,
 });
 
-export default rootReducer;
+const persistConfig = {
+  key: 'root',
+  storage: storageSession, // 사용할 스토리지를 정의해요.
+  whitelist: [
+    'curUser',
+    'user',
+    'curProfile',
+    'kinderGartens',
+    'areaFilter',
+    'cetner',
+    'inputValue',
+    'searchValue',
+    'auth',
+    'activeIndex',
+  ], // 유지 할 데이터를 정의해요
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+// reducer와 위에서 설정 한 persist설정을 합쳐요
+
+export default persistedReducer;

@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from '../reducers/areaFilterReducers';
+import persistedReducer from '../reducers/areaFilterReducers';
 
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
 });
 
 export default store;

@@ -1,15 +1,22 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, dispatch, useDispatch } from 'react-redux';
+import {
+  setKinderGartens,
+  setInputValue,
+  setAreaFilter,
+  setSearchValue,
+} from '../../actions/areaFilterActions';
 import InputBtn from '../InputBtn';
 import { ReactComponent as Menu } from '../../images/menu.svg';
 import { ReactComponent as LogoSymbol } from '../../images/logo-symbol.svg';
 import { ReactComponent as Close } from '../../images/close.svg';
-import DropDownMenuM from '../DropDownMenuM';
+import DropDownMenu from '../DropDownMenu';
 
 function MHeader() {
   const [dropDown, setDropDown] = useState(false);
   const auth = useSelector(state => state.auth);
+  const dispatch = useDispatch();
 
   const navi = useNavigate();
 
@@ -17,9 +24,19 @@ function MHeader() {
     setDropDown(!dropDown);
   }
 
+  function closeDropDown() {
+    setDropDown(false);
+  }
+
   function reload() {
     navi('/');
     window.location.reload();
+    const timerId = setTimeout(() => {
+      dispatch(setAreaFilter(0));
+      dispatch(setKinderGartens([]));
+      dispatch(setInputValue(''));
+      dispatch(setSearchValue(''));
+    }, 20);
   }
 
   return (
@@ -53,21 +70,35 @@ function MHeader() {
       )}
       {dropDown ? (
         auth ? (
-          <DropDownMenuM />
+          <DropDownMenu />
         ) : (
           <div className="absolute right-0 top-[64px] flex w-full flex-col items-start justify-center rounded-[10px] border-b border-black-050 bg-white px-24 py-8 shadow-headerShadow">
             <ul className="w-full px-8 text-left">
-              <li className="flex h-58 cursor-pointer items-center py-12 text-14">
-                리스트보기
-              </li>
+              <Link to="/">
+                <li
+                  className="flex h-58 cursor-pointer items-center py-12 text-14"
+                  onClick={() => closeDropDown()}
+                  role="presentation"
+                >
+                  리스트보기
+                </li>
+              </Link>
               <div className="h-1 w-full border-b" />
               <Link to="/login">
-                <li className="flex h-58 cursor-pointer items-center py-12 text-14">
+                <li
+                  className="flex h-58 cursor-pointer items-center py-12 text-14"
+                  onClick={() => closeDropDown()}
+                  role="presentation"
+                >
                   로그인
                 </li>
               </Link>
               <Link to="/signup">
-                <li className="flex h-58 cursor-pointer items-center py-12 text-14">
+                <li
+                  className="flex h-58 cursor-pointer items-center py-12 text-14"
+                  onClick={() => closeDropDown()}
+                  role="presentation"
+                >
                   회원가입
                 </li>
               </Link>
