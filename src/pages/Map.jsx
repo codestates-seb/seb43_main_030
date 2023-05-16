@@ -25,10 +25,11 @@ const myStyles = [
   },
 ];
 
-function Map({ kinderGartens }) {
+function Map() {
   const [isPending, setIsPending] = useState(false);
   const areaFilter = useSelector(state => state.areaFilter);
   const center = useSelector(state => state.center);
+  const kinderGartens = useSelector(state => state.kinderGartens);
 
   const [map, setMap] = useState(null);
   const dispatch = useDispatch();
@@ -42,7 +43,6 @@ function Map({ kinderGartens }) {
   );
 
   useEffect(() => {
-    console.log(areaFilter);
     if (areaFilter === 0) {
       dispatch(
         setCenter({

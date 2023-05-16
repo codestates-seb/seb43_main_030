@@ -2,19 +2,12 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { ReactComponent as Search } from '../images/search.svg';
-import { setAreaFilter } from '../actions/areaFilterActions';
+import { setAreaFilter, setKinderGartens } from '../actions/areaFilterActions';
 import cls from '../utils/tailwind';
 
 function InputBtn(props) {
-  const {
-    placeholder,
-    className,
-    inputValue,
-    setInputValue,
-    setKinderGartens,
-    searchValue,
-    setSearchValue,
-  } = props;
+  const { placeholder, className, inputValue, setInputValue, setSearchValue } =
+    props;
   const [focus, setFocus] = useState(true);
   const dispatch = useDispatch();
 

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import InputBtn from '../InputBtn';
 import { ReactComponent as Menu } from '../../images/menu.svg';
 import { ReactComponent as LogoSymbol } from '../../images/logo-symbol.svg';
@@ -13,13 +14,8 @@ function MHeader(props) {
   const {
     inputValue,
     setInputValue,
-    kinderGartens,
-    setKinderGartens,
     auth,
     setAuth,
-    user,
-    curUser,
-    setCurUser,
     searchValue,
     setSearchValue,
   } = props;
@@ -54,8 +50,6 @@ function MHeader(props) {
         <InputBtn
           inputValue={inputValue}
           setInputValue={setInputValue}
-          kinderGartens={kinderGartens}
-          setKinderGartens={setKinderGartens}
           searchValue={searchValue}
           setSearchValue={setSearchValue}
         />

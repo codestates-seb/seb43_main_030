@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 import { GoogleMap, useJsApiLoader, MarkerF } from '@react-google-maps/api';
+import { setCenter } from '../actions/areaFilterActions';
 import Modal from './Modal';
 import ListNotice from '../components/List/ListNotice';
 import ListReview from '../components/List/ListReview';
@@ -41,8 +43,9 @@ function KinderDetail({ auth }) {
   const [postData, setPostData] = useState('');
   const [reviewData, setReviewData] = useState('');
   const [map, setMap] = useState(null);
-  const [center, setCenter] = useState({ lat: 0, lng: 0 });
   const [isModal, setisModal] = useState(false);
+  const center = useSelector(state => state.center);
+  const dispatch = useDispatch();
 
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
@@ -92,17 +95,19 @@ function KinderDetail({ auth }) {
           // setPostData(resPost);
 
           if (res1.data) {
-            setCenter({
-              lat: res1.data.data.latitude,
-              lng: res1.data.data.longitude,
-            });
+            dispatch(
+              setCenter({
+                lat: res1.data.data.latitude,
+                lng: res1.data.data.longitude,
+              }),
+            );
           }
         }),
       )
       .catch(err => {
         console.log(err);
       });
-  }, [id]);
+  }, [id, dispatch]);
 
   // 모달 관련 함수
   const modalOnOff = () => {

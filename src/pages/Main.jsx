@@ -1,29 +1,25 @@
 import { useState, useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { setAreaFilter, setCenter } from '../actions/areaFilterActions';
+import { setAreaFilter, setKinderGartens } from '../actions/areaFilterActions';
 import NoList from '../images/perpett-nolist.png';
 import MainCard from '../components/Card/MainCard';
 import Button from '../components/Button/Button';
 import InputSelectBox from '../components/Input/InputSelectBox';
 
-function Main({
-  setInputValue,
-  kinderGartens,
-  setKinderGartens,
-  searchValue,
-  setSearchValue,
-}) {
+function Main({ setInputValue, searchValue, setSearchValue }) {
   const [isPending, setIsPending] = useState(false);
 
   const [ref, inView] = useInView();
 
   const page = useRef(8);
   const [print, setPrint] = useState([]);
+  const dispatch = useDispatch();
 
   const areaFilter = useSelector(state => state.areaFilter);
+  const kinderGartens = useSelector(state => state.kinderGartens);
 
   useEffect(() => {
     let url = ``;
@@ -35,13 +31,13 @@ function Main({
     axios
       .get(url)
       .then(response => {
-        setKinderGartens(response.data);
+        dispatch(setKinderGartens(response.data));
         setIsPending(true);
       })
       .catch(error => {
         console.log(error);
       });
-  }, [areaFilter, setKinderGartens, searchValue]);
+  }, [areaFilter, searchValue, dispatch]);
 
   useEffect(() => {
     let timerId;
