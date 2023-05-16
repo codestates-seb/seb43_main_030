@@ -2,7 +2,11 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { setCurProfile, setAuth } from '../actions/areaFilterActions';
+import {
+  setCurProfile,
+  setAuth,
+  setCurUser,
+} from '../actions/areaFilterActions';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import DropDownMenu from '../components/DropDownMenu';
@@ -21,6 +25,7 @@ function Mypage() {
   const dispatch = useDispatch();
 
   // const [value, setValue] = useState('');
+  const auth = useSelector(state => state.auth);
   const value = useSelector(state => state.curProfile);
   const [nickname, setNickname] = useState(
     useSelector(state => state.curProfile.name),
@@ -28,10 +33,13 @@ function Mypage() {
   const user = useSelector(state => state.user);
   const [nameEdit, setNameEdit] = useState(false);
   const [nameErr, setNameErr] = useState(false);
+
   const [dropDown, setDropDown] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(null);
+  const curUser = useSelector(state => state.curUser);
+
   const [profileModal, setProfileModal] = useState(false);
   const [settingModal, setSettingModal] = useState(false);
-  const auth = useSelector(state => state.auth);
 
   // console.log(useSelector(state => state.curUser));
   // console.log(useSelector(state => state.curProfile));
@@ -87,6 +95,19 @@ function Mypage() {
   const handleErr = () => {
     return nickname ? setNameErr(true) : setNameErr(false);
   };
+
+  // dropdown
+  const clickedProfile = idx => {
+    dispatch(setCurUser(user[idx]));
+  };
+
+  // const dropdownActive = e => {
+  //   const classList = e.target.className.split(' ');
+  //   if(classList.length > 1) {
+  //     const index = classList[3].slice(-1);
+  //     setActiveIndex(index);
+  //   }
+  // }
 
   // 닉네임 수정하기
   const handleNameEdit = () => {
@@ -200,6 +221,7 @@ function Mypage() {
                     <span className="min-w-88 px-8 text-center text-16 font-bold onlyMobile:text-14">
                       {value.name}
                     </span>
+                    <div />
                     {dropDown ? (
                       <ArrowClose
                         className="h-6 min-w-10 cursor-pointer"

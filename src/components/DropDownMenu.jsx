@@ -7,6 +7,7 @@ import {
   setCurProfile,
   setAuth,
 } from '../actions/areaFilterActions';
+import { RenderProfile } from '../utils/util';
 import { ReactComponent as Search } from '../images/search.svg';
 
 function DropDownMenu() {
@@ -46,32 +47,15 @@ function DropDownMenu() {
     }
   }
 
-  const renderProfile = () => {
-    return user.map((profile, idx) => {
-      const activeClass = Number(activeIndex) === idx ? 'font-bold' : '';
-      return (
-        <li
-          className={`profile flex items-center justify-start${idx} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
-          onClick={e => {
-            profileActive(e);
-            clickedProfile(idx, profile.profileId);
-          }}
-          role="presentation"
-        >
-          {Number(activeIndex) === idx ? (
-            <Search className="mr-10 inline-block h-24 w-24 rounded-md border" />
-          ) : null}
-          {user[idx].name}
-        </li>
-      );
-    });
-  };
-
   return (
     <div className="absolute left-0 top-[64px] z-10 flex w-226 flex-col items-start justify-center rounded-[10px] bg-white px-12 py-16 shadow-dropDownShadow">
       <ul className="profile w-202 py-2 text-left">
         <li className="px-8 pb-8 text-12 text-black-350">프로필</li>
-        {renderProfile()}
+        <RenderProfile
+          activeIndex={activeIndex}
+          profileActive={e => profileActive(e)}
+          clickedProfile={(idx, id) => clickedProfile(idx, id)}
+        />
         <div className="mt-2 h-1 border-b" />
       </ul>
       <ul className="w-202 text-left">
