@@ -24,10 +24,13 @@ public interface ReviewMapper {
 
         return review;
     };
+    List<ReviewResponseDto>reviewsToReviewResponseDtos(List<Review>review);
+
     @Mapping(source="kindergarten.name",target="kindergartenName")
     @Mapping(source="kindergarten.locations",target="kindergartenLocations")
     @Mapping(source="kindergarten.kindergartenId",target="kindergartenId")
     @Mapping(source="profile.name",target="profileName")
+    @Mapping(target="images",expression = "java(mapImage(review.getImages()))")
     ReviewResponseDto reviewToReviewResponseDto(Review review);
     List<ReviewResponseDto>reviewsToReviewResponseDtos(List<Review>review);
 }

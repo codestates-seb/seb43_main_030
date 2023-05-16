@@ -48,12 +48,15 @@ public class ReviewService {
         return reviewRepository.save(findReview);
     }
     public Review findReview(Long reviewId){
-        return findVerifiedReview(reviewId);
+        Review findReview = findVerifiedReview(reviewId);
+        findReview.setImages(imageService.findByReview(findReview));
+        return findReview;
     }
     public List<Review> findReviews(Long kindergartenId){
         List<Review> reviewList = reviewRepository.findByKindergarten_KindergartenId(kindergartenId);
         return reviewList;
     }
+
     public Review findVerifiedReview(Long reviewId){
         Optional<Review> reviewOptional = reviewRepository.findById(reviewId);
         Review findReview = reviewOptional.orElseThrow(()->

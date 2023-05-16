@@ -2,6 +2,7 @@ package com.kids.SEB_main_030.global.image.entity;
 import com.kids.SEB_main_030.domain.post.entity.Post;
 import com.kids.SEB_main_030.domain.review.entity.Review;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +14,6 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 public class Image {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long imageId;
@@ -37,8 +37,13 @@ public class Image {
 
         @Getter
         private String location;
+
         Location(String location) {
             this.location = location;
         }
+    }
+    public Image(Long imageId, String imageUrl) {
+        this.imageId = imageId;
+        this.imageUrl = imageUrl;
     }
 }

@@ -3,13 +3,17 @@ package com.kids.SEB_main_030.domain.review.controller;
 import com.kids.SEB_main_030.domain.review.dto.ReviewPatchDto;
 import com.kids.SEB_main_030.domain.review.dto.ReviewPostDto;
 import com.kids.SEB_main_030.domain.review.mapper.ReviewMapper;
+import com.kids.SEB_main_030.domain.review.repository.ReviewRepository;
 import com.kids.SEB_main_030.global.dto.SingleResponseDto;
 import com.kids.SEB_main_030.domain.review.entity.Review;
 import com.kids.SEB_main_030.domain.review.service.ReviewService;
 import com.kids.SEB_main_030.domain.user.service.UserService;
+import com.kids.SEB_main_030.global.exception.CustomException;
+import com.kids.SEB_main_030.global.exception.LogicException;
 import com.kids.SEB_main_030.global.image.entity.Image;
 import com.kids.SEB_main_030.global.image.service.ImageService;
 import com.kids.SEB_main_030.global.utils.UriCreator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,10 +24,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/review")
 @Validated
+@RequiredArgsConstructor
 public class ReviewController {
     private final static String REVIEW_DEFAULT_URL="/api/review";
     private final ReviewService reviewService;
@@ -31,12 +37,6 @@ public class ReviewController {
     private final UserService userService;
     private final ImageService imageService;
 
-    public ReviewController(ReviewService reviewService, ReviewMapper reviewMapper, UserService userService, ImageService imageService) {
-        this.reviewService = reviewService;
-        this.reviewMapper = reviewMapper;
-        this.userService = userService;
-        this.imageService = imageService;
-    }
 
     @PostMapping("/{kindergarten-id}")
     public ResponseEntity postReview(@PathVariable("kindergarten-id") long kindergartenId,
@@ -53,7 +53,7 @@ public class ReviewController {
     @PatchMapping("/{review-id}")
     public ResponseEntity patchReview(@PathVariable("review-id")@Positive long reviewId,
                                       @Valid @RequestPart(required = false) ReviewPatchDto reviewPatchDto,
-                                      @RequestPart(required = false) List<MultipartFile> images){
+                                      @RequestPart(required = false) List<MultipartFile> images) throws Throwable {
         Review review = reviewService.updateReview(
                 reviewMapper.reviewPatchDtoToReview(reviewPatchDto), reviewId);
 
