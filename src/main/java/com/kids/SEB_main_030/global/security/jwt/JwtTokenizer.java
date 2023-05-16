@@ -1,6 +1,9 @@
 package com.kids.SEB_main_030.global.security.jwt;
 
-import com.nimbusds.oauth2.sdk.token.RefreshToken;
+import com.kids.SEB_main_030.domain.user.entity.User;
+import com.kids.SEB_main_030.domain.user.repository.UserRepository;
+import com.kids.SEB_main_030.global.exception.CustomException;
+import com.kids.SEB_main_030.global.exception.LogicException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -8,17 +11,24 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Component
+@RequiredArgsConstructor
 public class JwtTokenizer {
+    private final UserRepository userRepository;
     @Getter
     @Value("${jwt.key}")
     private String secretKey;
@@ -41,9 +51,15 @@ public class JwtTokenizer {
         return key;
     }
 
-    public String generateAccessToken(Map<String, Object> claims,
+    public String generateAccessToken(String email,
                                       String subject, Date expiration,
                                       String base64EncodedSecretKey) {
+        Map<String, Object> claims = new HashMap<>();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new LogicException(CustomException.USER_NOT_FOUND));
+        claims.put("email", user.getEmail());
+        claims.put("userId", user.getUserId());
+        claims.put("role", user.getRole());
+
         Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
         return Jwts.builder()
                 .setClaims(claims)
@@ -82,5 +98,15 @@ public class JwtTokenizer {
         return date;
     }
 
+    public boolean validateToken(String jws, String base64EncodedSecretKey){
+        Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
+        try {
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jws);
+            return true;
+        }catch (Exception e){
+            log.info("Token has expired");
+            return false;
+        }
+    }
 
 }

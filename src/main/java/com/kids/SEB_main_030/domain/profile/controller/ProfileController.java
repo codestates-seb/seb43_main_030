@@ -14,6 +14,7 @@ import com.kids.SEB_main_030.global.image.repository.ImageRepository;
 import com.kids.SEB_main_030.global.image.response.ImageInPostResponseDto;
 import com.kids.SEB_main_030.global.image.service.ImageService;
 import com.kids.SEB_main_030.global.utils.UriCreator;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

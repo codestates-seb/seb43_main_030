@@ -28,10 +28,10 @@ public class User{
     private SocialType socialType; // KAKAO, GOOGLE
 
     private String socialId; // 로그인한 소셜 타입의 식별자 값 (일반 로그인인 경우 null)
-
-    private String refreshToken; // 리프레시 토큰
-
     private long currentProfileId;
+
+
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Profile> profiles = new ArrayList<>();
     public User(String email) {

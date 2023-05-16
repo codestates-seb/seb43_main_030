@@ -27,6 +27,7 @@ public class RandomCreator {
     public Profile initProfile(){
         Profile profile = new Profile();
         profile.setType(Profile.type.PERSON);
+        profile.setCheckPerson(true);
         profile.setName(initName());
         return profileRepository.save(profile);
     }

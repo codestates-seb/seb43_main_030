@@ -1,6 +1,6 @@
 package com.kids.SEB_main_030.global.security.filter;
 
-import com.kids.SEB_main_030.domain.user.entity.Role;
+import com.kids.SEB_main_030.domain.user.repository.UserRepository;
 import com.kids.SEB_main_030.global.security.jwt.JwtTokenizer;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,12 +31,31 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         } catch (SignatureException e1) {
             request.setAttribute("exception", e1);
         } catch (ExpiredJwtException e2) {
-            request.setAttribute("exception", e2);
+            String refreshToken = request.getHeader("Refresh");
+            // accessToken이 만료되었지만 refresh 토큰이 유효한 경우
+            if (verifyRefreshToken(refreshToken)){
+                String accessToken = createNewAccessToken(refreshToken);
+                response.setHeader("Authorization", "Bearer " + accessToken);
+                response.getWriter().write("Bearer " + accessToken);
+                return;
+            } else { // refresh 토큰까지 만료된 경우
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "모든 토큰이 만료되었습니다. \n다시 로그인 해주세요.");
+                return;
+            }
+
         } catch (Exception e3) {
             request.setAttribute("exception", e3);
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    private String createNewAccessToken(String refreshToken) {
+        String key = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+        String subject = jwtTokenizer.getClaims(refreshToken, key).getBody().getSubject();
+        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
+        String accessToken = jwtTokenizer.generateAccessToken(subject, subject, expiration, key);
+        return accessToken;
     }
 
     private Map<String, Object> verifyJws(HttpServletRequest request) {
@@ -44,6 +64,10 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         return jwtTokenizer.getClaims(accessToken, base64EncodedSecretKey).getBody();
     }
 
+    private boolean verifyRefreshToken(String token){
+        String key = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+        return jwtTokenizer.validateToken(token, key);
+    }
     private void setAuthenticationToContext(Map<String, Object> claims){
         String email = (String) claims.get("email");
         Long userId = Long.valueOf(String.valueOf(claims.get("userId")));

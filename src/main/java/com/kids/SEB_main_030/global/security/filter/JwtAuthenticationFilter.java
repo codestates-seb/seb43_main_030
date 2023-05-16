@@ -1,9 +1,13 @@
 package com.kids.SEB_main_030.global.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kids.SEB_main_030.domain.user.repository.UserRepository;
+import com.kids.SEB_main_030.global.exception.CustomException;
+import com.kids.SEB_main_030.global.exception.LogicException;
 import com.kids.SEB_main_030.global.security.jwt.JwtTokenizer;
 import com.kids.SEB_main_030.global.dto.LoginDto;
 import com.kids.SEB_main_030.domain.user.entity.User;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,14 +23,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenizer jwtTokenizer) {
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenizer = jwtTokenizer;
-    }
 
     @SneakyThrows // Throws 를 정의하지 않고도, 검사 된 예외를 Throw 할 수 있음
     @Override
@@ -56,23 +57,18 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private String delegateRefreshToken(User user) {
         String subject = user.getEmail();
-        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
+        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
         return jwtTokenizer.generateRefreshToken(subject, expiration, base64EncodedSecretKey);
     }
 
     private String delegateAccessToken(User user) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("email", user.getEmail());
-        claims.put("userId", user.getUserId());
-        claims.put("role", user.getRole());
-
         String subject = user.getEmail();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
 
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
-        return jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
+        return jwtTokenizer.generateAccessToken(subject, subject, expiration, base64EncodedSecretKey);
     }
 
 

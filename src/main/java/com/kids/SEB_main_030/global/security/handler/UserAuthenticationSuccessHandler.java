@@ -1,5 +1,7 @@
 package com.kids.SEB_main_030.global.security.handler;
 
+import com.kids.SEB_main_030.domain.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;

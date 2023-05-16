@@ -1,5 +1,6 @@
 package com.kids.SEB_main_030.domain.profile.dto;
 
+import com.kids.SEB_main_030.domain.user.entity.SocialType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,4 +13,5 @@ public class CurrentProfileResponseDto {
     private String name;
     private int postCount;
     private int reviewsCount;
+    private SocialType socialType;
 }

@@ -28,6 +28,7 @@ public interface ProfileMapper {
     @Mapping(source = "user.email", target = "email")
     @Mapping(target = "postCount", expression = "java(profile.getPosts().size())")
     @Mapping(target = "reviewsCount", expression = "java(profile.getReviews().size())")
+    @Mapping(target = "socialType", expression = "java(profile.getUser().getSocialType())")
     CurrentProfileResponseDto profileToCurrentProfileResponseDto(Profile profile);
     List<MyPostResponseDto> postsInMyPage(List<Post> posts);
     List<MyReviewResponseDto> reviewsInMyPage(List<Review> reviews);

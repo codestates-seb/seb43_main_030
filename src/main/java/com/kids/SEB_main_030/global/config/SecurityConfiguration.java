@@ -1,6 +1,7 @@
 package com.kids.SEB_main_030.global.config;
 
 
+import com.kids.SEB_main_030.domain.user.repository.UserRepository;
 import com.kids.SEB_main_030.global.security.filter.JwtAuthenticationFilter;
 import com.kids.SEB_main_030.global.security.filter.JwtVerificationFilter;
 import com.kids.SEB_main_030.global.security.handler.UserAccessDeniedHandler;
@@ -36,7 +37,6 @@ public class SecurityConfiguration {
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
     private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
