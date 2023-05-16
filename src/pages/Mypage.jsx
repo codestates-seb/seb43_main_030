@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+import { setCurProfile, setCurUser } from '../actions/areaFilterActions';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import DropDownMenu from '../components/DropDownMenu';
@@ -14,27 +16,24 @@ import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
 import { ReactComponent as Perpett } from '../images/perpett-on.svg';
 import { ReactComponent as Plus } from '../images/plus.svg';
 
-function Mypage({
-  auth,
-  setAuth,
-  user,
-  serUser,
-  curUser,
-  setCurUser,
-  curUserDetail,
-  setCurUserDetail,
-}) {
+function Mypage({ auth, setAuth }) {
   const { id } = useParams();
+  const dispatch = useDispatch();
 
-  const [profileId, setProfileId] = useState(curUserDetail.profileId);
-  const [value, setValue] = useState('');
-  const [nickname, setNickname] = useState(curUser.name);
+  // const [value, setValue] = useState('');
+  const value = useSelector(state => state.curProfile);
+  const [nickname, setNickname] = useState(
+    useSelector(state => state.curProfile.name),
+  );
+  const user = useSelector(state => state.user);
   const [nameEdit, setNameEdit] = useState(false);
-  // const [nameValue, setNameValue] = useState(nickname);
   const [nameErr, setNameErr] = useState(false);
   const [dropDown, setDropDown] = useState(false);
   const [profileModal, setProfileModal] = useState(false);
   const [settingModal, setSettingModal] = useState(false);
+
+  // console.log(useSelector(state => state.curUser));
+  // console.log(useSelector(state => state.curProfile));
 
   useEffect(() => {
     axios
@@ -44,7 +43,8 @@ function Mypage({
         },
       })
       .then(res => {
-        setValue(res.data.data);
+        dispatch(setCurProfile(res.data.data));
+        // setValue(res.data.data);
       })
       .catch(error => {
         console.log(error);
@@ -119,7 +119,7 @@ function Mypage({
           // setValue(prev => {
           //   return { ...prev, editName };
           // });
-          // window.location.reload();
+          window.location.reload();
         })
         .catch(err => {
           console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
@@ -131,7 +131,7 @@ function Mypage({
   // 프로필 삭제하기
   const handleProfileDelete = () => {
     axios
-      .delete(`${process.env.REACT_APP_API_URL}/users/profile/${profileId}`, {
+      .delete(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
         headers: {
           Authorization: localStorage.getItem('token'),
         },
@@ -187,7 +187,7 @@ function Mypage({
               <div className="sticky-card">
                 <div className="flex-center flex-col">
                   <div className="user-profile mb-8 h-48 w-48 overflow-hidden rounded-[12px] onlyMobile:h-64 onlyMobile:w-64">
-                    {/* {value.imageUrl} */}
+                    <img src={Profile} alt="defaultImage" />
                     {value.imageUrl ? (
                       <img src={value.imageUrl} alt="img" />
                     ) : (
