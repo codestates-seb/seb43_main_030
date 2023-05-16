@@ -1,31 +1,62 @@
 import { useState } from 'react';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setCurUser,
+  setCurProfile,
+  setAuth,
+} from '../actions/areaFilterActions';
 import { ReactComponent as Search } from '../images/search.svg';
 
 function DropDownMenuM() {
-  const profiles = ['쫑이콩이맘', '쫑이', '콩이'];
   const [activeIndex, setActiveIndex] = useState(null);
 
-  const profileActive = event => {
-    const classList = event.target.className.split(' ');
-    if (classList.length > 1) {
-      const index = classList[4].slice(-1);
-      setActiveIndex(index);
-    }
+  const user = useSelector(state => state.user);
+
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(setAuth(false));
+    localStorage.removeItem('token');
   };
 
+  function clickedProfile(idx, id) {
+    dispatch(setCurUser(user[idx]));
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      })
+      .then(res => {
+        dispatch(setCurProfile(res.data.data));
+      });
+  }
+
+  function profileActive(e) {
+    const classList = e.target.className.split(' ');
+    if (classList.length > 1) {
+      const index = classList[3].slice(-1);
+      setActiveIndex(index);
+    }
+  }
+
   const renderProfile = () => {
-    return profiles.map((profile, idx) => {
+    return user.map((profile, idx) => {
       const activeClass = Number(activeIndex) === idx ? 'font-bold' : '';
       return (
         <li
           className={`flex h-58 items-center justify-start profile${idx} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
-          onClick={profileActive}
+          onClick={e => {
+            profileActive(e);
+            clickedProfile(idx, profile.profileId);
+          }}
           role="presentation"
         >
           {Number(activeIndex) === idx ? (
             <Search className="mr-10 inline-block h-24 w-24 rounded-md border" />
           ) : null}
-          {profiles[idx]}
+          {user[idx]}
         </li>
       );
     });
@@ -40,7 +71,13 @@ function DropDownMenuM() {
       </ul>
       <ul className="menu w-full px-8 text-left">
         <li className="h-58 cursor-pointer pb-12 pt-12 text-14">마이페이지</li>
-        <li className="h-58 cursor-pointer pb-12 pt-12 text-14">로그아웃</li>
+        <li
+          className="h-58 cursor-pointer pb-12 pt-12 text-14"
+          onClick={() => handleLogout()}
+          role="presentation"
+        >
+          로그아웃
+        </li>
       </ul>
     </div>
   );

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { setCurProfile, setCurUser } from '../actions/areaFilterActions';
+import { setCurProfile, setAuth } from '../actions/areaFilterActions';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import DropDownMenu from '../components/DropDownMenu';
@@ -16,7 +16,7 @@ import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
 import { ReactComponent as Perpett } from '../images/perpett-on.svg';
 import { ReactComponent as Plus } from '../images/plus.svg';
 
-function Mypage({ auth, setAuth }) {
+function Mypage() {
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -31,6 +31,7 @@ function Mypage({ auth, setAuth }) {
   const [dropDown, setDropDown] = useState(false);
   const [profileModal, setProfileModal] = useState(false);
   const [settingModal, setSettingModal] = useState(false);
+  const auth = useSelector(state => state.auth);
 
   // console.log(useSelector(state => state.curUser));
   // console.log(useSelector(state => state.curProfile));
@@ -66,7 +67,7 @@ function Mypage({ auth, setAuth }) {
 
   // 로그아웃 함수
   const handleLogout = () => {
-    setAuth(false);
+    dispatch(setAuth(false));
     localStorage.removeItem('token');
   };
 

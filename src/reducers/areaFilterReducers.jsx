@@ -6,6 +6,9 @@ import {
   setUser,
   setCurUser,
   setCurProfile,
+  setInputValue,
+  setSearchValue,
+  setAuth,
 } from '../actions/areaFilterActions';
 
 // 상태 정의
@@ -19,6 +22,9 @@ const initialState = {
   user: [],
   curUser: {},
   curProfile: {},
+  inputValue: '',
+  searchValue: '',
+  auth: false,
 };
 
 const areaFilterReducer = createReducer(initialState.areaFilter, builder => {
@@ -48,6 +54,18 @@ const curProfileReducer = createReducer(initialState.curProfile, builder => {
   builder.addCase(setCurProfile, (state, action) => action.payload);
 });
 
+const inputValueReducer = createReducer(initialState.inputValue, builder => {
+  builder.addCase(setInputValue, (state, action) => action.payload);
+});
+
+const searchValueReducer = createReducer(initialState.searchValue, builder => {
+  builder.addCase(setSearchValue, (state, action) => action.payload);
+});
+
+const authReducer = createReducer(initialState.auth, builder => {
+  builder.addCase(setAuth, (state, action) => action.payload);
+});
+
 const rootReducer = combineReducers({
   areaFilter: areaFilterReducer,
   center: centerReducer,
@@ -55,6 +73,9 @@ const rootReducer = combineReducers({
   user: userReducer,
   curUser: curUserReducer,
   curProfile: curProfileReducer,
+  inputValue: inputValueReducer,
+  searchValue: searchValueReducer,
+  auth: authReducer,
 });
 
 export default rootReducer;

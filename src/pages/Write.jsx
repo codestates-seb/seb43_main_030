@@ -9,6 +9,7 @@ import Button from '../components/Button/Button';
 import Radio from '../components/Radio/Radio';
 import RadioGroup from '../components/Radio/RadioGroup';
 import TextArea from '../components/TextArea';
+import defaultImg from '../images/profile.png';
 
 function Post() {
   const [category, setCategory] = useState('community');
@@ -18,17 +19,26 @@ function Post() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
   const navigate = useNavigate();
   const { postId } = useParams();
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const bearerToken = localStorage.getItem('token');
+  const token = bearerToken ? bearerToken.replace('Bearer ', '') : null;
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/profile/')
+      .get(`${apiUrl}/users/profile/currentProfile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then(response => {
-        setUserProfile(response.data[0]);
+        console.log(token);
+
+        setUserProfile(response.data.data);
       })
       .catch(error => {
         console.log(error);
       });
-  }, []);
+  }, [apiUrl, token]);
 
   useEffect(() => {
     axios
@@ -126,7 +136,11 @@ function Post() {
           </p>
           <div className="flex">
             <div className="user-profile h-64 w-64">
-              <img src={userProfile.imageUrl} alt="임시이미지" />
+              {userProfile.imgageUrl ? (
+                <img src={userProfile.imageUrl} alt="프로필이미지" />
+              ) : (
+                <img src={defaultImg} alt="임시이미지" />
+              )}
             </div>
             <div className=" ml-10 flex flex-col items-start justify-center">
               <p className="text-left text-16 font-bold onlyMobile:text-12">

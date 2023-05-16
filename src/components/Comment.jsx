@@ -31,7 +31,6 @@ function Comment({
 
     const now = new Date();
     const dateString = now.toLocaleString();
-    console.log(postId);
     axios
       .patch(
         `${process.env.REACT_APP_API_URL}/post/${postId}/comment/${commentId}`,

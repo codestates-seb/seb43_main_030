@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAreaFilter } from '../../actions/areaFilterActions';
+import { setAreaFilter, setSearchValue } from '../../actions/areaFilterActions';
 import cls from '../../utils/tailwind';
 import { ReactComponent as ArrowOpen } from '../../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../../images/arrow-close.svg';
 
 function InputSelectBox(props) {
-  const { options, placeholder, className, width, setSearchValue, setBread } =
-    props;
+  const { options, placeholder, className, width } = props;
   // options: 셀렉트박스 펼칠 때 나오는 옵션 리스트. <InputSelectBox options="a,b,c" />형태로 입력
   // className: button에 추가
   // width: <InputSelectBox width="w-500" /> 형태로 입력
@@ -31,15 +30,7 @@ function InputSelectBox(props) {
     setSelectUser(profiles[index]);
     dispatch(setAreaFilter(index));
     setFocus(false);
-    setSearchValue('');
-    console.log(activeIndex);
-  };
-
-  const typeActive = event => {
-    const index = Number(event.target.className.split(' ')[1].slice(-1));
-    setActiveIndex(index);
-    setSelectUser(profiles[index]);
-    setFocus(false);
+    dispatch(setSearchValue(''));
   };
 
   const handleButtonClick = () => {
