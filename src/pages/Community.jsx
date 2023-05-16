@@ -15,22 +15,19 @@ function Community() {
   const [postList, setPostList] = useState([]);
   const [kinderInfo, setKinderInfo] = useState([]);
   const [page, setPage] = useState(1);
+  const [category, setCategory] = useState('notification');
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
-  const apiUrl2 = 'http://localhost:3001';
 
   useEffect(() => {
     axios
-      // .get(`${apiUrl2}/post`)
       .get(`${apiUrl}/community/1/post?page=${page}`)
       .then(response => {
-        // setPostList(response.data);
         setPostList(response.data.data);
       })
       .catch(error => {
         console.log(error);
       });
-    // }, [setPostList, apiUrl, page]);
   }, [setPostList, apiUrl, page]);
 
   useEffect(() => {
@@ -40,7 +37,28 @@ function Community() {
       .catch(error => console.log(error));
   }, [apiUrl]);
 
-  // 버튼 눌렀을 때 이동되면서 공지글을
+  const tabSwitch = event => {
+    const menu = event.target.innerText;
+
+    let categoryValue = '';
+
+    if (menu === '공지') {
+      categoryValue = 'notification';
+    } else if (menu === '커뮤니티') {
+      categoryValue = 'community';
+    }
+
+    axios
+      .get(`${apiUrl}/community/1/post?page=1&category=${categoryValue}`)
+      .then(response => {
+        setPostList(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    setCategory(categoryValue);
+  };
 
   // 페이지네이션
   const handlePageChange = page => {
@@ -81,17 +99,34 @@ function Community() {
         />
         <div className="onlyMobile:px-24">
           <div className="w-full border-b border-black-070">
-            <button className="community-tab-on" type="button">
+            <button
+              className={
+                category === 'notification'
+                  ? 'community-tab-on'
+                  : 'community-tab-off'
+              }
+              onClick={tabSwitch}
+              type="button"
+            >
               공지
             </button>
-            <button className="community-tab-off" type="button">
+            <button
+              className={
+                category === 'community'
+                  ? 'community-tab-on'
+                  : 'community-tab-off'
+              }
+              onClick={tabSwitch}
+              type="button"
+            >
               커뮤니티
             </button>
           </div>
           <div className="pt-24">
             <div className="flex items-center justify-between">
               <p className="text-18 font-bold  onlyMobile:text-16">
-                공지글 <span>{postList.length}</span>
+                {category === 'notification' ? '공지글' : '커뮤니티'}
+                <span>{postList.length}</span>
               </p>
               <Link
                 className="flex-center btn-size-l color-yellow flex w-168 rounded-[8px]"
