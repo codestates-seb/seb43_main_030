@@ -224,4 +224,11 @@
   .content-line {
     @apply flex flex-col border-t-[1px] border-black-070 py-48 text-16 onlyMobile:py-32 onlyMobile:text-14;
   }
+
+  .dropdown-box {
+    @apply absolute left-0 top-[58px] z-50 flex flex-col items-start justify-center rounded-[10px] bg-white shadow-dropDownShadow;
+  }
+  .dropdown-ul {
+    @apply max-h-216 w-full overflow-hidden overflow-y-scroll px-8 py-12 text-left;
+  }
 }

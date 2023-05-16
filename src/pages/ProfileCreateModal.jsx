@@ -7,7 +7,8 @@ import RadioGroup from '../components/Radio/RadioGroup';
 import Radio from '../components/Radio/Radio';
 import Input from '../components/Input/Input';
 import InputSelectBox from '../components/Input/InputSelectBox';
-
+import { ReactComponent as ArrowOpen } from '../images/arrow-open.svg';
+import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
 import { ReactComponent as Close } from '../images/close.svg';
 
 function ProfileCreateModal(props) {
@@ -16,7 +17,26 @@ function ProfileCreateModal(props) {
   const [value, setValue] = useState('');
   const [person, setPerson] = useState(true);
   const [bread, setBread] = useState(null);
-  const [isSelect, setIsSelect] = useState(true);
+
+  // select box
+  const breadType =
+    '믹스견, 말티즈, 푸들, 포메라니안, 비숑, 웰시코기, 치와와, 폼피츠, 시츄, 골든리트리버, 시바 ,진돗개, 닥스훈트, 달마시안, 도베르만, 말티푸, 보더콜리, 불독, 비글, 사모예드, 슈나우져, 스피치, 요크셔테리어';
+  const breadArr = breadType.split(',');
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [selectType, setSelectType] = useState('견종을 선택해주세요.');
+  const [focus, setFocus] = useState(false);
+
+  const typeActive = e => {
+    const index = Number(e.target.className.split(' ')[1].slice(-1));
+    setActiveIndex(index);
+    setSelectType(breadArr[index]);
+    setFocus(false);
+    setBread(selectType);
+  };
+
+  const handleBtnClick = () => {
+    setFocus(!focus);
+  };
 
   const handleChange = event => {
     setValue(event.target.value);
@@ -25,6 +45,10 @@ function ProfileCreateModal(props) {
 
   const handleCheckType = isPerson => {
     setPerson(isPerson);
+  };
+
+  const handleChangeBread = () => {
+    setBread();
   };
 
   // useEffect(() => {
@@ -89,22 +113,44 @@ function ProfileCreateModal(props) {
                     placeholder="닉네임을 입력해주세요."
                     onChange={handleChange}
                   />
-                  {/* <Button className="color-black btn-size-l ml-8 shrink-0">
-                    중복 검사
-                  </Button> */}
                 </div>
               </div>
               {/* 견종 선택 */}
               {!person && (
                 <div className="mt-25 flex flex-col pb-24">
                   <p className="write-title mb-15 mr-15">견종 선택</p>
-                  <InputSelectBox
-                    options="믹스견, 말티즈, 푸들, 포메라니안, 비숑, 웰시코기, 치와와, 폼피츠, 시츄, 골든리트리버, 시바 ,진돗개, 닥스훈트, 달마시안, 도베르만, 말티푸, 보더콜리, 불독, 비글, 사모예드, 슈나우져, 스피치, 요크셔테리어"
-                    placeholder="견종을 선택해주세요."
-                    width="w-[98%]"
-                    className="text-black-200"
-                    isSelect={isSelect}
-                  />
+                  {/* select box */}
+                  <div className="relative flex">
+                    <button
+                      onClick={handleBtnClick}
+                      type="button"
+                      className="input-default input-select-default w-[98%]"
+                      placeholder="견종을 선택해주세요."
+                    >
+                      {selectType}
+                      {focus ? <ArrowClose /> : <ArrowOpen />}
+                    </button>
+                    {focus && (
+                      <div className="dropdown-box w-[98%] text-black-900">
+                        <ul className="ul profile dropdown-ul">
+                          {breadArr.map((el, idx) => {
+                            const activeClass =
+                              activeIndex === idx ? 'font-bold' : '';
+
+                            return (
+                              <li
+                                className={`li profile${idx} w-full cursor-pointer p-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
+                                onClick={typeActive}
+                                role="presentation"
+                              >
+                                {el}
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
