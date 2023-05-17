@@ -14,7 +14,6 @@ import {
 import InputBtn from '../InputBtn';
 import Button from '../Button/Button';
 import DropDownMenu from '../DropDownMenu';
-import { ReactComponent as Search } from '../../images/search.svg';
 import { ReactComponent as ArrowOpen } from '../../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../../images/arrow-close.svg';
 import { ReactComponent as Logo } from '../../images/logo-txt.svg';
@@ -28,23 +27,6 @@ function Header() {
 
   const curUser = useSelector(state => state.curUser);
   const auth = useSelector(state => state.auth);
-
-  // useEffect(() => {
-  //   if (localStorage.getItem('token')) {
-  //     axios
-  //       .get(`${process.env.REACT_APP_API_URL}/users/profile`, {
-  //         headers: {
-  //           Authorization: localStorage.getItem('token'),
-  //         },
-  //       })
-  //       .then(res => {
-  //         dispatch(setAuth(true));
-  //         dispatch(setUser(res.data));
-  //         // dispatch(setCurUser(res.data[0]));
-  //       });
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   function onDropDown() {
     setDropDown(!dropDown);
@@ -76,7 +58,11 @@ function Header() {
         </div>
         {auth ? (
           <div className="relative mr-12 flex h-48 w-150 items-center justify-between p-8">
-            <Search className="min-h-32 min-w-32 rounded-md border" />
+            <img
+              src={curUser.imageUrl}
+              className="min-h-32 min-w-32 rounded-md border"
+              alt="profileImg"
+            />
             <span className="text-max mx-12 min-w-88 text-center text-14">
               {curUser.name}
             </span>

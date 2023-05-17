@@ -10,7 +10,6 @@ import {
   setUser,
 } from '../actions/areaFilterActions';
 import { RenderProfile } from '../utils/util';
-import { ReactComponent as Search } from '../images/search.svg';
 
 function DropDownMenu({ setDropDown }) {
   const user = useSelector(state => state.user);
@@ -40,7 +39,6 @@ function DropDownMenu({ setDropDown }) {
       })
       .then(res => {
         dispatch(setCurProfile(res.data.data));
-        // setSelectProfile(idx);
         setDropDown(false);
         dispatch(setActiveIndex(idx));
       });
@@ -51,7 +49,6 @@ function DropDownMenu({ setDropDown }) {
     const indexClass = classList.find(className =>
       className.startsWith('profile'),
     );
-    console.log(indexClass);
     if (indexClass) {
       const index = parseInt(indexClass.slice(-1), 10);
       dispatch(setActiveIndex(index));
@@ -63,10 +60,8 @@ function DropDownMenu({ setDropDown }) {
       <ul className="profile w-202 py-2 text-left onlyMobile:w-[100%]">
         <li className="px-8 pb-8 text-12 text-black-350">프로필</li>
         <RenderProfile
-          // activeIndex={activeIndex}
           profileActive={e => profileActive(e)}
           clickedProfile={(idx, id) => clickedProfile(idx, id)}
-          // selectProfile={selectProfile}
         />
         <div className="mt-2 h-1 border-b" />
       </ul>
