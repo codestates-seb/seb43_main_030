@@ -31,6 +31,7 @@ function Mypage() {
   // const [value, setValue] = useState(useSelector(state => state.curProfile));
   const value = useSelector(state => state.curProfile);
   const auth = useSelector(state => state.auth);
+  const activeIndex = useSelector(state => state.activeIndex);
   // const value = useSelector(state => state.curProfile);
   const [nickname, setNickname] = useState(
     useSelector(state => state.curProfile.name),
@@ -53,7 +54,7 @@ function Mypage() {
         },
       })
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         dispatch(setUser(res.data));
         console.log('getUser찍힘');
       })
@@ -61,23 +62,6 @@ function Mypage() {
         console.log(err);
       });
   };
-
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
-        headers: {
-          Authorization: localStorage.getItem('token'),
-        },
-      })
-      .then(res => {
-        dispatch(setCurProfile(res.data.data));
-        // setValue(dispatch(setCurProfile(res.data.data)));
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // 모달 관련 함수
   const modalProfileOnOff = () => {
@@ -179,27 +163,35 @@ function Mypage() {
   };
 
   // 프로필 삭제하기
-  const handleProfileDelete = profileId => {
-    axios
-      .delete(`${process.env.REACT_APP_API_URL}/users/profile/${profileId}`, {
-        headers: {
-          Authorization: localStorage.getItem('token'),
-        },
-      })
-      .then(res => {
-        // navi(0);
+  const handleProfileDelete = (idx, profileId) => {
+    const result = window.confirm('프로필을 삭제하시겠습니까?');
 
-        // console.log(`프로필 ${profileId} 삭제 완료`);
-        if (user.length === 2) {
-          dispatch(setActiveIndex(user[0]));
-        }
-      })
-      .then(() => {
-        getUsers();
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    if (result) {
+      if (idx < activeIndex) {
+        dispatch(setActiveIndex(activeIndex - 1));
+      }
+
+      axios
+        .delete(`${process.env.REACT_APP_API_URL}/users/profile/${profileId}`, {
+          headers: {
+            Authorization: localStorage.getItem('token'),
+          },
+        })
+        .then(res => {
+          // navi(0);
+
+          // console.log(`프로필 ${profileId} 삭제 완료`);
+          if (user.length === 2) {
+            dispatch(setActiveIndex(user[0]));
+          }
+        })
+        .then(() => {
+          getUsers();
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   };
 
   const onChangeImg = e => {
@@ -279,7 +271,7 @@ function Mypage() {
                       </Button>
                     )}
                     {dropDown ? (
-                      <div className="dropdown-box top-[128px] z-10 mx-20 w-[90%] px-12 py-16">
+                      <div className="dropdown-box top-[128px] z-10 mx-20 w-[90%] px-12 py-16 onlyMobile:top-[148px]">
                         <ul className="profile w-full py-2 text-left">
                           <RenderProfile
                             profileActive={e => profileActive(e)}
@@ -364,7 +356,7 @@ function Mypage() {
             <div className="relative w-[63%] pl-8 onlyMobile:w-full">
               <div className="pb-48 onlyMobile:py-32">
                 <div className="mb-24 flex items-center justify-between onlyMobile:mb-16 ">
-                  <h5 className="text-black-900onlyMobile:text-18 text-22 font-bold">
+                  <h5 className="text-22 font-bold text-black-900 onlyMobile:text-18">
                     프로필
                   </h5>
                 </div>
@@ -470,6 +462,7 @@ function Mypage() {
                 {value && value.posts.length !== 0 ? (
                   <div className="flex flex-col gap-8">
                     {value.posts.map(el => {
+                      console.log(el);
                       return <Post key={el.postId} post={el} />;
                     })}
                   </div>
