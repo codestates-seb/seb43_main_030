@@ -9,12 +9,14 @@ import {
   setActiveIndex,
   setUser,
 } from '../actions/areaFilterActions';
+import { RenderProfile } from '../utils/util';
 import { ReactComponent as Search } from '../images/search.svg';
 
-function DropDownMenu() {
+function DropDownMenu({ setDropDown }) {
   const user = useSelector(state => state.user);
   const curUser = useSelector(state => state.curUser);
-  const activeIndex = useSelector(state => state.activeIndex);
+  // const activeIndex = useSelector(state => state.activeIndex);
+  // const [selectProfile, setSelectProfile] = useState(curUser);
 
   const dispatch = useDispatch();
 
@@ -29,6 +31,7 @@ function DropDownMenu() {
 
   function clickedProfile(idx, id) {
     dispatch(setCurUser(user[idx]));
+    dispatch(setCurProfile(user[idx]));
     axios
       .get(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
         headers: {
@@ -37,47 +40,41 @@ function DropDownMenu() {
       })
       .then(res => {
         dispatch(setCurProfile(res.data.data));
+        // setSelectProfile(idx);
+        setDropDown(false);
+        dispatch(setActiveIndex(idx));
       });
   }
 
   function profileActive(e) {
     const classList = e.target.className.split(' ');
-    if (classList.length > 1) {
-      const index = classList[3].slice(-1);
+    const indexClass = classList.find(className =>
+      className.startsWith('profile'),
+    );
+    console.log(indexClass);
+    if (indexClass) {
+      const index = parseInt(indexClass.slice(-1), 10);
       dispatch(setActiveIndex(index));
     }
   }
-
-  const renderProfile = () => {
-    return user.map((profile, idx) => {
-      const activeClass = Number(activeIndex) === idx ? 'font-bold' : '';
-      return (
-        <li
-          className={`profile flex items-center justify-start${idx} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
-          onClick={e => {
-            profileActive(e);
-            clickedProfile(idx, profile.profileId);
-          }}
-          role="presentation"
-        >
-          {Number(activeIndex) === idx ? (
-            <Search className="mr-10 inline-block h-24 w-24 rounded-md border" />
-          ) : null}
-          {user[idx].name}
-        </li>
-      );
-    });
-  };
 
   return (
     <div className="absolute left-0 top-[64px] z-10 flex w-226 flex-col items-start justify-center rounded-[10px] bg-white px-12 py-16 shadow-dropDownShadow onlyMobile:w-[100%]">
       <ul className="profile w-202 py-2 text-left onlyMobile:w-[100%]">
         <li className="px-8 pb-8 text-12 text-black-350">프로필</li>
-        {renderProfile()}
+        <RenderProfile
+          // activeIndex={activeIndex}
+          profileActive={e => profileActive(e)}
+          clickedProfile={(idx, id) => clickedProfile(idx, id)}
+          // selectProfile={selectProfile}
+        />
         <div className="mt-2 h-1 border-b" />
       </ul>
       <ul className="w-202 text-left onlyMobile:w-[100%]">
-        <Link to={`/mypage/${curUser.profileId}`}>
+        <Link
+          to={`/mypage/${curUser.profileId}`}
+          onClick={() => setDropDown(false)}
+        >
           <li className="flex cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025">
             마이페이지
           </li>

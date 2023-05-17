@@ -149,9 +149,7 @@ function KinderDetail() {
                   <Pin />
                   <div className="ml-4 flex gap-2">
                     <p className="mr-20 w-72">주소</p>
-                    {kinderData && (
-                      <p>{kinderData.locations.replace(/"/g, '')}</p>
-                    )}
+                    <p>{kinderData?.locations?.replace(/"/g, '')}</p>
                   </div>
                 </div>
                 <div className="flex">

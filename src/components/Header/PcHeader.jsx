@@ -91,7 +91,9 @@ function Header() {
                 onClick={() => onDropDown()}
               />
             )}
-            {dropDown ? <DropDownMenu setAuth={setAuth} /> : null}
+            {dropDown ? (
+              <DropDownMenu setAuth={setAuth} setDropDown={setDropDown} />
+            ) : null}
           </div>
         ) : (
           <div className="flex shrink-0 items-center justify-between">
