@@ -165,9 +165,6 @@ function Mypage() {
           },
         )
         .then(res => {
-          // console.log(res);
-          // console.log(res.data.data.name);
-          // console.log('수정성공');
           getUsers();
           const resData = res.data.data.name;
           dispatch(setCurUser({ ...curUser, name: resData }));
@@ -205,15 +202,11 @@ function Mypage() {
       });
   };
 
-  // console.log('curProfile:', value);
-  // console.log('curUser:', curUser);
-  // console.log('user:', user);
-
   const onChangeImg = e => {
     e.preventDefault();
 
     if (e.target.files) {
-      const uploadFile = e.target.files;
+      const uploadFile = e.target.files[0];
       console.log(uploadFile);
       const formData = new FormData();
       formData.append('image', uploadFile);
@@ -234,13 +227,16 @@ function Mypage() {
           //   return { ...prev, editName };
           // });
           console.log('ㅎㅎ');
-          // window.location.reload();
+          window.location.reload();
         })
         .catch(err => {
-          console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
+          console.log(`${err}: 이미지를 수정하지 못했습니다.`);
         });
     }
   };
+  console.log('curProfile:', value);
+  console.log('curUser:', curUser);
+  console.log('user:', user);
 
   return (
     <div className="flex flex-col items-center pt-130 onlyMobile:pt-88 ">
@@ -252,7 +248,6 @@ function Mypage() {
               <div className="sticky-card">
                 <div className="flex-center flex-col">
                   <div className="user-profile mb-8 h-48 w-48 overflow-hidden rounded-[12px] onlyMobile:h-64 onlyMobile:w-64">
-                    <img src={Profile} alt="defaultImage" />
                     {value.imageUrl ? (
                       <img src={value.imageUrl} alt="img" />
                     ) : (
@@ -284,7 +279,7 @@ function Mypage() {
                       </Button>
                     )}
                     {dropDown ? (
-                      <div className="dropdown-box top-[160px] z-10 mx-20 w-[90%] px-12 py-16">
+                      <div className="dropdown-box top-[128px] z-10 mx-20 w-[90%] px-12 py-16">
                         <ul className="profile w-full py-2 text-left">
                           <RenderProfile
                             profileActive={e => profileActive(e)}
@@ -395,7 +390,11 @@ function Mypage() {
                     </div>
                   </div>
                   <div className="user-profile h-80 w-80 onlyMobile:h-48 onlyMobile:w-48">
-                    <img src={Profile} alt="임시이미지" />
+                    {value.imageUrl ? (
+                      <img src={value.imageUrl} alt="img" />
+                    ) : (
+                      <img src={Profile} alt="defaultImage" />
+                    )}
                   </div>
                 </div>
                 <div>

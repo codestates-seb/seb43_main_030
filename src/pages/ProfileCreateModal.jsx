@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   setCurProfile,
   setCurUser,
@@ -21,6 +21,8 @@ import { ReactComponent as Close } from '../images/close.svg';
 function ProfileCreateModal({ onClick }) {
   const navi = useNavigate();
   const dispatch = useDispatch();
+
+  const user = useSelector(state => state.user);
 
   const [nickname, setNickname] = useState('');
   const [person, setPerson] = useState(true);
@@ -49,8 +51,6 @@ function ProfileCreateModal({ onClick }) {
     setFocus(false);
     setBread(breadArr[index]);
   };
-  // console.log('bread:', bread);
-  // console.log('selectbread:', selectType);
 
   const getUsers = () => {
     if (localStorage.getItem('token')) {
@@ -75,7 +75,6 @@ function ProfileCreateModal({ onClick }) {
 
   const handleChange = e => {
     setNickname(e.target.value);
-    // console.log(nickname);
   };
 
   const handleCheckPerson = isPerson => {
@@ -85,16 +84,10 @@ function ProfileCreateModal({ onClick }) {
     setNickname('');
     setBread(null);
     setSelectType('견종을 선택해주세요.');
-    // console.log(person);
   };
 
-  // useEffect(() => {
-  //   axios.post(`${process.env.REACT_APP_API_URL}/users/profile`, {
-  //     name: value,
-  //     checkPerson: person,
-  //     bread:
-  //   })
-  // }, [])
+  console.log('bread:', bread);
+  console.log('selectbread:', selectType);
 
   const handlePostProfile = () => {
     if (!nickname || !bread) {
@@ -122,16 +115,16 @@ function ProfileCreateModal({ onClick }) {
           },
         })
         .then(res => {
-          // console.log(res);
+          getUsers();
           setNicknameErr('');
           setSelectErr('');
-          // navi(0);
+          console.log(res);
         })
         .then(() => {
-          getUsers();
+          navi(0);
         })
         .catch(err => {
-          // console.log(err);
+          console.log(err);
           setCheck(false);
         });
     } else if (!person && nickname && bread) {
@@ -143,13 +136,12 @@ function ProfileCreateModal({ onClick }) {
           },
         })
         .then(res => {
-          // console.log(res);
+          getUsers();
           setNicknameErr('');
           setSelectErr('');
-          // navi(0);
         })
         .then(() => {
-          getUsers();
+          navi(0);
         })
         .catch(err => {
           console.log(err);
@@ -157,6 +149,7 @@ function ProfileCreateModal({ onClick }) {
         });
     }
   };
+  console.log(user);
 
   return (
     <>
