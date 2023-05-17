@@ -49,8 +49,8 @@ function ProfileCreateModal({ onClick }) {
     setFocus(false);
     setBread(breadArr[index]);
   };
-  console.log('bread:', bread);
-  console.log('selectbread:', selectType);
+  // console.log('bread:', bread);
+  // console.log('selectbread:', selectType);
 
   const getUsers = () => {
     if (localStorage.getItem('token')) {
@@ -75,7 +75,7 @@ function ProfileCreateModal({ onClick }) {
 
   const handleChange = e => {
     setNickname(e.target.value);
-    console.log(nickname);
+    // console.log(nickname);
   };
 
   const handleCheckPerson = isPerson => {
@@ -85,7 +85,7 @@ function ProfileCreateModal({ onClick }) {
     setNickname('');
     setBread(null);
     setSelectType('견종을 선택해주세요.');
-    console.log(person);
+    // console.log(person);
   };
 
   // useEffect(() => {
@@ -101,9 +101,7 @@ function ProfileCreateModal({ onClick }) {
       setNicknameErr(!nickname ? '닉네임을 입력해주세요.' : '');
       setSelectErr(!bread ? '견종을 선택해주세요.' : '');
       setCheck(false);
-      return;
     }
-
     const formData = new FormData();
     const data = {
       name: nickname,
@@ -115,7 +113,6 @@ function ProfileCreateModal({ onClick }) {
       'postDto',
       new Blob([JSON.stringify(data)], { type: 'application/json' }),
     );
-
     if (person && nickname) {
       axios
         .post(`${process.env.REACT_APP_API_URL}/users/profile`, formData, {
@@ -125,16 +122,16 @@ function ProfileCreateModal({ onClick }) {
           },
         })
         .then(res => {
-          console.log(res);
+          // console.log(res);
           setNicknameErr('');
           setSelectErr('');
-          navi(0);
+          // navi(0);
         })
         .then(() => {
           getUsers();
         })
         .catch(err => {
-          console.log(err);
+          // console.log(err);
           setCheck(false);
         });
     } else if (!person && nickname && bread) {
@@ -146,10 +143,10 @@ function ProfileCreateModal({ onClick }) {
           },
         })
         .then(res => {
-          console.log(res);
+          // console.log(res);
           setNicknameErr('');
           setSelectErr('');
-          navi(0);
+          // navi(0);
         })
         .then(() => {
           getUsers();

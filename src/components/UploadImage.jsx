@@ -8,7 +8,7 @@ function UploadImage(props) {
 
   const handleFileChange = e => {
     const uploadFile = e.target.files;
-    console.log(uploadFile);
+    // console.log(uploadFile);
     setSelectFile(uploadFile);
 
     // const reader = new FileReader();
@@ -30,7 +30,7 @@ function UploadImage(props) {
     // ]);
     // console.log(uploadFile);
   };
-  console.log(selectFile);
+  // console.log(selectFile);
 
   // useEffect(() => {
   //   preview();
