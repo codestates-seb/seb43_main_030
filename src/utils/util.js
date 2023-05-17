@@ -31,22 +31,16 @@ export const axiosPost = (url, data) => {
     });
 };
 
-export function RenderProfile({
-  // activeIndex,
-  profileActive,
-  clickedProfile,
-  // isMypage,
-  // handleDelete,
-  // selectProfile,
-}) {
+export function RenderProfile({ profileActive, clickedProfile, handleDelete }) {
   const user = useSelector(state => state.user);
   const activeIndex = useSelector(state => state.activeIndex);
 
   const renderProfile = () => {
     return user.map((profile, idx) => {
       const activeClass = Number(activeIndex) === idx ? 'font-bold' : '';
+      const shouldDisplayButton = Number(activeIndex) !== idx;
       // const selectedClass = selectProfile === idx ? 'font-bold' : '';
-      // console.log(activeIndex);
+      console.log(activeIndex);
       return (
         <li
           className={`profile flex items-center justify-start${idx} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
@@ -66,16 +60,14 @@ export function RenderProfile({
               )}
               {profile.name}
             </div>
-            {/* {!isMypage && !activeIndex ? (
-              ''
-            ) : (
+            {shouldDisplayButton && user.length > 1 && (
               <Button
-                className="btn-text-default text-red-400 onlyMobile:text-12"
-                onClick={() => handleDelete(idx)}
+                className="btn-text-default absolute right-10 text-red-400 onlyMobile:text-12"
+                onClick={() => handleDelete(profile.profileId)}
               >
                 삭제
               </Button>
-            )} */}
+            )}
           </div>
         </li>
       );
