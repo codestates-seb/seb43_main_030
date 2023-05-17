@@ -41,9 +41,8 @@ function ProfileCreateModal({ onClick }) {
     setActiveIndex(index);
     setSelectType(breadArr[index]);
     setFocus(false);
-    setBread(selectType);
+    setBread(breadArr[index]);
   };
-  // console.log(bread);
 
   const handleBtnClick = () => {
     setFocus(!focus);
@@ -54,10 +53,14 @@ function ProfileCreateModal({ onClick }) {
     console.log(nickname);
   };
 
-  const handleCheckType = isPerson => {
+  const handleCheckPerson = isPerson => {
     setPerson(isPerson);
     setNicknameErr('');
     setSelectErr('');
+    setNickname('');
+    setBread(null);
+    setSelectType(null);
+    console.log(person);
   };
 
   // useEffect(() => {
@@ -153,7 +156,7 @@ function ProfileCreateModal({ onClick }) {
                     <Radio
                       id="1"
                       name="contact"
-                      onClick={() => handleCheckType(true)}
+                      onClick={() => handleCheckPerson(true)}
                       defaultChecked
                     >
                       견주님 프로필
@@ -161,7 +164,7 @@ function ProfileCreateModal({ onClick }) {
                     <Radio
                       id="2"
                       name="contact"
-                      onClick={() => handleCheckType(false)}
+                      onClick={() => handleCheckPerson(false)}
                     >
                       강아지 프로필
                     </Radio>
