@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import {
   setCurProfile,
   setAuth,
   setCurUser,
+  setActiveIndex,
 } from '../actions/areaFilterActions';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
@@ -24,10 +25,12 @@ import { ReactComponent as Plus } from '../images/plus.svg';
 function Mypage() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navi = useNavigate();
 
-  // const [value, setValue] = useState('');
-  const auth = useSelector(state => state.auth);
+  // const [value, setValue] = useState(useSelector(state => state.curProfile));
   const value = useSelector(state => state.curProfile);
+  const auth = useSelector(state => state.auth);
+  // const value = useSelector(state => state.curProfile);
   const [nickname, setNickname] = useState(
     useSelector(state => state.curProfile.name),
   );
@@ -36,7 +39,6 @@ function Mypage() {
   const [nameErr, setNameErr] = useState(false);
 
   const [dropDown, setDropDown] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(null);
   const curUser = useSelector(state => state.curUser);
 
   const [profileModal, setProfileModal] = useState(false);
@@ -44,11 +46,20 @@ function Mypage() {
   // const isMypage = true;
   const [isMypage, setIsMypage] = useState(false);
 
-  console.log(useSelector(state => state.user));
-  console.log(useSelector(state => state.curUser));
-  console.log(useSelector(state => state.curProfile));
+  console.log(
+    'user',
+    useSelector(state => state.user),
+  );
+  console.log(
+    'curUser',
+    useSelector(state => state.curUser),
+  );
+  console.log(
+    'curProfile',
+    useSelector(state => state.curProfile),
+  );
 
-  useEffect(idx => {
+  useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
         headers: {
@@ -58,7 +69,7 @@ function Mypage() {
       .then(res => {
         dispatch(setCurProfile(res.data.data));
         setIsMypage(true);
-        // setValue(res.data.data);
+        // setValue(dispatch(setCurProfile(res.data.data)));
       })
       .catch(error => {
         console.log(error);
@@ -82,6 +93,8 @@ function Mypage() {
   const handleLogout = () => {
     dispatch(setAuth(false));
     localStorage.removeItem('token');
+    dispatch(setActiveIndex(''));
+    navi('/');
   };
 
   // 프로필 변경 드롭다운 함수
@@ -104,15 +117,22 @@ function Mypage() {
   // dropdown
   const clickedProfile = idx => {
     dispatch(setCurUser(user[idx]));
+    dispatch(setCurProfile(user[idx]));
+    // setValue(user[idx]);
+    setDropDown(!dropDown);
+    dispatch(setActiveIndex(idx));
   };
 
-  const profileActive = e => {
+  function profileActive(e) {
     const classList = e.target.className.split(' ');
-    if (classList.length > 1) {
-      const index = classList[3].slice(-1);
-      setActiveIndex(index);
+    const indexClass = classList.find(className =>
+      className.startsWith('profile'),
+    );
+    if (indexClass) {
+      const index = parseInt(indexClass.slice(-1), 10);
+      dispatch(setActiveIndex(index));
     }
-  };
+  }
 
   // 닉네임 수정하기
   const handleNameEdit = () => {
@@ -153,7 +173,6 @@ function Mypage() {
         });
     }
   };
-  // console.log(value);
 
   // 프로필 삭제하기
   const handleProfileDelete = () => {
@@ -221,13 +240,12 @@ function Mypage() {
                       <img src={Profile} alt="defaultImage" />
                     )}
                   </div>
-                  <input id="uploadImage" type="file" onChange={onChangeImg} />
-                  <div className="flex-center w-full max-w-190 items-center py-8">
+                  <div className="flex-center w-full items-center py-8">
                     {dropDown ? (
                       <Button
                         type="button"
                         onClick={handleDropdown}
-                        className="btn-size-s color-white active:bg-black-025 "
+                        className="btn-size-s color-white w-full active:bg-black-025 "
                       >
                         <span className="min-w-88 px-8 text-center text-16 font-bold onlyMobile:text-14">
                           {value.name}
@@ -238,7 +256,7 @@ function Mypage() {
                       <Button
                         type="button"
                         onClick={handleDropdown}
-                        className="btn-size-s color-white active:bg-black-025"
+                        className="btn-size-s color-white w-full active:bg-black-025"
                       >
                         <span className="min-w-88 px-8 text-center text-16 font-bold onlyMobile:text-14">
                           {value.name}
@@ -247,15 +265,15 @@ function Mypage() {
                       </Button>
                     )}
                     {dropDown ? (
-                      <div className="dropdown-box top-[160px] z-10 w-full px-12 py-16">
+                      <div className="dropdown-box top-[160px] z-10 mx-20 w-[90%] px-12 py-16">
                         <ul className="profile w-full py-2 text-left">
                           <RenderProfile
-                            activeIndex={activeIndex}
                             profileActive={e => profileActive(e)}
                             clickedProfile={(idx, id) =>
                               clickedProfile(idx, id)
                             }
                             isMypage={isMypage}
+                            value={value}
                             handleDelete={handleProfileDelete}
                           />
                         </ul>
@@ -269,13 +287,13 @@ function Mypage() {
                     <div className="flex-center w-full flex-col">
                       <p className="text-12 text-black-350">후기</p>
                       <p className="text-28 font-bold onlyMobile:text-18">
-                        {value && value.reviews.length}
+                        {value?.reviews?.length}
                       </p>
                     </div>
                     <div className="flex-center w-full flex-col">
                       <p className="text-12 text-black-350">게시글</p>
                       <p className="text-28 font-bold onlyMobile:text-18">
-                        {value.reviews && value.posts.length}
+                        {value?.posts?.length}
                       </p>
                     </div>
                   </div>
@@ -360,9 +378,26 @@ function Mypage() {
                     <p className="mb-4 text-14 text-black-350 onlyMobile:text-12">
                       프로필 사진
                     </p>
-                    <Button className="btn-text-default text-14 text-black-350 onlyMobile:text-12">
+                    {/* <Button
+                      className="btn-text-default text-14 text-black-350 onlyMobile:text-12"
+                      
+                    >
                       변경
-                    </Button>
+                      <input id="uploadImage" type="file" className="hidden" onChange={onChangeImg}/>
+                    </Button> */}
+                    <div>
+                      <label htmlFor="uploadImage">
+                        <p className="btn-text-default cursor-pointer text-14 text-black-350 onlyMobile:text-12">
+                          변경
+                        </p>
+
+                        <input
+                          id="uploadImage"
+                          type="file"
+                          className="hidden"
+                        />
+                      </label>
+                    </div>
                   </div>
                   <div className="user-profile h-80 w-80 onlyMobile:h-48 onlyMobile:w-48">
                     <img src={Profile} alt="임시이미지" />
@@ -438,10 +473,10 @@ function Mypage() {
                 <h5 className="mb-24 text-22 font-bold onlyMobile:mb-16 onlyMobile:text-18">
                   작성한 게시글
                 </h5>
-                {value && value.reviews.length !== 0 ? (
+                {value && value.posts.length !== 0 ? (
                   <div className="flex flex-col gap-8">
-                    {value.reviews.map(el => {
-                      return <Post key={el.reviewId} post={el} />;
+                    {value.posts.map(el => {
+                      return <Post key={el.postId} post={el} />;
                     })}
                   </div>
                 ) : (

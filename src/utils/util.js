@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import cls from './tailwind';
 import Button from '../components/Button/Button';
 
 import Profile from '../images/profile.png';
@@ -33,19 +32,21 @@ export const axiosPost = (url, data) => {
 };
 
 export function RenderProfile({
-  activeIndex,
+  // activeIndex,
   profileActive,
   clickedProfile,
-  isMypage,
-  handleDelete,
+  // isMypage,
+  // handleDelete,
+  // selectProfile,
 }) {
   const user = useSelector(state => state.user);
-  const curProfile = useSelector(state => state.curProfile);
+  const activeIndex = useSelector(state => state.activeIndex);
 
   const renderProfile = () => {
     return user.map((profile, idx) => {
       const activeClass = Number(activeIndex) === idx ? 'font-bold' : '';
-
+      // const selectedClass = selectProfile === idx ? 'font-bold' : '';
+      // console.log(activeIndex);
       return (
         <li
           className={`profile flex items-center justify-start${idx} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
@@ -54,6 +55,7 @@ export function RenderProfile({
             clickedProfile(idx, profile.profileId);
           }}
           role="presentation"
+          key={profile.profileId}
         >
           <div className="flex w-full justify-between">
             <div className="flex">
@@ -64,16 +66,16 @@ export function RenderProfile({
               )}
               {profile.name}
             </div>
-            {!isMypage && curProfile ? (
+            {/* {!isMypage && !activeIndex ? (
               ''
             ) : (
               <Button
                 className="btn-text-default text-red-400 onlyMobile:text-12"
-                onClick={handleDelete(idx)}
+                onClick={() => handleDelete(idx)}
               >
                 삭제
               </Button>
-            )}
+            )} */}
           </div>
         </li>
       );
