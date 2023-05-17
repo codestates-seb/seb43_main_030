@@ -37,6 +37,7 @@ public class CommentService {
         Comment findComment = findVerifiedComment(comment.getCommentId());
         Optional.ofNullable(comment.getContent())
                 .ifPresent(content -> findComment.setContent(content));
+        findComment.setModified(true);
         return commentRepository.save(findComment);
     }
 
