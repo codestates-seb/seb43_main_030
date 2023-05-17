@@ -36,7 +36,7 @@ function Header() {
     navi('/');
     window.location.reload();
     dispatch(setAreaFilter(0));
-    dispatch(setKinderGartens([]));
+    dispatch(setKinderGartens(null));
     dispatch(setInputValue(''));
     dispatch(setSearchValue(''));
   }

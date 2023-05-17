@@ -161,9 +161,10 @@ function Comment({
         </p>
       )}
       <p className="text-14 text-black-350 onlyMobile:text-12">
-        {new Date(modifiedAt).toLocaleString()}
-        {console.log(modifiedAt)}
-        {console.log(new Date(modifiedAt).toLocaleString())}
+        {/* {new Date(modifiedAt).toLocaleString()} */}
+        {new Date(
+          new Date(modifiedAt).getTime() + 9 * 60 * 60 * 1000,
+        ).toLocaleString()}
       </p>
     </div>
   );
