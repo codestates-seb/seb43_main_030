@@ -10,7 +10,7 @@ public class ReviewPostDto {
     private Long profileId;
     private Long kindergartenId;
     @Column(nullable = false)
-    private String contents;
+    private String content;
     @Column(nullable = false)
     private Double ratedReview;
 }

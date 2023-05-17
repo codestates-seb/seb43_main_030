@@ -17,7 +17,7 @@ public interface CommentMapper {
     Comment commentPatchDtoToComment(CommentDto.Patch patch);
     CommentDto.PatchResponse commentToPatchResponseDto(Comment comment);
 
-    @Mapping(source = "comment.createdAt", target = "createdAt")
+    @Mapping(source = "comment.modifiedAt", target = "modifiedAt")
     CommentDto.CardViewResponse commentAndProfileAndUserToCardViewResponseDto(
             Comment comment, Profile profile, User user);
     default List<CommentDto.CardViewResponse> commentsAndProfilesAndUsersToCardViewResponseDtos(

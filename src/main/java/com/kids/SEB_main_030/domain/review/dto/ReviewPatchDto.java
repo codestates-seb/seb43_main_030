@@ -8,7 +8,7 @@ import java.util.List;
 @Getter
 @Setter
 public class ReviewPatchDto {
-    private String contents;
+    private String content;
     private Double ratedReview;
     private List<Long> deleteImageIds = null;
 }

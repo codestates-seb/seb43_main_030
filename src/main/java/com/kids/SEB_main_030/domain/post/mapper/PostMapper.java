@@ -57,7 +57,7 @@ public interface PostMapper {
         detailPageResponse.setContent(post.getContent());
         detailPageResponse.setCategory(post.getCategory().toString());
         detailPageResponse.setName(profile.getName());
-        detailPageResponse.setLikes(likes);
+        detailPageResponse.setLikeCount(likes);
         detailPageResponse.setCreatedAt(post.getCreatedAt());
         detailPageResponse.setImages(imagesToPostImageDtos(images));
         detailPageResponse.setProfileImageUrl(profileImageUrl);
@@ -94,7 +94,7 @@ public interface PostMapper {
         if ( patch == null ) {
             return post;
         }
-
+        post.setDeleteImageIds(patch.getDeleteImageIds());
         post.setTitle( patch.getTitle() );
         post.setContent( patch.getContent() );
         if (patch.getCategory() != null)
@@ -109,7 +109,7 @@ public interface PostMapper {
         response.setTitle(post.getTitle());
         response.setContent(post.getContent());
         response.setViews(post.getViews());
-        response.setLikes(likes);
+        response.setLikeCount(likes);
         response.setPostImageUrl(imageUrl);
         response.setName(profile.getName());
         response.setProfileImageUrl(profile.getImageUrl());
