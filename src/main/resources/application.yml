@@ -41,8 +41,8 @@ server:
 
 jwt:
   key: ${JWT_SECRET_KEY}
-  access-token-expiration-minutes: 1
-  refresh-token-expiration-minutes: 1
+  access-token-expiration-minutes: 60
+  refresh-token-expiration-minutes: 20160
 
 mail:
   address:

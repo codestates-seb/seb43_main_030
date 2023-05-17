@@ -19,4 +19,5 @@ public class DogProfileResponseDto {
     private String email;
     private List<MyPostResponseDto> posts;
     private List<MyReviewResponseDto> reviews;
+
 }
