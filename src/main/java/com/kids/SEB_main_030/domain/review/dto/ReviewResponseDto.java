@@ -12,7 +12,7 @@ import java.util.Map;
 @Setter
 public class ReviewResponseDto {
     private Long reviewId;
-    private String contents;
+    private String content;
     private List<Image>images;
     private Double ratedReview;
     private LocalDateTime createdAt;

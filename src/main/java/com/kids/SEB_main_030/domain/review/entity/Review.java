@@ -20,7 +20,7 @@ public class Review extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
     @Column(nullable = false)
-    private String contents;
+    private String content;
     @Column(nullable = false)
     private Double ratedReview;
 //    @Column(nullable = false, updatable = false)

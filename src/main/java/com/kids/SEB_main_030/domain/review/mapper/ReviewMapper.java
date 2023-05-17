@@ -22,7 +22,7 @@ public interface ReviewMapper {
         if ( reviewPatchDto == null ) {
             return review;
         }
-        review.setContents( reviewPatchDto.getContents() );
+        review.setContent( reviewPatchDto.getContent() );
         review.setRatedReview( reviewPatchDto.getRatedReview() );
 
         return review;
