@@ -49,6 +49,7 @@ public class PostService {
         Optional.ofNullable(post.getTitle()).ifPresent(title -> findPost.setTitle(title));
         Optional.ofNullable(post.getContent()).ifPresent(content -> findPost.setContent(content));
         Optional.ofNullable(post.getCategory()).ifPresent(category -> findPost.setCategory(category));
+        findPost.setModified(true);
         return postRepository.save(findPost);
     }
 

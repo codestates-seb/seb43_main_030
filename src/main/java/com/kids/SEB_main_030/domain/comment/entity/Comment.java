@@ -22,6 +22,9 @@ public class Comment extends Auditable {
     @Column(nullable = false)
     private String content;
 
+    @Column(nullable = false)
+    private boolean isModified = false;
+
     @ManyToOne
     @JoinColumn(name = "postId")
     private Post post;

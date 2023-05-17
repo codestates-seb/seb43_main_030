@@ -64,6 +64,7 @@ public interface PostMapper {
         detailPageResponse.setViews(post.getViews());
         detailPageResponse.setProfileId(profile.getProfileId());
         detailPageResponse.setLike(isToLike);
+        detailPageResponse.setModified(post.isModified());
         return detailPageResponse;
     }
 
@@ -112,6 +113,7 @@ public interface PostMapper {
         response.setPostImageUrl(imageUrl);
         response.setName(profile.getName());
         response.setProfileImageUrl(profile.getImageUrl());
+        response.setModified(post.isModified());
         return response;
     }
 

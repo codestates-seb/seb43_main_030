@@ -43,5 +43,6 @@ public class CommentDto {
         private Long commentId;
         private String content;
         private String modifiedAt;
+        private boolean isModified;
     }
 }
