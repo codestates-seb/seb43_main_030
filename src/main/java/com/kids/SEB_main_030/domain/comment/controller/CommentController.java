@@ -50,7 +50,7 @@ public class CommentController {
         comment.setCommentId(commentId);
         Comment updateComment = commentService.updateComment(comment);
         return new ResponseEntity(
-                new SingleResponseDto(commentMapper.commentToPatchResponseDto(comment)), HttpStatus.OK);
+                new SingleResponseDto(commentMapper.commentToPatchResponseDto(updateComment)), HttpStatus.OK);
     }
 
     @GetMapping
