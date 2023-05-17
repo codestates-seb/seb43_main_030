@@ -8,7 +8,9 @@ import {
   setActiveIndex,
   setUser,
 } from '../actions/areaFilterActions';
-import { ReactComponent as Search } from '../images/search.svg';
+import Profile from '../images/profile.png';
+
+// import { ReactComponent as Search } from '../images/search.svg';
 
 function DropDownMenuM() {
   const user = useSelector(state => state.user);
@@ -28,6 +30,8 @@ function DropDownMenuM() {
 
   function clickedProfile(idx, id) {
     dispatch(setCurUser(user[idx]));
+    dispatch(setCurProfile(user[idx]));
+
     axios
       .get(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
         headers: {
@@ -41,8 +45,11 @@ function DropDownMenuM() {
 
   function profileActive(e) {
     const classList = e.target.className.split(' ');
-    if (classList.length > 1) {
-      const index = classList[3].slice(-1);
+    const indexClass = classList.find(className =>
+      className.startsWith('profile'),
+    );
+    if (indexClass) {
+      const index = parseInt(indexClass.slice(-1), 10);
       dispatch(setActiveIndex(index));
     }
   }
@@ -52,17 +59,28 @@ function DropDownMenuM() {
       const activeClass = Number(activeIndex) === idx ? 'font-bold' : '';
       return (
         <li
-          className={`flex h-58 items-center justify-start profile${idx} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
+          className={`profile flex h-58 items-center justify-start${idx} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
           onClick={e => {
             profileActive(e);
             clickedProfile(idx, profile.profileId);
           }}
           role="presentation"
+          key={profile.profileId}
         >
-          {Number(activeIndex) === idx ? (
+          {/* {Number(activeIndex) === idx ? (
             <Search className="mr-10 inline-block h-24 w-24 rounded-md border" />
           ) : null}
-          {user[idx]}
+          {user[idx]} */}
+          <div className="flex w-full justify-between">
+            <div className="flex">
+              {Number(activeIndex) === idx && (
+                <div className="user-profile mr-10 inline-block h-24 w-24 rounded-md">
+                  <img src={profile.imageUrl || Profile} alt="profileimage" />
+                </div>
+              )}
+              {profile.name}
+            </div>
+          </div>
         </li>
       );
     });
@@ -77,13 +95,11 @@ function DropDownMenuM() {
       </ul>
       <ul className="menu w-full px-8 text-left">
         <Link to={`/mypage/${curUser.profileId}`}>
-          <li className="h-58 cursor-pointer pb-12 pt-12 text-14">
-            마이페이지
-          </li>
+          <li className="h-58 cursor-pointer py-12 text-14">마이페이지</li>
         </Link>
         <Link to="/">
           <li
-            className="h-58 cursor-pointer pb-12 pt-12 text-14"
+            className="h-58 cursor-pointer py-12 text-14"
             onClick={() => handleLogout()}
             role="presentation"
           >
