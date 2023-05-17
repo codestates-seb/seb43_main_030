@@ -52,7 +52,7 @@ function ListCommunity(props) {
               <p className="list-gray-small flex items-center pl-12">
                 <PerpettOff width="16" height="16" className="mr-5" />
                 <span className="mr-4 onlyMobile:hidden">좋아요</span>{' '}
-                {post.likes}
+                {post.likeCount}
               </p>
             </div>
           </div>

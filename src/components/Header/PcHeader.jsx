@@ -40,8 +40,14 @@ function Header() {
         .then(res => {
           dispatch(setAuth(true));
           dispatch(setUser(res.data));
-          dispatch(setCurUser(res.data[0]));
+          // dispatch(setCurUser(res.data[0]));
         });
+      // .catch(() => {
+      //   dispatch(setAuth(false));
+      // });
+    } else {
+      dispatch(setAuth(false));
+      dispatch(setUser([]));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -91,7 +97,9 @@ function Header() {
                 onClick={() => onDropDown()}
               />
             )}
-            {dropDown ? <DropDownMenu setAuth={setAuth} /> : null}
+            {dropDown ? (
+              <DropDownMenu setAuth={setAuth} setDropDown={setDropDown} />
+            ) : null}
           </div>
         ) : (
           <div className="flex shrink-0 items-center justify-between">

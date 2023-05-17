@@ -11,20 +11,23 @@ import {
 import { RenderProfile } from '../utils/util';
 import { ReactComponent as Search } from '../images/search.svg';
 
-function DropDownMenu() {
+function DropDownMenu({ setDropDown }) {
   const user = useSelector(state => state.user);
   const curUser = useSelector(state => state.curUser);
-  const activeIndex = useSelector(state => state.activeIndex);
+  // const activeIndex = useSelector(state => state.activeIndex);
+  // const [selectProfile, setSelectProfile] = useState(curUser);
 
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch(setAuth(false));
     localStorage.removeItem('token');
+    dispatch(setActiveIndex(''));
   };
 
   function clickedProfile(idx, id) {
     dispatch(setCurUser(user[idx]));
+    dispatch(setCurProfile(user[idx]));
     axios
       .get(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
         headers: {
@@ -33,13 +36,20 @@ function DropDownMenu() {
       })
       .then(res => {
         dispatch(setCurProfile(res.data.data));
+        // setSelectProfile(idx);
+        setDropDown(false);
+        dispatch(setActiveIndex(idx));
       });
   }
 
   function profileActive(e) {
     const classList = e.target.className.split(' ');
-    if (classList.length > 1) {
-      const index = classList[3].slice(-1);
+    const indexClass = classList.find(className =>
+      className.startsWith('profile'),
+    );
+    console.log(indexClass);
+    if (indexClass) {
+      const index = parseInt(indexClass.slice(-1), 10);
       dispatch(setActiveIndex(index));
     }
   }
@@ -49,14 +59,18 @@ function DropDownMenu() {
       <ul className="profile w-202 py-2 text-left onlyMobile:w-[100%]">
         <li className="px-8 pb-8 text-12 text-black-350">프로필</li>
         <RenderProfile
-          activeIndex={activeIndex}
+          // activeIndex={activeIndex}
           profileActive={e => profileActive(e)}
           clickedProfile={(idx, id) => clickedProfile(idx, id)}
+          // selectProfile={selectProfile}
         />
         <div className="mt-2 h-1 border-b" />
       </ul>
       <ul className="w-202 text-left onlyMobile:w-[100%]">
-        <Link to={`/mypage/${curUser.profileId}`}>
+        <Link
+          to={`/mypage/${curUser.profileId}`}
+          onClick={() => setDropDown(false)}
+        >
           <li className="flex cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025">
             마이페이지
           </li>
