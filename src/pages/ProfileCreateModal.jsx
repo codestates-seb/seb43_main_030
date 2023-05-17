@@ -31,7 +31,8 @@ function ProfileCreateModal({ onClick }) {
     '믹스견, 말티즈, 푸들, 포메라니안, 비숑, 웰시코기, 치와와, 폼피츠, 시츄, 골든리트리버, 시바 ,진돗개, 닥스훈트, 달마시안, 도베르만, 말티푸, 보더콜리, 불독, 비글, 사모예드, 슈나우져, 스피치, 요크셔테리어';
   const breadArr = breadType.split(',');
   const [activeIndex, setActiveIndex] = useState(null);
-  const [selectType, setSelectType] = useState('견종을 선택해주세요.');
+  const [selectType, setSelectType] = useState(null);
+  // const [selectType, setSelectType] = useState('견종을 선택해주세요.');
   const [focus, setFocus] = useState(false);
 
   const [selectFile, setSelectFile] = useState(null);
@@ -41,11 +42,12 @@ function ProfileCreateModal({ onClick }) {
     setActiveIndex(index);
     setSelectType(breadArr[index]);
     setFocus(false);
-    setBread(selectType);
+    setBread(breadArr[index]);
   };
-  // console.log(bread);
+  console.log('bread:', bread);
+  console.log('selectbread:', selectType);
 
-  const handleBtnClick = () => {
+  const handleTypeClick = () => {
     setFocus(!focus);
   };
 
@@ -54,10 +56,14 @@ function ProfileCreateModal({ onClick }) {
     console.log(nickname);
   };
 
-  const handleCheckType = isPerson => {
+  const handleCheckPerson = isPerson => {
     setPerson(isPerson);
     setNicknameErr('');
     setSelectErr('');
+    setNickname('');
+    setBread(null);
+    setSelectType(null);
+    console.log(person);
   };
 
   // useEffect(() => {
@@ -153,7 +159,7 @@ function ProfileCreateModal({ onClick }) {
                     <Radio
                       id="1"
                       name="contact"
-                      onClick={() => handleCheckType(true)}
+                      onClick={() => handleCheckPerson(true)}
                       defaultChecked
                     >
                       견주님 프로필
@@ -161,7 +167,7 @@ function ProfileCreateModal({ onClick }) {
                     <Radio
                       id="2"
                       name="contact"
-                      onClick={() => handleCheckType(false)}
+                      onClick={() => handleCheckPerson(false)}
                     >
                       강아지 프로필
                     </Radio>
@@ -195,12 +201,16 @@ function ProfileCreateModal({ onClick }) {
                   {/* select box */}
                   <div className="relative flex flex-col">
                     <button
-                      onClick={handleBtnClick}
+                      onClick={handleTypeClick}
                       type="button"
                       className="input-default input-select-default w-[98%]"
                       placeholder="견종을 선택해주세요."
                     >
-                      {selectType}
+                      {selectType ? (
+                        { selectType }
+                      ) : (
+                        <p className="text-black-200">견종을 선택해주세요.</p>
+                      )}
                       {focus ? <ArrowClose /> : <ArrowOpen />}
                     </button>
                     {!bread && (

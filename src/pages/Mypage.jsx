@@ -47,6 +47,8 @@ function Mypage() {
   // const isMypage = true;
   const [isMypage, setIsMypage] = useState(false);
 
+  console.log('curProfile:', value);
+
   // 모달 관련 함수
   const modalProfileOnOff = () => {
     setProfileModal(!profileModal);
@@ -275,12 +277,6 @@ function Mypage() {
                 {/* 프로필 추가, 설정, 로그아웃 버튼 */}
                 <div className="flex justify-between border-t-[1px] border-black-070 pt-24 text-16 onlyMobile:py-32 onlyMobile:text-14">
                   <div className="flex w-full flex-col items-center">
-                    {/* <Button
-                      className="color-yellow flex-center btn-size-l onlyMobile:btn-size-s mb-8 onlyMobile:w-32"
-                      icon="plus"
-                      onClick={modalProfileOnOff}
-                    /> */}
-                    {/* <span className="text-12 text-black-350">프로필 추가</span> */}
                     {user && user.length < 4 ? (
                       <>
                         <Button
@@ -368,6 +364,7 @@ function Mypage() {
                           id="uploadImage"
                           type="file"
                           className="hidden"
+                          onChange={onChangeImg}
                         />
                       </label>
                     </div>

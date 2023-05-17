@@ -14,7 +14,7 @@ function ListCommunity(props) {
   useEffect(() => {
     setContent(post.content.slice(0, 40));
   }, [setContent, post.content]);
-  console.log(post);
+  // console.log(post);
   return (
     <li className="flex items-center" key={post.postId}>
       <div className="user-profile mr-24 h-108 w-108 onlyMobile:mr-15 onlyMobile:h-96 onlyMobile:w-96 onlyMini:h-56 onlyMini:w-56">
