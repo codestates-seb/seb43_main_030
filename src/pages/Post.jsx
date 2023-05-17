@@ -156,8 +156,6 @@ function Post() {
       });
   };
 
-  console.log(post.profileImageUrl);
-
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">
       <div className="w-full max-w-[1280px] px-80 onlyMobile:px-20">
