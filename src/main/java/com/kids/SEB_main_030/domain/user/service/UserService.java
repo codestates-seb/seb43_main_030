@@ -51,7 +51,7 @@ public class UserService {
     public void removeUser(){
         Long userId = findSecurityContextHolderUserId();
         User findUser = findVerifiedUser(userId);
-        findUser.setUserStatus(User.UserStatus.USER_WITHDRAWAL);
+        findUser.setRole(Role.WITHDRAWAL);
     }
     public void modifyPassword(UserPatchDto patchDto){
         long userId = findSecurityContextHolderUserId();

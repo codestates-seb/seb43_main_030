@@ -6,6 +6,7 @@ import com.kids.SEB_main_030.domain.user.entity.Role;
 import com.kids.SEB_main_030.domain.user.entity.User;
 import com.kids.SEB_main_030.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,6 +46,8 @@ public class UsersDetailsService implements UserDetailsService {
                 authorities.add(new SimpleGrantedAuthority("ROLE_GUEST"));
             } else if (getRole() == Role.OFFICIAL) {
                 authorities.add(new SimpleGrantedAuthority("ROLE_OFFICIAL"));
+            } else if (getRole() == Role.WITHDRAWAL) {
+                throw new AccessDeniedException("탈퇴한 회원입니다.");
             }
             return authorities;
         }

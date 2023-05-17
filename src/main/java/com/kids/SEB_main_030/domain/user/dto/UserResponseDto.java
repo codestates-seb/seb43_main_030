@@ -10,5 +10,4 @@ public class UserResponseDto {
     private long userId;
     private String email;
     private long currentProfileId;
-    private User.UserStatus userStatus;
 }

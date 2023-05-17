@@ -57,8 +57,8 @@ public class SecurityConfiguration {
                 .and()
                 .apply(new CustomFilterConfigurer());
 
-        http
-                .authorizeHttpRequests().anyRequest().permitAll();
+        http.authorizeHttpRequests()
+                .anyRequest().permitAll();
 
         http
                 .oauth2Login()

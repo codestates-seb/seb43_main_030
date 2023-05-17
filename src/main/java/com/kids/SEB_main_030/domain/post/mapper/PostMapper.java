@@ -94,7 +94,6 @@ public interface PostMapper {
         if ( patch == null ) {
             return post;
         }
-        post.setDeleteImageIds(patch.getDeleteImageIds());
         post.setTitle( patch.getTitle() );
         post.setContent( patch.getContent() );
         if (patch.getCategory() != null)
