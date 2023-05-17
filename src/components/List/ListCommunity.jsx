@@ -14,12 +14,12 @@ function ListCommunity(props) {
   useEffect(() => {
     setContent(post.content.slice(0, 40));
   }, [setContent, post.content]);
-  console.log(post);
+
   return (
     <li className="flex items-center" key={post.postId}>
       <div className="user-profile mr-24 h-108 w-108 onlyMobile:mr-15 onlyMobile:h-96 onlyMobile:w-96 onlyMini:h-56 onlyMini:w-56">
-        {post.imageUrl ? (
-          <img src={post.imageUrl} alt="img" />
+        {post.postImageUrl ? (
+          <img src={post.postImageUrl} alt="img" />
         ) : (
           <img src={profile} alt="defaultImage" />
         )}
@@ -61,7 +61,7 @@ function ListCommunity(props) {
             </div>
           </div>
           <p className="text-14 text-black-350 onlyMobile:text-12 ">
-            {post.date}
+            {post.createdAt}
           </p>
         </div>
       </div>
