@@ -30,7 +30,6 @@ public class PostDto {
     @Setter
     @AllArgsConstructor
     public static class Patch {
-
         private String title;
         private String content;
         private String category = null;

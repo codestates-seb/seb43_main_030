@@ -40,7 +40,7 @@ public class ReviewController {
 
     @PostMapping("/{kindergarten-id}")
     public ResponseEntity postReview(@PathVariable("kindergarten-id") long kindergartenId,
-                                     @Valid @RequestPart ReviewPostDto reviewPostDto,
+                                     @Valid @RequestPart(name = "postDto") ReviewPostDto reviewPostDto,
                                      @RequestPart(required = false) List<MultipartFile> images){
         reviewPostDto.setKindergartenId(kindergartenId);
         reviewPostDto.setProfileId(userService.findCurrentProfileId());
@@ -52,7 +52,7 @@ public class ReviewController {
     }
     @PatchMapping("/{review-id}")
     public ResponseEntity patchReview(@PathVariable("review-id")@Positive long reviewId,
-                                      @Valid @RequestPart(required = false) ReviewPatchDto reviewPatchDto,
+                                      @Valid @RequestPart(name = "patchDto", required = false) ReviewPatchDto reviewPatchDto,
                                       @RequestPart(required = false) List<MultipartFile> images) throws Throwable {
         Review review = reviewService.updateReview(
                 reviewMapper.reviewPatchDtoToReview(reviewPatchDto), reviewId);

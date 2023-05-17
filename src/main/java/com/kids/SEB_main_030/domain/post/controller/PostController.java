@@ -47,7 +47,7 @@ public class PostController {
     // 게시물 등록
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity postPost(@PathVariable("community-id") @Positive Long communityId,
-                                   @Valid @RequestPart PostDto.Post requestBody,
+                                   @Valid @RequestPart(name = "postDto") PostDto.Post requestBody,
                                    @RequestPart(required = false) List<MultipartFile> images) {
         Post post = postMapper.postPostDtoToPost(requestBody);
         post.setCommunity(communityService.findCommunity(communityId));
