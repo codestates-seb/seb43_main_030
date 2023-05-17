@@ -62,9 +62,6 @@ public class SecurityConfiguration {
 
         http
                 .oauth2Login()
-//                .authorizationEndpoint()
-//                .baseUri("/login/oauth2/authorize")
-//                .and()
                 .successHandler(oAuth2LoginSuccessHandler)
                 .failureHandler(oAuth2LoginFailureHandler)
                 .userInfoEndpoint()
