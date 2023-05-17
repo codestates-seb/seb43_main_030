@@ -85,74 +85,6 @@ function Map() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [areaFilter]);
 
-  // useEffect(() => {
-  //   if (areaFilter === 0) {
-  //     dispatch(
-  //       setCenter({
-  //         lat: 37.568177,
-  //         lng: 126.992217,
-  //       }),
-  //     );
-  //   }
-  //   if (areaFilter === 1) {
-  //     dispatch(
-  //       setCenter({
-  //         lat: 37.523474,
-  //         lng: 126.844036,
-  //       }),
-  //     );
-  //   }
-  //   if (areaFilter === 2) {
-  //     dispatch(
-  //       setCenter({
-  //         lat: 37.495092,
-  //         lng: 126.931558,
-  //       }),
-  //     );
-  //   }
-  //   if (areaFilter === 3) {
-  //     dispatch(
-  //       setCenter({
-  //         lat: 37.515894,
-  //         lng: 127.070571,
-  //       }),
-  //     );
-  //   }
-  //   if (areaFilter === 4) {
-  //     dispatch(
-  //       setCenter({
-  //         lat: 37.589416,
-  //         lng: 126.92703,
-  //       }),
-  //     );
-  //   }
-  //   if (areaFilter === 5) {
-  //     dispatch(
-  //       setCenter({
-  //         lat: 37.648563,
-  //         lng: 127.03758,
-  //       }),
-  //     );
-  //   }
-  //   if (areaFilter === 6) {
-  //     dispatch(
-  //       setCenter({
-  //         lat: 37.533099,
-  //         lng: 126.979087,
-  //       }),
-  //     );
-  //   }
-  //   if (areaFilter === 7) {
-  //     dispatch(
-  //       setCenter({
-  //         lat: 37.583792,
-  //         lng: 127.081658,
-  //       }),
-  //     );
-  //   }
-  // }, [areaFilter, dispatch]);
-  // console.log(center);
-
   const onLoad = useCallback(
     function callback(mapValue) {
       const centerLatLng = new window.google.maps.LatLng(
@@ -224,6 +156,7 @@ function Map() {
                           ratedReviewsAvg={kinderGarten.ratedReviewsAvg}
                           ratedReviewsCount={kinderGarten.ratedReviewsCount}
                           id={kinderGarten.kindergartenId}
+                          imageUrl={kinderGarten.imageUrl}
                         />
                       </div>
                     </InfoWindowF>

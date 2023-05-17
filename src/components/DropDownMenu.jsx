@@ -9,13 +9,12 @@ import {
   setActiveIndex,
   setUser,
 } from '../actions/areaFilterActions';
-import { RenderProfile } from '../utils/util';
-import { ReactComponent as Search } from '../images/search.svg';
+import Profile from '../images/profile.png';
 
 function DropDownMenu({ setDropDown }) {
   const user = useSelector(state => state.user);
   const curUser = useSelector(state => state.curUser);
-  // const activeIndex = useSelector(state => state.activeIndex);
+  const activeIndex = useSelector(state => state.activeIndex);
   // const [selectProfile, setSelectProfile] = useState(curUser);
 
   const dispatch = useDispatch();
@@ -40,7 +39,6 @@ function DropDownMenu({ setDropDown }) {
       })
       .then(res => {
         dispatch(setCurProfile(res.data.data));
-        // setSelectProfile(idx);
         setDropDown(false);
         dispatch(setActiveIndex(idx));
       });
@@ -51,23 +49,46 @@ function DropDownMenu({ setDropDown }) {
     const indexClass = classList.find(className =>
       className.startsWith('profile'),
     );
-    console.log(indexClass);
     if (indexClass) {
       const index = parseInt(indexClass.slice(-1), 10);
       dispatch(setActiveIndex(index));
     }
   }
 
+  const RenderProfile = () => {
+    return user.map((profile, idx) => {
+      const activeClass = Number(activeIndex) === idx ? 'font-bold' : '';
+
+      return (
+        <li
+          className={`profile flex items-center justify-start${idx} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
+          onClick={e => {
+            profileActive(e);
+            clickedProfile(idx, profile.profileId);
+          }}
+          role="presentation"
+          key={profile.profileId}
+        >
+          <div className="flex w-full justify-between">
+            <div className="flex">
+              {Number(activeIndex) === idx && (
+                <div className="mr-10 inline-block h-24 w-24 rounded-md">
+                  <img src={profile.imageUrl || Profile} alt="profileimage" />
+                </div>
+              )}
+              {profile.name}
+            </div>
+          </div>
+        </li>
+      );
+    });
+  };
+
   return (
     <div className="absolute left-0 top-[64px] z-10 flex w-226 flex-col items-start justify-center rounded-[10px] bg-white px-12 py-16 shadow-dropDownShadow onlyMobile:w-[100%]">
       <ul className="profile w-202 py-2 text-left onlyMobile:w-[100%]">
         <li className="px-8 pb-8 text-12 text-black-350">프로필</li>
-        <RenderProfile
-          // activeIndex={activeIndex}
-          profileActive={e => profileActive(e)}
-          clickedProfile={(idx, id) => clickedProfile(idx, id)}
-          // selectProfile={selectProfile}
-        />
+        <RenderProfile />
         <div className="mt-2 h-1 border-b" />
       </ul>
       <ul className="w-202 text-left onlyMobile:w-[100%]">

@@ -6,7 +6,6 @@ import { ReactComponent as View } from '../images/view.svg';
 import LikeOff from '../images/perpett-off.png';
 import LikeOn from '../images/community-like-on.png';
 import Comment from '../components/Comment';
-import Dog from '../images/dog.jpeg';
 import profile from '../images/profile.png';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
@@ -16,8 +15,6 @@ function Post() {
   const [post, setPost] = useState([]);
   const [isPending, setIsPending] = useState(false);
   const [comments, setComments] = useState([]);
-  const [userName, setUserName] = useState('지은');
-  const [userEmail, setUserEmail] = useState('aaa@naver.com');
   const [commentInput, setCommentInput] = useState('');
   const [like, setLike] = useState(false);
   const [countLike, setCountLike] = useState(0);
@@ -309,13 +306,11 @@ function Post() {
                   <Comment
                     key={comment.commentId}
                     commentId={comment.commentId}
-                    profileId={comment.profileId}
                     name={comment.name}
-                    imageUrl={comment.imageUrl}
                     email={comment.email}
                     text={comment.content}
                     postId={postId}
-                    createdAt={comment.createdAt}
+                    modifiedAt={comment.modifiedAt}
                   />
                 );
               })

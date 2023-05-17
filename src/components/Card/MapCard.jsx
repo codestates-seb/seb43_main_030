@@ -4,16 +4,14 @@ import Dog from '../../images/dog.jpeg';
 import { ReactComponent as StarOn } from '../../images/star-on.svg';
 
 function MapCard(props) {
-  const { name, ratedReviewsAvg, ratedReviewsCount, id } = props;
+  const { name, ratedReviewsAvg, ratedReviewsCount, id, imageUrl } = props;
 
   return (
     <Link to={`/kindergarten/${id}`}>
       <div className="onlyMini:flex-center relative ml-6 mt-6 w-302 rounded-2xl onlyMobile:mt-[-2px] onlyMobile:h-205 onlyMobile:w-220 onlyMini:w-150 onlyMini:flex-col">
-        <img
-          className="h-200 w-full rounded-2xl onlyMobile:h-140 onlyMini:w-150"
-          src={Dog}
-          alt="dog"
-        />
+        <div className="user-profile h-200 w-full onlyMobile:h-140 onlyMini:w-150">
+          <img src={imageUrl} alt="dog" />
+        </div>
         <div className="justifty-center flex w-full flex-col items-start px-8 py-16 onlyMobile:pb-0">
           <div className="mb-4 text-left text-18 font-bold onlyMobile:text-14">
             {name.replace(/"/g, '')}

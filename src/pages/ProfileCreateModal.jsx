@@ -2,6 +2,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import {
+  setCurProfile,
+  setCurUser,
+  setUser,
+} from '../actions/areaFilterActions';
 
 import UploadImage from '../components/UploadImage';
 import Button from '../components/Button/Button';
@@ -31,8 +36,8 @@ function ProfileCreateModal({ onClick }) {
     '믹스견, 말티즈, 푸들, 포메라니안, 비숑, 웰시코기, 치와와, 폼피츠, 시츄, 골든리트리버, 시바 ,진돗개, 닥스훈트, 달마시안, 도베르만, 말티푸, 보더콜리, 불독, 비글, 사모예드, 슈나우져, 스피치, 요크셔테리어';
   const breadArr = breadType.split(',');
   const [activeIndex, setActiveIndex] = useState(null);
-  const [selectType, setSelectType] = useState(null);
-  // const [selectType, setSelectType] = useState('견종을 선택해주세요.');
+  // const [selectType, setSelectType] = useState(null);
+  const [selectType, setSelectType] = useState('견종을 선택해주세요.');
   const [focus, setFocus] = useState(false);
 
   const [selectFile, setSelectFile] = useState(null);
@@ -46,6 +51,23 @@ function ProfileCreateModal({ onClick }) {
   };
   console.log('bread:', bread);
   console.log('selectbread:', selectType);
+
+  const getUsers = () => {
+    if (localStorage.getItem('token')) {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/users/profile`, {
+          headers: {
+            Authorization: localStorage.getItem('token'),
+          },
+        })
+        .then(res => {
+          dispatch(setUser(res.data));
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  };
 
   const handleTypeClick = () => {
     setFocus(!focus);
@@ -62,7 +84,7 @@ function ProfileCreateModal({ onClick }) {
     setSelectErr('');
     setNickname('');
     setBread(null);
-    setSelectType(null);
+    setSelectType('견종을 선택해주세요.');
     console.log(person);
   };
 
@@ -108,6 +130,9 @@ function ProfileCreateModal({ onClick }) {
           setSelectErr('');
           navi(0);
         })
+        .then(() => {
+          getUsers();
+        })
         .catch(err => {
           console.log(err);
           setCheck(false);
@@ -125,6 +150,9 @@ function ProfileCreateModal({ onClick }) {
           setNicknameErr('');
           setSelectErr('');
           navi(0);
+        })
+        .then(() => {
+          getUsers();
         })
         .catch(err => {
           console.log(err);
@@ -191,6 +219,7 @@ function ProfileCreateModal({ onClick }) {
                     // value={nickname}
                     onChange={handleChange}
                     isError={nicknameErr}
+                    value={nickname}
                   />
                 </div>
               </div>
@@ -206,11 +235,7 @@ function ProfileCreateModal({ onClick }) {
                       className="input-default input-select-default w-[98%]"
                       placeholder="견종을 선택해주세요."
                     >
-                      {selectType ? (
-                        { selectType }
-                      ) : (
-                        <p className="text-black-200">견종을 선택해주세요.</p>
-                      )}
+                      {selectType}
                       {focus ? <ArrowClose /> : <ArrowOpen />}
                     </button>
                     {!bread && (

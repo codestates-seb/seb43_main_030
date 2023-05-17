@@ -5,16 +5,7 @@ import Dog from '../images/dog.jpeg';
 import Input from './Input/Input';
 import Button from './Button/Button';
 
-function Comment({
-  profileId,
-  commentId,
-  name,
-  imageUrl,
-  email,
-  text,
-  createdAt,
-  postId,
-}) {
+function Comment({ commentId, name, email, text, modifiedAt, postId }) {
   const [moreSelect, setMoreSelect] = useState(false);
 
   const [isEditMode, setIsEditMode] = useState(false);
@@ -148,7 +139,8 @@ function Comment({
         </p>
       )}
       <p className="text-14 text-black-350 onlyMobile:text-12">
-        {new Date(createdAt).toLocaleString()}
+        {new Date(modifiedAt).toLocaleString()}
+        {console.log(modifiedAt)}
       </p>
     </div>
   );
