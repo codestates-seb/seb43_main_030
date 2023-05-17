@@ -2,8 +2,13 @@ import { useMediaQuery } from 'react-responsive';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { setAuth } from '../actions/areaFilterActions';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setAuth,
+  setCurUser,
+  setUser,
+  setCurProfile,
+} from '../actions/areaFilterActions';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import { ReactComponent as Kakao } from '../images/logo-kakao.svg';
@@ -13,6 +18,10 @@ function Login() {
   const navi = useNavigate();
   const dispatch = useDispatch();
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+  // const curUser = useSelector(state => state.)
+  const user = useSelector(state => state.user);
+  const curUser = useSelector(state => state.curUser);
+  const curProfile = useSelector(state => state.curProfile);
 
   const [loginData, setLoginData] = useState({
     email: '',
@@ -28,6 +37,26 @@ function Login() {
 
   const handleValueChange = key => e => {
     setLoginData({ ...loginData, [key]: e.target.value });
+  };
+
+  const getUsers = () => {
+    if (localStorage.getItem('token')) {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/users/profile`, {
+          headers: {
+            Authorization: localStorage.getItem('token'),
+          },
+        })
+        .then(res => {
+          dispatch(setUser(res.data));
+          dispatch(setCurUser(res.data[0]));
+          dispatch(setCurProfile(res.data.data));
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   function loginFunc() {
@@ -54,9 +83,13 @@ function Login() {
         setEmailErr('');
         setPwdErr('');
         navi('/');
-        navi(0);
+        // navi(0);
         localStorage.setItem('token', res.headers.get('Authorization'));
         localStorage.setItem('tokenRefresh', res.headers.get('Refresh'));
+      })
+      .then(res => {
+        console.log(res);
+        getUsers();
       })
       .catch(err => {
         console.log(err);
@@ -114,7 +147,9 @@ function Login() {
           </Link>
           <Button
             className="color-yellow btn-size-l w-full"
-            onClick={() => loginFunc()}
+            onClick={() => {
+              loginFunc();
+            }}
           >
             로그인
           </Button>

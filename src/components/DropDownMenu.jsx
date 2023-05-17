@@ -7,6 +7,7 @@ import {
   setCurProfile,
   setAuth,
   setActiveIndex,
+  setUser,
 } from '../actions/areaFilterActions';
 import { ReactComponent as Search } from '../images/search.svg';
 
@@ -20,6 +21,10 @@ function DropDownMenu() {
   const handleLogout = () => {
     dispatch(setAuth(false));
     localStorage.removeItem('token');
+    dispatch(setCurUser({}));
+    dispatch(setUser([]));
+    dispatch(setCurProfile({}));
+    dispatch(setActiveIndex(''));
   };
 
   function clickedProfile(idx, id) {
