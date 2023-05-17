@@ -53,6 +53,7 @@ function Mypage() {
         },
       })
       .then(res => {
+        console.log(res.data);
         dispatch(setUser(res.data));
         console.log('getUser찍힘');
       })
@@ -164,15 +165,14 @@ function Mypage() {
           },
         )
         .then(res => {
-          console.log(res);
+          // console.log(res);
           // console.log(res.data.data.name);
-          console.log('수정성공');
+          // console.log('수정성공');
           getUsers();
           const resData = res.data.data.name;
-          dispatch(setCurUser({ ...curUser, resData }));
-          console.log('닉수정curUser:', curUser);
-          dispatch(setCurProfile({ ...value, resData }));
-          navi(0);
+          dispatch(setCurUser({ ...curUser, name: resData }));
+          dispatch(setCurProfile({ ...value, name: resData }));
+          // navi(0);
         })
         .catch(err => {
           console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
@@ -192,7 +192,7 @@ function Mypage() {
       .then(res => {
         // navi(0);
 
-        console.log(`프로필 ${profileId} 삭제 완료`);
+        // console.log(`프로필 ${profileId} 삭제 완료`);
         if (user.length === 2) {
           dispatch(setActiveIndex(user[0]));
         }
@@ -205,9 +205,9 @@ function Mypage() {
       });
   };
 
-  console.log('curProfile:', value);
-  console.log('curUser:', curUser);
-  console.log('user:', user);
+  // console.log('curProfile:', value);
+  // console.log('curUser:', curUser);
+  // console.log('user:', user);
 
   const onChangeImg = e => {
     e.preventDefault();
