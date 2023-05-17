@@ -29,7 +29,8 @@ public class CommunityService {
 
     public Community setDefaultCommunity(Kindergarten kindergarten) {
         Community community = new Community();
-        community.setIntroduction("안녕하세요 " + kindergarten.getName() + " 입니다.");
+        String name = kindergarten.getName();
+        community.setIntroduction("안녕하세요 " + name.substring(1, name.length() - 1) + " 입니다.");
         return community;
     }
 }

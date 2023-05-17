@@ -39,12 +39,22 @@ public class PostService {
     // 게시물 등록
     public Post createPost(Post post) {
         post.setProfile(getProfile());
+        if (post.getCategory() == Post.Category.NOTIFICATION) {
+            if (!userService.findSecurityContextHolderRole().equals("OFFICIAL")) {
+                throw new LogicException(CustomException.NOTIFICATION_NOT_AUTHORITY);
+            }
+        }
         return postRepository.save(post);
     }
 
     public Post updatePost(Post post) {
         // 본인 인증
         identityVerify(post);
+        if (post.getCategory() == Post.Category.NOTIFICATION) {
+            if (!userService.findSecurityContextHolderRole().equals("OFFICIAL")) {
+                throw new LogicException(CustomException.NOTIFICATION_NOT_AUTHORITY);
+            }
+        }
         Post findPost = findVerifiedPost(post.getPostId());
         Optional.ofNullable(post.getTitle()).ifPresent(title -> findPost.setTitle(title));
         Optional.ofNullable(post.getContent()).ifPresent(content -> findPost.setContent(content));

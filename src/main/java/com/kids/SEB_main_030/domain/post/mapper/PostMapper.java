@@ -58,7 +58,7 @@ public interface PostMapper {
         detailPageResponse.setCategory(post.getCategory().toString());
         detailPageResponse.setName(profile.getName());
         detailPageResponse.setLikeCount(likes);
-        detailPageResponse.setCreatedAt(post.getCreatedAt());
+        detailPageResponse.setModifiedAt(post.getModifiedAt());
         detailPageResponse.setImages(imagesToPostImageDtos(images));
         detailPageResponse.setProfileImageUrl(profileImageUrl);
         detailPageResponse.setViews(post.getViews());
@@ -114,6 +114,7 @@ public interface PostMapper {
         response.setName(profile.getName());
         response.setProfileImageUrl(profile.getImageUrl());
         response.setModified(post.isModified());
+        response.setModifiedAt(post.getModifiedAt());
         return response;
     }
 

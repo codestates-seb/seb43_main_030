@@ -16,6 +16,7 @@ public enum CustomException {
     COMMUNITY_CATEGORY_BAD_REQUEST(400, "카테고리 값이 다릅니다."),
     POST_NOT_FOUND(404, "게시물을 찾을 수 없습니다."),
     NO_AUTHORITY(403, "본인이 작성한 게시물이 아닙니다."),
+    NOTIFICATION_NOT_AUTHORITY(403, "공지 작성 권한이 없습니다."),
     REVIEW_NOT_FOUND(404,"리뷰를 찾을 수 없습니다."),
     COMMUNITY_NOT_FOUND(404, "커뮤니티를 찾을 수 없습니다."),
     IMAGE_UPLOAD_ERROR(500, "이미지 등록에 실패했습니다."),

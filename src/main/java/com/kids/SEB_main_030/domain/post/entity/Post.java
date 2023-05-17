@@ -2,6 +2,7 @@ package com.kids.SEB_main_030.domain.post.entity;
 
 import com.kids.SEB_main_030.domain.comment.entity.Comment;
 import com.kids.SEB_main_030.domain.community.entity.Community;
+import com.kids.SEB_main_030.global.audit.Auditable;
 import com.kids.SEB_main_030.global.image.entity.Image;
 import com.kids.SEB_main_030.domain.like.entity.Like;
 import com.kids.SEB_main_030.domain.profile.entity.Profile;
@@ -22,8 +23,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
-public class Post {
+public class Post extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,10 +41,6 @@ public class Post {
 
     @Column(nullable = false)
     private boolean isModified = false;
-
-    @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
 
     @Enumerated(value = EnumType.STRING)
     @Column

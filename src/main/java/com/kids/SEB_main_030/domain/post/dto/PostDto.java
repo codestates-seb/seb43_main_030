@@ -62,6 +62,7 @@ public class PostDto {
         private int likeCount;
         private String profileImageUrl;
         private String name;
+        private LocalDateTime modifiedAt;
         private boolean isModified;
 
     }
@@ -80,7 +81,7 @@ public class PostDto {
         private long profileId;
         private String profileImageUrl;
         private String name;
-        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
         private int views;
         private int likeCount;
         private boolean isLike;
