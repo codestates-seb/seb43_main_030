@@ -311,6 +311,7 @@ function Post() {
                     text={comment.content}
                     postId={postId}
                     modifiedAt={comment.modifiedAt}
+                    modified={comment.modified}
                   />
                 );
               })
