@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class MyReviewResponseDto {
     private long reviewId;
-    private String contents;
+    private String content;
     private double ratedReview;
     // TODO : 리뷰에 이미지 추가하기
 }
