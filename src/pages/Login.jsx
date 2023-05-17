@@ -50,7 +50,7 @@ function Login() {
         .then(res => {
           dispatch(setUser(res.data));
           dispatch(setCurUser(res.data[0]));
-          dispatch(setCurProfile(res.data.data));
+          dispatch(setCurProfile(res.data[0]));
         })
         .catch(err => {
           console.log(err);

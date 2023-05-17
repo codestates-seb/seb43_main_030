@@ -7,6 +7,7 @@ import {
   setAuth,
   setCurUser,
   setActiveIndex,
+  setUser,
 } from '../actions/areaFilterActions';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
@@ -46,37 +47,6 @@ function Mypage() {
   // const isMypage = true;
   const [isMypage, setIsMypage] = useState(false);
 
-  console.log(
-    'user',
-    useSelector(state => state.user),
-  );
-  console.log(
-    'curUser',
-    useSelector(state => state.curUser),
-  );
-  console.log(
-    'curProfile',
-    useSelector(state => state.curProfile),
-  );
-
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
-        headers: {
-          Authorization: localStorage.getItem('token'),
-        },
-      })
-      .then(res => {
-        dispatch(setCurProfile(res.data.data));
-        setIsMypage(true);
-        // setValue(dispatch(setCurProfile(res.data.data)));
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // 모달 관련 함수
   const modalProfileOnOff = () => {
     setProfileModal(!profileModal);
@@ -93,6 +63,9 @@ function Mypage() {
   const handleLogout = () => {
     dispatch(setAuth(false));
     localStorage.removeItem('token');
+    dispatch(setCurUser({}));
+    dispatch(setUser([]));
+    dispatch(setCurProfile({}));
     dispatch(setActiveIndex(''));
     navi('/');
   };
