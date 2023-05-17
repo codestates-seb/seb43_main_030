@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Parser from 'html-react-parser';
 import { ReactComponent as View } from '../images/view.svg';
 import LikeOff from '../images/perpett-off.png';
 import LikeOn from '../images/community-like-on.png';
@@ -19,6 +20,7 @@ function Post() {
   const [commentInput, setCommentInput] = useState('');
   const [like, setLike] = useState(false);
   const [countLike, setCountLike] = useState(0);
+  const [images, setImages] = useState([]);
   const [previousPost, setPreviousPost] = useState(null);
   const [nextPost, setNextPost] = useState(null);
   const navigate = useNavigate();
@@ -77,12 +79,13 @@ function Post() {
         setPost(response.data.data);
         setCountLike(response.data.data.likes);
         setLike(response.data.data.like);
+        setImages(response.data.data.images);
       })
       .catch(error => {
         console.log(error);
       });
   }, [setPost, postId, apiUrl]);
-
+  console.log(images);
   useEffect(() => {
     axios
       .get(`${apiUrl}/community/1/post?page=1`)
@@ -204,9 +207,16 @@ function Post() {
           </div>
         </div>
         <div className="border-b border-solid border-black-070 pb-24">
-          <div className="py-32 onlyMobile:py-24 onlyMobile:text-14">
-            {post.content}
-          </div>
+          {Parser(
+            `<div className="py-32 onlyMobile:py-24 onlyMobile:text-14">
+              ${post.content}
+            
+            </div>`,
+          )}
+          {images &&
+            images.map(el => {
+              return Parser(`<img src="${el.imageUrl}" alt="게시물 이미지" />`);
+            })}
           <div className="mb-40">
             <button
               className="mr-15 text-14 text-black-350 onlyMobile:text-12"

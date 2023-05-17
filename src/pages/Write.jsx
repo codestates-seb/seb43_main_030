@@ -11,11 +11,12 @@ import RadioGroup from '../components/Radio/RadioGroup';
 import TextArea from '../components/TextArea';
 import defaultImg from '../images/profile.png';
 
-function Post() {
+function Write() {
   const [category, setCategory] = useState('community');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [userProfile, setUserProfile] = useState({});
+  const [img, setImg] = useState('');
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
   const navigate = useNavigate();
   const { postId } = useParams();
@@ -31,8 +32,6 @@ function Post() {
         },
       })
       .then(response => {
-        console.log(token);
-
         setUserProfile(response.data.data);
       })
       .catch(error => {
@@ -40,17 +39,51 @@ function Post() {
       });
   }, [apiUrl, token]);
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:3001/post/${postId}`)
-      .then(response => {
-        setTitle(response.data.title);
-        setContent(response.data.content);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [postId]);
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:3001/post/${postId}`)
+  //     .then(response => {
+  //       setTitle(response.data.title);
+  //       setContent(response.data.content);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // }, [postId]);
+
+  const customUploadAdapter = loader => {
+    return {
+      upload() {
+        return new Promise((resolve, reject) => {
+          // const formData = new FormData();
+          loader.file.then(file => {
+            setImg(file);
+            // formData.append('images', file);
+            // axios
+            //   .post(`${apiUrl}/community/1/post`, formData, {
+            //     headers: {
+            //       Authorization: localStorage.getItem('token'),
+            //       'Content-Type': 'multipart/form-data',
+            //     },
+            //   })
+            //   .then(res => {
+            //     resolve({
+            //       default: res.data.data.uri,
+            //     });
+            //     console.log(res.data.data.uri);
+            //   })
+            //   .catch(err => console.log(err, file));
+          });
+        });
+      },
+    };
+  };
+  function uploadPlugin(editor) {
+    // eslint-disable-next-line no-param-reassign
+    editor.plugins.get('FileRepository').createUploadAdapter = loader => {
+      return customUploadAdapter(loader);
+    };
+  }
 
   const saveCategory = event => {
     setCategory(event.target.value);
@@ -77,33 +110,46 @@ function Post() {
 
     const currentDate = new Date();
     const dateString = dateCalculate(currentDate);
-    const postData = {
+
+    const formData = new FormData();
+    formData.append('images', img);
+
+    const data = {
       title,
-      contents: { text: content },
+      content,
       category,
-      date: dateString,
-      comment: [],
-      likestate: false,
-      likes: 0,
     };
 
-    if (postId) {
-      axios
-        .put(`http://localhost:3001/post/${postId}`, postData)
-        .then(navigate(`/post/${postId}`))
-        .catch(error => {
-          console.log(error);
-        });
-    } else {
-      axios
-        .post(`http://localhost:3001/post`, postData)
-        .then(navigate(`/community`))
-        .catch(error => {
-          console.log(error);
-        });
-    }
-  };
+    formData.append(
+      'requestBody',
+      new Blob([JSON.stringify(data)], { type: 'application/json' }),
+    );
 
+    const headers = {
+      headers: {
+        Authorization: localStorage.getItem('token'),
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+    // if (postId) {
+    //   axios
+    //     .then()
+    //     .put(`${apiUrl}/community/1/post/${postId}`, formData, headers)
+    //     // .then(navigate(`/post/${postId}`))
+    //     .catch(error => {
+    //       console.log(error);
+    //     });
+    // } else {
+    axios
+      .post(`${apiUrl}/community/1/post`, formData, headers)
+      .then(response => console.dir(response))
+      .then(navigate(`/community`))
+      .catch(error => {
+        console.log(error);
+      });
+
+    // }
+  };
   return (
     <div className="relative mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">
       <div className="w-full max-w-[1280px] px-80 onlyMobile:px-20">
@@ -205,9 +251,12 @@ function Post() {
           <div>
             <CKEditor
               editor={ClassicEditor}
-              config={{
-                placeholder: '내용을 입력해주세요.',
-              }}
+              config={
+                ({
+                  placeholder: '내용을 입력해주세요.',
+                },
+                { extraPlugins: [uploadPlugin] })
+              }
               data={content}
               onChange={(event, editor) => {
                 const data = editor.getData();
@@ -233,4 +282,4 @@ function Post() {
   );
 }
 
-export default Post;
+export default Write;
