@@ -64,7 +64,7 @@ public class PostController {
     @PatchMapping("/{post-id}")
     public ResponseEntity patchPost(@PathVariable("community-id") @Positive Long communityId,
                                     @PathVariable("post-id") @Positive Long postId,
-                                    @Valid @RequestPart(required = false) PostDto.Patch requestBody,
+                                    @Valid @RequestPart(name = "patchDto", required = false) PostDto.Patch requestBody,
                                     @RequestPart(required = false) List<MultipartFile> images) {
         Post post = postMapper.postPatchDtoToPost(requestBody);
         post.setPostId(postId);
