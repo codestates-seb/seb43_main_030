@@ -7,6 +7,7 @@ import LikeOff from '../images/perpett-off.png';
 import LikeOn from '../images/community-like-on.png';
 import Comment from '../components/Comment';
 import Dog from '../images/dog.jpeg';
+import profile from '../images/profile.png';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import dateCalculate from '../components/dateCalculate';
@@ -77,7 +78,7 @@ function Post() {
       })
       .then(response => {
         setPost(response.data.data);
-        setCountLike(response.data.data.likes);
+        setCountLike(response.data.data.likeCount);
         setLike(response.data.data.like);
         setImages(response.data.data.images);
       })
@@ -85,7 +86,7 @@ function Post() {
         console.log(error);
       });
   }, [setPost, postId, apiUrl]);
-  console.log(images);
+
   useEffect(() => {
     axios
       .get(`${apiUrl}/community/1/post?page=1`)
@@ -119,7 +120,9 @@ function Post() {
     const result = window.confirm('게시물을 삭제하시겠습니까?');
     if (result) {
       axios
-        .delete(`http://localhost:3001/post/${postId}`)
+        .delete(`${apiUrl}/community/1/post/${postId}`, {
+          headers: { Authorization: localStorage.getItem('token') },
+        })
         .then(alert('게시물이 삭제되었습니다.'))
         .then(navigate(`/community`))
         .catch(error => console.log(error));
@@ -156,6 +159,8 @@ function Post() {
       });
   };
 
+  console.log(post.profileImageUrl);
+
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">
       <div className="w-full max-w-[1280px] px-80 onlyMobile:px-20">
@@ -178,7 +183,11 @@ function Post() {
                 <div className="flex flex-col">
                   <div className="mb-12 flex items-center">
                     <div className="user-profile h-24 w-24">
-                      <img src={Dog} alt="임시이미지" />
+                      {post.profileImageUrl ? (
+                        <img src={post.profileImageUrl} alt="img" />
+                      ) : (
+                        <img src={profile} alt="defaultImage" />
+                      )}
                     </div>
                     <p className="relative pl-5 pr-12 text-14 text-black-900 onlyMobile:text-12">
                       {post.name}
@@ -187,7 +196,7 @@ function Post() {
                   <div className="flex">
                     <p className="list-gray-small flex items-center">
                       <View width="16" height="16" className="mr-5" />
-                      조회 1,212
+                      조회 {post.views}
                     </p>
                     <p className="list-gray-small flex items-center pl-12">
                       <img
