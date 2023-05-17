@@ -29,28 +29,22 @@ function Header() {
   const curUser = useSelector(state => state.curUser);
   const auth = useSelector(state => state.auth);
 
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      axios
-        .get(`${process.env.REACT_APP_API_URL}/users/profile`, {
-          headers: {
-            Authorization: localStorage.getItem('token'),
-          },
-        })
-        .then(res => {
-          dispatch(setAuth(true));
-          dispatch(setUser(res.data));
-          // dispatch(setCurUser(res.data[0]));
-        });
-      // .catch(() => {
-      //   dispatch(setAuth(false));
-      // });
-    } else {
-      dispatch(setAuth(false));
-      dispatch(setUser([]));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem('token')) {
+  //     axios
+  //       .get(`${process.env.REACT_APP_API_URL}/users/profile`, {
+  //         headers: {
+  //           Authorization: localStorage.getItem('token'),
+  //         },
+  //       })
+  //       .then(res => {
+  //         dispatch(setAuth(true));
+  //         dispatch(setUser(res.data));
+  //         // dispatch(setCurUser(res.data[0]));
+  //       });
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   function onDropDown() {
     setDropDown(!dropDown);

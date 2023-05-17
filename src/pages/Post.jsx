@@ -1,11 +1,13 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Parser from 'html-react-parser';
 import { ReactComponent as View } from '../images/view.svg';
 import LikeOff from '../images/perpett-off.png';
 import LikeOn from '../images/community-like-on.png';
 import Comment from '../components/Comment';
 import Dog from '../images/dog.jpeg';
+import profile from '../images/profile.png';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import dateCalculate from '../components/dateCalculate';
@@ -19,13 +21,12 @@ function Post() {
   const [commentInput, setCommentInput] = useState('');
   const [like, setLike] = useState(false);
   const [countLike, setCountLike] = useState(0);
+  const [images, setImages] = useState([]);
   const [previousPost, setPreviousPost] = useState(null);
   const [nextPost, setNextPost] = useState(null);
   const navigate = useNavigate();
   const { postId } = useParams();
   const apiUrl = process.env.REACT_APP_API_URL;
-  const apiUrl2 = 'http://localhost:3001';
-  const token = process.env.REACT_APP_TOKEN;
 
   useEffect(() => {
     axios
@@ -72,11 +73,14 @@ function Post() {
 
   useEffect(() => {
     axios
-      .get(`${apiUrl}/community/1/post/${postId}`)
+      .get(`${apiUrl}/community/1/post/${postId}`, {
+        headers: { Authorization: localStorage.getItem('token') },
+      })
       .then(response => {
         setPost(response.data.data);
-        setCountLike(response.data.data.likes);
-        // setLike(response.data.data.likestate);
+        setCountLike(response.data.data.likeCount);
+        setLike(response.data.data.like);
+        setImages(response.data.data.images);
       })
       .catch(error => {
         console.log(error);
@@ -116,7 +120,9 @@ function Post() {
     const result = window.confirm('게시물을 삭제하시겠습니까?');
     if (result) {
       axios
-        .delete(`http://localhost:3001/post/${postId}`)
+        .delete(`${apiUrl}/community/1/post/${postId}`, {
+          headers: { Authorization: localStorage.getItem('token') },
+        })
         .then(alert('게시물이 삭제되었습니다.'))
         .then(navigate(`/community`))
         .catch(error => console.log(error));
@@ -127,50 +133,33 @@ function Post() {
     navigate(`/write/${postId}`);
   }, [navigate, postId]);
 
-  // const isLike = () => {
-  //   setLike(!like);
-
-  //   axios
-  //     .put(`http://localhost:3001/post/${postId}`, {
-  //       ...post,
-  //       likes: like ? countLike - 1 : countLike + 1,
-  //     })
-  //     .then(response => {
-  //       console.log(response.likes);
-  //     })
-  //     .catch(error => console.log(error));
-  // };
-
   const isLike = () => {
+    if (!localStorage.getItem('token')) {
+      alert('비회원은 좋아요가 불가능합니다.');
+      return;
+      // navigate(`/login`);
+    }
     const updatedLike = !like;
     const updatedLikes = updatedLike ? countLike + 1 : countLike - 1;
 
     setLike(updatedLike);
     setCountLike(updatedLikes);
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
     axios
-      .put(
-        `${apiUrl}/post/${postId}/like`,
-        {
-          ...post,
-          likes: updatedLikes,
-          // likestate: updatedLike,
+      .get(`${apiUrl}/post/${postId}/like`, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
         },
-        config,
-      )
+      })
       .then(response => {
-        console.log(response.data.likes);
+        console.log(response);
       })
       .catch(error => {
         console.log(error);
       });
   };
+
+  console.log(post.profileImageUrl);
 
   return (
     <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">
@@ -194,7 +183,11 @@ function Post() {
                 <div className="flex flex-col">
                   <div className="mb-12 flex items-center">
                     <div className="user-profile h-24 w-24">
-                      <img src={Dog} alt="임시이미지" />
+                      {post.profileImageUrl ? (
+                        <img src={post.profileImageUrl} alt="img" />
+                      ) : (
+                        <img src={profile} alt="defaultImage" />
+                      )}
                     </div>
                     <p className="relative pl-5 pr-12 text-14 text-black-900 onlyMobile:text-12">
                       {post.name}
@@ -203,7 +196,7 @@ function Post() {
                   <div className="flex">
                     <p className="list-gray-small flex items-center">
                       <View width="16" height="16" className="mr-5" />
-                      조회 1,212
+                      조회 {post.views}
                     </p>
                     <p className="list-gray-small flex items-center pl-12">
                       <img
@@ -223,9 +216,16 @@ function Post() {
           </div>
         </div>
         <div className="border-b border-solid border-black-070 pb-24">
-          <div className="py-32 onlyMobile:py-24 onlyMobile:text-14">
-            {post.content}
-          </div>
+          {Parser(
+            `<div className="py-32 onlyMobile:py-24 onlyMobile:text-14">
+              ${post.content}
+            
+            </div>`,
+          )}
+          {images &&
+            images.map(el => {
+              return Parser(`<img src="${el.imageUrl}" alt="게시물 이미지" />`);
+            })}
           <div className="mb-40">
             <button
               className="mr-15 text-14 text-black-350 onlyMobile:text-12"

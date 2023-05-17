@@ -22,6 +22,9 @@ function Main() {
   const areaFilter = useSelector(state => state.areaFilter);
   const kinderGartens = useSelector(state => state.kinderGartens);
   const searchValue = useSelector(state => state.searchValue);
+  const user = useSelector(state => state.user);
+  const curUser = useSelector(state => state.curUser);
+  const curProfile = useSelector(state => state.curProfile);
 
   useEffect(() => {
     let url = ``;
@@ -97,6 +100,7 @@ function Main() {
                     ratedReviewsCount={kinderGarten.ratedReviewsCount}
                     locations={kinderGarten.locations}
                     id={kinderGarten.kindergartenId}
+                    imageUrl={kinderGarten.imageUrl}
                   />
                 );
               })
