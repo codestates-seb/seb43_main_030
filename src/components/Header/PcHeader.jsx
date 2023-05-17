@@ -35,12 +35,10 @@ function Header() {
   function reload() {
     navi('/');
     window.location.reload();
-    const timerId = setTimeout(() => {
-      dispatch(setAreaFilter(0));
-      dispatch(setKinderGartens([]));
-      dispatch(setInputValue(''));
-      dispatch(setSearchValue(''));
-    }, 200);
+    dispatch(setAreaFilter(0));
+    dispatch(setKinderGartens([]));
+    dispatch(setInputValue(''));
+    dispatch(setSearchValue(''));
   }
 
   return (

@@ -5,11 +5,24 @@ import Dog from '../images/dog.jpeg';
 import Input from './Input/Input';
 import Button from './Button/Button';
 
-function Comment({ commentId, name, email, text, modifiedAt, postId }) {
+function Comment({
+  commentId,
+  name,
+  email,
+  text,
+  modifiedAt,
+  postId,
+  modified,
+}) {
   const [moreSelect, setMoreSelect] = useState(false);
 
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedText, setEditedText] = useState(text);
+  const [onDelete, setOnDelete] = useState(false);
+
+  const onDeleteModal = () => {
+    setOnDelete(true);
+  };
 
   const handleEditClick = () => {
     setIsEditMode(true);
@@ -20,8 +33,8 @@ function Comment({ commentId, name, email, text, modifiedAt, postId }) {
     setEditedText(text);
     setIsEditMode(false);
 
-    const now = new Date();
-    const dateString = now.toLocaleString();
+    // const now = new Date();
+    // const dateString = now.toLocaleString();
     axios
       .patch(
         `${process.env.REACT_APP_API_URL}/post/${postId}/comment/${commentId}`,
@@ -56,23 +69,27 @@ function Comment({ commentId, name, email, text, modifiedAt, postId }) {
   };
 
   function deleteComment(commentId) {
-    axios
-      .delete(
-        `${process.env.REACT_APP_API_URL}/post/${postId}/comment/${commentId}`,
-        {
-          headers: {
-            Authorization: localStorage.getItem('token'),
+    const result = window.confirm('댓글을 삭제하시겠습니까?');
+    if (result) {
+      axios
+        .delete(
+          `${process.env.REACT_APP_API_URL}/post/${postId}/comment/${commentId}`,
+          {
+            headers: {
+              Authorization: localStorage.getItem('token'),
+            },
           },
-        },
-      )
-      .then(response => {
-        window.location.reload();
-      })
-      .catch(error => {
-        if (error.response && error.response.status === 403) {
-          alert('본인이 작성한 댓글만 삭제할 수 있어요❗️');
-        }
-      });
+        )
+        .then(response => {
+          window.location.reload();
+        })
+        .catch(error => {
+          if (error.response && error.response.status === 403) {
+            setMoreSelect(!moreSelect);
+            alert('본인이 작성한 댓글만 삭제할 수 있어요❗️');
+          }
+        });
+    }
   }
 
   return (
@@ -136,11 +153,17 @@ function Comment({ commentId, name, email, text, modifiedAt, postId }) {
       ) : (
         <p className="mb-10 mt-5 text-16 text-black-900 onlyMobile:text-12">
           {text}
+          {modified ? (
+            <div className="ml-10 inline-block text-12 text-black-350">
+              (수정됨)
+            </div>
+          ) : null}
         </p>
       )}
       <p className="text-14 text-black-350 onlyMobile:text-12">
         {new Date(modifiedAt).toLocaleString()}
         {console.log(modifiedAt)}
+        {console.log(new Date(modifiedAt).toLocaleString())}
       </p>
     </div>
   );
