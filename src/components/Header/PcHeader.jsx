@@ -56,11 +56,13 @@ function Header() {
         </div>
         {auth ? (
           <div className="relative mr-12 flex h-48 w-150 items-center justify-between p-8">
-            <img
-              src={curUser.imageUrl}
-              className="min-h-32 min-w-32 rounded-md border"
-              alt="profileImg"
-            />
+            <div className="user-profile h-32 w-32">
+              <img
+                src={curUser.imageUrl}
+                className="min-h-32 min-w-32 rounded-md border"
+                alt="profileImg"
+              />
+            </div>
             <span className="text-max mx-12 min-w-88 text-center text-14">
               {curUser.name}
             </span>
