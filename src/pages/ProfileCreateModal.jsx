@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 import UploadImage from '../components/UploadImage';
 import Button from '../components/Button/Button';
@@ -11,12 +13,18 @@ import { ReactComponent as ArrowOpen } from '../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
 import { ReactComponent as Close } from '../images/close.svg';
 
-function ProfileCreateModal(props) {
-  const { onClick } = props;
+function ProfileCreateModal({ onClick }) {
+  const navi = useNavigate();
+  const dispatch = useDispatch();
 
-  const [value, setValue] = useState('');
+  const [nickname, setNickname] = useState('');
   const [person, setPerson] = useState(true);
   const [bread, setBread] = useState(null);
+
+  // 오류 메시지
+  const [nicknameErr, setNicknameErr] = useState('');
+  const [selectErr, setSelectErr] = useState('');
+  const [check, setCheck] = useState(true);
 
   // select box
   const breadType =
@@ -26,6 +34,8 @@ function ProfileCreateModal(props) {
   const [selectType, setSelectType] = useState('견종을 선택해주세요.');
   const [focus, setFocus] = useState(false);
 
+  const [selectFile, setSelectFile] = useState(null);
+
   const typeActive = e => {
     const index = Number(e.target.className.split(' ')[1].slice(-1));
     setActiveIndex(index);
@@ -33,22 +43,21 @@ function ProfileCreateModal(props) {
     setFocus(false);
     setBread(selectType);
   };
+  // console.log(bread);
 
   const handleBtnClick = () => {
     setFocus(!focus);
   };
 
-  const handleChange = event => {
-    setValue(event.target.value);
-    console.log(value);
+  const handleChange = e => {
+    setNickname(e.target.value);
+    console.log(nickname);
   };
 
   const handleCheckType = isPerson => {
     setPerson(isPerson);
-  };
-
-  const handleChangeBread = () => {
-    setBread();
+    setNicknameErr('');
+    setSelectErr('');
   };
 
   // useEffect(() => {
@@ -58,6 +67,65 @@ function ProfileCreateModal(props) {
   //     bread:
   //   })
   // }, [])
+
+  const handlePostProfile = () => {
+    if (!nickname || !bread) {
+      setNicknameErr(!nickname ? '닉네임을 입력해주세요.' : '');
+      setSelectErr(!bread ? '견종을 선택해주세요.' : '');
+      setCheck(false);
+      return;
+    }
+
+    const formData = new FormData();
+    const data = {
+      name: nickname,
+      checkPerson: person,
+      bread,
+    };
+    formData.append('images', selectFile);
+    formData.append(
+      'postDto',
+      new Blob([JSON.stringify(data)], { type: 'application/json' }),
+    );
+
+    if (person && nickname) {
+      axios
+        .post(`${process.env.REACT_APP_API_URL}/users/profile`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: localStorage.getItem('token'),
+          },
+        })
+        .then(res => {
+          console.log(res);
+          setNicknameErr('');
+          setSelectErr('');
+          navi(0);
+        })
+        .catch(err => {
+          console.log(err);
+          setCheck(false);
+        });
+    } else if (!person && nickname && bread) {
+      axios
+        .post(`${process.env.REACT_APP_API_URL}/users/profile`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: localStorage.getItem('token'),
+          },
+        })
+        .then(res => {
+          console.log(res);
+          setNicknameErr('');
+          setSelectErr('');
+          navi(0);
+        })
+        .catch(err => {
+          console.log(err);
+          setCheck(false);
+        });
+    }
+  };
 
   return (
     <>
@@ -103,24 +171,29 @@ function ProfileCreateModal(props) {
               {/* 프로필 사진 등록 */}
               <div className="mt-25 flex flex-col border-b-[1px] border-black-070 pb-24">
                 <p className="write-title mb-15 mr-15">프로필 사진 등록</p>
-                <UploadImage />
+                <UploadImage
+                  setSelectFile={setSelectFile}
+                  selectFile={selectFile}
+                />
               </div>
               {/* 닉네임 등록 */}
               <div className="mt-25 flex flex-col border-b-[1px] border-black-070 pb-24">
-                <p className="write-title mb-15 mr-15">닉네임</p>
+                <p className="write-title mb-15 mr-15">닉네임 (필수)</p>
                 <div className="flex">
                   <Input
                     placeholder="닉네임을 입력해주세요."
+                    // value={nickname}
                     onChange={handleChange}
+                    isError={nicknameErr}
                   />
                 </div>
               </div>
               {/* 견종 선택 */}
               {!person && (
                 <div className="mt-25 flex flex-col pb-24">
-                  <p className="write-title mb-15 mr-15">견종 선택</p>
+                  <p className="write-title mb-15 mr-15">견종 선택 (필수)</p>
                   {/* select box */}
-                  <div className="relative flex">
+                  <div className="relative flex flex-col">
                     <button
                       onClick={handleBtnClick}
                       type="button"
@@ -130,6 +203,11 @@ function ProfileCreateModal(props) {
                       {selectType}
                       {focus ? <ArrowClose /> : <ArrowOpen />}
                     </button>
+                    {!bread && (
+                      <span className="mt-8 text-12 text-red-400">
+                        {selectErr}
+                      </span>
+                    )}
                     {focus && (
                       <div className="dropdown-box top-[58px] z-50 w-[98%] text-black-900">
                         <ul className="ul profile dropdown-ul">
@@ -155,7 +233,10 @@ function ProfileCreateModal(props) {
               )}
             </div>
             {/* 버튼 */}
-            <Button className="color-yellow btn-size-l absolute bottom-[30px] w-[calc(100%-60px)]">
+            <Button
+              className="color-yellow btn-size-l absolute bottom-[30px] w-[calc(100%-60px)]"
+              onClick={() => handlePostProfile()}
+            >
               프로필 등록하기
             </Button>
           </div>
