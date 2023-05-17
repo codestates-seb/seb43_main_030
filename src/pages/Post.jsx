@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Parser from 'html-react-parser';
 import { ReactComponent as View } from '../images/view.svg';
 import LikeOff from '../images/perpett-off.png';
 import LikeOn from '../images/community-like-on.png';
@@ -19,13 +20,12 @@ function Post() {
   const [commentInput, setCommentInput] = useState('');
   const [like, setLike] = useState(false);
   const [countLike, setCountLike] = useState(0);
+  const [images, setImages] = useState([]);
   const [previousPost, setPreviousPost] = useState(null);
   const [nextPost, setNextPost] = useState(null);
   const navigate = useNavigate();
   const { postId } = useParams();
   const apiUrl = process.env.REACT_APP_API_URL;
-  const apiUrl2 = 'http://localhost:3001';
-  const token = process.env.REACT_APP_TOKEN;
 
   useEffect(() => {
     axios
@@ -72,17 +72,20 @@ function Post() {
 
   useEffect(() => {
     axios
-      .get(`${apiUrl}/community/1/post/${postId}`)
+      .get(`${apiUrl}/community/1/post/${postId}`, {
+        headers: { Authorization: localStorage.getItem('token') },
+      })
       .then(response => {
         setPost(response.data.data);
         setCountLike(response.data.data.likes);
-        // setLike(response.data.data.likestate);
+        setLike(response.data.data.like);
+        setImages(response.data.data.images);
       })
       .catch(error => {
         console.log(error);
       });
   }, [setPost, postId, apiUrl]);
-
+  console.log(images);
   useEffect(() => {
     axios
       .get(`${apiUrl}/community/1/post?page=1`)
@@ -127,45 +130,26 @@ function Post() {
     navigate(`/write/${postId}`);
   }, [navigate, postId]);
 
-  // const isLike = () => {
-  //   setLike(!like);
-
-  //   axios
-  //     .put(`http://localhost:3001/post/${postId}`, {
-  //       ...post,
-  //       likes: like ? countLike - 1 : countLike + 1,
-  //     })
-  //     .then(response => {
-  //       console.log(response.likes);
-  //     })
-  //     .catch(error => console.log(error));
-  // };
-
   const isLike = () => {
+    if (!localStorage.getItem('token')) {
+      alert('비회원은 좋아요가 불가능합니다.');
+      return;
+      // navigate(`/login`);
+    }
     const updatedLike = !like;
     const updatedLikes = updatedLike ? countLike + 1 : countLike - 1;
 
     setLike(updatedLike);
     setCountLike(updatedLikes);
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
     axios
-      .put(
-        `${apiUrl}/post/${postId}/like`,
-        {
-          ...post,
-          likes: updatedLikes,
-          // likestate: updatedLike,
+      .get(`${apiUrl}/post/${postId}/like`, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
         },
-        config,
-      )
+      })
       .then(response => {
-        console.log(response.data.likes);
+        console.log(response);
       })
       .catch(error => {
         console.log(error);
@@ -223,9 +207,16 @@ function Post() {
           </div>
         </div>
         <div className="border-b border-solid border-black-070 pb-24">
-          <div className="py-32 onlyMobile:py-24 onlyMobile:text-14">
-            {post.content}
-          </div>
+          {Parser(
+            `<div className="py-32 onlyMobile:py-24 onlyMobile:text-14">
+              ${post.content}
+            
+            </div>`,
+          )}
+          {images &&
+            images.map(el => {
+              return Parser(`<img src="${el.imageUrl}" alt="게시물 이미지" />`);
+            })}
           <div className="mb-40">
             <button
               className="mr-15 text-14 text-black-350 onlyMobile:text-12"

@@ -125,7 +125,7 @@ function Community() {
           <div className="pt-24">
             <div className="flex items-center justify-between">
               <p className="text-18 font-bold  onlyMobile:text-16">
-                {category === 'notification' ? '공지글' : '커뮤니티'}
+                {category === 'notification' ? '공지글 ' : '커뮤니티 '}
                 <span>{postList.length}</span>
               </p>
               <Link

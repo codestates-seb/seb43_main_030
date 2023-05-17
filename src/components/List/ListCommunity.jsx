@@ -1,4 +1,6 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Parser from 'html-react-parser';
 import { ReactComponent as Search } from '../../images/search.svg';
 import { ReactComponent as View } from '../../images/view.svg';
 import { ReactComponent as PerpettOff } from '../../images/perpett-off.svg';
@@ -7,6 +9,11 @@ import profile from '../../images/profile.png';
 
 function ListCommunity(props) {
   const { post, onClick } = props;
+  const [content, setContent] = useState('');
+
+  useEffect(() => {
+    setContent(post.content.slice(0, 40));
+  }, [setContent, post.content]);
 
   return (
     // <li className="flex items-center" key={post.id}>
@@ -17,16 +24,15 @@ function ListCommunity(props) {
         ) : (
           <img src={profile} alt="defaultImage" />
         )}
-        {/* <img src={Dog} alt="임시이미지" /> */}
       </div>
       <div className="my-30 w-full onlyMini:my-20 onlyMini:w-[calc(100%-72px)]">
-        {/* <Link to={`/post/${post.post.id}`} className="block "> */}
         <Link to={`/post/${post.postId}`} className="block ">
           <p className="list-title">{post.title}</p>
+          {Parser(`
           <p className="list-content mt-5 truncate">
-            {/* {post.contents.text.slice(0, 40)} */}
-            {post.content.slice(0, 40)}
+            ${content.replace(/(<([^>]+)>)/gi, '')}
           </p>
+          `)}
         </Link>
         <div className="mt-16 flex items-center justify-between onlyMini:mt-8">
           <div className="flex-between flex onlyMini:flex-col ">
@@ -37,7 +43,6 @@ function ListCommunity(props) {
                 ) : (
                   <img src={profile} alt="defaultImage" />
                 )}
-                {/* <img src={Dog} alt="임시이미지" /> */}
               </div>
               <p className="after:content=[''] list-line onlyMini: relative shrink-0 pl-5 pr-12 text-14 font-bold text-black-900 onlyMobile:text-12 onlyMini:after:hidden">
                 콩이쫑이맘{' '}
