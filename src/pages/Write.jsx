@@ -16,7 +16,7 @@ function Write() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [userProfile, setUserProfile] = useState({});
-  const [img, setImg] = useState('');
+  const [img, setImg] = useState([]);
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
   const navigate = useNavigate();
   const { postId } = useParams();
@@ -27,9 +27,7 @@ function Write() {
   useEffect(() => {
     axios
       .get(`${apiUrl}/users/profile/currentProfile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: localStorage.getItem('token') },
       })
       .then(response => {
         setUserProfile(response.data.data);
@@ -37,7 +35,7 @@ function Write() {
       .catch(error => {
         console.log(error);
       });
-  }, [apiUrl, token]);
+  }, [apiUrl]);
 
   // useEffect(() => {
   //   axios
@@ -55,9 +53,10 @@ function Write() {
     return {
       upload() {
         return new Promise((resolve, reject) => {
-          // const formData = new FormData();
           loader.file.then(file => {
-            setImg(file);
+            setImg(preImg => [...preImg, file]);
+            // setImg(file);
+            // const formData = new FormData();
             // formData.append('images', file);
             // axios
             //   .post(`${apiUrl}/community/1/post`, formData, {
@@ -112,7 +111,14 @@ function Write() {
     const dateString = dateCalculate(currentDate);
 
     const formData = new FormData();
-    formData.append('images', img);
+    // formData.append('images', img);
+    img.forEach(image => {
+      formData.append('images', image);
+    });
+    // eslint-disable-next-line no-restricted-syntax
+    for (const pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
 
     const data = {
       title,
