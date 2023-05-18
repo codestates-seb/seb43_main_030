@@ -72,7 +72,7 @@ function DropDownMenu({ setDropDown }) {
           <div className="flex w-full justify-between">
             <div className="flex">
               {Number(activeIndex) === idx && (
-                <div className="mr-10 inline-block h-24 w-24 rounded-md">
+                <div className="user-profile mr-10 inline-block h-24 w-24 rounded-md">
                   <img src={profile.imageUrl || Profile} alt="profileimage" />
                 </div>
               )}

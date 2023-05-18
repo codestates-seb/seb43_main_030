@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   setCurProfile,
   setCurUser,
@@ -22,6 +22,8 @@ function ProfileCreateModal({ onClick }) {
   const navi = useNavigate();
   const dispatch = useDispatch();
 
+  const user = useSelector(state => state.user);
+
   const [nickname, setNickname] = useState('');
   const [person, setPerson] = useState(true);
   const [bread, setBread] = useState(null);
@@ -29,14 +31,12 @@ function ProfileCreateModal({ onClick }) {
   // 오류 메시지
   const [nicknameErr, setNicknameErr] = useState('');
   const [selectErr, setSelectErr] = useState('');
-  const [check, setCheck] = useState(true);
 
   // select box
   const breadType =
-    '믹스견, 말티즈, 푸들, 포메라니안, 비숑, 웰시코기, 치와와, 폼피츠, 시츄, 골든리트리버, 시바 ,진돗개, 닥스훈트, 달마시안, 도베르만, 말티푸, 보더콜리, 불독, 비글, 사모예드, 슈나우져, 스피치, 요크셔테리어';
-  const breadArr = breadType.split(',');
+    '믹스견, 말티즈, 푸들, 포메라니안, 비숑, 웰시코기, 치와와, 폼피츠, 시츄, 골든리트리버, 시바, 진돗개, 닥스훈트, 달마시안, 도베르만, 말티푸, 보더콜리, 불독, 비글, 사모예드, 슈나우져, 스피치, 요크셔테리어';
+  const breadArr = breadType.split(', ');
   const [activeIndex, setActiveIndex] = useState(null);
-  // const [selectType, setSelectType] = useState(null);
   const [selectType, setSelectType] = useState('견종을 선택해주세요.');
   const [focus, setFocus] = useState(false);
 
@@ -47,10 +47,8 @@ function ProfileCreateModal({ onClick }) {
     setActiveIndex(index);
     setSelectType(breadArr[index]);
     setFocus(false);
-    setBread(breadArr[index]);
+    setBread(String(breadArr[index]));
   };
-  // console.log('bread:', bread);
-  // console.log('selectbread:', selectType);
 
   const getUsers = () => {
     if (localStorage.getItem('token')) {
@@ -75,7 +73,6 @@ function ProfileCreateModal({ onClick }) {
 
   const handleChange = e => {
     setNickname(e.target.value);
-    // console.log(nickname);
   };
 
   const handleCheckPerson = isPerson => {
@@ -85,34 +82,33 @@ function ProfileCreateModal({ onClick }) {
     setNickname('');
     setBread(null);
     setSelectType('견종을 선택해주세요.');
-    // console.log(person);
   };
 
-  // useEffect(() => {
-  //   axios.post(`${process.env.REACT_APP_API_URL}/users/profile`, {
-  //     name: value,
-  //     checkPerson: person,
-  //     bread:
-  //   })
-  // }, [])
+  console.log('bread:', bread);
+  console.log(typeof bread);
+  console.log('selectbread:', selectType);
+  console.log('nickname:', nickname);
+  console.log(typeof nickname);
 
   const handlePostProfile = () => {
     if (!nickname || !bread) {
       setNicknameErr(!nickname ? '닉네임을 입력해주세요.' : '');
       setSelectErr(!bread ? '견종을 선택해주세요.' : '');
-      setCheck(false);
     }
+    const selectedBread = person ? null : bread;
+
     const formData = new FormData();
     const data = {
       name: nickname,
       checkPerson: person,
-      bread,
+      bread: selectedBread,
     };
     formData.append('images', selectFile);
     formData.append(
       'postDto',
       new Blob([JSON.stringify(data)], { type: 'application/json' }),
     );
+
     if (person && nickname) {
       axios
         .post(`${process.env.REACT_APP_API_URL}/users/profile`, formData, {
@@ -122,17 +118,13 @@ function ProfileCreateModal({ onClick }) {
           },
         })
         .then(res => {
-          // console.log(res);
+          getUsers();
           setNicknameErr('');
           setSelectErr('');
-          // navi(0);
-        })
-        .then(() => {
-          getUsers();
+          console.log('견주프로필', res);
         })
         .catch(err => {
-          // console.log(err);
-          setCheck(false);
+          console.log(err);
         });
     } else if (!person && nickname && bread) {
       axios
@@ -143,17 +135,13 @@ function ProfileCreateModal({ onClick }) {
           },
         })
         .then(res => {
-          // console.log(res);
+          getUsers();
           setNicknameErr('');
           setSelectErr('');
-          // navi(0);
-        })
-        .then(() => {
-          getUsers();
+          console.log('강아지프로필', res);
         })
         .catch(err => {
           console.log(err);
-          setCheck(false);
         });
     }
   };

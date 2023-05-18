@@ -1,58 +1,125 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import Input from '../components/Input/Input';
-import UploadImage from '../components/UploadImage';
 import Button from '../components/Button/Button';
 import { ReactComponent as Close } from '../images/close.svg';
 
 function SettingModal(props) {
   const { onClick } = props;
 
-  const [value, setValue] = useState('');
-  const [curPw, setCurPw] = useState('');
-  const [newPw, setNewPw] = useState('');
-  const [confirmPw, setConfirmPw] = useState('');
-  const [errCfPw, setErrCfPw] = useState('');
-  const [errCurPw, setErrPw] = useState('');
+  const [value, setValue] = useState({
+    curPassword: '',
+    password1: '',
+    password2: '',
+  });
+
+  // 오류메시지
+  const [curPwdErr, setCurPwdErr] = useState('');
+  const [newPwdErr, setNewPwdErr] = useState('');
+  const [confirmPwdErr, setConfirmPwdErr] = useState('');
+
+  // 유효성검사
+  const [isCurPwd, setIsCurPwd] = useState(false);
+  const [isNewPwd, setIsNewPwd] = useState(false);
+  const [isConfirmPwd, setIsConfirmPwd] = useState(false);
+
   const [check, setCheck] = useState(true);
 
-  const handleChange = e => {
-    setValue(e.target.value);
+  const handleChangePwd = () => {
+    if (!value.curPassword) {
+      setCurPwdErr('현재 비밀번호를 입력해주세요.');
+      setIsCurPwd(false);
+    }
+    if (!value.password1) {
+      setNewPwdErr('새 비밀번호를 입력해주세요.');
+      setIsNewPwd(false);
+    }
+    if (!value.password2) {
+      setConfirmPwdErr('새 비밀번호를 다시 입력해주세요.');
+      setIsConfirmPwd(false);
+    }
+
+    if (isNewPwd && isConfirmPwd) {
+      axios
+        .patch(
+          `${process.env.REACT_APP_API_URL}/users`,
+          {
+            curPassword: value.curPassword,
+            password1: value.password1,
+            password2: value.password2,
+          },
+          {
+            headers: {
+              Authorization: localStorage.getItem('token'),
+            },
+          },
+        )
+        .then(res => {
+          console.log(res);
+          setCurPwdErr('');
+          setCurPwdErr('');
+          setCurPwdErr('');
+        })
+        .catch(err => {
+          console.log(err);
+          if (err.response && err.response.status === 400) {
+            setCurPwdErr('현재 비밀번호와 일치하지 않습니다.');
+          }
+        });
+    }
   };
 
-  // function patchPw() {
-  //   if (!loginData.email) {
-  //     setErrId('아이디를 입력하세요.');
-  //     setErrPw('');
-  //     setCheck(false);
-  //     return;
-  //   }
-  //   if (!loginData.password) {
-  //     setErrId('');
-  //     setErrPw('비밀번호를 입력하세요.');
-  //     setCheck(false);
-  //     return;
-  //   }
+  const onCheckCurPwd = useCallback(
+    e => {
+      const CurrentPwd = e.target.value;
+      setValue({ ...value, curPassword: CurrentPwd });
 
-  //   axios
-  //     .patch(`${process.env.REACT_APP_API_URL}/users`, {
-  //       email: loginData.email,
-  //       password: loginData.password,
-  //     })
-  //     .then(res => {
-  //       setErrId('');
-  //       setErrPw('');
-  //       localStorage.setItem('token', res.headers.get('Authorization'));
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //       setCheck(false);
-  //       setErrId('이메일 또는 패스워드가 올바르지 않습니다.');
-  //     });
-  // }
+      if (CurrentPwd) {
+        setCurPwdErr('현재 비밀번호를 입력해주세요.');
+        setIsCurPwd(false);
+      }
+    },
+    [value],
+  );
+
+  const onCheckNewPwd = useCallback(
+    e => {
+      const valiPwd = /^[^\s]{8,15}$/;
+      const NewPwd = e.target.value;
+      setValue({ ...value, password1: NewPwd });
+
+      if (!NewPwd) {
+        setNewPwdErr('비밀번호를 입력해주세요.');
+        setIsNewPwd(false);
+      } else if (!valiPwd.test(NewPwd)) {
+        setNewPwdErr('8~15자의 비밀번호를 입력해주세요.');
+        setIsNewPwd(false);
+      } else {
+        setNewPwdErr('');
+        setIsNewPwd(true);
+      }
+    },
+    [value],
+  );
+
+  const onCheckConfirmPwd = useCallback(
+    e => {
+      const CurrentConfirmPwd = e.target.value;
+      setValue({ ...value, password2: CurrentConfirmPwd });
+
+      if (value.password1 === CurrentConfirmPwd) {
+        setConfirmPwdErr('');
+        setIsConfirmPwd(true);
+      } else {
+        setConfirmPwdErr('비밀번호를 다시 확인해주세요.');
+        setIsConfirmPwd(false);
+      }
+    },
+    [value],
+  );
 
   return (
     <>
@@ -77,32 +144,38 @@ function SettingModal(props) {
               <div className="mt-25 flex flex-col border-b-[1px] border-black-070 pb-25">
                 <p className="write-title mb-15 mr-15">비밀번호 변경</p>
                 <form onSubmit={e => e.preventDefault()}>
-                  <Input
-                    labelText="현재 비밀번호"
-                    placeholder="비밀번호를 입력해주세요."
-                    type="password"
-                    value={value}
-                    onChange={handleChange}
-                  />
-                  <Input
-                    labelText="새 비밀번호"
-                    placeholder="새 비밀번호를 입력해주세요."
-                    type="password"
-                    value={value}
-                    onChange={handleChange}
-                    className="mt-16"
-                  />
-                  <Input
-                    labelText="새 비밀번호 확인"
-                    placeholder="비밀번호를 다시 입력해주세요."
-                    type="password"
-                    value={value}
-                    onChange={handleChange}
-                    className="mt-16"
-                  />
+                  <div className="mb-24">
+                    <Input
+                      labelText="현재 비밀번호"
+                      placeholder="비밀번호를 입력해주세요."
+                      type="password"
+                      onChange={onCheckCurPwd}
+                      isError={curPwdErr}
+                    />
+                  </div>
+                  <div className="mb-24">
+                    <Input
+                      labelText="새 비밀번호"
+                      placeholder="새 비밀번호를 입력해주세요."
+                      type="password"
+                      onChange={onCheckNewPwd}
+                      isError={newPwdErr}
+                    />
+                  </div>
+                  <div className="mb-24">
+                    <Input
+                      labelText="새 비밀번호 확인"
+                      placeholder="비밀번호를 다시 입력해주세요."
+                      type="password"
+                      onChange={onCheckConfirmPwd}
+                      isError={confirmPwdErr}
+                    />
+                  </div>
                   <Button
                     className="color-yellow btn-size-l mt-16 w-full"
-                    // onClick={() => loginFunc()}
+                    // onClick={() => handleChangePwd()}
+                    // onClick={onChangePwd}
+                    onClick={handleChangePwd}
                   >
                     비밀번호 변경
                   </Button>
