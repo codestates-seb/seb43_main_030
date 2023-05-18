@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -81,6 +82,14 @@ public class KindergartenController {
         List<Kindergarten> kindergartens = kindergartenService.findKindergartensByLocationCategory(categoryId);
         List<KindergartenResponseDto>response = kindergartenMapper.kindergartensToKindergartenResponseDtos(kindergartens);
         return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+    @PatchMapping("/{kindergarten-id}")
+    public ResponseEntity patchKindergartenImage(@PathVariable("kindergarten-id")@Positive long kindergartenId,
+                                                 @RequestPart MultipartFile image) {
+        Kindergarten updateKindergarten = kindergartenService.updateImage(image, kindergartenId);
+        URI location = UriCreator.createUri(KINDERGARTEN_DEFAULT_URL, updateKindergarten.getKindergartenId());
+        return ResponseEntity.created(location).build();
     }
 
 

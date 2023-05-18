@@ -6,6 +6,7 @@ import com.kids.SEB_main_030.global.exception.CustomException;
 import com.kids.SEB_main_030.global.exception.LogicException;
 import com.kids.SEB_main_030.domain.kindergarten.entity.Kindergarten;
 import com.kids.SEB_main_030.domain.kindergarten.repository.KindergartenRepository;
+import com.kids.SEB_main_030.global.image.entity.Image;
 import com.kids.SEB_main_030.global.image.service.ImageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -129,6 +131,13 @@ public class KindergartenService {
         Kindergarten findKindergarten = kindergartenOptional.orElseThrow(() ->
                 new LogicException(CustomException.KINDERGARTEN_NOT_FOUND));
         return findKindergarten;
+    }
+
+    public Kindergarten updateImage(MultipartFile image, long kindergartenId) {
+        Kindergarten findKindergarten = findKindergarten(kindergartenId);
+        imageService.s3imageDelete(findKindergarten.getImageUrl());
+        findKindergarten.setImageUrl(imageService.imageUpload(image, Image.Location.KINDERGARTEN.getLocation()));
+        return kindergartenRepository.save(findKindergarten);
     }
 
 }
