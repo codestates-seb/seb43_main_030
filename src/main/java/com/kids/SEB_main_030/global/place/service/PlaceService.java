@@ -18,6 +18,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import java.io.StringReader;
@@ -36,32 +37,35 @@ public class PlaceService {
 
     public List<Kindergarten> getPlaces() throws Exception {
         List<Kindergarten> mapList = new ArrayList<>();
-        mapList.addAll(parseResponse(getResponse()));
-        while(true) {
+        mapList.addAll(parseResponse(getResponse("https://maps.googleapis.com/maps/api/place/textsearch/json?query=서울%강아지%유치원&key=AIzaSyDyUD-bsn1TOZi1m7I61_T30l9ISKGsR08")));
+        while (true) {
             delayTime();
             String nextList = nextResponse(mapList);
-            if(nextList.contains("INVALID_REQUEST"))
+            if (nextList.contains("INVALID_REQUEST"))
                 break;
             mapList.addAll(parseResponse(nextList));
         }
+        getDetail(mapList);
         return mapList;
     }
-    public void delayTime(){
+
+    public void delayTime() {
         try {
+            log.info("3초");
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public String getResponse() {
+    public String getResponse(String url) {
         OkHttpClient client = new OkHttpClient()
                 .newBuilder()
                 .build();
 
-        String customUrl = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=서울%강아지%유치원&key=AIzaSyDyUD-bsn1TOZi1m7I61_T30l9ISKGsR08";
+//        String customUrl = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=서울%강아지%유치원&key=AIzaSyDyUD-bsn1TOZi1m7I61_T30l9ISKGsR08";
         Request request = new Request.Builder()
-                .url(customUrl)
+                .url(url)
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
@@ -70,17 +74,18 @@ public class PlaceService {
             return e.getMessage();
         }
     }
-    public String nextResponse(List<Kindergarten> kindergartenList)throws Exception{
+
+    public String nextResponse(List<Kindergarten> kindergartenList) throws Exception {
         OkHttpClient client = new OkHttpClient()
                 .newBuilder()
                 .build();
         String tempUrl = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=서울%강아지%유치원&key=AIzaSyDyUD-bsn1TOZi1m7I61_T30l9ISKGsR08&pagetoken=";
-        String pagetoken = kindergartenList.get(kindergartenList.size()-1).getPagetoken();
+        String pagetoken = kindergartenList.get(kindergartenList.size() - 1).getPagetoken();
         String url = tempUrl.concat(pagetoken);
 
-        url = url.replaceAll("\"","").trim();
+        url = url.replaceAll("\"", "").trim();
         URL real = new URL(url);
-        log.info(String.valueOf(real));
+        //log.info(String.valueOf(real));
         Request request = new Request.Builder()
                 .url(real)
                 .build();
@@ -92,11 +97,12 @@ public class PlaceService {
             return e.getMessage();
         }
     }
+
     //리팩터링 필요
-    public List<Kindergarten>parseResponse(String response){
-        log.info(response);
-        List<Kindergarten> kindergartenList =new ArrayList<>();
-        try{
+    public List<Kindergarten> parseResponse(String response) {//gson 라이브러리 사용
+        //log.info(response);
+        List<Kindergarten> kindergartenList = new ArrayList<>();
+        try {
             JsonParser jsonParser = new JsonParser();
             JsonReader reader = new JsonReader(new StringReader(response));
             reader.setLenient(true);
@@ -106,14 +112,11 @@ public class PlaceService {
             JsonArray resultArray = (JsonArray) jsonObject.get("results");
             for (int i = 0; i < resultArray.size(); i++) {
                 Kindergarten kindergarten = getKindergarten(jsonObject, resultArray, i);
+                //repository에 저장
                 kindergartenList.add(kindergartenRepository.save(kindergarten));
             }
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        for (int i = 0; i < kindergartenList.size(); i++) {
-            log.info(kindergartenList.get(i).getPagetoken());
         }
 
         return kindergartenList;
@@ -143,5 +146,27 @@ public class PlaceService {
         return kindergarten;
     }
 
+    public void getDetail(List<Kindergarten> mapList) {
+        for (int i = 0; i < mapList.size(); i++) {
+            String url = "https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyDyUD-bsn1TOZi1m7I61_T30l9ISKGsR08&place_id=" + mapList.get(i).getPlaceId();
+            url = url.replaceAll("\"", "").trim();
+            String response = getResponse(url);
+            detailParseResponse(mapList.get(i), response);
+        }
+    }
 
+    public void detailParseResponse(Kindergarten kindergarten, String response) { //JSON 라이브러리 사용
+        JSONObject jsonObject = new JSONObject(response);
+        JSONObject resultObject = jsonObject.getJSONObject("result");
+        if (resultObject.has("formatted_phone_number")) {
+            String phoneNumber = resultObject.getString("formatted_phone_number");
+            kindergarten.setPhoneNumber(phoneNumber);
+        }
+        if (resultObject.has("website")) {
+            String snsUrl = resultObject.getString("website");
+            kindergarten.setSnsUrl(snsUrl);
+        }
+        if(resultObject.has("website")||resultObject.has("formatted_phone_number"))
+            kindergartenRepository.save(kindergarten);
+    }
 }
