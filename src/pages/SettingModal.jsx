@@ -16,7 +16,7 @@ import Button from '../components/Button/Button';
 import { ReactComponent as Close } from '../images/close.svg';
 
 function SettingModal(props) {
-  const { onClick } = props;
+  const { onClick, setSettingModal } = props;
   const navi = useNavigate();
   const dispatch = useDispatch();
 
@@ -72,12 +72,14 @@ function SettingModal(props) {
           setCurPwdErr('');
           setCurPwdErr('');
           setCurPwdErr('');
+          setSettingModal(false);
         })
         .catch(err => {
           console.log(err);
           if (err.response && err.response.status === 400) {
             setCurPwdErr('현재 비밀번호와 일치하지 않습니다.');
           }
+          setSettingModal(true);
         });
     }
   };
@@ -106,6 +108,10 @@ function SettingModal(props) {
         .then(res => {
           console.log(res);
           handleLogout();
+          setSettingModal(false);
+          setCurPwdErr('');
+          setCurPwdErr('');
+          setCurPwdErr('');
         })
         .catch(err => {
           console.log(err);

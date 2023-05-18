@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
@@ -17,12 +17,14 @@ import { ReactComponent as ArrowOpen } from '../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
 import { ReactComponent as Close } from '../images/close.svg';
 
-function ProfileCreateModal({ onClick }) {
+function ProfileCreateModal({ onClick, setProfileModal }) {
   const dispatch = useDispatch();
 
   const [nickname, setNickname] = useState('');
   const [person, setPerson] = useState(true);
   const [breed, setBreed] = useState(null);
+  const [image, setImage] = useState('');
+  const fileInput = useRef(null);
 
   // 오류 메시지
   const [nicknameErr, setNicknameErr] = useState('');
@@ -36,7 +38,7 @@ function ProfileCreateModal({ onClick }) {
   const [selectType, setSelectType] = useState('견종을 선택해주세요.');
   const [focus, setFocus] = useState(false);
 
-  const [selectFile, setSelectFile] = useState(null);
+  // const [selectFile, setSelectFile] = useState(null);
 
   const typeActive = index => {
     setActiveIndex(index);
@@ -98,7 +100,7 @@ function ProfileCreateModal({ onClick }) {
       checkPerson: person,
       breed: selectedBreed,
     };
-    formData.append('images', selectFile);
+    formData.append('images', image);
     formData.append(
       'postDto',
       new Blob([JSON.stringify(data)], { type: 'application/json' }),
@@ -117,9 +119,11 @@ function ProfileCreateModal({ onClick }) {
           setNicknameErr('');
           setSelectErr('');
           console.log('견주프로필', res);
+          setProfileModal(false);
         })
         .catch(err => {
           console.log(err);
+          setProfileModal(true);
         });
     } else if (!person && nickname && breed) {
       axios
@@ -134,9 +138,11 @@ function ProfileCreateModal({ onClick }) {
           setNicknameErr('');
           setSelectErr('');
           console.log('강아지프로필', res);
+          setProfileModal(false);
         })
         .catch(err => {
           console.log(err);
+          setProfileModal(true);
         });
     }
   };
@@ -185,10 +191,7 @@ function ProfileCreateModal({ onClick }) {
               {/* 프로필 사진 등록 */}
               <div className="mt-25 flex flex-col border-b-[1px] border-black-070 pb-24">
                 <p className="write-title mb-15 mr-15">프로필 사진 등록</p>
-                <UploadImage
-                  setSelectFile={setSelectFile}
-                  selectFile={selectFile}
-                />
+                <UploadImage setImage={setImage} image={image} />
               </div>
               {/* 닉네임 등록 */}
               <div className="mt-25 flex flex-col border-b-[1px] border-black-070 pb-24">
