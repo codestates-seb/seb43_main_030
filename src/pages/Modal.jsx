@@ -63,7 +63,7 @@ function Modal(props) {
           'Content-Type': 'multipart/form-data',
         },
       })
-      .then(response => console.log(response))
+      .then(response => window.location.reload())
       .catch(error => console.log(error));
   };
 
@@ -139,30 +139,9 @@ function Modal(props) {
                 <p className="write-title mb-15 mr-15">사진을 등록해주세요.</p>
                 <div className="flex">
                   <UploadImage />
-                  <UploadImage />
-                  <UploadImage />
-                  <UploadImage />
                 </div>
               </div>
               {/* 수정 삭제 */}
-              <div className="mr-10 mt-25 flex flex-col pb-40">
-                <div className="flex justify-end">
-                  <button
-                    className="mr-15 text-14 text-black-350 onlyMobile:text-12"
-                    type="button"
-                    onClick={handleEdit}
-                  >
-                    수정
-                  </button>
-                  <button
-                    className="text-14 text-black-350 onlyMobile:text-12"
-                    type="button"
-                    onClick={handleDelete}
-                  >
-                    삭제
-                  </button>
-                </div>
-              </div>
             </div>
             {/* 버튼 */}
             <Button

@@ -1,12 +1,36 @@
 import { useState } from 'react';
+import axios from 'axios';
 import RatingStar from '../RatingStar';
 import Button from '../Button/Button';
 import dateCalculate from '../dateCalculate';
+import ConfirmReview from './ConfirmReview';
 import { ReactComponent as StarOn } from '../../images/star-on.svg';
 import { ReactComponent as StarOff } from '../../images/star-off.svg';
 
-function ListReview({ post, onClick }) {
+function ListReview({ post, kinderData }) {
   // post.ratedReview 따라서 별 보이기
+  const [reviewModal, setReviewModal] = useState(false);
+  const [kinderInfo, setKinderInfo] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
+
+  const onReviewModal = () => {
+    setReviewModal(true);
+    axios
+      .get(`${apiUrl}/review/${post.reviewId}`)
+      .then(response => {
+        console.log(response);
+        setKinderInfo(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const offReviewModal = () => {
+    console.log('dd');
+    setReviewModal(false);
+  };
+
   const starScore = () => {
     const ratedStar = Math.floor(post.ratedReview);
     const ratingStar = [];
@@ -50,11 +74,22 @@ function ListReview({ post, onClick }) {
             <p className="list-content h-text-max mt-16 max-h-[50px]">
               {post.contents}
             </p>
-            <Button className="btn-text-default py-4 text-left text-14 font-bold text-black-900">
+            <Button
+              className="btn-text-default py-4 text-left text-14 font-bold text-black-900"
+              onClick={onReviewModal}
+            >
               더보기
             </Button>
           </div>
           {post.imageUrl ? <img src={post.imageUrl} alt="img" /> : ''}
+          {reviewModal ? (
+            <ConfirmReview
+              offReviewModal={offReviewModal}
+              name={post.profileName}
+              kinderInfo={kinderInfo}
+              kinderData={kinderData}
+            />
+          ) : null}
         </li>
       </ul>
     </div>
