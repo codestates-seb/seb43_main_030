@@ -38,7 +38,7 @@ function Mypage() {
   );
   const user = useSelector(state => state.user);
   const [nameEdit, setNameEdit] = useState(false);
-  const [nameErr, setNameErr] = useState(false);
+  const [nameErr, setNameErr] = useState('');
 
   const [dropDown, setDropDown] = useState(false);
   const curUser = useSelector(state => state.curUser);
@@ -95,12 +95,14 @@ function Mypage() {
   const handleNameInput = () => {
     setNameEdit(!nameEdit);
     setNickname(value.name);
+    setNameErr('');
   };
   const handleNameChange = e => {
     setNickname(e.target.value);
+    console.log(nickname);
   };
   const handleErr = () => {
-    return nickname ? setNameErr(true) : setNameErr(false);
+    return nickname ? setNameErr('닉네임을 입력해주세요.') : setNameErr('');
   };
 
   // dropdown 에서 프로필 선택
@@ -134,40 +136,48 @@ function Mypage() {
 
   // 닉네임 수정하기
   const handleNameEdit = () => {
-    handleErr();
-    const formData = new FormData();
-    const data = {
-      name: nickname,
-    };
-    formData.append(
-      'patchDto',
-      new Blob([JSON.stringify(data)], { type: 'application/json' }),
-    );
-    setNameEdit(false);
+    if (!nickname) {
+      setNameErr('닉네임을 입력해주세요.');
+    } else {
+      // handleErr();
 
-    if (nickname.length > 0) {
-      axios
-        .patch(
-          `${process.env.REACT_APP_API_URL}/users/profile/${id}`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              Authorization: localStorage.getItem('token'),
+      const formData = new FormData();
+      const data = {
+        name: nickname,
+      };
+      formData.append(
+        'patchDto',
+        new Blob([JSON.stringify(data)], { type: 'application/json' }),
+      );
+      setNameEdit(false);
+
+      console.log('id:', id);
+      if (nickname.length > 0) {
+        axios
+          .patch(
+            `${process.env.REACT_APP_API_URL}/users/profile/${value.profileId}`,
+            formData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: localStorage.getItem('token'),
+              },
             },
-          },
-        )
-        .then(res => {
-          getUsers();
-          const resData = res.data.data.name;
-          dispatch(setCurUser({ ...curUser, name: resData }));
-          dispatch(setCurProfile({ ...value, name: resData }));
-          // navi(0);
-        })
-        .catch(err => {
-          console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
-          console.log(err);
-        });
+          )
+          .then(res => {
+            console.log('프로필 수정 완료');
+            const resData = res.data.data.name;
+            console.log(res.data.data);
+            dispatch(setCurUser({ ...curUser, name: resData }));
+            dispatch(setCurProfile({ ...value, name: resData }));
+            getUsers();
+            // navi(0);
+          })
+          .catch(err => {
+            console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
+            console.log(err);
+          });
+      }
     }
   };
 
@@ -211,7 +221,7 @@ function Mypage() {
 
       axios
         .patch(
-          `${process.env.REACT_APP_API_URL}/users/profile/${id}`,
+          `${process.env.REACT_APP_API_URL}/users/profile/${value.profileId}`,
           formData,
           {
             headers: {
@@ -220,10 +230,22 @@ function Mypage() {
             },
           },
         )
-        .then(() => {
+        .then(res => {
           // setValue(prev => {
           //   return { ...prev, editName };
           // });
+          const userMap = user.map(e => {
+            if (e.profileId === value.profileId) {
+              return { ...e, imageUrl: res.data.data.imageUrl };
+            }
+            return e;
+          });
+          dispatch(setCurProfile(res.data.data));
+          dispatch(
+            setCurUser({ ...curUser, imageUrl: res.data.data.imageUrl }),
+          );
+          dispatch(setUser(userMap));
+          console.log(res);
           console.log('ㅎㅎ');
           // window.location.reload();
         })
@@ -418,7 +440,11 @@ function Mypage() {
                   ) : (
                     <div>
                       <div className="flex">
-                        <Input value={nickname} onChange={handleNameChange} />
+                        <Input
+                          value={nickname}
+                          onChange={handleNameChange}
+                          isError={nameErr}
+                        />
                       </div>
                       <div className="mt-16 flex gap-3">
                         <Button
