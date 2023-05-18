@@ -100,7 +100,7 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
       checkPerson: person,
       breed: selectedBreed,
     };
-    formData.append('images', image);
+    formData.append('image', image);
     formData.append(
       'postDto',
       new Blob([JSON.stringify(data)], { type: 'application/json' }),
@@ -118,7 +118,6 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
           getUsers();
           setNicknameErr('');
           setSelectErr('');
-          console.log('견주프로필', res);
           setProfileModal(false);
         })
         .catch(err => {

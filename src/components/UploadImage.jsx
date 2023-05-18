@@ -4,6 +4,8 @@ import cls from '../utils/tailwind';
 function UploadImage(props) {
   const { className, setImage, image } = props;
 
+  const [display, setDisplay] = useState('');
+
   const fileInput = useRef(null);
 
   const handleFileChange = e => {
@@ -19,12 +21,11 @@ function UploadImage(props) {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setImage(reader.result);
+        setDisplay(reader.result);
       }
     };
     reader.readAsDataURL(uploadFile);
   };
-  // console.log('image:', image);
 
   return (
     <div className="h-80 w-80">
@@ -40,7 +41,7 @@ function UploadImage(props) {
           role="button"
         >
           <img
-            src={image}
+            src={display}
             alt="Uploaded"
             className="h-full w-full object-cover"
           />
