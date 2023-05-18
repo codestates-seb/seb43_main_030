@@ -17,5 +17,5 @@ public class MyPostResponseDto {
     private LocalDateTime createdAt;
     private int views;
     private int likeCount;
-    private List<ImageInPostResponseDto> images;
+    private String postImageUrl;
 }

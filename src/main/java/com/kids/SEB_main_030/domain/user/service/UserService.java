@@ -47,7 +47,7 @@ public class UserService {
 
         return userRepository.save(user);
     }
-    //Todo 회원 탈퇴 로직 상세
+
     public void removeUser(){
         Long userId = findSecurityContextHolderUserId();
         User findUser = findVerifiedUser(userId);
@@ -57,8 +57,11 @@ public class UserService {
         long userId = findSecurityContextHolderUserId();
         User findUser = findVerifiedUser(userId);
         // 현재 비밀번호와 다르거나 비밀번호 확인란이 다른 경우
-        if (!passwordEncoder.matches(patchDto.getCurPassword(), findUser.getPassword()) ||
-                !patchDto.getPassword1().equals(patchDto.getPassword2())){
+        if (!passwordEncoder.matches(patchDto.getCurPassword(), findUser.getPassword())) {
+            throw new LogicException(CustomException.CURRENT_NOT_MATCH);
+        }
+
+        if (!patchDto.getPassword1().equals(patchDto.getPassword2())){
             throw new LogicException(CustomException.INPUT_NOT_EQUALS);
         }
         findUser.setPassword(passwordEncoder.encode(patchDto.getPassword1()));
