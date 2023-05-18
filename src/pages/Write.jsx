@@ -21,8 +21,6 @@ function Write() {
   const navigate = useNavigate();
   const { postId } = useParams();
   const apiUrl = process.env.REACT_APP_API_URL;
-  const bearerToken = localStorage.getItem('token');
-  const token = bearerToken ? bearerToken.replace('Bearer ', '') : null;
 
   useEffect(() => {
     axios
@@ -37,17 +35,17 @@ function Write() {
       });
   }, [apiUrl]);
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:3001/post/${postId}`)
-  //     .then(response => {
-  //       setTitle(response.data.title);
-  //       setContent(response.data.content);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // }, [postId]);
+  useEffect(() => {
+    axios
+      .get(`${apiUrl}/community/1/post/${postId}`)
+      .then(response => {
+        setTitle(response.data.data.title);
+        setContent(response.data.data.content);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [apiUrl, postId]);
 
   const customUploadAdapter = loader => {
     return {
@@ -126,35 +124,37 @@ function Write() {
       category,
     };
 
-    formData.append(
-      'postDto',
-      new Blob([JSON.stringify(data)], { type: 'application/json' }),
-    );
-
     const headers = {
       headers: {
         Authorization: localStorage.getItem('token'),
         'Content-Type': 'multipart/form-data',
       },
     };
-    // if (postId) {
-    //   axios
-    //     .then()
-    //     .put(`${apiUrl}/community/1/post/${postId}`, formData, headers)
-    //     // .then(navigate(`/post/${postId}`))
-    //     .catch(error => {
-    //       console.log(error);
-    //     });
-    // } else {
-    axios
-      .post(`${apiUrl}/community/1/post`, formData, headers)
-      .then(response => console.dir(response))
-      .then(navigate(`/community`))
-      .catch(error => {
-        console.log(error);
-      });
-
-    // }
+    if (postId) {
+      formData.append(
+        'patchDto',
+        new Blob([JSON.stringify(data)], { type: 'application/json' }),
+      );
+      axios
+        .patch(`${apiUrl}/community/1/post/${postId}`, formData, headers)
+        .then(response => console.log(response))
+        .then(navigate(`/post/${postId}`))
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      formData.append(
+        'postDto',
+        new Blob([JSON.stringify(data)], { type: 'application/json' }),
+      );
+      axios
+        .post(`${apiUrl}/community/1/post`, formData, headers)
+        .then(response => console.dir(response))
+        .then(navigate(`/community`))
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
   return (
     <div className="relative mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">

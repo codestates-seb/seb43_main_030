@@ -84,35 +84,6 @@ function Post() {
       });
   }, [setPost, postId, apiUrl]);
 
-  useEffect(() => {
-    axios
-      .get(`${apiUrl}/community/1/post?page=1`)
-      .then(response => {
-        const posts = response.data.data;
-
-        // 현재 게시글 인덱스 찾기
-        const currentIndex = posts.findIndex(
-          post => post.postId === Number(postId),
-        );
-
-        // 유효한 게시글만 필터링
-        const validPosts = posts.filter(post => post.postId !== '');
-        // 이전글 찾기
-        const previousIndex = currentIndex - 1;
-        const previous = previousIndex >= 0 ? validPosts[previousIndex] : null;
-        setPreviousPost(previous);
-
-        // 다음글 찾기
-        const nextIndex = currentIndex + 1;
-        const next =
-          nextIndex < validPosts.length ? validPosts[nextIndex] : null;
-        setNextPost(next);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [apiUrl, postId]);
-
   const handleDelete = () => {
     const result = window.confirm('게시물을 삭제하시겠습니까?');
     if (result) {
@@ -204,7 +175,7 @@ function Post() {
                   </div>
                 </div>
                 <p className="text-14 text-black-350 onlyMobile:text-12 ">
-                  {dateCalculate(post.createdAt)}
+                  {dateCalculate(post.modifiedAt)}
                 </p>
               </div>
             </div>
@@ -255,40 +226,14 @@ function Post() {
                 />
               </button>
               <span className="pl-10">좋아요</span>
-              {/* <span className="pl-5 font-bold">{countLike}</span> */}
             </div>
             <div className="flex">
-              {previousPost ? (
-                <Link
-                  to={`/post/${previousPost.postId}`}
-                  // to="/post"
-                  className="flex-center btn-size-m border-gray mr-10 flex rounded-md"
-                >
-                  이전글
-                </Link>
-              ) : (
-                <Button
-                  disabled
-                  className="flex-center btn-size-m mr-10 flex rounded-md bg-black-050 text-black-200"
-                >
-                  이전글
-                </Button>
-              )}
-              {nextPost ? (
-                <Link
-                  to={`/post/${nextPost.postId}`}
-                  className="flex-center btn-size-m border-gray rounded-md"
-                >
-                  다음글
-                </Link>
-              ) : (
-                <Button
-                  disabled
-                  className="flex-center btn-size-m mr-2 flex rounded-md bg-black-050 text-black-200"
-                >
-                  다음글
-                </Button>
-              )}
+              <Link
+                to="/community"
+                className="flex-center btn-size-m border-gray mr-10 flex rounded-md"
+              >
+                목록보기
+              </Link>
             </div>
           </div>
         </div>
