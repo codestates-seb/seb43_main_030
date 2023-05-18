@@ -1,5 +1,6 @@
 package com.kids.SEB_main_030.domain.review.mapper;
 
+import com.kids.SEB_main_030.domain.review.dto.ReviewListResponseDto;
 import com.kids.SEB_main_030.domain.review.dto.ReviewPatchDto;
 import com.kids.SEB_main_030.domain.review.dto.ReviewPostDto;
 import com.kids.SEB_main_030.domain.review.dto.ReviewResponseDto;
@@ -33,6 +34,7 @@ public interface ReviewMapper {
     @Mapping(source="kindergarten.locations",target="kindergartenLocations")
     @Mapping(source="kindergarten.kindergartenId",target="kindergartenId")
     @Mapping(source="profile.name",target="profileName")
+    @Mapping(source = "profile.imageUrl",target = "profileImageUrl")
     @Mapping(target="images",expression = "java(mapImage(review.getImages()))")
     ReviewResponseDto reviewToReviewResponseDto(Review review);
 
@@ -41,5 +43,17 @@ public interface ReviewMapper {
                 .map(image -> new Image(image.getImageId(), image.getImageUrl()))
                 .collect(Collectors.toList());
     }
+    @Mapping(source="kindergarten.name",target="kindergartenName")
+    @Mapping(source="kindergarten.locations",target="kindergartenLocations")
+    @Mapping(source="kindergarten.kindergartenId",target="kindergartenId")
+    @Mapping(source="profile.name",target="profileName")
+    @Mapping(source = "profile.imageUrl",target = "profileImageUrl")
+    @Mapping(target="reviewImageUrl",expression = "java(mapReviewImageUrl(review.getImages()))")
+    ReviewListResponseDto reviewToReviewListResponseDto (Review review);
 
+    List<ReviewListResponseDto>reviewsToReviewListResponseDtos(List<Review>review);
+
+    default String mapReviewImageUrl(List<Image>images){
+        return images.stream().findFirst().map(Image::getImageUrl).orElse(null);
+    }
 }

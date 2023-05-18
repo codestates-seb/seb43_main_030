@@ -78,7 +78,7 @@ public class ReviewController {
     @GetMapping("/kindergarten/{kindergarten-id}")
     public ResponseEntity getReviews(@PathVariable("kindergarten-id")long kindergartenId){
         List<Review>reviewList=reviewService.findReviews(kindergartenId);
-        return new ResponseEntity<>(reviewMapper.reviewsToReviewResponseDtos(reviewList),HttpStatus.OK);
+        return new ResponseEntity<>(reviewMapper.reviewsToReviewListResponseDtos(reviewList),HttpStatus.OK);
     }
     @DeleteMapping("/{review-id}")
     public ResponseEntity deleteReview(@PathVariable("review-id")@Positive long reviewId)

@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface KindergartenMapper {
     Kindergarten kindergartenPostDtoToKindergarten(KindergartenPostDto kindergartenPostDto);
-//    @Mapping(target = "ratedReviewsAvg", expression = "java(kindergarten.getRatedReviewsAvg())")
+    @Mapping(source = "community.introduction",target = "kinderIntro")
     KindergartenResponseDto kindergartenToKindergartenResponseDto(Kindergarten kindergarten);
     List<KindergartenResponseDto> kindergartensToKindergartenResponseDtos(List<Kindergarten> kindergarten);
 }

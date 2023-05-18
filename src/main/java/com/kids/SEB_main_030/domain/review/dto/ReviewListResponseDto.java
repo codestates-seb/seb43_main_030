@@ -6,21 +6,18 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
-
 @Getter
 @Setter
-public class ReviewResponseDto {
+public class ReviewListResponseDto {
     private Long reviewId;
     private String content;
-    private List<Image>images;
+    private String reviewImageUrl;
     private Double ratedReview;
+    private String profileImageUrl;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private String profileName;
-    private String profileImageUrl;
     private String kindergartenName;
     private String kindergartenLocations;
     private Long kindergartenId;
-
 }
