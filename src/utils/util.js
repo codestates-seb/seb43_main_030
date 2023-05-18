@@ -40,8 +40,6 @@ export function RenderProfile({ profileActive, clickedProfile, handleDelete }) {
       const activeClass = Number(activeIndex) === idx ? 'font-bold' : '';
       const shouldDisplayButton = Number(activeIndex) !== idx;
       // const selectedClass = selectProfile === idx ? 'font-bold' : '';
-      console.log('utilactiveIndex:', activeIndex);
-      console.log('utilprofile:', profile);
       return (
         <li className="flex w-full">
           <div

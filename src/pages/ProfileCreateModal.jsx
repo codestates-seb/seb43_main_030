@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,41 +13,38 @@ import Button from '../components/Button/Button';
 import RadioGroup from '../components/Radio/RadioGroup';
 import Radio from '../components/Radio/Radio';
 import Input from '../components/Input/Input';
-import InputSelectBox from '../components/Input/InputSelectBox';
 import { ReactComponent as ArrowOpen } from '../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
 import { ReactComponent as Close } from '../images/close.svg';
 
-function ProfileCreateModal({ onClick }) {
-  const navi = useNavigate();
+function ProfileCreateModal({ onClick, setProfileModal }) {
   const dispatch = useDispatch();
-
-  const user = useSelector(state => state.user);
 
   const [nickname, setNickname] = useState('');
   const [person, setPerson] = useState(true);
-  const [bread, setBread] = useState(null);
+  const [breed, setBreed] = useState(null);
+  const [image, setImage] = useState('');
+  const fileInput = useRef(null);
 
   // 오류 메시지
   const [nicknameErr, setNicknameErr] = useState('');
   const [selectErr, setSelectErr] = useState('');
 
   // select box
-  const breadType =
+  const breedType =
     '믹스견, 말티즈, 푸들, 포메라니안, 비숑, 웰시코기, 치와와, 폼피츠, 시츄, 골든리트리버, 시바, 진돗개, 닥스훈트, 달마시안, 도베르만, 말티푸, 보더콜리, 불독, 비글, 사모예드, 슈나우져, 스피치, 요크셔테리어';
-  const breadArr = breadType.split(', ');
+  const breedArr = breedType.split(', ');
   const [activeIndex, setActiveIndex] = useState(null);
   const [selectType, setSelectType] = useState('견종을 선택해주세요.');
   const [focus, setFocus] = useState(false);
 
-  const [selectFile, setSelectFile] = useState(null);
+  // const [selectFile, setSelectFile] = useState(null);
 
-  const typeActive = e => {
-    const index = Number(e.target.className.split(' ')[1].slice(-1));
+  const typeActive = index => {
     setActiveIndex(index);
-    setSelectType(breadArr[index]);
+    setSelectType(breedArr[index]);
     setFocus(false);
-    setBread(String(breadArr[index]));
+    setBreed(String(breedArr[index]));
   };
 
   const getUsers = () => {
@@ -80,30 +77,30 @@ function ProfileCreateModal({ onClick }) {
     setNicknameErr('');
     setSelectErr('');
     setNickname('');
-    setBread(null);
+    setBreed(null);
     setSelectType('견종을 선택해주세요.');
   };
 
-  console.log('bread:', bread);
-  console.log(typeof bread);
-  console.log('selectbread:', selectType);
+  console.log('breed:', breed);
+  console.log(typeof breed);
+  console.log('selectbreed:', selectType);
   console.log('nickname:', nickname);
   console.log(typeof nickname);
 
   const handlePostProfile = () => {
-    if (!nickname || !bread) {
+    if (!nickname || !breed) {
       setNicknameErr(!nickname ? '닉네임을 입력해주세요.' : '');
-      setSelectErr(!bread ? '견종을 선택해주세요.' : '');
+      setSelectErr(!breed ? '견종을 선택해주세요.' : '');
     }
-    const selectedBread = person ? null : bread;
+    const selectedBreed = person ? null : breed;
 
     const formData = new FormData();
     const data = {
       name: nickname,
       checkPerson: person,
-      bread: selectedBread,
+      breed: selectedBreed,
     };
-    formData.append('images', selectFile);
+    formData.append('images', image);
     formData.append(
       'postDto',
       new Blob([JSON.stringify(data)], { type: 'application/json' }),
@@ -122,11 +119,13 @@ function ProfileCreateModal({ onClick }) {
           setNicknameErr('');
           setSelectErr('');
           console.log('견주프로필', res);
+          setProfileModal(false);
         })
         .catch(err => {
           console.log(err);
+          setProfileModal(true);
         });
-    } else if (!person && nickname && bread) {
+    } else if (!person && nickname && breed) {
       axios
         .post(`${process.env.REACT_APP_API_URL}/users/profile`, formData, {
           headers: {
@@ -139,9 +138,11 @@ function ProfileCreateModal({ onClick }) {
           setNicknameErr('');
           setSelectErr('');
           console.log('강아지프로필', res);
+          setProfileModal(false);
         })
         .catch(err => {
           console.log(err);
+          setProfileModal(true);
         });
     }
   };
@@ -190,10 +191,7 @@ function ProfileCreateModal({ onClick }) {
               {/* 프로필 사진 등록 */}
               <div className="mt-25 flex flex-col border-b-[1px] border-black-070 pb-24">
                 <p className="write-title mb-15 mr-15">프로필 사진 등록</p>
-                <UploadImage
-                  setSelectFile={setSelectFile}
-                  selectFile={selectFile}
-                />
+                <UploadImage setImage={setImage} image={image} />
               </div>
               {/* 닉네임 등록 */}
               <div className="mt-25 flex flex-col border-b-[1px] border-black-070 pb-24">
@@ -223,7 +221,7 @@ function ProfileCreateModal({ onClick }) {
                       {selectType}
                       {focus ? <ArrowClose /> : <ArrowOpen />}
                     </button>
-                    {!bread && (
+                    {!breed && (
                       <span className="mt-8 text-12 text-red-400">
                         {selectErr}
                       </span>
@@ -231,14 +229,16 @@ function ProfileCreateModal({ onClick }) {
                     {focus && (
                       <div className="dropdown-box top-[58px] z-50 w-[98%] text-black-900">
                         <ul className="ul profile dropdown-ul">
-                          {breadArr.map((el, idx) => {
+                          {breedArr.map((el, idx) => {
                             const activeClass =
                               activeIndex === idx ? 'font-bold' : '';
 
                             return (
                               <li
+                                // key={`profile${idx}`}
+                                id={idx}
                                 className={`li profile${idx} w-full cursor-pointer p-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
-                                onClick={typeActive}
+                                onClick={() => typeActive(idx)}
                                 role="presentation"
                               >
                                 {el}

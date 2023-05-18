@@ -1,14 +1,24 @@
 import { useState, useCallback } from 'react';
 
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import {
+  setCurProfile,
+  setAuth,
+  setCurUser,
+  setActiveIndex,
+  setUser,
+} from '../actions/areaFilterActions';
 
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
 import { ReactComponent as Close } from '../images/close.svg';
 
 function SettingModal(props) {
-  const { onClick } = props;
+  const { onClick, setSettingModal } = props;
+  const navi = useNavigate();
+  const dispatch = useDispatch();
 
   const [value, setValue] = useState({
     curPassword: '',
@@ -62,12 +72,49 @@ function SettingModal(props) {
           setCurPwdErr('');
           setCurPwdErr('');
           setCurPwdErr('');
+          setSettingModal(false);
         })
         .catch(err => {
           console.log(err);
           if (err.response && err.response.status === 400) {
             setCurPwdErr('현재 비밀번호와 일치하지 않습니다.');
           }
+          setSettingModal(true);
+        });
+    }
+  };
+
+  // 로그아웃 함수
+  const handleLogout = () => {
+    dispatch(setAuth(false));
+    localStorage.removeItem('token');
+    dispatch(setCurUser({}));
+    dispatch(setUser([]));
+    dispatch(setCurProfile({}));
+    dispatch(setActiveIndex(''));
+    navi('/');
+  };
+
+  const handleUserDelete = () => {
+    const result = window.confirm('계정을 탈퇴하시겠습니까?');
+
+    if (result) {
+      axios
+        .delete(`${process.env.REACT_APP_API_URL}/users`, {
+          headers: {
+            Authorization: localStorage.getItem('token'),
+          },
+        })
+        .then(res => {
+          console.log(res);
+          handleLogout();
+          setSettingModal(false);
+          setCurPwdErr('');
+          setCurPwdErr('');
+          setCurPwdErr('');
+        })
+        .catch(err => {
+          console.log(err);
         });
     }
   };
@@ -183,7 +230,10 @@ function SettingModal(props) {
               </div>
               {/* 사진등록 */}
               <div className="mt-25 flex flex-col  pb-25">
-                <Button className="btn-text-default text-black-350">
+                <Button
+                  className="btn-text-default text-black-350"
+                  onClick={handleUserDelete}
+                >
                   회원탈퇴하기
                 </Button>
               </div>

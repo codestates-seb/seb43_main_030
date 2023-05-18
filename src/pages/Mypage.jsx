@@ -103,13 +103,22 @@ function Mypage() {
     return nickname ? setNameErr(true) : setNameErr(false);
   };
 
-  // dropdown
-  const clickedProfile = idx => {
+  // dropdown 에서 프로필 선택
+  const clickedProfile = (idx, id) => {
     dispatch(setCurUser(user[idx]));
     dispatch(setCurProfile(user[idx]));
     // setValue(user[idx]);
-    setDropDown(!dropDown);
-    dispatch(setActiveIndex(idx));
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      })
+      .then(res => {
+        dispatch(setCurProfile(res.data.data));
+        setDropDown(false);
+        dispatch(setActiveIndex(idx));
+      });
   };
 
   function profileActive(e) {
@@ -178,9 +187,6 @@ function Mypage() {
           },
         })
         .then(res => {
-          // navi(0);
-
-          // console.log(`프로필 ${profileId} 삭제 완료`);
           if (user.length === 2) {
             dispatch(setActiveIndex(user[0]));
           }
@@ -219,7 +225,7 @@ function Mypage() {
           //   return { ...prev, editName };
           // });
           console.log('ㅎㅎ');
-          window.location.reload();
+          // window.location.reload();
         })
         .catch(err => {
           console.log(`${err}: 이미지를 수정하지 못했습니다.`);
@@ -389,7 +395,7 @@ function Mypage() {
                     )}
                   </div>
                 </div>
-                <div>
+                <div className="mb-24 onlyMobile:mb-20">
                   <div className="flex items-center justify-between">
                     <p className="mb-4 text-14 text-black-350 onlyMobile:text-12">
                       닉네임
@@ -431,6 +437,16 @@ function Mypage() {
                     </div>
                   )}
                 </div>
+                {value.breed ? (
+                  <div className="">
+                    <p className="mb-4 text-14 text-black-350 onlyMobile:text-12">
+                      견종
+                    </p>
+                    <p className="onlyMobile:text-14">{value.breed}</p>
+                  </div>
+                ) : (
+                  ''
+                )}
               </div>
 
               {/* 작성한 후기 */}
@@ -481,8 +497,19 @@ function Mypage() {
           ''
         )}
       </div>
-      {profileModal ? <ProfileCreateModal onClick={modalClose} /> : ''}
-      {settingModal ? <SettingModal onClick={modalClose} /> : ''}
+      {profileModal ? (
+        <ProfileCreateModal
+          onClick={modalClose}
+          setProfileModal={setProfileModal}
+        />
+      ) : (
+        ''
+      )}
+      {settingModal ? (
+        <SettingModal onClick={modalClose} setSettingModal={setProfileModal} />
+      ) : (
+        ''
+      )}
     </div>
   );
 }
