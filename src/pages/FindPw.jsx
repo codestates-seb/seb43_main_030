@@ -56,8 +56,11 @@ function FindPw() {
   return (
     <div className="flex-center onlyMobile:login-m-align h-screen bg-black-025 onlyMobile:bg-white">
       <div className="mt-80 onlyMobile:w-full onlyMobile:px-24">
-        {!isMobile && <div className="login-card">{findPassword()}</div>}
-        {isMobile && <div>{findPassword()}</div>}
+        {isMobile ? (
+          <div>{findPassword()}</div>
+        ) : (
+          <div className="login-card">{findPassword()}</div>
+        )}
       </div>
     </div>
   );

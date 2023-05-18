@@ -24,7 +24,7 @@ function UploadImage(props) {
     };
     reader.readAsDataURL(uploadFile);
   };
-  // console.log('image:', image);
+  console.log('image:', image);
 
   return (
     <div className="h-80 w-80">
