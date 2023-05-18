@@ -139,7 +139,12 @@ function Community() {
               <ul>
                 {postList &&
                   postList.map(post => {
-                    return <ListCommunity post={post} />;
+                    return (
+                      <ListCommunity
+                        post={post}
+                        className="flex items-center pr-12"
+                      />
+                    );
                   })}
               </ul>
             </div>
