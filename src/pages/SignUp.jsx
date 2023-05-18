@@ -21,41 +21,77 @@ function SignUp() {
   const [officials, setOfficials] = useState(false);
   const [confirmPwd, setConfirmPwd] = useState('');
 
+  // 인증문자
+  const [confirmEmail, setConfirmEmail] = useState('');
+  const [confirmInput, setConfirmInput] = useState('');
+
   // 오류메시지
   const [emailErr, setEmailErr] = useState('');
   const [pwdErr, setPwdErr] = useState('');
   const [confirmPwdErr, setConfirmPwdErr] = useState('');
+  const [confirmEmailErr, setConfirmEmailErr] = useState('');
 
   // 유효성검사
   const [isEmail, setIsEmail] = useState(false);
   const [isPwd, setIsPwd] = useState(false);
   const [isConfirmPwd, setIsConfirmPwd] = useState(false);
+  const [isConfirmEmail, setIsConfirmEmail] = useState(false);
 
   const handleOfficialsClick = value => () => {
     setOfficials(value);
   };
 
+  const sendEmail = () => {
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/login/mailConfirm`, {
+        email: user.email,
+      })
+      .then(res => {
+        console.log('메일전송:', res);
+        setConfirmEmail(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const handleConfirmEmail = e => {
+    setConfirmInput(e.target.value);
+  };
+
+  const checkEmail = () => {
+    if (confirmEmail === confirmInput) {
+      setConfirmEmailErr('');
+      setIsConfirmEmail(true);
+    } else {
+      setConfirmEmailErr('인증 코드를 다시 확인해주세요.');
+      setIsConfirmEmail(false);
+    }
+  };
+
   const onSignup = useCallback(
     e => {
       e.preventDefault();
-      axios
-        .post(`${process.env.REACT_APP_API_URL}/users`, {
-          email: user.email,
-          password: user.password,
-          checkOfficials: officials,
-        })
-        .then(res => {
-          navi('/login');
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-          if (err.response && err.response.status === 409) {
-            setEmailErr('이미 가입되어 있는 이메일입니다.');
-          }
-        });
+      if (isConfirmEmail) {
+        axios
+          .post(`${process.env.REACT_APP_API_URL}/users`, {
+            email: user.email,
+            password: user.password,
+            checkOfficials: officials,
+          })
+          .then(res => {
+            navi('/login');
+            console.log(res);
+          })
+          .catch(err => {
+            console.log(err);
+            if (err.response && err.response.status === 409) {
+              setEmailErr('이미 가입되어 있는 이메일입니다.');
+            }
+          });
+      }
     },
-    [user, officials, navi],
+    [user, officials, navi, isConfirmEmail],
   );
 
   const onCheckEmail = useCallback(
@@ -128,18 +164,25 @@ function SignUp() {
               onChange={onCheckEmail}
               isError={emailErr}
             />
-            <Button className="color-yellow btn-size-l ml-8 mt-28 h-50 shrink-0 grow-0">
-              인증번호
+            <Button
+              className="color-yellow btn-size-l ml-8 mt-28 h-50 shrink-0 grow-0"
+              onClick={sendEmail}
+            >
+              인증하기
             </Button>
           </div>
           <div className="mb-24 flex">
             <Input
               labelText="인증번호"
-              type="number"
               placeholder="인증번호를 입력해주세요."
+              onChange={handleConfirmEmail}
+              isError={confirmEmailErr}
             />
-            <Button className="color-yellow btn-size-l ml-8 mt-28 h-50 shrink-0 grow-0">
-              인증 하기
+            <Button
+              className="color-yellow btn-size-l ml-8 mt-28 h-50 shrink-0 grow-0"
+              onClick={checkEmail}
+            >
+              인증 완료
             </Button>
           </div>
           <div className="mb-24 flex flex-col">
@@ -186,7 +229,7 @@ function SignUp() {
           </div>
           <Button
             className="color-yellow btn-size-l w-full"
-            disabled={!(isEmail && isPwd && isConfirmPwd)}
+            disabled={!(isEmail && isPwd && isConfirmPwd && isConfirmEmail)}
             onClick={onSignup}
           >
             이메일로 회원가입
