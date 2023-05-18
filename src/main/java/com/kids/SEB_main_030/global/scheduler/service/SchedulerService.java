@@ -31,7 +31,7 @@ public class SchedulerService {
 
 
 
-    //    @Scheduled(fixedDelay = 2000000,initialDelay = 120000)//Method 타입은 무조건 void , 매개변수 사용 불가
+    //@Scheduled(fixedDelay = 2000000,initialDelay = 120000)//Method 타입은 무조건 void , 매개변수 사용 불가
     public void mainService() throws Exception {
         log.info("run Scheduler");
         run();

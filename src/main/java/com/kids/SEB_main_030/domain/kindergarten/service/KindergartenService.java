@@ -8,6 +8,7 @@ import com.kids.SEB_main_030.domain.kindergarten.entity.Kindergarten;
 import com.kids.SEB_main_030.domain.kindergarten.repository.KindergartenRepository;
 import com.kids.SEB_main_030.global.image.entity.Image;
 import com.kids.SEB_main_030.global.image.service.ImageService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,16 +22,13 @@ import java.util.*;
 @Service
 @Slf4j
 @Transactional
+@RequiredArgsConstructor
 public class KindergartenService {
     private final KindergartenRepository kindergartenRepository;
     private final ReviewRepository reviewRepository;
     private final ImageService imageService;
 
-    public KindergartenService(KindergartenRepository kindergartenRepository, ReviewRepository reviewRepository, ImageService imageService) {
-        this.kindergartenRepository = kindergartenRepository;
-        this.reviewRepository = reviewRepository;
-        this.imageService = imageService;
-    }
+
 
     public Kindergarten createKindergarten(Kindergarten kindergarten) {
         kindergarten.setImageUrl(imageService.getDefaultKindergartenImage());

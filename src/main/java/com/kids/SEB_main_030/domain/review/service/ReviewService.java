@@ -11,26 +11,20 @@ import com.kids.SEB_main_030.domain.profile.service.ProfileService;
 import com.kids.SEB_main_030.domain.user.service.UserService;
 import com.kids.SEB_main_030.global.image.entity.Image;
 import com.kids.SEB_main_030.global.image.service.ImageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final KindergartenService kindergartenService;
     private final ProfileService profileService;
     private final UserService userService;
     private final ImageService imageService;
-
-    public ReviewService(ReviewRepository reviewRepository, KindergartenService kindergartenService, ProfileService profileService, UserService userService, ImageService imageService) {
-        this.reviewRepository = reviewRepository;
-        this.kindergartenService = kindergartenService;
-        this.profileService = profileService;
-        this.userService = userService;
-        this.imageService = imageService;
-    }
 
     public Review createReview(Review review){
         Kindergarten kindergarten = kindergartenService.findVerifiedKindergarten(review.getKindergarten().getKindergartenId());

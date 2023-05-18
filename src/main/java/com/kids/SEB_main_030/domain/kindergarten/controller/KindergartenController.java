@@ -10,6 +10,7 @@ import com.kids.SEB_main_030.global.dto.SingleResponseDto;
 import com.kids.SEB_main_030.domain.kindergarten.dto.KindergartenResponseDto;
 import com.kids.SEB_main_030.global.utils.UriCreator;
 import com.kids.SEB_main_030.global.place.service.PlaceService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -29,16 +30,13 @@ import java.util.List;
 @Slf4j
 @Transactional
 @RequestMapping("/api/kindergarten")
+@RequiredArgsConstructor
 public class KindergartenController {
     private final static String KINDERGARTEN_DEFAULT_URL="/api/kindergarten";
     private final KindergartenService kindergartenService;
     private final KindergartenMapper kindergartenMapper;
     private final CommunityService communityService;
-    public KindergartenController(KindergartenService kindergartenService, KindergartenMapper kindergartenMapper, PlaceService placeService, CommunityService communityService) {
-        this.kindergartenService = kindergartenService;
-        this.kindergartenMapper = kindergartenMapper;
-        this.communityService = communityService;
-    }
+
 
     @PostMapping
     public ResponseEntity postKindergarten(@Valid @RequestBody KindergartenPostDto kindergartenPostDto)

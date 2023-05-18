@@ -22,7 +22,7 @@ public class SchedulerController {
 
     @GetMapping
     public ResponseEntity serviceOn() throws Exception {
-        schedulerService.run();
+        schedulerService.mainService();
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
