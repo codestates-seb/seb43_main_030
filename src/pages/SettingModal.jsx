@@ -15,8 +15,7 @@ import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
 import { ReactComponent as Close } from '../images/close.svg';
 
-function SettingModal(props) {
-  const { onClick, setSettingModal } = props;
+function SettingModal({ onClick, setSettingModal }) {
   const navi = useNavigate();
   const dispatch = useDispatch();
 
@@ -36,13 +35,15 @@ function SettingModal(props) {
   const [isNewPwd, setIsNewPwd] = useState(false);
   const [isConfirmPwd, setIsConfirmPwd] = useState(false);
 
-  const [check, setCheck] = useState(true);
-
   const handleChangePwd = () => {
     if (!value.curPassword) {
       setCurPwdErr('현재 비밀번호를 입력해주세요.');
       setIsCurPwd(false);
+    } else if (value.curPassword) {
+      setCurPwdErr('');
+      setIsCurPwd(false);
     }
+
     if (!value.password1) {
       setNewPwdErr('새 비밀번호를 입력해주세요.');
       setIsNewPwd(false);
@@ -70,8 +71,8 @@ function SettingModal(props) {
         .then(res => {
           console.log(res);
           setCurPwdErr('');
-          setCurPwdErr('');
-          setCurPwdErr('');
+          setNewPwdErr('');
+          setIsConfirmPwd('');
           setSettingModal(false);
         })
         .catch(err => {
@@ -124,7 +125,7 @@ function SettingModal(props) {
       const CurrentPwd = e.target.value;
       setValue({ ...value, curPassword: CurrentPwd });
 
-      if (CurrentPwd) {
+      if (!CurrentPwd) {
         setCurPwdErr('현재 비밀번호를 입력해주세요.');
         setIsCurPwd(false);
       }
