@@ -95,7 +95,11 @@ function Login() {
         console.log(err);
         dispatch(setAuth(false));
         setCheck(false);
-        setEmailErr('이메일 또는 패스워드가 올바르지 않습니다.');
+        if (err.response && err.response.status === 500) {
+          setEmailErr('이미 탈퇴한 이메일입니다.');
+        } else {
+          setEmailErr('이메일 또는 패스워드를 다시 확인해주세요.');
+        }
       });
   }
 
