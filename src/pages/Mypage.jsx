@@ -505,7 +505,9 @@ function Mypage() {
                   <div className="flex flex-col gap-8">
                     {value.posts.map(el => {
                       console.log(el);
-                      return <Post key={el.postId} post={el} />;
+                      return (
+                        <Post key={el.postId} post={el} className="hidden" />
+                      );
                     })}
                   </div>
                 ) : (

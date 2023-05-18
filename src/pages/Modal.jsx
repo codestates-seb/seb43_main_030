@@ -7,6 +7,7 @@ import RatingStar from '../components/RatingStar';
 import TextArea from '../components/TextArea';
 import UploadImage from '../components/UploadImage';
 import Button from '../components/Button/Button';
+import profile from '../images/profile.png';
 import { ReactComponent as Star } from '../images/star-on.svg';
 import { ReactComponent as Close } from '../images/close.svg';
 
@@ -15,10 +16,6 @@ function Modal(props) {
   const [text, setText] = useState('');
   const [kinderInfo, setKinderInfo] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
-  const token = process.env.REACT_APP_TOKEN;
-  const [kinderName, setKinderName] = useState('');
-  const [kinderAddress, setKinderAddress] = useState('');
-
   const [starIndex, setStarIndex] = useState(0);
 
   const handleStarIndexChange = useCallback(index => {
@@ -35,9 +32,6 @@ function Modal(props) {
       .get(`${apiUrl}/kindergarten/1`)
       .then(response => {
         setKinderInfo(response.data.data);
-        setKinderName(response.data.data.name);
-        setKinderAddress(response.data.data.locations);
-        console.log('useEffect');
       })
       .catch(error => {
         console.log(error);
@@ -47,22 +41,34 @@ function Modal(props) {
   const submitReview = () => {
     if (!text || !starIndex) {
       alert('내용과 별점을 입력해주세요.');
-    } else {
-      axios
-        .post(
-          `${apiUrl}/review/1`,
-          {
-            contents: text,
-            ratedReview: starIndex,
-          },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          },
-        )
-        .then(response => onClick)
-        .catch(error => console.log(`submitReviewError: ${error}`));
     }
+
+    const formData = new FormData();
+    formData.append('images', null);
+
+    const data = {
+      content: text,
+      ratedReview: starIndex,
+    };
+
+    formData.append(
+      'postDto',
+      new Blob([JSON.stringify(data)], { type: 'application/json' }),
+    );
+
+    axios
+      .post(`${apiUrl}/review/1`, formData, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(response => window.location.reload())
+      .catch(error => console.log(error));
   };
+
+  const handleEdit = () => {};
+  const handleDelete = () => {};
 
   return (
     <>
@@ -85,7 +91,11 @@ function Modal(props) {
               {/* 유치원 정보 */}
               <div className="mt-25 flex border-b-[1px] border-black-070 pb-25">
                 <div className="user-profile mr-15 h-116 w-116 onlyMobile:h-96 onlyMobile:w-96">
-                  <img src={Dog} alt="임시 이미지" />
+                  {kinderInfo.image ? (
+                    <img src={kinderInfo.profileImageUrl} alt="img" />
+                  ) : (
+                    <img src={profile} alt="defaultImage" />
+                  )}
                 </div>
                 <div className="flex flex-col justify-center">
                   <p className="write-title">
@@ -125,15 +135,13 @@ function Modal(props) {
                 />
               </div>
               {/* 사진등록 */}
-              <div className="mt-25 flex flex-col  pb-25">
+              <div className="mt-25 flex flex-col pb-25">
                 <p className="write-title mb-15 mr-15">사진을 등록해주세요.</p>
                 <div className="flex">
                   <UploadImage />
-                  <UploadImage />
-                  <UploadImage />
-                  <UploadImage />
                 </div>
               </div>
+              {/* 수정 삭제 */}
             </div>
             {/* 버튼 */}
             <Button
