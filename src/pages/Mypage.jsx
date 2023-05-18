@@ -103,13 +103,22 @@ function Mypage() {
     return nickname ? setNameErr(true) : setNameErr(false);
   };
 
-  // dropdown
-  const clickedProfile = idx => {
+  // dropdown 에서 프로필 선택
+  const clickedProfile = (idx, id) => {
     dispatch(setCurUser(user[idx]));
     dispatch(setCurProfile(user[idx]));
     // setValue(user[idx]);
-    setDropDown(!dropDown);
-    dispatch(setActiveIndex(idx));
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      })
+      .then(res => {
+        dispatch(setCurProfile(res.data.data));
+        setDropDown(false);
+        dispatch(setActiveIndex(idx));
+      });
   };
 
   function profileActive(e) {
@@ -178,9 +187,6 @@ function Mypage() {
           },
         })
         .then(res => {
-          // navi(0);
-
-          // console.log(`프로필 ${profileId} 삭제 완료`);
           if (user.length === 2) {
             dispatch(setActiveIndex(user[0]));
           }
@@ -219,7 +225,7 @@ function Mypage() {
           //   return { ...prev, editName };
           // });
           console.log('ㅎㅎ');
-          window.location.reload();
+          // window.location.reload();
         })
         .catch(err => {
           console.log(`${err}: 이미지를 수정하지 못했습니다.`);
