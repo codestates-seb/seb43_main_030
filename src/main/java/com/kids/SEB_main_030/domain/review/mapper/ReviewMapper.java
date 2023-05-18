@@ -5,6 +5,7 @@ import com.kids.SEB_main_030.domain.review.dto.ReviewPatchDto;
 import com.kids.SEB_main_030.domain.review.dto.ReviewPostDto;
 import com.kids.SEB_main_030.domain.review.dto.ReviewResponseDto;
 import com.kids.SEB_main_030.domain.review.entity.Review;
+import com.kids.SEB_main_030.domain.user.entity.User;
 import com.kids.SEB_main_030.global.image.entity.Image;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -36,6 +37,7 @@ public interface ReviewMapper {
     @Mapping(source="profile.name",target="profileName")
     @Mapping(source = "profile.imageUrl",target = "profileImageUrl")
     @Mapping(target="images",expression = "java(mapImage(review.getImages()))")
+    @Mapping(target="email",expression = "java(review.getProfile().getUser().getEmail())")
     ReviewResponseDto reviewToReviewResponseDto(Review review);
 
     default List<Image>mapImage(List<Image>images){
@@ -49,8 +51,8 @@ public interface ReviewMapper {
     @Mapping(source="profile.name",target="profileName")
     @Mapping(source = "profile.imageUrl",target = "profileImageUrl")
     @Mapping(target="reviewImageUrl",expression = "java(mapReviewImageUrl(review.getImages()))")
+    @Mapping(target="email",expression = "java(review.getProfile().getUser().getEmail())")
     ReviewListResponseDto reviewToReviewListResponseDto (Review review);
-
     List<ReviewListResponseDto>reviewsToReviewListResponseDtos(List<Review>review);
 
     default String mapReviewImageUrl(List<Image>images){
