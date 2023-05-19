@@ -1,5 +1,6 @@
 package com.kids.SEB_main_030.global.email.service;
 
+import com.kids.SEB_main_030.domain.user.repository.UserRepository;
 import com.kids.SEB_main_030.global.exception.CustomException;
 import com.kids.SEB_main_030.global.exception.LogicException;
 import com.kids.SEB_main_030.domain.user.service.UserService;
@@ -23,6 +24,7 @@ public class EmailService {
 
     private final JavaMailSender javaMailSender;
     private final RandomCreator randomCreator;
+    private final UserRepository userRepository;
     private String authCode;
 
     // 메일 전송
@@ -31,6 +33,9 @@ public class EmailService {
         MimeMessage message = createPasswordForm(email);
         if (s.equals("auth")) {
             message = createMessageForm(email);
+            userRepository.findByEmail(email).ifPresent(user -> {
+                throw new LogicException(CustomException.USER_EXISTS);
+            });
         }
         try{
             javaMailSender.send(message);

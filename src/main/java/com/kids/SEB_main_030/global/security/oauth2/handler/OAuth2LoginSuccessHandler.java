@@ -36,7 +36,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         User user = userRepository.findBySocialTypeAndSocialId(oAuth2User.getSocialType(), getSocialId(oAuth2User)).orElse(null);
         if (user.getRole().equals(Role.GUEST)){
             initUser(user);
-            String url = "http://testqjzlt.s3-website.ap-northeast-2.amazonaws.com/";
+            String url = "http://testqjzlt.s3-website.ap-northeast-2.amazonaws.com/api/login";
             response.sendRedirect(url);
             return;
             // ToDO 카카오 로그인은 이메일이 없으므로 추가정보 페이지로 redirect
