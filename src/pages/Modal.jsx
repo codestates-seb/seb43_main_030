@@ -19,7 +19,11 @@ function Modal(props) {
   const [text, setText] = prevText ? useState(prevText) : useState('');
   const [kinderInfo, setKinderInfo] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
-  const [starIndex, setStarIndex] = useState(0);
+  const [starIndex, setStarIndex] = prevRatedReview
+    ? // eslint-disable-next-line react-hooks/rules-of-hooks
+      useState(prevRatedReview)
+    : // eslint-disable-next-line react-hooks/rules-of-hooks
+      useState(0);
   const [images, setImages] = useState([]);
 
   const starScore = () => {
@@ -36,9 +40,12 @@ function Modal(props) {
     return ratingStar.map(star => star);
   };
 
-  const handleStarIndexChange = useCallback(index => {
-    setStarIndex(index);
-  }, []);
+  const handleStarIndexChange = useCallback(
+    index => {
+      setStarIndex(index);
+    },
+    [setStarIndex],
+  );
 
   const textCount = event => {
     setText(event.target.value);
@@ -55,8 +62,6 @@ function Modal(props) {
         console.log(error);
       });
   }, [apiUrl]);
-
-  console.log(kinderInfo);
 
   const submitReview = () => {
     if (!text || !starIndex) {
@@ -126,10 +131,6 @@ function Modal(props) {
         .catch(error => console.log(error));
     }
   };
-  console.log(images);
-
-  const handleEdit = () => {};
-  const handleDelete = () => {};
 
   return (
     <>
@@ -178,7 +179,6 @@ function Modal(props) {
             <div className="mb-30 overflow-y-scroll">
               <div className="mt-25 flex items-center border-b-[1px] border-black-070 pb-25">
                 <p className="write-title mr-15">유치원은 어떠셨나요?</p>
-                {console.log(prevRatedReview)}
                 <RatingStar
                   handleStarIndexChange={handleStarIndexChange}
                   prevRatedReview={prevRatedReview}

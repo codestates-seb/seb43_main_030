@@ -3,7 +3,6 @@ import cls from '../utils/tailwind';
 
 function UploadImage(props) {
   const { className, setImage, image, prevImages } = props;
-  console.log(prevImages);
 
   const [display, setDisplay] = useState('');
 
@@ -31,30 +30,40 @@ function UploadImage(props) {
     reader.readAsDataURL(uploadFiles[0]);
   };
 
-  const handleRemovePrevImages = () => {
-    setImage([]);
+  const deleteImage = e => {
+    console.log(e.target.files);
   };
 
   return (
     <div className="h-80 w-80">
       {/* <label htmlFor="uploadImage" className="cursor-pointer"> */}
       {prevImages ? (
-        <div
-          className="user-profile overflow-hidden"
-          onClick={() => {
-            fileInput.current.click();
-            handleRemovePrevImages();
-          }}
-          onKeyDown={() => {}}
-          tabIndex={0}
-          role="button"
-        >
-          <img
-            src={prevImages.imageUrl}
-            alt="Uploaded"
-            className="h-full w-full object-cover"
-          />
-        </div>
+        <>
+          {/* <div className="h-80 w-80 bg-black-350"></div> */}
+          <div
+            className="user-profile flex-center relative z-50 overflow-hidden"
+            onClick={() => {
+              fileInput.current.click();
+            }}
+            onKeyDown={() => {}}
+            tabIndex={0}
+            role="button"
+          >
+            <img
+              src={prevImages.imageUrl}
+              alt="Uploaded"
+              className="h-full w-full object-cover blur-[5px] onlyMobile:blur-[5px]"
+            />
+            {/* <div className="absolute left-0 top-0 h-full w-full bg-black opacity-50" />
+            <p
+              className="z-100 absolute right-0 top-0 p-8 text-white"
+              // onClick={deleteImage()}
+              role="presentation"
+            >
+              삭제
+            </p> */}
+          </div>
+        </>
       ) : image ? (
         <div
           className="user-profile overflow-hidden"
