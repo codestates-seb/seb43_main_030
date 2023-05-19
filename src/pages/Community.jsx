@@ -16,19 +16,22 @@ function Community() {
   const [kinderInfo, setKinderInfo] = useState([]);
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState('notification');
+  const [countPage, setCountPage] = useState(0);
+  const [categoryValue, setCategoryValue] = useState();
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
 
+  // 포스트 리스트와 현재 게시물 수
   useEffect(() => {
     axios
-      .get(`${apiUrl}/community/1/post?page=${page}`)
+      .get(`${apiUrl}/community/1/post?page=${page}&category=${category}`)
       .then(response => {
         setPostList(response.data.data);
+        setCountPage(response.data.pageInfo.totalElements);
       })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [setPostList, apiUrl, page]);
+      .catch(error => console.log(error));
+  }, [apiUrl, page, category]);
+  console.log(countPage);
 
   useEffect(() => {
     axios
@@ -37,25 +40,17 @@ function Community() {
       .catch(error => console.log(error));
   }, [apiUrl]);
 
+  // 탭 선택값 바꿔주기
   const tabSwitch = event => {
     const menu = event.target.innerText;
-
     let categoryValue = '';
 
     if (menu === '공지') {
       categoryValue = 'notification';
+      // setCategory(categoryValue);
     } else if (menu === '커뮤니티') {
       categoryValue = 'community';
     }
-
-    axios
-      .get(`${apiUrl}/community/1/post?page=1&category=${categoryValue}`)
-      .then(response => {
-        setPostList(response.data.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
 
     setCategory(categoryValue);
   };
@@ -126,7 +121,7 @@ function Community() {
             <div className="flex items-center justify-between">
               <p className="text-18 font-bold  onlyMobile:text-16">
                 {category === 'notification' ? '공지글 ' : '커뮤니티 '}
-                <span>{postList.length}</span>
+                <span>{countPage}</span>
               </p>
               <Link
                 className="flex-center btn-size-l color-yellow flex w-168 rounded-[8px]"
@@ -153,7 +148,7 @@ function Community() {
                 <Pagination
                   activePage={page}
                   itemsCountPerPage={10}
-                  totalItemsCount={postList.length - 1}
+                  totalItemsCount={countPage}
                   pageRangeDisplayed={5}
                   onChange={handlePageChange}
                   prevPageText={<ArrowPrev />}
