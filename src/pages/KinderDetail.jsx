@@ -6,6 +6,7 @@ import { useMediaQuery } from 'react-responsive';
 import { GoogleMap, useJsApiLoader, MarkerF } from '@react-google-maps/api';
 import { setCenter } from '../actions/areaFilterActions';
 import Modal from './Modal';
+import ConfirmReview from '../components/List/ConfirmReview';
 import ListNotice from '../components/List/ListNotice';
 import ListReview from '../components/List/ListReview';
 import Button from '../components/Button/Button';
@@ -19,6 +20,7 @@ import { ReactComponent as StarOn } from '../images/star-on.svg';
 import { ReactComponent as Perpett } from '../images/perpett-on.svg';
 import { ReactComponent as ArrowNext } from '../images/arrow-next.svg';
 import { ReactComponent as ArrowPrev } from '../images/arrow-prev.svg';
+import SettingModal from './SettingModal';
 
 // 지도 관련 스타일 정의
 const myStyles = [
@@ -246,7 +248,13 @@ function KinderDetail() {
               {reviewData ? (
                 <div className="flex flex-col gap-8">
                   {reviewData.map(el => {
-                    return <ListReview key={el.reviewId} post={el} />;
+                    return (
+                      <ListReview
+                        key={el.reviewId}
+                        post={el}
+                        kinderData={kinderData}
+                      />
+                    );
                   })}
                 </div>
               ) : (
@@ -349,7 +357,7 @@ function KinderDetail() {
           ''
         )}
       </div>
-      {isModal ? <Modal onClick={closeModal} /> : ''}
+      {isModal ? <Modal onClick={closeModal} title="후기 작성하기" /> : ''}
     </div>
   );
 }

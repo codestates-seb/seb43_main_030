@@ -21,6 +21,7 @@ function Post() {
   const [images, setImages] = useState([]);
   const [previousPost, setPreviousPost] = useState(null);
   const [nextPost, setNextPost] = useState(null);
+  const [commentError, setCommentError] = useState('');
   const navigate = useNavigate();
   const { postId } = useParams();
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -42,30 +43,36 @@ function Post() {
 
   function changeInput(e) {
     setCommentInput(e.target.value);
+    if (e.target.value.length !== 0) {
+      setCommentError('');
+    } else {
+      setCommentError('댓글 내용을 입력해주세요.');
+    }
   }
 
   function postComment() {
-    const now = new Date();
-    const dateString = now.toLocaleString();
+    if (commentInput.length !== 0) {
+      const data = {
+        postId,
+        content: commentInput,
+      };
 
-    const data = {
-      postId,
-      content: commentInput,
-    };
-
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/post/${postId}/comment`, data, {
-        headers: {
-          Authorization: localStorage.getItem('token'),
-        },
-      })
-      .then(response => {
-        console.log(response.data);
-        window.location.reload();
-      })
-      .catch(error => {
-        console.log(error);
-      });
+      axios
+        .post(`${process.env.REACT_APP_API_URL}/post/${postId}/comment`, data, {
+          headers: {
+            Authorization: localStorage.getItem('token'),
+          },
+        })
+        .then(response => {
+          console.log(response.data);
+          window.location.reload();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      setCommentError('댓글 내용을 입력해주세요.');
+    }
   }
 
   useEffect(() => {
@@ -255,6 +262,7 @@ function Post() {
                     postId={postId}
                     modifiedAt={comment.modifiedAt}
                     modified={comment.modified}
+                    profileImg={comment.imageUrl}
                   />
                 );
               })
@@ -267,6 +275,7 @@ function Post() {
               placeholder="댓글을 입력해주세요."
               className="!margin-0 w-full"
               onChange={e => changeInput(e)}
+              isError={commentError}
             />
             <Button
               className="btn-size-l color-yellow ml-8 shrink-0"

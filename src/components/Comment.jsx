@@ -13,12 +13,14 @@ function Comment({
   modifiedAt,
   postId,
   modified,
+  profileImg,
 }) {
   const [moreSelect, setMoreSelect] = useState(false);
 
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedText, setEditedText] = useState(text);
   const [onDelete, setOnDelete] = useState(false);
+  const [commentError, setCommentError] = useState('');
 
   const onDeleteModal = () => {
     setOnDelete(true);
@@ -30,38 +32,48 @@ function Comment({
   };
 
   const handleSaveClick = postId => {
-    setEditedText(text);
-    setIsEditMode(false);
+    if (text.length !== 0) {
+      setEditedText(text);
+      setIsEditMode(false);
+
+      axios
+        .patch(
+          `${process.env.REACT_APP_API_URL}/post/${postId}/comment/${commentId}`,
+          {
+            postId,
+            commenetId: commentId,
+            content: editedText,
+          },
+          {
+            headers: {
+              Authorization: localStorage.getItem('token'),
+            },
+          },
+        )
+        .then(response => {
+          window.location.reload();
+        })
+        .catch(error => {
+          console.log(error);
+          if (error.response && error.response.status === 403) {
+            alert('본인이 작성한 댓글만 수정할 수 있어요❗️');
+          }
+        });
+    } else {
+      setCommentError('댓글 내용을 입력헤주세요.');
+    }
 
     // const now = new Date();
     // const dateString = now.toLocaleString();
-    axios
-      .patch(
-        `${process.env.REACT_APP_API_URL}/post/${postId}/comment/${commentId}`,
-        {
-          postId,
-          commenetId: commentId,
-          content: editedText,
-        },
-        {
-          headers: {
-            Authorization: localStorage.getItem('token'),
-          },
-        },
-      )
-      .then(response => {
-        window.location.reload();
-      })
-      .catch(error => {
-        console.log(error);
-        if (error.response && error.response.status === 403) {
-          alert('본인이 작성한 댓글만 수정할 수 있어요❗️');
-        }
-      });
   };
 
   const handleChange = e => {
     setEditedText(e.target.value);
+    if (e.target.value.length !== 0) {
+      setCommentError('');
+    } else {
+      setCommentError('댓글 내용을 입력해주세요.');
+    }
   };
 
   const handleClick = () => {
@@ -97,7 +109,7 @@ function Comment({
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <div className="user-profile h-32 w-32 onlyMobile:h-24 onlyMobile:w-24">
-            <img src={Dog} alt="임시이미지" />
+            <img src={profileImg} alt="임시이미지" />
           </div>
           <span className="px-8 text-14">{name}</span>
           <span className="text-14 text-black-350 onlyMobile:text-12">
@@ -131,20 +143,21 @@ function Comment({
         </div>
       </div>
       {isEditMode ? (
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row items-start">
           <Input
             type="text"
             value={editedText}
+            isError={commentError}
             onChange={e => handleChange(e)}
             onKeyDown={e => {
               if (e.key === 'Enter') {
                 handleSaveClick(postId);
               }
             }}
-            className="mb-10 mt-5 w-[100%] text-16 text-black-900 onlyMobile:text-12"
+            className="mt-5 w-[100%] text-16 text-black-900 onlyMobile:text-12"
           />
           <Button
-            className="btn-size-l color-yellow ml-8 shrink-0"
+            className="btn-size-l color-yellow ml-8 mt-5 shrink-0"
             onClick={() => handleSaveClick(postId)}
           >
             수정
@@ -160,7 +173,7 @@ function Comment({
           ) : null}
         </p>
       )}
-      <p className="text-14 text-black-350 onlyMobile:text-12">
+      <p className="mt-10 text-14 text-black-350 onlyMobile:text-12">
         {/* {new Date(modifiedAt).toLocaleString()} */}
         {new Date(
           new Date(modifiedAt).getTime() + 9 * 60 * 60 * 1000,

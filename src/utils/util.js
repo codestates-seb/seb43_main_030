@@ -41,7 +41,7 @@ export function RenderProfile({ profileActive, clickedProfile, handleDelete }) {
       const shouldDisplayButton = Number(activeIndex) !== idx;
       // const selectedClass = selectProfile === idx ? 'font-bold' : '';
       return (
-        <li className="flex w-full">
+        <li className="flex w-full" key={profile.profileId}>
           <div
             className={`profile flex items-center justify-start${idx} cursor-pointer px-8 py-12 text-14 ${activeClass} w-full rounded-lg hover:bg-black-025`}
             onClick={e => {
@@ -49,7 +49,6 @@ export function RenderProfile({ profileActive, clickedProfile, handleDelete }) {
               clickedProfile(idx, profile.profileId);
             }}
             role="presentation"
-            key={profile.profileId}
           >
             <div className="flex w-full">
               {Number(activeIndex) === idx && (
