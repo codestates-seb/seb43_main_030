@@ -30,7 +30,11 @@ public class EmailService {
     // 메일 전송
     public String sendAuthMail(String email, String s) throws MessagingException, UnsupportedEncodingException {
         authCode = randomCreator.createAuthCode();
-        MimeMessage message = createPasswordForm(email);
+        MimeMessage message = null;
+        if (s.equals("password")){
+             message = createPasswordForm(email);
+             userRepository.findByEmail(email).orElseThrow(() -> new LogicException(CustomException.USER_NOT_FOUND));
+        }
         if (s.equals("auth")) {
             message = createMessageForm(email);
             userRepository.findByEmail(email).ifPresent(user -> {
