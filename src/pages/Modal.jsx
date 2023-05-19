@@ -17,6 +17,7 @@ function Modal(props) {
   const [kinderInfo, setKinderInfo] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
   const [starIndex, setStarIndex] = useState(0);
+  const [image, setImage] = useState('');
 
   const handleStarIndexChange = useCallback(index => {
     setStarIndex(index);
@@ -44,13 +45,13 @@ function Modal(props) {
     }
 
     const formData = new FormData();
-    formData.append('images', null);
 
     const data = {
       content: text,
       ratedReview: starIndex,
     };
 
+    formData.append('images', image);
     formData.append(
       'postDto',
       new Blob([JSON.stringify(data)], { type: 'application/json' }),
@@ -138,7 +139,7 @@ function Modal(props) {
               <div className="mt-25 flex flex-col pb-25">
                 <p className="write-title mb-15 mr-15">사진을 등록해주세요.</p>
                 <div className="flex">
-                  <UploadImage />
+                  <UploadImage image={image} setImage={setImage} />
                 </div>
               </div>
               {/* 수정 삭제 */}
