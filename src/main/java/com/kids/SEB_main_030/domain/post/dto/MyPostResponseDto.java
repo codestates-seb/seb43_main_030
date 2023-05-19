@@ -15,7 +15,14 @@ public class MyPostResponseDto {
     private String title;
     private String content;
     private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
     private int views;
     private int likeCount;
     private String postImageUrl;
+
+    public void setImages(List<ImageInPostResponseDto> images){
+        if (images != null && !images.isEmpty()) {
+            this.postImageUrl = images.get(0).getImageUrl();
+        }
+    }
 }
