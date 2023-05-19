@@ -21,9 +21,11 @@ function SignUp() {
   const [officials, setOfficials] = useState(false);
   const [confirmPwd, setConfirmPwd] = useState('');
 
-  // 인증문자
+  // 인증메일
   const [confirmEmail, setConfirmEmail] = useState('');
   const [confirmInput, setConfirmInput] = useState('');
+  const [emailSendComp, setEmailSendComp] = useState('');
+  const [confirmComp, setConfirmComp] = useState('');
 
   // 오류메시지
   const [emailErr, setEmailErr] = useState('');
@@ -35,64 +37,20 @@ function SignUp() {
   const [isEmail, setIsEmail] = useState(false);
   const [isPwd, setIsPwd] = useState(false);
   const [isConfirmPwd, setIsConfirmPwd] = useState(false);
+  const [isConrirmEmailBtn, setIsConfirmEmailBtn] = useState(false);
   const [isConfirmEmail, setIsConfirmEmail] = useState(false);
 
   const handleOfficialsClick = value => () => {
     setOfficials(value);
   };
 
-  const sendEmail = () => {
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/login/mailConfirm`, {
-        email: user.email,
-      })
-      .then(res => {
-        console.log('메일전송:', res);
-        setConfirmEmail(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
   const handleConfirmEmail = e => {
     setConfirmInput(e.target.value);
-  };
-
-  const checkEmail = () => {
-    if (confirmEmail === confirmInput) {
+    setEmailSendComp('');
+    if (confirmInput) {
       setConfirmEmailErr('');
-      setIsConfirmEmail(true);
-    } else {
-      setConfirmEmailErr('인증 코드를 다시 확인해주세요.');
-      setIsConfirmEmail(false);
     }
   };
-
-  const onSignup = useCallback(
-    e => {
-      e.preventDefault();
-      if (isConfirmEmail) {
-        axios
-          .post(`${process.env.REACT_APP_API_URL}/users`, {
-            email: user.email,
-            password: user.password,
-            checkOfficials: officials,
-          })
-          .then(res => {
-            navi('/login');
-            console.log(res);
-          })
-          .catch(err => {
-            console.log(err);
-            if (err.response && err.response.status === 409) {
-              setEmailErr('이미 가입되어 있는 이메일입니다.');
-            }
-          });
-      }
-    },
-    [user, officials, navi, isConfirmEmail],
-  );
 
   const onCheckEmail = useCallback(
     e => {
@@ -101,12 +59,14 @@ function SignUp() {
       const CurrentEmail = e.target.value;
       setUser({ ...user, email: CurrentEmail });
 
-      if (!valiEmail.test(CurrentEmail)) {
-        setEmailErr('이메일 형식이 올바르지 않습니다.');
-        setIsEmail(false);
-      } else if (user.email.length === 0) {
+      setIsConfirmEmailBtn(false);
+
+      if (user.email.length === 0) {
         // input 영역에 아무것도 없으면 에러메시지가 사라져야되는데..
-        setEmailErr('');
+        setEmailErr('이메일을 입력해주세요.');
+        setIsEmail(false);
+      } else if (!valiEmail.test(CurrentEmail)) {
+        setEmailErr('이메일 형식이 올바르지 않습니다.');
         setIsEmail(false);
       } else {
         setEmailErr('');
@@ -152,6 +112,86 @@ function SignUp() {
     [user.password],
   );
 
+  const sendEmail = () => {
+    if (user.email.length === 0) {
+      // input 영역에 아무것도 없으면 에러메시지가 사라져야되는데..
+      setEmailErr('이메일을 입력해주세요.');
+      setIsEmail(false);
+    } else {
+      setEmailErr('');
+      setIsEmail(true);
+    }
+
+    if (isEmail) {
+      axios
+        .post(`${process.env.REACT_APP_API_URL}/login/mailConfirm`, {
+          email: user.email,
+        })
+        .then(res => {
+          console.log('메일전송:', res);
+          setEmailSendComp('이메일을 전송하였습니다.');
+          setConfirmEmail(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+          setIsConfirmEmailBtn(false);
+          if (err.response && err.response.status === 409) {
+            setEmailErr('이미 가입되어 있는 이메일입니다.');
+          }
+        });
+    }
+  };
+
+  const checkEmail = () => {
+    if (confirmInput && confirmEmail === confirmInput) {
+      // setEmailSendComp('이메일 인증이 완료되었습니다.');
+      setConfirmComp('이메일 인증이 완료되었습니다.');
+      setConfirmEmailErr('');
+      setIsConfirmEmail(true);
+    } else {
+      setConfirmComp('');
+      setConfirmEmailErr('인증 코드를 다시 확인해주세요.');
+      setIsConfirmEmail(false);
+    }
+  };
+
+  const onSignup = e => {
+    e.preventDefault();
+    onCheckEmail(e);
+    onCheckPwd(e);
+    onCheckConfirmPwd(e);
+    checkEmail(e);
+
+    if (!confirmInput) {
+      setConfirmEmailErr('인증 코드를 입력해주세요.');
+      setIsConfirmEmail(false);
+    }
+
+    if (isEmail && isPwd && isConfirmPwd && isConfirmEmail) {
+      setEmailErr('');
+      setPwdErr('');
+      setConfirmPwdErr('');
+      setConfirmEmailErr('');
+
+      axios
+        .post(`${process.env.REACT_APP_API_URL}/users`, {
+          email: user.email,
+          password: user.password,
+          checkOfficials: officials,
+        })
+        .then(res => {
+          navi('/login');
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+          if (err.response && err.response.status === 409) {
+            setEmailErr('이미 가입되어 있는 이메일입니다.');
+          }
+        });
+    }
+  };
+
   const signup = () => {
     return (
       <>
@@ -163,10 +203,15 @@ function SignUp() {
               placeholder="아이디를 입력해주세요."
               onChange={onCheckEmail}
               isError={emailErr}
+              isComp={emailSendComp}
             />
             <Button
               className="color-yellow btn-size-l ml-8 mt-28 h-50 shrink-0 grow-0"
-              onClick={sendEmail}
+              onClick={() => {
+                setIsConfirmEmailBtn(true);
+                sendEmail();
+              }}
+              disabled={isConrirmEmailBtn}
             >
               인증하기
             </Button>
@@ -177,6 +222,7 @@ function SignUp() {
               placeholder="인증번호를 입력해주세요."
               onChange={handleConfirmEmail}
               isError={confirmEmailErr}
+              isComp={confirmComp}
             />
             <Button
               className="color-yellow btn-size-l ml-8 mt-28 h-50 shrink-0 grow-0"
@@ -229,7 +275,7 @@ function SignUp() {
           </div>
           <Button
             className="color-yellow btn-size-l w-full"
-            disabled={!(isEmail && isPwd && isConfirmPwd && isConfirmEmail)}
+            // disabled={!(isEmail && isPwd && isConfirmPwd && isConfirmEmail)}
             onClick={onSignup}
           >
             이메일로 회원가입
@@ -241,10 +287,12 @@ function SignUp() {
             <Kakao />
             카카오 회원가입
           </Button>
-          <Button className="border-gray btn-size-l w-full gap-1.5">
-            <Google />
-            구글 회원가입
-          </Button>
+          <Link to="http://ec2-15-165-204-114.ap-northeast-2.compute.amazonaws.com/oauth2/authorization/google">
+            <Button className="border-gray btn-size-l w-full gap-1.5">
+              <Google />
+              구글 회원가입
+            </Button>
+          </Link>
         </div>
       </>
     );
