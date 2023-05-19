@@ -63,14 +63,14 @@ function ListCommunity(props) {
             </div>
           </div>
           <p className="flex items-center text-14 text-black-350 onlyMobile:text-12">
-            {post.modifiedAt
-              ? dateCalculate(post.modifiedAt)
-              : dateCalculate(post.createdAt)}
             {post.modified && (
-              <span className=" ml-10 rounded-[4px] bg-black-070 p-4 text-10 text-black-350">
+              <span className=" mr-6 rounded-[4px] bg-black-025 px-4 py-2 text-10 text-black-350">
                 수정
               </span>
             )}
+            {post.modifiedAt
+              ? dateCalculate(post.modifiedAt)
+              : dateCalculate(post.createdAt)}
           </p>
         </div>
       </div>

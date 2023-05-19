@@ -7,32 +7,57 @@ import {
   setKinderGartens,
   setInputValue,
   setSearchValue,
+  setCommInputValue,
+  setSearchClickState,
 } from '../actions/areaFilterActions';
 import cls from '../utils/tailwind';
 
 function InputBtn(props) {
-  const { placeholder, className } = props;
+  const { placeholder, className, setPostList, pageState, commUrl } = props;
   const [focus, setFocus] = useState(true);
+  const [pageValue, setPageValue] = useState(pageState);
   const dispatch = useDispatch();
   const inputValue = useSelector(state => state.inputValue);
+  const commInputValue = useSelector(state => state.commInputValue);
 
   function changeInput(e) {
-    dispatch(setInputValue(e.target.value));
+    if (pageValue === 'community') {
+      dispatch(setCommInputValue(e.target.value));
+    } else {
+      dispatch(setInputValue(e.target.value));
+    }
   }
 
   function searchInput() {
-    const url = `${process.env.REACT_APP_API_URL}/kindergarten/name/${inputValue}`;
-    axios
-      .get(url)
-      .then(response => {
-        dispatch(setKinderGartens(response.data));
-        dispatch(setSearchValue(inputValue));
-        dispatch(setInputValue(''));
-        dispatch(setAreaFilter(0));
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    if (pageValue === 'community') {
+      const url = `${commUrl}&keyword=${commInputValue}`;
+      if (commInputValue) {
+        dispatch(setSearchClickState(true));
+      } else {
+        dispatch(setSearchClickState(false));
+      }
+      axios
+        .get(url)
+        .then(response => {
+          setPostList(response.data.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      const url = `${process.env.REACT_APP_API_URL}/kindergarten/name/${inputValue}`;
+      axios
+        .get(url)
+        .then(response => {
+          dispatch(setKinderGartens(response.data));
+          dispatch(setSearchValue(inputValue));
+          dispatch(setInputValue(''));
+          dispatch(setAreaFilter(0));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }
 
   function handleKeyPress(e) {
@@ -57,7 +82,7 @@ function InputBtn(props) {
           onFocus={() => setFocus(false)}
           onBlur={() => setFocus(true)}
           onChange={e => changeInput(e)}
-          value={inputValue}
+          value={pageValue === 'community' ? commInputValue : inputValue}
           onKeyPress={handleKeyPress}
         />
         <button

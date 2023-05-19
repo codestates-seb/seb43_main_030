@@ -15,14 +15,13 @@ function Write() {
   const [category, setCategory] = useState('community');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [contents, setContents] = useState('');
   const [userProfile, setUserProfile] = useState({});
   const [img, setImg] = useState([]);
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
   const navigate = useNavigate();
   const { postId } = useParams();
   const apiUrl = process.env.REACT_APP_API_URL;
-  const bearerToken = localStorage.getItem('token');
-  const token = bearerToken ? bearerToken.replace('Bearer ', '') : null;
 
   useEffect(() => {
     axios
@@ -37,17 +36,25 @@ function Write() {
       });
   }, [apiUrl]);
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:3001/post/${postId}`)
-  //     .then(response => {
-  //       setTitle(response.data.title);
-  //       setContent(response.data.content);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // }, [postId]);
+  useEffect(() => {
+    if (postId) {
+      axios
+        .get(`${apiUrl}/community/1/post/${postId}`)
+        .then(response => {
+          console.log(response.data.data);
+          setTitle(response.data.data.title);
+          setContent(response.data.data.content);
+          setContents(
+            content,
+            response.data.data.image &&
+              `<figure class=${response.data.data.images[0]}><img src=${response.data.data.images[0]} /></figure>`,
+          );
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }, [apiUrl, postId, content]);
 
   const customUploadAdapter = loader => {
     return {
@@ -111,25 +118,10 @@ function Write() {
     const dateString = dateCalculate(currentDate);
 
     const formData = new FormData();
-    // formData.append('images', img);
+
     img.forEach(image => {
       formData.append('images', image);
     });
-    // eslint-disable-next-line no-restricted-syntax
-    for (const pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
-    }
-
-    const data = {
-      title,
-      content,
-      category,
-    };
-
-    formData.append(
-      'postDto',
-      new Blob([JSON.stringify(data)], { type: 'application/json' }),
-    );
 
     const headers = {
       headers: {
@@ -137,25 +129,43 @@ function Write() {
         'Content-Type': 'multipart/form-data',
       },
     };
-    // if (postId) {
-    //   axios
-    //     .then()
-    //     .put(`${apiUrl}/community/1/post/${postId}`, formData, headers)
-    //     // .then(navigate(`/post/${postId}`))
-    //     .catch(error => {
-    //       console.log(error);
-    //     });
-    // } else {
-    axios
-      .post(`${apiUrl}/community/1/post`, formData, headers)
-      .then(response => console.dir(response))
-      .then(navigate(`/community`))
-      .catch(error => {
-        console.log(error);
-      });
-
-    // }
+    if (postId) {
+      const data = {
+        title,
+        content: contents,
+        category,
+      };
+      formData.append(
+        'patchDto',
+        new Blob([JSON.stringify(data)], { type: 'application/json' }),
+      );
+      axios
+        .patch(`${apiUrl}/community/1/post/${postId}`, formData, headers)
+        .then(response => console.log(response))
+        .then(navigate(`/post/${postId}`))
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      const data = {
+        title,
+        content,
+        category,
+      };
+      formData.append(
+        'postDto',
+        new Blob([JSON.stringify(data)], { type: 'application/json' }),
+      );
+      axios
+        .post(`${apiUrl}/community/1/post`, formData, headers)
+        .then(response => console.dir(response))
+        .then(navigate(`/community`))
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
+
   return (
     <div className="relative mb-64 flex flex-col items-center pt-130 onlyMobile:pt-92">
       <div className="w-full max-w-[1280px] px-80 onlyMobile:px-20">
@@ -225,7 +235,6 @@ function Write() {
               value="notification"
               labelClass="text-14 disabled:black-200"
               onChange={saveCategory}
-              disabled
             >
               공지사항
             </Radio>
@@ -255,20 +264,37 @@ function Write() {
             작성하시는 글의 내용을 입력해주세요.
           </p>
           <div>
-            <CKEditor
-              editor={ClassicEditor}
-              config={
-                ({
-                  placeholder: '내용을 입력해주세요.',
-                },
-                { extraPlugins: [uploadPlugin] })
-              }
-              data={content}
-              onChange={(event, editor) => {
-                const data = editor.getData();
-                setContent(data);
-              }}
-            />
+            {postId ? (
+              <CKEditor
+                editor={ClassicEditor}
+                config={
+                  ({
+                    placeholder: '내용을 입력해주세요.',
+                  },
+                  { extraPlugins: [uploadPlugin] })
+                }
+                data={contents}
+                onChange={(event, editor) => {
+                  const data = editor.getData();
+                  setContents(data);
+                }}
+              />
+            ) : (
+              <CKEditor
+                editor={ClassicEditor}
+                config={
+                  ({
+                    placeholder: '내용을 입력해주세요.',
+                  },
+                  { extraPlugins: [uploadPlugin] })
+                }
+                data={content}
+                onChange={(event, editor) => {
+                  const data = editor.getData();
+                  setContent(data);
+                }}
+              />
+            )}
           </div>
         </div>
       </div>
