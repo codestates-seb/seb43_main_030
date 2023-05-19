@@ -31,7 +31,7 @@ public class Profile {
     private String imageUrl;
     private boolean checkPerson;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
 

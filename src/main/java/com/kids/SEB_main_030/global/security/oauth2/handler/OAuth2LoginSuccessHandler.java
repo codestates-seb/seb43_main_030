@@ -1,5 +1,6 @@
 package com.kids.SEB_main_030.global.security.oauth2.handler;
 
+import com.kids.SEB_main_030.domain.profile.repository.ProfileRepository;
 import com.kids.SEB_main_030.global.security.jwt.JwtTokenizer;
 import com.kids.SEB_main_030.domain.profile.entity.Profile;
 import com.kids.SEB_main_030.global.security.oauth2.CustomOAuth2User;
@@ -14,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.ServletException;
@@ -28,6 +30,7 @@ import java.util.*;
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private final JwtTokenizer jwtTokenizer;
     private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
     private final RandomCreator randomCreator;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -36,7 +39,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         User user = userRepository.findBySocialTypeAndSocialId(oAuth2User.getSocialType(), getSocialId(oAuth2User)).orElse(null);
         if (user.getRole().equals(Role.GUEST)){
             initUser(user);
-            String url = "http://testqjzlt.s3-website.ap-northeast-2.amazonaws.com/api/login";
+            String url = "http://testqjzlt.s3-website.ap-northeast-2.amazonaws.com/login";
             response.sendRedirect(url);
             return;
             // ToDO 카카오 로그인은 이메일이 없으므로 추가정보 페이지로 redirect
@@ -54,6 +57,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         user.setCurrentProfileId(profile.getProfileId());
         user.setRole(Role.USER);
         userRepository.save(user);
+        profileRepository.save(profile);
     }
 
     private String delegateAccessToken(User user) {
