@@ -16,6 +16,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -23,6 +25,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -51,16 +54,24 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         String refreshToken = delegateRefreshToken(user);
         response.setHeader("Authorization", accessToken);
         response.setHeader("Refresh", refreshToken);
-        response.sendRedirect(createURI());
+        log.info("access Token : " + accessToken);
+        log.info("refresh Token : " + refreshToken);
+//        response.sendRedirect("http://testqjzlt.s3-website.ap-northeast-2.amazonaws.com");
+        getRedirectStrategy().sendRedirect(request, response, createURI(user, accessToken, refreshToken).toString());
     }
+    private URI createURI(User user, String accessToken, String refresh) {
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("userEmail", user.getEmail());
+        queryParams.add("Authorization", accessToken);
+        queryParams.add("Refresh", refresh);
 
-    private String createURI() {
-        return UriComponentsBuilder.newInstance()
+        return UriComponentsBuilder
+                .newInstance()
                 .scheme("http")
-                .host("http://testqjzlt.s3-website.ap-northeast-2.amazonaws.com/")
-                .encode(StandardCharsets.UTF_8)
+                .host("testqjzlt.s3-website.ap-northeast-2.amazonaws.com")
+                .queryParams(queryParams)
                 .build()
-                .toUriString();
+                .toUri();
     }
 
     private void initUser(User user) {
