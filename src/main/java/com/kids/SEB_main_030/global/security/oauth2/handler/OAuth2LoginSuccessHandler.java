@@ -17,11 +17,13 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Slf4j
@@ -40,15 +42,25 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         if (user.getRole().equals(Role.GUEST)){
             initUser(user);
             String url = "http://testqjzlt.s3-website.ap-northeast-2.amazonaws.com/login";
+            // ToDO 카카오 로그인은 이메일이 없으므로 추가정보 페이지로 redirect
             response.sendRedirect(url);
             return;
-            // ToDO 카카오 로그인은 이메일이 없으므로 추가정보 페이지로 redirect
         }
 
         String accessToken = "Bearer " + delegateAccessToken(user);
         String refreshToken = delegateRefreshToken(user);
         response.setHeader("Authorization", accessToken);
         response.setHeader("Refresh", refreshToken);
+        response.sendRedirect(createURI());
+    }
+
+    private String createURI() {
+        return UriComponentsBuilder.newInstance()
+                .scheme("http")
+                .host("http://testqjzlt.s3-website.ap-northeast-2.amazonaws.com/")
+                .encode(StandardCharsets.UTF_8)
+                .build()
+                .toUriString();
     }
 
     private void initUser(User user) {

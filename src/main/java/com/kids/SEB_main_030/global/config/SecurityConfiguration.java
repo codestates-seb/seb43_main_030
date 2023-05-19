@@ -67,8 +67,6 @@ public class SecurityConfiguration {
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService);
 
-
-
         return http.build();
     }
 
@@ -84,6 +82,7 @@ public class SecurityConfiguration {
         configuration.addAllowedOrigin("http://localhost:3000");
         configuration.addAllowedOrigin("http://localhost:8080");
         configuration.addAllowedOrigin("http://ec2-15-165-204-114.ap-northeast-2.compute.amazonaws.com");
+        configuration.addAllowedOrigin("http://testqjzlt.s3-website.ap-northeast-2.amazonaws.com");
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
@@ -100,14 +99,11 @@ public class SecurityConfiguration {
         @Override
         public void configure(HttpSecurity builder) throws Exception{
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
-
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
             jwtAuthenticationFilter.setFilterProcessesUrl("/api/login");
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler());
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
-
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer);
-
             builder
                     .addFilter(jwtAuthenticationFilter)
                     // 로그인 인증에 성공한 후 JWT가 Authorization 헤더에 포함되어 있을 경우 동작
