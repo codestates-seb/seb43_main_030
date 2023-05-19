@@ -162,7 +162,7 @@
   }
 
   .list-user-image {
-    @apply h-40 w-40 shrink-0 rounded-xl bg-black-050 pr-24;
+    @apply h-40 w-40 shrink-0 rounded-xl bg-black-050;
   }
 
   .list-flex {

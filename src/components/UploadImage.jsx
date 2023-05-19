@@ -2,19 +2,23 @@ import { useState, useRef } from 'react';
 import cls from '../utils/tailwind';
 
 function UploadImage(props) {
-  const { className, setImage, image } = props;
+  const { className, setImage, image, prevImages } = props;
+  console.log(prevImages);
 
   const [display, setDisplay] = useState('');
 
   const fileInput = useRef(null);
 
   const handleFileChange = e => {
-    const uploadFile = e.target.files[0];
+    const uploadFiles = e.target.files;
+    const newImages = [];
 
-    if (uploadFile) {
-      setImage(uploadFile);
+    if (uploadFiles && uploadFiles.length > 0) {
+      for (let i = 0; i < uploadFiles.length; i += 1) {
+        setImage(prev => [...prev, uploadFiles[i]]);
+      }
     } else {
-      setImage('');
+      setImage([]);
       return;
     }
 
@@ -24,13 +28,34 @@ function UploadImage(props) {
         setDisplay(reader.result);
       }
     };
-    reader.readAsDataURL(uploadFile);
+    reader.readAsDataURL(uploadFiles[0]);
+  };
+
+  const handleRemovePrevImages = () => {
+    setImage([]);
   };
 
   return (
     <div className="h-80 w-80">
       {/* <label htmlFor="uploadImage" className="cursor-pointer"> */}
-      {image ? (
+      {prevImages ? (
+        <div
+          className="user-profile overflow-hidden"
+          onClick={() => {
+            fileInput.current.click();
+            handleRemovePrevImages();
+          }}
+          onKeyDown={() => {}}
+          tabIndex={0}
+          role="button"
+        >
+          <img
+            src={prevImages.imageUrl}
+            alt="Uploaded"
+            className="h-full w-full object-cover"
+          />
+        </div>
+      ) : image ? (
         <div
           className="user-profile overflow-hidden"
           onClick={() => {
