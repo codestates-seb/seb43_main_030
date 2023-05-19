@@ -14,7 +14,8 @@ function UploadImage(props) {
 
     if (uploadFiles && uploadFiles.length > 0) {
       for (let i = 0; i < uploadFiles.length; i += 1) {
-        setImage(prev => [...prev, uploadFiles[i]]);
+        setImage(uploadFiles[i]);
+        // setImage(uploadFiles);
       }
     } else {
       setImage([]);
@@ -28,6 +29,7 @@ function UploadImage(props) {
       }
     };
     reader.readAsDataURL(uploadFiles[0]);
+    // reader.readAsDataURL(uploadFiles[0]);
   };
 
   const deleteImage = e => {

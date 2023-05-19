@@ -190,8 +190,9 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
                   {kinderData.name && kinderData.name.slice().replace(/"/g, '')}
                 </p>
                 <p className="flex items-center text-14">
-                  <Star /> {kinderData.ratedReviewsAvg} (
-                  {kinderData.ratedReviewsCount})
+                  <Star />
+                  {kinderData.ratedReviewsAvg.toFixed(1)}
+                  {kinderData.ratedReviewsCount}
                 </p>
                 <p className="mt-6 text-14">
                   {kinderData.locations &&
