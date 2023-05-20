@@ -49,17 +49,21 @@ function ListReview({ post, kinderData }) {
     <div>
       <ul>
         <li className="list-flex w-full">
-          <div className="mr-24 w-full">
+          <div className="w-full">
             <div className="flex w-full items-center justify-between">
               <div className="flex w-full">
-                <div className="list-user-image mr-16" />
+                <div className="user-profile mr-16 h-40 w-40">
+                  <img src={post.profileImageUrl} alt="profileImage" />
+                </div>
                 <div className="flex w-full flex-col">
-                  <div className="flex items-center gap-2">
-                    <p className="text-16 font-bold onlyMobile:text-14">
+                  <div className="mb-4 flex">
+                    {/* <div className="mb-4 grid w-full grid-cols-[auto-fit_minmax(200px,_1fr)]"> */}
+                    {/* grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); */}
+                    <p className="mr-4 text-16 font-bold onlyMobile:text-14">
                       {post.profileName}
                     </p>
                     <p className="text-14 text-black-350 onlyMobile:text-12">
-                      이메일
+                      {post.email}
                     </p>
                   </div>
                   <div className="flex w-full items-center justify-between">
@@ -72,7 +76,7 @@ function ListReview({ post, kinderData }) {
               </div>
             </div>
             <p className="list-content h-text-max mt-16 max-h-[50px]">
-              {post.contents}
+              {post.content}
             </p>
             <Button
               className="btn-text-default py-4 text-left text-14 font-bold text-black-900"
@@ -81,7 +85,13 @@ function ListReview({ post, kinderData }) {
               더보기
             </Button>
           </div>
-          {post.imageUrl ? <img src={post.imageUrl} alt="img" /> : ''}
+          <div className="user-profile ml-24 h-108 w-108 onlyMobile:h-96 onlyMobile:w-96 onlyMini:h-56 onlyMini:w-56">
+            {post.reviewImageUrl === null ? (
+              ''
+            ) : (
+              <img src={post.reviewImageUrl} alt="img" />
+            )}
+          </div>
           {reviewModal ? (
             <ConfirmReview
               offReviewModal={offReviewModal}
