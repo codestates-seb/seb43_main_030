@@ -5,7 +5,7 @@ import axios from 'axios';
 import Dog from '../images/dog.jpeg';
 import RatingStar from '../components/RatingStar';
 import TextArea from '../components/TextArea';
-import UploadImage from '../components/UploadImage';
+import ProfileUploadImage from '../components/ProfileUploadImage';
 import Button from '../components/Button/Button';
 import profile from '../images/profile.png';
 import { ReactComponent as Star } from '../images/star-on.svg';
@@ -13,7 +13,7 @@ import { ReactComponent as StarOff } from '../images/star-off.svg';
 import { ReactComponent as Close } from '../images/close.svg';
 
 function Modal(props) {
-  const { onClick, prevRatedReview, prevText, prevImages, title, reviewId } =
+  const { onClick, prevRatedReview, prevText, prevImage, title, reviewId } =
     props;
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [text, setText] = prevText ? useState(prevText) : useState('');
@@ -24,7 +24,7 @@ function Modal(props) {
       useState(prevRatedReview)
     : // eslint-disable-next-line react-hooks/rules-of-hooks
       useState(0);
-  const [images, setImages] = useState([]);
+  const [image, setImage] = useState(null);
 
   const starScore = () => {
     const ratedStar = Math.floor(kinderInfo.ratedReview);
@@ -77,9 +77,7 @@ function Modal(props) {
         ratedReview: starIndex,
       };
 
-      for (let i = 0; i < images.length; i += 1) {
-        formData.append('images', images[i]);
-      }
+      formData.append('images', image);
 
       // formData.append(images);
 
@@ -108,9 +106,7 @@ function Modal(props) {
         ratedReview: starIndex,
       };
 
-      for (let i = 0; i < images.length; i += 1) {
-        formData.append('images', images[i]);
-      }
+      formData.append('images', image);
 
       formData.append(
         'postDto',
@@ -204,25 +200,10 @@ function Modal(props) {
               <div className="mt-25 flex flex-col pb-25">
                 <p className="write-title mb-15 mr-15">사진을 등록해주세요.</p>
                 <div className="flex">
-                  <UploadImage
-                    image={images}
-                    setImage={setImages}
-                    prevImages={prevImages ? prevImages[0] : null}
-                  />
-                  <UploadImage
-                    image={images}
-                    setImage={setImages}
-                    prevImages={prevImages ? prevImages[1] : null}
-                  />
-                  <UploadImage
-                    image={images}
-                    setImage={setImages}
-                    prevImages={prevImages ? prevImages[2] : null}
-                  />
-                  <UploadImage
-                    image={images}
-                    setImage={setImages}
-                    prevImages={prevImages ? prevImages[3] : null}
+                  <ProfileUploadImage
+                    image={image}
+                    setImage={setImage}
+                    prevImages={prevImage}
                   />
                 </div>
               </div>

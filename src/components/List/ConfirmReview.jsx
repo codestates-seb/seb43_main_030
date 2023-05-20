@@ -146,7 +146,7 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
 
               <div className="mt-25 flex flex-col pb-25">
                 {kinderInfo.images && kinderInfo.images.length !== 0 ? (
-                  <div className="h-200 w-[100%] flex-col">
+                  <div className="h-250 w-[100%] flex-col">
                     {kinderInfo.images.map(image => {
                       return <img src={image.imageUrl} alt="reviewImg" />;
                     })}
@@ -155,26 +155,26 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
                   <div>리뷰에 등록된 사진이 없습니다...🥹</div>
                 )}
               </div>
-              <div className="mr-10 mt-25 flex flex-col pb-40">
-                <div className="flex justify-end">
-                  <button
-                    className="mr-15 text-14 text-black-350 onlyMobile:text-12"
-                    type="button"
-                    onClick={() => {
-                      // offReviewModal();
-                      onEditModal();
-                    }}
-                  >
-                    수정
-                  </button>
-                  <button
-                    className="text-14 text-black-350 onlyMobile:text-12"
-                    type="button"
-                    onClick={deleteReview}
-                  >
-                    삭제
-                  </button>
-                </div>
+            </div>
+            <div className="mr-10 mt-25 flex flex-col pb-40">
+              <div className="flex justify-end">
+                <button
+                  className="mr-15 text-14 text-black-350 onlyMobile:text-12"
+                  type="button"
+                  onClick={() => {
+                    // offReviewModal();
+                    onEditModal();
+                  }}
+                >
+                  수정
+                </button>
+                <button
+                  className="text-14 text-black-350 onlyMobile:text-12"
+                  type="button"
+                  onClick={deleteReview}
+                >
+                  삭제
+                </button>
               </div>
             </div>
             <div className="mb-25 flex border-t-[1px] border-black-070 pt-25">
@@ -191,7 +191,7 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
                 </p>
                 <p className="flex items-center text-14">
                   <Star />
-                  {kinderData.ratedReviewsAvg.toFixed(1)}
+                  {kinderData?.ratedReviewsAvg?.toFixed(2)}
                   {kinderData.ratedReviewsCount}
                 </p>
                 <p className="mt-6 text-14">
@@ -210,7 +210,7 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
             onClick={offEditModal}
             prevRatedReview={kinderInfo.ratedReview}
             prevText={kinderInfo.content}
-            prevImages={kinderInfo.images}
+            prevImage={kinderInfo.images}
             reviewId={kinderInfo.reviewId}
           />
         ) : null}
