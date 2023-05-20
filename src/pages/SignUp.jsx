@@ -2,6 +2,11 @@ import axios from 'axios';
 import { useMediaQuery } from 'react-responsive';
 import { useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import {
+  useGoogleLogin,
+  GoogleLogin,
+  GoogleOAuthProvider,
+} from '@react-oauth/google';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import RadioGroup from '../components/Radio/RadioGroup';
@@ -62,7 +67,6 @@ function SignUp() {
       setIsConfirmEmailBtn(false);
 
       if (user.email.length === 0) {
-        // input 영역에 아무것도 없으면 에러메시지가 사라져야되는데..
         setEmailErr('이메일을 입력해주세요.');
         setIsEmail(false);
       } else if (!valiEmail.test(CurrentEmail)) {
@@ -114,7 +118,6 @@ function SignUp() {
 
   const sendEmail = () => {
     if (user.email.length === 0) {
-      // input 영역에 아무것도 없으면 에러메시지가 사라져야되는데..
       setEmailErr('이메일을 입력해주세요.');
       setIsEmail(false);
     } else {
@@ -144,7 +147,6 @@ function SignUp() {
 
   const checkEmail = () => {
     if (confirmInput && confirmEmail === confirmInput) {
-      // setEmailSendComp('이메일 인증이 완료되었습니다.');
       setConfirmComp('이메일 인증이 완료되었습니다.');
       setConfirmEmailErr('');
       setIsConfirmEmail(true);
@@ -192,15 +194,34 @@ function SignUp() {
     }
   };
 
+  // const googleLogin = useGoogleLogin({
+  //   onSuccess: tokenResponse => console.log(tokenResponse),
+  // });
+
+  // const googleSignUp = e => {
+  //   e.preventDefault();
+  //   // const googleUrl = `${process.env.REACT_APP_OAUTH_URL}/oauth2/authorization/google?redirect_uri=http://localhost:3000/signup`;
+  //   const googleUrl = `${process.env.REACT_APP_OAUTH_URL}/oauth2/authorization/google`;
+
+  //   axios
+  //     .get(googleUrl)
+  //     .then(res => {
+  //       console.log(res);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // };
+
   const signup = () => {
     return (
       <>
         <form className="px-8" onSubmit={onSignup}>
           <div className="mb-24 flex">
             <Input
-              labelText="아이디"
+              labelText="이메일"
               type="email"
-              placeholder="아이디를 입력해주세요."
+              placeholder="이메일 입력해주세요."
               onChange={onCheckEmail}
               isError={emailErr}
               isComp={emailSendComp}
@@ -283,12 +304,17 @@ function SignUp() {
         </form>
         <div className="login-line">또는</div>
         <div>
-          <Button className="border-gray btn-size-l mb-16 w-full gap-1.5">
-            <Kakao />
-            카카오 회원가입
-          </Button>
+          <Link to="http://ec2-15-165-204-114.ap-northeast-2.compute.amazonaws.com/oauth2/authorization/kakao">
+            <Button className="border-gray btn-size-l mb-16 w-full gap-1.5">
+              <Kakao />
+              카카오 회원가입
+            </Button>
+          </Link>
           <Link to="http://ec2-15-165-204-114.ap-northeast-2.compute.amazonaws.com/oauth2/authorization/google">
-            <Button className="border-gray btn-size-l w-full gap-1.5">
+            <Button
+              className="border-gray btn-size-l w-full gap-1.5"
+              // onClick={googleSignUp}
+            >
               <Google />
               구글 회원가입
             </Button>
