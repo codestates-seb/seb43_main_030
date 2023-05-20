@@ -17,6 +17,7 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [starIndex, setStarIndex] = useState(0);
   const [editModal, setEditModal] = useState(false);
+  const [prevImage, setPrevImage] = useState('');
 
   const starScore = () => {
     const ratedStar = Math.floor(kinderInfo.ratedReview);
@@ -80,6 +81,12 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
         }
       });
   };
+
+  useEffect(() => {
+    if (kinderInfo.images) {
+      setPrevImage(kinderInfo.images[kinderInfo.images.length - 1].imageUrl);
+    }
+  }, [kinderInfo.images, kinderInfo]);
 
   const handleEdit = () => {};
   const handleDelete = () => {};
@@ -147,9 +154,12 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
               <div className="mt-25 flex flex-col pb-25">
                 {kinderInfo.images && kinderInfo.images.length !== 0 ? (
                   <div className="h-250 w-[100%] flex-col">
-                    {kinderInfo.images.map(image => {
-                      return <img src={image.imageUrl} alt="reviewImg" />;
-                    })}
+                    <img
+                      src={
+                        kinderInfo.images[kinderInfo.images.length - 1].imageUrl
+                      }
+                      alt="reviewImg"
+                    />
                   </div>
                 ) : (
                   <div>리뷰에 등록된 사진이 없습니다...🥹</div>
@@ -210,7 +220,8 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
             onClick={offEditModal}
             prevRatedReview={kinderInfo.ratedReview}
             prevText={kinderInfo.content}
-            prevImage={kinderInfo.images}
+            prevImage={prevImage}
+            setPrevImage={setPrevImage}
             reviewId={kinderInfo.reviewId}
           />
         ) : null}

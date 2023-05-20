@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
 import Dog from '../images/dog.jpeg';
 import RatingStar from '../components/RatingStar';
 import TextArea from '../components/TextArea';
@@ -13,8 +12,15 @@ import { ReactComponent as StarOff } from '../images/star-off.svg';
 import { ReactComponent as Close } from '../images/close.svg';
 
 function Modal(props) {
-  const { onClick, prevRatedReview, prevText, prevImage, title, reviewId } =
-    props;
+  const {
+    onClick,
+    prevRatedReview,
+    prevText,
+    prevImage,
+    setPrevImage,
+    title,
+    reviewId,
+  } = props;
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [text, setText] = prevText ? useState(prevText) : useState('');
   const [kinderInfo, setKinderInfo] = useState([]);
@@ -127,7 +133,7 @@ function Modal(props) {
         .catch(error => console.log(error));
     }
   };
-
+  console.log(prevImage);
   return (
     <>
       <div className="flex justify-center">
@@ -203,7 +209,8 @@ function Modal(props) {
                   <ProfileUploadImage
                     image={image}
                     setImage={setImage}
-                    prevImages={prevImage}
+                    prevImage={prevImage}
+                    setPrevImage={setPrevImage}
                   />
                 </div>
               </div>
