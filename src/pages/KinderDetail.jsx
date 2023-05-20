@@ -43,7 +43,11 @@ function KinderDetail() {
   // 유치원 정보
   const [kinderData, setKinderData] = useState('');
   const [postData, setPostData] = useState('');
+
   const [reviewData, setReviewData] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentReview, setCurrentReview] = useState([]);
+
   const [map, setMap] = useState(null);
   const [isModal, setisModal] = useState(false);
   const center = useSelector(state => state.center);
@@ -83,19 +87,22 @@ function KinderDetail() {
     axios
       .all([
         axios.get(`${process.env.REACT_APP_API_URL}/kindergarten/${id}`),
+        axios.get(
+          `${process.env.REACT_APP_API_URL}/community/${id}/post/notification`,
+        ),
         axios.get(`${process.env.REACT_APP_API_URL}/review/kindergarten/${id}`),
-        // axios.get(
-        //   `${process.env.REACT_APP_API_URL}/community/${id}/post/notification`,
-        // ),
       ])
       .then(
         axios.spread((res1, res2, res3) => {
           const resKinder = res1.data.data;
-          const resReview = res2.data;
-          // const resPost = res3.data.data;
+          const resPost = res2.data.sort;
+          const resReview = res3.data.sort((a, b) => b.reviewId - a.reviewId);
           setKinderData(resKinder);
-          setReviewData(resReview);
           // setPostData(resPost);
+          setReviewData(resReview);
+          console.log(res1.data.data);
+          console.log(res2.data);
+          console.log(res3.data);
 
           if (res1.data) {
             dispatch(
@@ -111,6 +118,10 @@ function KinderDetail() {
         console.log(err);
       });
   }, [id, dispatch]);
+
+  console.log('kinderdata:', kinderData);
+  console.log('reviewData:', reviewData);
+  console.log('postData:', postData);
 
   // 모달 관련 함수
   const modalOnOff = () => {
@@ -226,7 +237,7 @@ function KinderDetail() {
                 <div className="flex w-full items-center ">
                   <StarOn className="mr-4 inline-block h-32 w-32 onlyMobile:h-24 onlyMobile:w-24" />
                   <span className="text-22 font-bold onlyMobile:text-18">
-                    {`${kinderData.ratedReviewsAvg} ∙ 후기 
+                    {`${kinderData.ratedReviewsAvg.toFixed(2)} ∙ 후기 
                     ${kinderData.ratedReviewsCount}개`}
                   </span>
                 </div>
@@ -288,7 +299,9 @@ function KinderDetail() {
                   <div className="mt-16 text-14">
                     <div className="mb-8 flex items-center">
                       <StarOn className="mr-4 inline-block" />
-                      <span>{`${kinderData.ratedReviewsAvg} (${kinderData.ratedReviewsCount})`}</span>
+                      <span>{`${kinderData.ratedReviewsAvg.toFixed(2)} (${
+                        kinderData.ratedReviewsCount
+                      })`}</span>
                     </div>
                     <p>{kinderData.locations.replace(/"/g, '')}</p>
                   </div>
