@@ -10,6 +10,7 @@ import ConfirmReview from '../components/List/ConfirmReview';
 import ListNotice from '../components/List/ListNotice';
 import ListReview from '../components/List/ListReview';
 import Button from '../components/Button/Button';
+import Pagination from '../components/Pagination';
 import Dog from '../images/dog.jpeg';
 import PinOn from '../images/pin-on.png';
 import { ReactComponent as Call } from '../images/call.svg';
@@ -45,6 +46,7 @@ function KinderDetail() {
   const [postData, setPostData] = useState('');
 
   const [reviewData, setReviewData] = useState('');
+  const [list, setList] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentReview, setCurrentReview] = useState([]);
 
@@ -95,11 +97,12 @@ function KinderDetail() {
       .then(
         axios.spread((res1, res2, res3) => {
           const resKinder = res1.data.data;
-          const resPost = res2.data.sort;
-          const resReview = res3.data.sort((a, b) => b.reviewId - a.reviewId);
+          const resPost = res2.data.data;
+          const resReview = res3.data;
           setKinderData(resKinder);
-          // setPostData(resPost);
-          setReviewData(resReview);
+          setPostData(resPost);
+          setReviewData(resReview.sort((a, b) => b.reviewId - a.reviewId));
+          setCurrentReview(resReview.slice(0, 5));
           console.log(res1.data.data);
           console.log(res2.data);
           console.log(res3.data);
@@ -119,9 +122,19 @@ function KinderDetail() {
       });
   }, [id, dispatch]);
 
-  console.log('kinderdata:', kinderData);
-  console.log('reviewData:', reviewData);
-  console.log('postData:', postData);
+  // 페이지네이션
+  useEffect(() => {
+    const firstReview = (currentPage - 1) * 5;
+    setCurrentReview(reviewData.slice(firstReview, firstReview + 5));
+  }, [currentPage, reviewData]);
+
+  const handlePageChange = e => {
+    setCurrentPage(e);
+  };
+
+  console.log(currentReview);
+  console.log(reviewData);
+  console.log(reviewData.length);
 
   // 모달 관련 함수
   const modalOnOff = () => {
@@ -237,8 +250,8 @@ function KinderDetail() {
                 <div className="flex w-full items-center ">
                   <StarOn className="mr-4 inline-block h-32 w-32 onlyMobile:h-24 onlyMobile:w-24" />
                   <span className="text-22 font-bold onlyMobile:text-18">
-                    {`${kinderData.ratedReviewsAvg.toFixed(2)} ∙ 후기 
-                    ${kinderData.ratedReviewsCount}개`}
+                    {`${kinderData?.ratedReviewsAvg?.toFixed(2)} ∙ 후기 
+                    ${kinderData?.ratedReviewsCount}개`}
                   </span>
                 </div>
                 {auth ? (
@@ -256,9 +269,9 @@ function KinderDetail() {
                   </Link>
                 )}
               </div>
-              {reviewData ? (
+              {currentReview ? (
                 <div className="flex flex-col gap-8">
-                  {reviewData.map(el => {
+                  {currentReview.map(el => {
                     return (
                       <ListReview
                         key={el.reviewId}
@@ -276,15 +289,13 @@ function KinderDetail() {
                   </p>
                 </div>
               )}
-              <div className="mt-50 flex">
-                <Button className="btn-pagination-default">
-                  <ArrowPrev />
-                </Button>
-                <Button className="btn-pagination-default">1</Button>
-                <Button className="btn-pagination-default">
-                  <ArrowNext />
-                </Button>
-              </div>
+              <Pagination
+                currentPage={currentPage}
+                // count={reviewData.length}
+                count={reviewData.length}
+                onChange={handlePageChange}
+                itemsCountPerPage={5}
+              />
             </div>
           </div>
 

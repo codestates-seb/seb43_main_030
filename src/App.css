@@ -44,5 +44,34 @@ ul.pagination li.active {
 }
 
 ul.pagination li:hover {
+  background-color: #f8f9f9;
+}
+
+.pagination > ul > li:first-child {
+  display: none;
+}
+.pagination > ul > li:last-child {
+  display: none;
+}
+.pagination > ul > li.active {
   background-color: #ffd337;
+}
+.pagination > ul > li.hover {
+  background-color: #f8f9f9;
+}
+.pagination > li {
+  cursor: pointer;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  border-radius: 4px;
+  margin: 0 2px 0 2px;
+}
+.pagination > li > a {
+  text-decoration: none;
+  color: #121210;
 }
