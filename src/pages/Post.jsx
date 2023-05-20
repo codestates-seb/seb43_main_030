@@ -191,8 +191,7 @@ function Post() {
         <div className="border-b border-solid border-black-070 pb-24">
           {Parser(
             `<div className="py-32 onlyMobile:py-24 onlyMobile:text-14">
-              ${post.content}
-            
+              ${post.content ? post.content : ''}
             </div>`,
           )}
           {images &&

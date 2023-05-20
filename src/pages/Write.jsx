@@ -141,8 +141,8 @@ function Write() {
       );
       axios
         .patch(`${apiUrl}/community/1/post/${postId}`, formData, headers)
-        .then(response => console.log(response))
         .then(navigate(`/post/${postId}`))
+        .then(window.location.reload())
         .catch(error => {
           console.log(error);
         });
@@ -158,8 +158,11 @@ function Write() {
       );
       axios
         .post(`${apiUrl}/community/1/post`, formData, headers)
-        .then(response => console.dir(response))
-        .then(navigate(`/community`))
+        .then(response => {
+          const url = response.headers.location;
+          const naviUrl = url.substring(url.lastIndexOf('/') + 1);
+          navigate(`/post/${naviUrl}`);
+        })
         .catch(error => {
           console.log(error);
         });
