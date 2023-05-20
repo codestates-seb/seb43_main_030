@@ -1,7 +1,12 @@
 import { useMediaQuery } from 'react-responsive';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import {
+  useGoogleLogin,
+  GoogleLogin,
+  GoogleOAuthProvider,
+} from '@react-oauth/google';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setAuth,
@@ -61,7 +66,7 @@ function Login() {
 
   function loginFunc() {
     if (!loginData.email) {
-      setEmailErr('아이디를 입력하세요.');
+      setEmailErr('이메일을 입력하세요.');
       setPwdErr('');
       setCheck(false);
       return;
@@ -103,6 +108,60 @@ function Login() {
       });
   }
 
+  // const googleLogin = () => {
+  //       localStorage.setItem('token', res.headers.get('Authorization'));
+  //       localStorage.setItem('tokenRefresh', res.headers.get('Refresh'));
+
+  // };
+
+  // const googleLogin = useGoogleLogin({
+  //   onSuccess: tokenResponse => console.log(tokenResponse),
+  // });
+
+  // const googleLogin = e => {
+  //   e.preventDefault();
+
+  //   // const googleUrl = `${process.env.REACT_APP_OAUTH_URL}/oauth2/authorization/google?redirect_uri=http://localhost:3000/signup`;
+  //   const googleUrl = `${process.env.REACT_APP_OAUTH_URL}/oauth2/authorization/google`;
+  //   // window.location.href = googleUrl;
+  //   axios.post(googleUrl, { code: authorizationCode }).then(res => {
+  //     localStorage.setItem('token', res.headers.Authorization);
+  //   });
+  // };
+
+  // 구글 로그인
+  const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID}&
+  response_type=token&
+  redirect_uri=https://localhost:3000&
+  scope=https://www.googleapis.com/auth/userinfo.email`;
+  const handleGoogle = () => {
+    window.location.assign(googleUrl);
+  };
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const { hash } = url;
+    if (hash) {
+      const accessToken = hash.split('=')[1].split('&')[0];
+      axios
+        .get(
+          `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${accessToken}`,
+          {
+            headers: {
+              authorization: `token ${accessToken}`,
+              accept: 'application/json',
+            },
+          },
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }, []);
+
   const login = () => {
     return (
       <>
@@ -110,8 +169,8 @@ function Login() {
           {check ? (
             <div className="mb-24">
               <Input
-                labelText="아이디"
-                placeholder="아이디를 입력해주세요."
+                labelText="이메일"
+                placeholder="이메일을 입력해주세요."
                 type="text"
                 onChange={handleValueChange('email')}
               />
@@ -119,8 +178,8 @@ function Login() {
           ) : (
             <div className="mb-24">
               <Input
-                labelText="아이디"
-                placeholder="아이디를 입력해주세요."
+                labelText="이메일"
+                placeholder="이메일 입력해주세요."
                 type="text"
                 isError={emailErr}
                 onChange={handleValueChange('email')}
@@ -164,7 +223,10 @@ function Login() {
             <Kakao />
             카카오 로그인
           </Button>
-          <Button className="border-gray btn-size-l w-full gap-1.5">
+          <Button
+            className="border-gray btn-size-l w-full gap-1.5"
+            onClick={handleGoogle}
+          >
             <Google />
             구글 로그인
           </Button>

@@ -9,6 +9,7 @@
     "@ckeditor/ckeditor5-react": "^6.0.0",
     "@ckeditor/ckeditor5-upload": "^37.1.0",
     "@react-google-maps/api": "^2.18.1",
+    "@react-oauth/google": "^0.11.0",
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

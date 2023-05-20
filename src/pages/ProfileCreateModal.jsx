@@ -8,7 +8,7 @@ import {
   setUser,
 } from '../actions/areaFilterActions';
 
-import UploadImage from '../components/UploadImage';
+import UploadImage from '../components/ProfileUploadImage';
 import Button from '../components/Button/Button';
 import RadioGroup from '../components/Radio/RadioGroup';
 import Radio from '../components/Radio/Radio';
