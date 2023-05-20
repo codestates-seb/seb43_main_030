@@ -12,6 +12,9 @@ import {
   setSearchValue,
   setAuth,
   setActiveIndex,
+  setCategory,
+  setCommInputValue,
+  setSearchClickState,
 } from '../actions/areaFilterActions';
 
 // 상태 정의
@@ -29,6 +32,9 @@ const initialState = {
   searchValue: '',
   auth: false,
   activeIndex: 0,
+  category: '',
+  commInputValue: 'notification',
+  searchClickState: false,
 };
 
 const areaFilterReducer = createReducer(initialState.areaFilter, builder => {
@@ -74,6 +80,24 @@ const activeIndexReducer = createReducer(initialState.activeIndex, builder => {
   builder.addCase(setActiveIndex, (state, action) => action.payload);
 });
 
+const categoryReducer = createReducer(initialState.category, builder => {
+  builder.addCase(setCategory, (state, action) => action.payload);
+});
+
+const commInputValueReducer = createReducer(
+  initialState.commInputValue,
+  builder => {
+    builder.addCase(setCommInputValue, (state, action) => action.payload);
+  },
+);
+
+const searchClickStateReducer = createReducer(
+  initialState.searchClickState,
+  builder => {
+    builder.addCase(setSearchClickState, (state, action) => action.payload);
+  },
+);
+
 const rootReducer = combineReducers({
   areaFilter: areaFilterReducer,
   center: centerReducer,
@@ -85,6 +109,9 @@ const rootReducer = combineReducers({
   searchValue: searchValueReducer,
   auth: authReducer,
   activeIndex: activeIndexReducer,
+  category: categoryReducer,
+  commInputValue: commInputValueReducer,
+  searchClickState: searchClickStateReducer,
 });
 
 const persistConfig = {
@@ -101,6 +128,9 @@ const persistConfig = {
     'searchValue',
     'auth',
     'activeIndex',
+    'category',
+    'commInputValue',
+    'searchClickState',
   ], // 유지 할 데이터를 정의해요
 };
 

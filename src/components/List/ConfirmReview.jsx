@@ -7,6 +7,7 @@ import TextArea from '../TextArea';
 import UploadImage from '../UploadImage';
 import Button from '../Button/Button';
 import profile from '../../images/profile.png';
+import Modal from '../../pages/Modal';
 import { ReactComponent as Star } from '../../images/star-on.svg';
 import { ReactComponent as Close } from '../../images/close.svg';
 import { ReactComponent as StarOff } from '../../images/star-off.svg';
@@ -15,6 +16,7 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
   const [text, setText] = useState('');
   const apiUrl = process.env.REACT_APP_API_URL;
   const [starIndex, setStarIndex] = useState(0);
+  const [editModal, setEditModal] = useState(false);
 
   const starScore = () => {
     const ratedStar = Math.floor(kinderInfo.ratedReview);
@@ -37,47 +39,13 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
   const textCount = event => {
     setText(event.target.value);
   };
-  // replace
-  // useEffect(() => {
-  //   axios
-  //     .get(`${apiUrl}/kindergarten/1`)
-  //     .then(response => {
-  //       setKinderInfo(response.data.data);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // }, [apiUrl]);
 
-  console.log(kinderInfo);
+  const onEditModal = () => {
+    setEditModal(true);
+  };
 
-  const submitReview = () => {
-    if (!text || !starIndex) {
-      alert('내용과 별점을 입력해주세요.');
-    }
-
-    const formData = new FormData();
-    formData.append('images', null);
-
-    const data = {
-      content: text,
-      ratedReview: starIndex,
-    };
-
-    formData.append(
-      'postDto',
-      new Blob([JSON.stringify(data)], { type: 'application/json' }),
-    );
-
-    axios
-      .post(`${apiUrl}/review/1`, formData, {
-        headers: {
-          Authorization: localStorage.getItem('token'),
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then(response => console.log(response))
-      .catch(error => console.log(error));
+  const offEditModal = () => {
+    setEditModal(false);
   };
 
   const deleteReview = () => {
@@ -90,8 +58,27 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
           },
         })
         .then(response => window.location.reload())
-        .catch(error => console.log(error));
+        .catch(error => {
+          if (error.response && error.response.status === 403) {
+            alert('본인이 작성한 리뷰만 삭제할 수 있어요❗️');
+          }
+        });
     }
+  };
+
+  const updateReview = () => {
+    axios
+      .delete(`${apiUrl}/review/${kinderInfo.reviewId}`, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      })
+      .then(response => window.location.reload())
+      .catch(error => {
+        if (error.response && error.response.status === 403) {
+          alert('본인이 작성한 리뷰만 수정할 수 있어요❗️');
+        }
+      });
   };
 
   const handleEdit = () => {};
@@ -115,14 +102,20 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
               <div className="mr-24 w-full">
                 <div className="flex w-full items-center justify-between">
                   <div className="flex w-full">
-                    <div className="list-user-image mr-16" />
+                    <div className="list-user-image mr-16">
+                      <img
+                        src={kinderInfo.profileImageUrl}
+                        alt="profileImg"
+                        className="rounded-xl"
+                      />
+                    </div>
                     <div className="flex w-full flex-col">
                       <div className="flex items-center gap-2">
                         <p className="text-16 font-bold onlyMobile:text-14">
                           {kinderInfo.profileName}
                         </p>
                         <p className="text-14 text-black-350 onlyMobile:text-12">
-                          이메일 자리입니다.
+                          {kinderInfo.email}
                         </p>
                       </div>
                       <div className="flex w-full items-center justify-between">
@@ -147,14 +140,19 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
 
             <div className="overflow-y-scroll">
               <div className="mt-25 flex items-center border-b-[1px] border-black-070 pb-25">
-                <p className="write-title mr-15">{kinderInfo.content}</p>
+                <p className="mr-15">{kinderInfo.content}</p>
               </div>
+              {console.log(kinderInfo)}
 
               <div className="mt-25 flex flex-col pb-25">
-                {kinderInfo.ratedReview === null ? (
-                  <img src={kinderInfo.reviewImgUrl} alt="dog" />
+                {kinderInfo.images && kinderInfo.images.length !== 0 ? (
+                  <div className="h-200 w-[100%] flex-col">
+                    {kinderInfo.images.map(image => {
+                      return <img src={image.imageUrl} alt="reviewImg" />;
+                    })}
+                  </div>
                 ) : (
-                  <img src={Dog} alt="dog" />
+                  <div>리뷰에 등록된 사진이 없습니다...🥹</div>
                 )}
               </div>
               <div className="mr-10 mt-25 flex flex-col pb-40">
@@ -162,7 +160,10 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
                   <button
                     className="mr-15 text-14 text-black-350 onlyMobile:text-12"
                     type="button"
-                    onClick={handleEdit}
+                    onClick={() => {
+                      // offReviewModal();
+                      onEditModal();
+                    }}
                   >
                     수정
                   </button>
@@ -189,8 +190,9 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
                   {kinderData.name && kinderData.name.slice().replace(/"/g, '')}
                 </p>
                 <p className="flex items-center text-14">
-                  <Star /> {kinderData.ratedReviewsAvg} (
-                  {kinderData.ratedReviewsCount})
+                  <Star />
+                  {kinderData.ratedReviewsAvg.toFixed(1)}
+                  {kinderData.ratedReviewsCount}
                 </p>
                 <p className="mt-6 text-14">
                   {kinderData.locations &&
@@ -200,6 +202,18 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
             </div>
           </div>
         </div>
+        {console.log(kinderInfo.ratedReview)}
+        {editModal ? (
+          <Modal
+            className="absolute left-0 top-0"
+            title="후기 수정하기"
+            onClick={offEditModal}
+            prevRatedReview={kinderInfo.ratedReview}
+            prevText={kinderInfo.content}
+            prevImages={kinderInfo.images}
+            reviewId={kinderInfo.reviewId}
+          />
+        ) : null}
       </div>
       <div className="fixed left-0 top-0 z-[100] h-[100vh] w-[100vw] bg-[rgba(0,0,0,0.4)] onlyMobile:hidden" />
     </div>

@@ -9,18 +9,43 @@ import UploadImage from '../components/UploadImage';
 import Button from '../components/Button/Button';
 import profile from '../images/profile.png';
 import { ReactComponent as Star } from '../images/star-on.svg';
+import { ReactComponent as StarOff } from '../images/star-off.svg';
 import { ReactComponent as Close } from '../images/close.svg';
 
 function Modal(props) {
-  const { onClick } = props;
-  const [text, setText] = useState('');
+  const { onClick, prevRatedReview, prevText, prevImages, title, reviewId } =
+    props;
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [text, setText] = prevText ? useState(prevText) : useState('');
   const [kinderInfo, setKinderInfo] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
-  const [starIndex, setStarIndex] = useState(0);
+  const [starIndex, setStarIndex] = prevRatedReview
+    ? // eslint-disable-next-line react-hooks/rules-of-hooks
+      useState(prevRatedReview)
+    : // eslint-disable-next-line react-hooks/rules-of-hooks
+      useState(0);
+  const [images, setImages] = useState([]);
 
-  const handleStarIndexChange = useCallback(index => {
-    setStarIndex(index);
-  }, []);
+  const starScore = () => {
+    const ratedStar = Math.floor(kinderInfo.ratedReview);
+    const ratingStar = [];
+
+    for (let i = 1; i <= 5; i += 1) {
+      if (i <= ratedStar) {
+        ratingStar.push(<Star key={i} />);
+      } else {
+        ratingStar.push(<StarOff key={i} />);
+      }
+    }
+    return ratingStar.map(star => star);
+  };
+
+  const handleStarIndexChange = useCallback(
+    index => {
+      setStarIndex(index);
+    },
+    [setStarIndex],
+  );
 
   const textCount = event => {
     setText(event.target.value);
@@ -41,34 +66,71 @@ function Modal(props) {
   const submitReview = () => {
     if (!text || !starIndex) {
       alert('내용과 별점을 입력해주세요.');
+      return;
     }
 
-    const formData = new FormData();
-    formData.append('images', null);
+    if (prevText) {
+      const formData = new FormData();
 
-    const data = {
-      content: text,
-      ratedReview: starIndex,
-    };
+      const data = {
+        content: text,
+        ratedReview: starIndex,
+      };
 
-    formData.append(
-      'postDto',
-      new Blob([JSON.stringify(data)], { type: 'application/json' }),
-    );
+      for (let i = 0; i < images.length; i += 1) {
+        formData.append('images', images[i]);
+      }
 
-    axios
-      .post(`${apiUrl}/review/1`, formData, {
-        headers: {
-          Authorization: localStorage.getItem('token'),
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then(response => window.location.reload())
-      .catch(error => console.log(error));
+      // formData.append(images);
+
+      formData.append(
+        'patchDto',
+        new Blob([JSON.stringify(data)], { type: 'application/json' }),
+      );
+
+      axios
+        .patch(`${apiUrl}/review/${reviewId}`, formData, {
+          headers: {
+            Authorization: localStorage.getItem('token'),
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then(response => {
+          // window.location.reload();
+          console.log('dd');
+        })
+        .catch(error => console.log(error));
+    } else {
+      const formData = new FormData();
+
+      const data = {
+        content: text,
+        ratedReview: starIndex,
+      };
+
+      for (let i = 0; i < images.length; i += 1) {
+        formData.append('images', images[i]);
+      }
+
+      formData.append(
+        'postDto',
+        new Blob([JSON.stringify(data)], { type: 'application/json' }),
+      );
+
+      axios
+        .post(`${apiUrl}/review/1`, formData, {
+          headers: {
+            Authorization: localStorage.getItem('token'),
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then(response => {
+          // window.location.reload();
+          console.log('dd');
+        })
+        .catch(error => console.log(error));
+    }
   };
-
-  const handleEdit = () => {};
-  const handleDelete = () => {};
 
   return (
     <>
@@ -78,7 +140,7 @@ function Modal(props) {
             <div className=" w-full shrink-0">
               {/* 후기 작성하기 */}
               <div className="relative flex justify-center">
-                <p className="write-title">후기 작성하기</p>
+                <p className="write-title">{title}</p>
                 <button
                   type="button"
                   className="absolute right-0 top-[-4px]"
@@ -117,7 +179,10 @@ function Modal(props) {
             <div className="mb-30 overflow-y-scroll">
               <div className="mt-25 flex items-center border-b-[1px] border-black-070 pb-25">
                 <p className="write-title mr-15">유치원은 어떠셨나요?</p>
-                <RatingStar handleStarIndexChange={handleStarIndexChange} />
+                <RatingStar
+                  handleStarIndexChange={handleStarIndexChange}
+                  prevRatedReview={prevRatedReview}
+                />
               </div>
               {/* 후기 */}
               <div className="mt-25 flex flex-col border-b-[1px] border-black-070 pb-25">
@@ -132,13 +197,33 @@ function Modal(props) {
                   placeholder="후기를 남겨주세요."
                   className="flex flex-col items-end p-15"
                   textClass="h-80"
+                  defaultValue={prevText}
                 />
               </div>
               {/* 사진등록 */}
               <div className="mt-25 flex flex-col pb-25">
                 <p className="write-title mb-15 mr-15">사진을 등록해주세요.</p>
                 <div className="flex">
-                  <UploadImage />
+                  <UploadImage
+                    image={images}
+                    setImage={setImages}
+                    prevImages={prevImages ? prevImages[0] : null}
+                  />
+                  <UploadImage
+                    image={images}
+                    setImage={setImages}
+                    prevImages={prevImages ? prevImages[1] : null}
+                  />
+                  <UploadImage
+                    image={images}
+                    setImage={setImages}
+                    prevImages={prevImages ? prevImages[2] : null}
+                  />
+                  <UploadImage
+                    image={images}
+                    setImage={setImages}
+                    prevImages={prevImages ? prevImages[3] : null}
+                  />
                 </div>
               </div>
               {/* 수정 삭제 */}

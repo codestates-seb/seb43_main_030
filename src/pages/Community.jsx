@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Pagination from 'react-js-pagination';
+// eslint-disable-next-line import/no-named-as-default, import/no-named-as-default-member
+import { setCategory } from '../actions/areaFilterActions';
 import InputBtn from '../components/InputBtn';
 import Button from '../components/Button/Button';
 import ListCommunity from '../components/List/ListCommunity';
@@ -10,25 +13,36 @@ import Dog from '../images/dog.jpeg';
 import { ReactComponent as Star } from '../images/star-on.svg';
 import { ReactComponent as ArrowNext } from '../images/arrow-next.svg';
 import { ReactComponent as ArrowPrev } from '../images/arrow-prev.svg';
+import NoList from '../images/perpett-nolist.png';
 
 function Community() {
   const [postList, setPostList] = useState([]);
   const [kinderInfo, setKinderInfo] = useState([]);
   const [page, setPage] = useState(1);
-  const [category, setCategory] = useState('notification');
+  const [countPage, setCountPage] = useState(0);
+  const [categoryValue, setCategoryValue] = useState();
+  const [url, setUrl] = useState('');
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
+  const dispatch = useDispatch();
+  const commInputValue = useSelector(state => state.commInputValue);
+  const category = useSelector(state => state.category);
+  const searchClickState = useSelector(state => state.searchClickState);
 
+  // 포스트 리스트와 현재 게시물 수
   useEffect(() => {
     axios
-      .get(`${apiUrl}/community/1/post?page=${page}`)
+      .get(
+        `${apiUrl}/community/1/post?page=${page}&category=${category}&keyword=${commInputValue}`,
+      )
       .then(response => {
         setPostList(response.data.data);
+        setCountPage(response.data.pageInfo.totalElements);
+        setUrl(`${apiUrl}/community/1/post?page=${page}&category=${category}`);
       })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [setPostList, apiUrl, page]);
+      .catch(error => console.log(error));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apiUrl, page, category]);
 
   useEffect(() => {
     axios
@@ -37,27 +51,19 @@ function Community() {
       .catch(error => console.log(error));
   }, [apiUrl]);
 
+  // 탭 선택값 바꿔주기
   const tabSwitch = event => {
     const menu = event.target.innerText;
-
     let categoryValue = '';
 
     if (menu === '공지') {
       categoryValue = 'notification';
+      // setCategory(categoryValue);
     } else if (menu === '커뮤니티') {
       categoryValue = 'community';
     }
 
-    axios
-      .get(`${apiUrl}/community/1/post?page=1&category=${categoryValue}`)
-      .then(response => {
-        setPostList(response.data.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-
-    setCategory(categoryValue);
+    dispatch(setCategory(categoryValue));
   };
 
   // 페이지네이션
@@ -96,6 +102,9 @@ function Community() {
         <InputBtn
           placeholder="검색어를 입력해주세요."
           className="m-40 !mx-0 !w-full max-w-full onlyMobile:px-24 onlyMini:my-30"
+          pageState="community"
+          commUrl={url}
+          setPostList={setPostList}
         />
         <div className="onlyMobile:px-24">
           <div className="w-full border-b border-black-070">
@@ -125,8 +134,8 @@ function Community() {
           <div className="pt-24">
             <div className="flex items-center justify-between">
               <p className="text-18 font-bold  onlyMobile:text-16">
-                {category === 'notification' ? '공지글 ' : '커뮤니티 '}
-                <span>{postList.length}</span>
+                {category === 'notification' ? `공지 ` : '커뮤니티 '}
+                <span>{searchClickState ? postList.length : countPage}</span>
               </p>
               <Link
                 className="flex-center btn-size-l color-yellow flex w-168 rounded-[8px]"
@@ -146,14 +155,26 @@ function Community() {
                       />
                     );
                   })}
+                {postList.length === 0 && (
+                  <div className="flex-center relative flex-col">
+                    <div className="flex-center mt-40 h-400 w-[100%] max-w-[1440px] flex-col px-80">
+                      <img src={NoList} alt="NoList" className="h-160 w-160" />
+                      <div className="flex-center h-70 text-40 font-black text-yellow-500">
+                        어..없네?
+                      </div>
+                    </div>
+                  </div>
+                )}
               </ul>
             </div>
             <div className="mt-50 flex justify-center">
-              <Button className="btn-pagination-default">
+              <div>
                 <Pagination
                   activePage={page}
                   itemsCountPerPage={10}
-                  totalItemsCount={postList.length - 1}
+                  totalItemsCount={
+                    searchClickState ? postList.length : countPage
+                  }
                   pageRangeDisplayed={5}
                   onChange={handlePageChange}
                   prevPageText={<ArrowPrev />}
@@ -171,7 +192,7 @@ function Community() {
                     </div>
                   }
                 />
-              </Button>
+              </div>
             </div>
           </div>
         </div>

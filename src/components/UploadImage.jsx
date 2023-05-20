@@ -2,19 +2,23 @@ import { useState, useRef } from 'react';
 import cls from '../utils/tailwind';
 
 function UploadImage(props) {
-  const { className, setImage, image } = props;
+  const { className, setImage, image, prevImages } = props;
 
   const [display, setDisplay] = useState('');
 
   const fileInput = useRef(null);
 
   const handleFileChange = e => {
-    const uploadFile = e.target.files[0];
+    const uploadFiles = e.target.files;
+    const newImages = [];
 
-    if (uploadFile) {
-      setImage(uploadFile);
+    if (uploadFiles && uploadFiles.length > 0) {
+      for (let i = 0; i < uploadFiles.length; i += 1) {
+        setImage(uploadFiles[i]);
+        // setImage(uploadFiles);
+      }
     } else {
-      setImage('');
+      setImage([]);
       return;
     }
 
@@ -24,13 +28,45 @@ function UploadImage(props) {
         setDisplay(reader.result);
       }
     };
-    reader.readAsDataURL(uploadFile);
+    reader.readAsDataURL(uploadFiles[0]);
+    // reader.readAsDataURL(uploadFiles[0]);
+  };
+
+  const deleteImage = e => {
+    console.log(e.target.files);
   };
 
   return (
     <div className="h-80 w-80">
       {/* <label htmlFor="uploadImage" className="cursor-pointer"> */}
-      {image ? (
+      {prevImages ? (
+        <>
+          {/* <div className="h-80 w-80 bg-black-350"></div> */}
+          <div
+            className="user-profile flex-center relative z-50 overflow-hidden"
+            onClick={() => {
+              fileInput.current.click();
+            }}
+            onKeyDown={() => {}}
+            tabIndex={0}
+            role="button"
+          >
+            <img
+              src={prevImages.imageUrl}
+              alt="Uploaded"
+              className="h-full w-full object-cover blur-[5px] onlyMobile:blur-[5px]"
+            />
+            {/* <div className="absolute left-0 top-0 h-full w-full bg-black opacity-50" />
+            <p
+              className="z-100 absolute right-0 top-0 p-8 text-white"
+              // onClick={deleteImage()}
+              role="presentation"
+            >
+              삭제
+            </p> */}
+          </div>
+        </>
+      ) : image ? (
         <div
           className="user-profile overflow-hidden"
           onClick={() => {

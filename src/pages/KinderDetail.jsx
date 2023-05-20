@@ -357,7 +357,7 @@ function KinderDetail() {
           ''
         )}
       </div>
-      {isModal ? <Modal onClick={closeModal} /> : ''}
+      {isModal ? <Modal onClick={closeModal} title="후기 작성하기" /> : ''}
     </div>
   );
 }

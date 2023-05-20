@@ -21,6 +21,7 @@ function Post() {
   const [images, setImages] = useState([]);
   const [previousPost, setPreviousPost] = useState(null);
   const [nextPost, setNextPost] = useState(null);
+  const [commentError, setCommentError] = useState('');
   const navigate = useNavigate();
   const { postId } = useParams();
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -42,30 +43,36 @@ function Post() {
 
   function changeInput(e) {
     setCommentInput(e.target.value);
+    if (e.target.value.length !== 0) {
+      setCommentError('');
+    } else {
+      setCommentError('댓글 내용을 입력해주세요.');
+    }
   }
 
   function postComment() {
-    const now = new Date();
-    const dateString = now.toLocaleString();
+    if (commentInput.length !== 0) {
+      const data = {
+        postId,
+        content: commentInput,
+      };
 
-    const data = {
-      postId,
-      content: commentInput,
-    };
-
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/post/${postId}/comment`, data, {
-        headers: {
-          Authorization: localStorage.getItem('token'),
-        },
-      })
-      .then(response => {
-        console.log(response.data);
-        window.location.reload();
-      })
-      .catch(error => {
-        console.log(error);
-      });
+      axios
+        .post(`${process.env.REACT_APP_API_URL}/post/${postId}/comment`, data, {
+          headers: {
+            Authorization: localStorage.getItem('token'),
+          },
+        })
+        .then(response => {
+          console.log(response.data);
+          window.location.reload();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      setCommentError('댓글 내용을 입력해주세요.');
+    }
   }
 
   useEffect(() => {
@@ -83,35 +90,6 @@ function Post() {
         console.log(error);
       });
   }, [setPost, postId, apiUrl]);
-
-  useEffect(() => {
-    axios
-      .get(`${apiUrl}/community/1/post?page=1`)
-      .then(response => {
-        const posts = response.data.data;
-
-        // 현재 게시글 인덱스 찾기
-        const currentIndex = posts.findIndex(
-          post => post.postId === Number(postId),
-        );
-
-        // 유효한 게시글만 필터링
-        const validPosts = posts.filter(post => post.postId !== '');
-        // 이전글 찾기
-        const previousIndex = currentIndex - 1;
-        const previous = previousIndex >= 0 ? validPosts[previousIndex] : null;
-        setPreviousPost(previous);
-
-        // 다음글 찾기
-        const nextIndex = currentIndex + 1;
-        const next =
-          nextIndex < validPosts.length ? validPosts[nextIndex] : null;
-        setNextPost(next);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [apiUrl, postId]);
 
   const handleDelete = () => {
     const result = window.confirm('게시물을 삭제하시겠습니까?');
@@ -204,7 +182,7 @@ function Post() {
                   </div>
                 </div>
                 <p className="text-14 text-black-350 onlyMobile:text-12 ">
-                  {dateCalculate(post.createdAt)}
+                  {dateCalculate(post.modifiedAt)}
                 </p>
               </div>
             </div>
@@ -255,40 +233,14 @@ function Post() {
                 />
               </button>
               <span className="pl-10">좋아요</span>
-              {/* <span className="pl-5 font-bold">{countLike}</span> */}
             </div>
             <div className="flex">
-              {previousPost ? (
-                <Link
-                  to={`/post/${previousPost.postId}`}
-                  // to="/post"
-                  className="flex-center btn-size-m border-gray mr-10 flex rounded-md"
-                >
-                  이전글
-                </Link>
-              ) : (
-                <Button
-                  disabled
-                  className="flex-center btn-size-m mr-10 flex rounded-md bg-black-050 text-black-200"
-                >
-                  이전글
-                </Button>
-              )}
-              {nextPost ? (
-                <Link
-                  to={`/post/${nextPost.postId}`}
-                  className="flex-center btn-size-m border-gray rounded-md"
-                >
-                  다음글
-                </Link>
-              ) : (
-                <Button
-                  disabled
-                  className="flex-center btn-size-m mr-2 flex rounded-md bg-black-050 text-black-200"
-                >
-                  다음글
-                </Button>
-              )}
+              <Link
+                to="/community"
+                className="flex-center btn-size-m border-gray mr-10 flex rounded-md"
+              >
+                목록보기
+              </Link>
             </div>
           </div>
         </div>
@@ -310,6 +262,7 @@ function Post() {
                     postId={postId}
                     modifiedAt={comment.modifiedAt}
                     modified={comment.modified}
+                    profileImg={comment.imageUrl}
                   />
                 );
               })
@@ -322,6 +275,7 @@ function Post() {
               placeholder="댓글을 입력해주세요."
               className="!margin-0 w-full"
               onChange={e => changeInput(e)}
+              isError={commentError}
             />
             <Button
               className="btn-size-l color-yellow ml-8 shrink-0"

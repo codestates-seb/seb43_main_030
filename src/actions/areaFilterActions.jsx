@@ -10,7 +10,11 @@ const setInputValue = createAction('inputValue/setInputValue');
 const setSearchValue = createAction('searchValue/setSearchValue');
 const setAuth = createAction('auth/setAuth');
 const setActiveIndex = createAction('activeIndex/setActiveIndex');
-
+const setCategory = createAction('category/setCategory');
+const setCommInputValue = createAction('commInputValue/setCommInputValue');
+const setSearchClickState = createAction(
+  'searchClickState/setSearchClickState',
+);
 export {
   setAreaFilter,
   setCenter,
@@ -22,4 +26,7 @@ export {
   setSearchValue,
   setAuth,
   setActiveIndex,
+  setCategory,
+  setCommInputValue,
+  setSearchClickState,
 };
