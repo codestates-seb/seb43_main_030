@@ -43,20 +43,16 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         log.info("access Token : " + accessToken);
 
         if (user.getRole().equals(Role.GUEST)){
-            String url = "http://testqjzlt.s3-website.ap-northeast-2.amazonaws.com/oauthrole";
-            // ToDO 카카오 로그인은 이메일이 없으므로 추가정보 페이지로 redirect
-            response.setHeader("Authorization", accessToken);
-            response.setHeader("email", user.getEmail());
-            response.sendRedirect(url);
+            getRedirectStrategy().sendRedirect(request, response, createInitURI(accessToken, user.getEmail()).toString());
             return;
         }
 
 
         String refreshToken = delegateRefreshToken(user);
         log.info("refresh Token : " + refreshToken);
-        getRedirectStrategy().sendRedirect(request, response, createURI(user, accessToken, refreshToken).toString());
+        getRedirectStrategy().sendRedirect(request, response, createURI(accessToken, refreshToken).toString());
     }
-    private URI createURI(User user, String accessToken, String refresh) {
+    private URI createURI(String accessToken, String refresh) {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("Authorization", accessToken);
         queryParams.add("Refresh", refresh);
@@ -70,6 +66,19 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
                 .toUri();
     }
 
+    private URI createInitURI(String accessToken, String email) {
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("Authorization", accessToken);
+        queryParams.add("email", email);
+
+        return UriComponentsBuilder
+                .newInstance()
+                .scheme("http")
+                .host("testqjzlt.s3-website.ap-northeast-2.amazonaws.com/oauthrole")
+                .queryParams(queryParams)
+                .build()
+                .toUri();
+    }
     private String delegateAccessToken(User user) {
         String subject = user.getEmail();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
