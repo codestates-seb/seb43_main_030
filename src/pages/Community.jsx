@@ -1,18 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import Pagination from 'react-js-pagination';
-// eslint-disable-next-line import/no-named-as-default, import/no-named-as-default-member
+import Pagination from '../components/Pagination';
 import { setCategory } from '../actions/areaFilterActions';
 import InputBtn from '../components/InputBtn';
-import Button from '../components/Button/Button';
 import ListCommunity from '../components/List/ListCommunity';
 import Dog from '../images/dog.jpeg';
 import { ReactComponent as Star } from '../images/star-on.svg';
-import { ReactComponent as ArrowNext } from '../images/arrow-next.svg';
-import { ReactComponent as ArrowPrev } from '../images/arrow-prev.svg';
 import NoList from '../images/perpett-nolist.png';
 
 function Community() {
@@ -20,7 +15,6 @@ function Community() {
   const [kinderInfo, setKinderInfo] = useState([]);
   const [page, setPage] = useState(1);
   const [countPage, setCountPage] = useState(0);
-  const [categoryValue, setCategoryValue] = useState();
   const [url, setUrl] = useState('');
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -47,7 +41,7 @@ function Community() {
   useEffect(() => {
     axios
       .get(`${apiUrl}/community/1`)
-      .then(response => setKinderInfo(response.data))
+      .then(response => setKinderInfo(response.data.data))
       .catch(error => console.log(error));
   }, [apiUrl]);
 
@@ -85,18 +79,20 @@ function Community() {
           </div>
           <div className=" absolute bottom-[48px] left-[48px] w-full text-white onlyMobile:bottom-[24px] onlyMobile:left-[20px] onlyMobile:w-[calc(100%-20px)]">
             <p className=" mb-20 max-w-450 text-40 font-bold leading-tight onlyMobile:max-w-[60vw] onlyMobile:text-32 onlyMini:mb-14 onlyMini:max-w-[70vw] onlyMini:text-26">
-              {kinderInfo.data && kinderInfo.data.name.replace(/"/g, '')}
+              {kinderInfo.name && kinderInfo.name.replace(/"/g, '')}
             </p>
             <div className="mb-8 flex items-center onlyMini:mb-2">
               <Star />
-              <span className="text-16 onlyMini:text-14">
-                {kinderInfo.data && kinderInfo.data.ratedReviewsAvg}
+              <span className="mr-2 text-16 onlyMini:text-14">
+                {kinderInfo.ratedReviewsAvg}
               </span>
-              (<span className="text-16 onlyMini:text-14">12</span>)
+              (
+              <span className="text-16 onlyMini:text-14">
+                {kinderInfo.ratedReviewsCount}
+              </span>
+              )
             </div>
-            <p className="onlyMini:text-14">
-              {kinderInfo.data && kinderInfo.data.introduction}
-            </p>
+            <p className="onlyMini:text-14">{kinderInfo.introduction}</p>
           </div>
         </div>
         <InputBtn
@@ -138,7 +134,7 @@ function Community() {
                 <span>{searchClickState ? postList.length : countPage}</span>
               </p>
               <Link
-                className="flex-center btn-size-l color-yellow flex w-168 rounded-[8px]"
+                className="flex-center btn-size-l color-yellow flex w-168 rounded-[8px] onlyMobile:w-130"
                 to="/write"
               >
                 글쓰기
@@ -157,9 +153,13 @@ function Community() {
                   })}
                 {postList.length === 0 && (
                   <div className="flex-center relative flex-col">
-                    <div className="flex-center mt-40 h-400 w-[100%] max-w-[1440px] flex-col px-80">
-                      <img src={NoList} alt="NoList" className="h-160 w-160" />
-                      <div className="flex-center h-70 text-40 font-black text-yellow-500">
+                    <div className="flex-center mt-40 h-400 w-[100%] max-w-[1440px] flex-col px-80 onlyMobile:px-20">
+                      <img
+                        src={NoList}
+                        alt="NoList"
+                        className="w-160 onlyMobile:w-90"
+                      />
+                      <div className="flex-center h-70 text-40 font-black text-yellow-500 onlyMobile:text-30">
                         어..없네?
                       </div>
                     </div>
@@ -170,27 +170,10 @@ function Community() {
             <div className="mt-50 flex justify-center">
               <div>
                 <Pagination
-                  activePage={page}
+                  count={searchClickState ? postList.length : countPage}
+                  currentPage={page}
                   itemsCountPerPage={10}
-                  totalItemsCount={
-                    searchClickState ? postList.length : countPage
-                  }
-                  pageRangeDisplayed={5}
                   onChange={handlePageChange}
-                  prevPageText={<ArrowPrev />}
-                  nextPageText={<ArrowNext />}
-                  lastPageText={
-                    <div className="flex">
-                      <ArrowNext className="mr-[-6px]" />
-                      <ArrowNext className="mr-[-3px]" />
-                    </div>
-                  }
-                  firstPageText={
-                    <div className="flex">
-                      <ArrowPrev className="mr-[-6px]" />
-                      <ArrowPrev className="mr-[2px]" />
-                    </div>
-                  }
                 />
               </div>
             </div>
