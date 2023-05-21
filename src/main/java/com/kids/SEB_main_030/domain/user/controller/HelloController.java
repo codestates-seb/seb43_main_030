@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HelloController {
-    @GetMapping("/hello-oauth2")
+    @GetMapping("/")
     public String home() {
-        return "hello-oauth2";
+        return "index";
     }
 }

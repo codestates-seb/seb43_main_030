@@ -1,6 +1,8 @@
 package com.kids.SEB_main_030.domain.user.service;
 
 import com.kids.SEB_main_030.domain.profile.entity.Profile;
+import com.kids.SEB_main_030.domain.profile.repository.ProfileRepository;
+import com.kids.SEB_main_030.domain.user.dto.OAuthInitDto;
 import com.kids.SEB_main_030.domain.user.dto.PasswordResetDto;
 import com.kids.SEB_main_030.global.exception.CustomException;
 import com.kids.SEB_main_030.global.exception.LogicException;
@@ -27,6 +29,7 @@ public class UserService {
     @Value("${url.image.profile}")
     private String defaultProfileImage;
     private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
     private final PasswordEncoder passwordEncoder;
     private final RandomCreator randomCreator;
 
@@ -75,6 +78,22 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(passwordResetDto.getPassword1()));
     }
 
+    public User oauthUserInit(OAuthInitDto oAuthInitDto){
+        Long userId = findSecurityContextHolderUserId();
+        User user = findVerifiedUser(userId);
+        Optional.ofNullable(oAuthInitDto.getEmail()).ifPresent(email -> user.setEmail(email));
+        if (oAuthInitDto.isCheckOfficials()){
+            user.setRole(Role.OFFICIAL);
+        }else {
+            user.setRole(Role.USER);
+        }
+
+        Profile profile = randomCreator.initProfile();
+        profile.setUser(user);
+        profile.setImageUrl(defaultProfileImage);
+        user.setCurrentProfileId(profile.getProfileId());
+        return userRepository.save(user);
+    }
     private void verifyExistsEmail(String email){
         userRepository.findByEmail(email).ifPresent(e -> {
             throw new LogicException(CustomException.USER_EXISTS);

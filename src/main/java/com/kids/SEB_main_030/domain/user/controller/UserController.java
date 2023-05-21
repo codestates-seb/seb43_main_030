@@ -1,5 +1,6 @@
 package com.kids.SEB_main_030.domain.user.controller;
 
+import com.kids.SEB_main_030.domain.user.dto.OAuthInitDto;
 import com.kids.SEB_main_030.domain.user.dto.PasswordResetDto;
 import com.kids.SEB_main_030.domain.user.service.UserService;
 import com.kids.SEB_main_030.domain.user.dto.UserPatchDto;
@@ -53,4 +54,11 @@ public class UserController {
         userService.removeUser();
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
+    @PatchMapping("/oauthInit")
+    public ResponseEntity oauthInitUser(@Valid @RequestBody OAuthInitDto oAuthInitDto){
+        User user = userService.oauthUserInit(oAuthInitDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }
