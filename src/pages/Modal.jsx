@@ -126,7 +126,7 @@ function Modal(props) {
           },
         })
         .then(response => {
-          // window.location.reload();
+          window.location.reload();
           console.log('dd');
         })
         .catch(error => console.log(error));
