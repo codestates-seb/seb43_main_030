@@ -39,12 +39,11 @@ function ListCommunity(props) {
         ) : (
           <img src={profile} alt="defaultImage" />
         )}
-        {post.postImageUrl ? (
+        {/* {post.postImageUrl ? (
           <img src={post.postImageUrl} alt="img" />
         ) : (
           <img src={profile} alt="defaultImage" />
-        )}
-        {console.log(post.content)}
+        )} */}
       </div>
       <div className="my-30 w-full onlyMini:my-20 onlyMini:w-[calc(100%-72px)]">
         <Link to={`/post/${post.postId}`} className="block ">
