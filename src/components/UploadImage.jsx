@@ -34,7 +34,7 @@ function ProfileUploadImage(props) {
       {/* <label htmlFor="uploadImage" className="cursor-pointer"> */}
       {image || prevImage ? (
         <div
-          className="user-profile overflow-hidden"
+          className="user-profile h-80 w-80 overflow-hidden"
           onClick={() => {
             fileInput.current.click();
           }}
@@ -42,11 +42,7 @@ function ProfileUploadImage(props) {
           tabIndex={0}
           role="button"
         >
-          <img
-            src={display || prevImage}
-            alt="Uploaded"
-            className="h-full w-full object-cover"
-          />
+          <img src={display || prevImage} alt="Uploaded" />
         </div>
       ) : (
         <div

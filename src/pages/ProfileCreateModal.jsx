@@ -8,7 +8,7 @@ import {
   setUser,
 } from '../actions/areaFilterActions';
 
-import UploadImage from '../components/ProfileUploadImage';
+import UploadImage from '../components/UploadImage';
 import Button from '../components/Button/Button';
 import RadioGroup from '../components/Radio/RadioGroup';
 import Radio from '../components/Radio/Radio';
@@ -24,7 +24,7 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
   const [person, setPerson] = useState(true);
   const [breed, setBreed] = useState(null);
   const [image, setImage] = useState('');
-  const fileInput = useRef(null);
+  // const fileInput = useRef(null);
 
   // 오류 메시지
   const [nicknameErr, setNicknameErr] = useState('');
@@ -81,12 +81,6 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
     setSelectType('견종을 선택해주세요.');
   };
 
-  console.log('breed:', breed);
-  console.log(typeof breed);
-  console.log('selectbreed:', selectType);
-  console.log('nickname:', nickname);
-  console.log(typeof nickname);
-
   const handlePostProfile = () => {
     if (!nickname || !breed) {
       setNicknameErr(!nickname ? '닉네임을 입력해주세요.' : '');
@@ -136,7 +130,6 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
           getUsers();
           setNicknameErr('');
           setSelectErr('');
-          console.log('강아지프로필', res);
           setProfileModal(false);
         })
         .catch(err => {
