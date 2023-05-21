@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, dispatch, useDispatch } from 'react-redux';
 import {
+  setAuth,
   setKinderGartens,
   setInputValue,
   setAreaFilter,
@@ -14,11 +15,12 @@ import { ReactComponent as Close } from '../../images/close.svg';
 import DropDownMenu from '../DropDownMenu';
 
 function MHeader() {
-  const [dropDown, setDropDown] = useState(false);
-  const auth = useSelector(state => state.auth);
+  const navi = useNavigate();
   const dispatch = useDispatch();
 
-  const navi = useNavigate();
+  const [dropDown, setDropDown] = useState(false);
+  const curUser = useSelector(state => state.curUser);
+  const auth = useSelector(state => state.auth);
 
   function onDropDown() {
     setDropDown(!dropDown);
@@ -68,7 +70,7 @@ function MHeader() {
       )}
       {dropDown ? (
         auth ? (
-          <DropDownMenu />
+          <DropDownMenu setAuth={setAuth} setDropDown={setDropDown} />
         ) : (
           <div className="absolute right-0 top-[64px] flex w-full flex-col items-start justify-center rounded-[10px] border-b border-black-050 bg-white px-24 py-8 shadow-headerShadow">
             <ul className="w-full px-8 text-left">

@@ -11,7 +11,7 @@ function ListNotice(props) {
             <p className="list-title h-text-max mb-8 max-h-[30px]">
               {post.title}
             </p>
-            <p className="list-content h-text-max max-h-[50px]">
+            <p className="list-content h-text-max max-h-[50px] onlyMobile:max-h-[40px] onlyMobile:min-w-180">
               {/* 공지내용미리보기공지내용미리보기공지내용미리보기공지내용미리보기공지내용미리보기공지내용미리보기 */}
               {post.content}
             </p>
@@ -24,7 +24,7 @@ function ListNotice(props) {
           ) : (
             ''
           )} */}
-          <div className="user-profile ml-24 h-108  w-108">
+          <div className="user-profile ml-24 h-108 w-108  onlyMobile:h-96 onlyMobile:w-96 onlyMini:h-56 onlyMini:w-56">
             {post.imageUrl ? (
               <img src={post.imageUrl} alt="img" />
             ) : (

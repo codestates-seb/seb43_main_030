@@ -19,12 +19,10 @@ import { ReactComponent as ArrowClose } from '../../images/arrow-close.svg';
 import { ReactComponent as Logo } from '../../images/logo-txt.svg';
 
 function Header() {
-  // const [isLogin, setIsLogin] = useState(false);
-  // const [nickname, setNickname] = useState('쫑이콩이맘');
-  const [dropDown, setDropDown] = useState(false);
   const navi = useNavigate();
   const dispatch = useDispatch();
 
+  const [dropDown, setDropDown] = useState(false);
   const curUser = useSelector(state => state.curUser);
   const auth = useSelector(state => state.auth);
 

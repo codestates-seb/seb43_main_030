@@ -4,14 +4,13 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 import { GoogleMap, useJsApiLoader, MarkerF } from '@react-google-maps/api';
-import { setCenter } from '../actions/areaFilterActions';
+import { setCenter, setCategory } from '../actions/areaFilterActions';
 import Modal from './Modal';
 import ConfirmReview from '../components/List/ConfirmReview';
 import ListNotice from '../components/List/ListNotice';
 import ListReview from '../components/List/ListReview';
 import Button from '../components/Button/Button';
 import Pagination from '../components/Pagination';
-import Dog from '../images/dog.jpeg';
 import PinOn from '../images/pin-on.png';
 import { ReactComponent as Call } from '../images/call.svg';
 import { ReactComponent as Pin } from '../images/pin.svg';
@@ -19,8 +18,6 @@ import { ReactComponent as Sns } from '../images/social.svg';
 import { ReactComponent as Time } from '../images/time.svg';
 import { ReactComponent as StarOn } from '../images/star-on.svg';
 import { ReactComponent as Perpett } from '../images/perpett-on.svg';
-import { ReactComponent as ArrowNext } from '../images/arrow-next.svg';
-import { ReactComponent as ArrowPrev } from '../images/arrow-prev.svg';
 import SettingModal from './SettingModal';
 
 // 지도 관련 스타일 정의
@@ -40,6 +37,7 @@ const containerStyle = {
 
 function KinderDetail() {
   const { id } = useParams();
+  const category = useSelector(state => state.category);
 
   // 유치원 정보
   const [kinderData, setKinderData] = useState('');
@@ -132,10 +130,6 @@ function KinderDetail() {
     setCurrentPage(e);
   };
 
-  // console.log(currentReview);
-  // console.log(reviewData);
-  // console.log(reviewData.length);
-
   // 모달 관련 함수
   const modalOnOff = () => {
     setisModal(!isModal);
@@ -150,7 +144,11 @@ function KinderDetail() {
       <div className="max-w-[1280px] px-80 onlyMobile:max-w-full onlyMobile:px-0">
         {/* 메인 이미지 */}
         <div className="relative mb-48 h-432 overflow-hidden rounded-[16px] onlyMobile:mb-24 onlyMobile:h-300 onlyMobile:rounded-0">
-          <img src={Dog} alt="예시이미지" className="w-full" />
+          <img
+            src={kinderData.imageUrl}
+            alt="유치원대표이미지"
+            className="w-full"
+          />
         </div>
         <div className="flex">
           {/* 좌측 컨텐츠 영역 */}
@@ -170,48 +168,60 @@ function KinderDetail() {
               <h5 className="mb-24 text-22 font-bold onlyMobile:text-18">
                 유치원 정보
               </h5>
-              <div className="flex flex-col gap-4">
-                <div className="flex">
-                  <Pin />
-                  <div className="ml-4 flex gap-2">
-                    <p className="mr-20 w-72">주소</p>
-                    <p>{kinderData?.locations?.replace(/"/g, '')}</p>
+              <div className="flex w-full flex-col gap-4">
+                {/* 주소 */}
+                <div className="ml-4 flex w-full flex-row gap-2">
+                  <div className="flex w-150 gap-2">
+                    <Pin className="h-24 w-24" />
+                    <span>주소</span>
                   </div>
+                  <p className="w-full">
+                    {kinderData?.locations?.replace(/"/g, '')}
+                  </p>
                 </div>
-                <div className="flex">
-                  <Call />
-                  <div className="ml-4 flex gap-2">
-                    <p className="mr-20 w-72">전화번호</p>
-                    {!kinderData.phoneNumber ? (
+                {/* 전화번호 */}
+                <div className="ml-4 flex w-full flex-row gap-2">
+                  <div className="flex w-150 gap-2">
+                    <Call className="h-24 w-24" />
+                    <span>전화번호</span>
+                  </div>
+                  <p className="w-full">
+                    {!kinderData?.phoneNumber ? (
                       <p className="text-black-200">전화번호가 없어요🥺</p>
                     ) : (
-                      <p>{kinderData.phoneNumber}</p>
+                      <p className="w-full">{kinderData.phoneNumber}</p>
                     )}
-                  </div>
+                  </p>
                 </div>
-                <div className="flex">
-                  <Sns />
-                  <div className="ml-4 flex gap-2">
-                    <p className="mr-20 w-72">SNS</p>
-                    {!kinderData.snsUrl ? (
+                {/* SNS */}
+                <div className="ml-4 flex w-full flex-row gap-2">
+                  <div className="flex w-150 gap-2">
+                    <Sns className="h-24 w-24" />
+                    <span>SNS</span>
+                  </div>
+                  <p className="w-full">
+                    {!kinderData?.snsUrl ? (
                       <p className="text-black-200">연결된 SNS가 없어요🥺</p>
                     ) : (
-                      <p>{kinderData.snsUrl}</p>
+                      <p className="w-full">{kinderData.snsUrl}</p>
                     )}
-                  </div>
+                  </p>
                 </div>
-                <div className="flex">
-                  <Time />
-                  <div className="ml-4 flex gap-2">
-                    <p className="mr-20 w-72">운영 시간</p>
-                    {!kinderData.openHours || !kinderData.closeHours ? (
+                {/* 운영 시간 */}
+                <div className="ml-4 flex w-full flex-row gap-2">
+                  <div className="flex w-150 gap-2">
+                    <Time className="h-24 w-24" />
+                    <span>운영 시간</span>
+                  </div>
+                  <p className="w-full">
+                    {!kinderData?.openHours || !kinderData?.closeHours ? (
                       <p className="text-black-200">
                         운영 시간 정보가 없어요🥺
                       </p>
                     ) : (
                       <p>{`${kinderData.openHours} - ${kinderData.closeHours}`}</p>
                     )}
-                  </div>
+                  </p>
                 </div>
               </div>
             </div>
@@ -276,7 +286,7 @@ function KinderDetail() {
                       <ListReview
                         key={el.reviewId}
                         post={el}
-                        kinderData={kinderData}
+                        // kinderData={kinderData}
                       />
                     );
                   })}
@@ -291,7 +301,6 @@ function KinderDetail() {
               )}
               <Pagination
                 currentPage={currentPage}
-                // count={reviewData.length}
                 count={reviewData.length}
                 onChange={handlePageChange}
                 itemsCountPerPage={5}

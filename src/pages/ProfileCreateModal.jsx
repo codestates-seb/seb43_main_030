@@ -8,7 +8,7 @@ import {
   setUser,
 } from '../actions/areaFilterActions';
 
-import UploadImage from '../components/ProfileUploadImage';
+import UploadImage from '../components/UploadImage';
 import Button from '../components/Button/Button';
 import RadioGroup from '../components/Radio/RadioGroup';
 import Radio from '../components/Radio/Radio';
@@ -24,7 +24,7 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
   const [person, setPerson] = useState(true);
   const [breed, setBreed] = useState(null);
   const [image, setImage] = useState('');
-  const fileInput = useRef(null);
+  // const fileInput = useRef(null);
 
   // 오류 메시지
   const [nicknameErr, setNicknameErr] = useState('');
@@ -81,12 +81,6 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
     setSelectType('견종을 선택해주세요.');
   };
 
-  console.log('breed:', breed);
-  console.log(typeof breed);
-  console.log('selectbreed:', selectType);
-  console.log('nickname:', nickname);
-  console.log(typeof nickname);
-
   const handlePostProfile = () => {
     if (!nickname || !breed) {
       setNicknameErr(!nickname ? '닉네임을 입력해주세요.' : '');
@@ -136,7 +130,6 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
           getUsers();
           setNicknameErr('');
           setSelectErr('');
-          console.log('강아지프로필', res);
           setProfileModal(false);
         })
         .catch(err => {
@@ -167,7 +160,7 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
             <div className="mb-30 h-full overflow-y-scroll">
               <div className="mt-25 flex items-center border-b-[1px] border-black-070">
                 <div className="mb-24 flex flex-col">
-                  <p className="write-title mb-15 mr-15">프로필 종류</p>
+                  <p className="write-title mb-16 mr-16">프로필 종류</p>
                   <RadioGroup>
                     <Radio
                       id="1"
@@ -194,7 +187,7 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
               </div>
               {/* 닉네임 등록 */}
               <div className="mt-25 flex flex-col border-b-[1px] border-black-070 pb-24">
-                <p className="write-title mb-15 mr-15">닉네임 (필수)</p>
+                <p className="write-title mb-16 mr-16">닉네임 (필수)</p>
                 <div className="flex">
                   <Input
                     placeholder="닉네임을 입력해주세요."
@@ -208,7 +201,7 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
               {/* 견종 선택 */}
               {!person && (
                 <div className="mt-25 flex flex-col pb-24">
-                  <p className="write-title mb-15 mr-15">견종 선택 (필수)</p>
+                  <p className="write-title mb-16 mr-16">견종 선택 (필수)</p>
                   {/* select box */}
                   <div className="relative flex flex-col">
                     <button

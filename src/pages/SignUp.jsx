@@ -2,11 +2,6 @@ import axios from 'axios';
 import { useMediaQuery } from 'react-responsive';
 import { useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  useGoogleLogin,
-  GoogleLogin,
-  GoogleOAuthProvider,
-} from '@react-oauth/google';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import RadioGroup from '../components/Radio/RadioGroup';
@@ -202,8 +197,8 @@ function SignUp() {
 
   const kakaoSignup = async e => {
     e.preventDefault();
-    const googleAuthUrl = `${process.env.REACT_APP_GOOGLE_OAUTH_URL}/oauth2/authorization/kakao?redirect_uri=${process.env.REACT_APP_GOOGLE_OAUTH_URL}/login/oauth2/code/kakao`;
-    window.location.href = googleAuthUrl;
+    const kakaoAuthUrl = `${process.env.REACT_APP_GOOGLE_OAUTH_URL}/oauth2/authorization/kakao?redirect_uri=${process.env.REACT_APP_GOOGLE_OAUTH_URL}/login/oauth2/code/kakao`;
+    window.location.href = kakaoAuthUrl;
   };
 
   const signup = () => {
