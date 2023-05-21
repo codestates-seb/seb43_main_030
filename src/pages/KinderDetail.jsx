@@ -132,9 +132,9 @@ function KinderDetail() {
     setCurrentPage(e);
   };
 
-  console.log(currentReview);
-  console.log(reviewData);
-  console.log(reviewData.length);
+  // console.log(currentReview);
+  // console.log(reviewData);
+  // console.log(reviewData.length);
 
   // 모달 관련 함수
   const modalOnOff = () => {

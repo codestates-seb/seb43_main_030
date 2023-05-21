@@ -33,14 +33,6 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
     return ratingStar.map(star => star);
   };
 
-  const handleStarIndexChange = useCallback(index => {
-    setStarIndex(index);
-  }, []);
-
-  const textCount = event => {
-    setText(event.target.value);
-  };
-
   const onEditModal = () => {
     setEditModal(true);
   };
@@ -67,29 +59,13 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
     }
   };
 
-  const updateReview = () => {
-    axios
-      .delete(`${apiUrl}/review/${kinderInfo.reviewId}`, {
-        headers: {
-          Authorization: localStorage.getItem('token'),
-        },
-      })
-      .then(response => window.location.reload())
-      .catch(error => {
-        if (error.response && error.response.status === 403) {
-          alert('본인이 작성한 리뷰만 수정할 수 있어요❗️');
-        }
-      });
-  };
-
   useEffect(() => {
     if (kinderInfo.images) {
-      setPrevImage(kinderInfo.images[kinderInfo.images.length - 1].imageUrl);
+      if (kinderInfo.images.length !== 0) {
+        setPrevImage(kinderInfo.images[kinderInfo.images.length - 1].imageUrl);
+      }
     }
-  }, [kinderInfo.images, kinderInfo]);
-
-  const handleEdit = () => {};
-  const handleDelete = () => {};
+  }, [kinderInfo.images]);
 
   return (
     <div className="flex w-full justify-center">
@@ -162,7 +138,11 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
                     />
                   </div>
                 ) : (
-                  <div>리뷰에 등록된 사진이 없습니다...🥹</div>
+                  <div>
+                    <p className="text-black-350">
+                      리뷰에 등록된 사진이 없습니다...🥹
+                    </p>
+                  </div>
                 )}
               </div>
             </div>

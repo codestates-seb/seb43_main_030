@@ -4,7 +4,7 @@ import axios from 'axios';
 import Dog from '../images/dog.jpeg';
 import RatingStar from '../components/RatingStar';
 import TextArea from '../components/TextArea';
-import ProfileUploadImage from '../components/ProfileUploadImage';
+import UploadImage from '../components/UploadImage';
 import Button from '../components/Button/Button';
 import profile from '../images/profile.png';
 import { ReactComponent as Star } from '../images/star-on.svg';
@@ -206,7 +206,7 @@ function Modal(props) {
               <div className="mt-25 flex flex-col pb-25">
                 <p className="write-title mb-15 mr-15">사진을 등록해주세요.</p>
                 <div className="flex">
-                  <ProfileUploadImage
+                  <UploadImage
                     image={image}
                     setImage={setImage}
                     prevImage={prevImage}
