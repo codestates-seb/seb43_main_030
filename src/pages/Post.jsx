@@ -3,12 +3,12 @@ import { useNavigate, Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import Parser from 'html-react-parser';
-import Button from '../components/Button/Button';
-import Input from '../components/Input/Input';
-import dateCalculate from '../components/dateCalculate';
 import { ReactComponent as View } from '../images/view.svg';
 import LikeOff from '../images/perpett-off.png';
 import LikeOn from '../images/community-like-on.png';
+import Button from '../components/Button/Button';
+import Input from '../components/Input/Input';
+import dateCalculate from '../components/dateCalculate';
 import Comment from '../components/Comment';
 import profile from '../images/profile.png';
 
@@ -76,11 +76,10 @@ function Post() {
     }
   }
 
+  // 상단 유치원 정보 영역 불러오기
   useEffect(() => {
     axios
-      .get(`${apiUrl}/community/1/post/${postId}`, {
-        headers: { Authorization: localStorage.getItem('token') },
-      })
+      .get(`${apiUrl}/community/1/post/${postId}`)
       .then(response => {
         setWriterInfo(response.data.data);
         setPost(response.data.data);
@@ -93,6 +92,7 @@ function Post() {
       });
   }, [setPost, postId, apiUrl]);
 
+  // 글삭제
   const handleDelete = useCallback(() => {
     axios
       .delete(`${apiUrl}/community/1/post/${postId}`, {
@@ -114,6 +114,7 @@ function Post() {
       });
   }, [apiUrl, navigate, postId]);
 
+  // 글수정
   const handleEdit = useCallback(() => {
     if (
       writerInfo.email === user[0].email &&
@@ -125,6 +126,7 @@ function Post() {
     }
   }, [writerInfo, user, navigate, postId]);
 
+  // 좋아요
   const isLike = () => {
     if (!localStorage.getItem('token')) {
       alert('비회원은 좋아요가 불가능합니다.');
