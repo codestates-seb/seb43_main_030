@@ -27,6 +27,11 @@ spring:
     init:
       data-locations: classpath*:db/h2/data.sql
 
+  servlet:
+    multipart:
+      maxFileSize: 10MB
+      maxRequestSize: 10MB
+
 logging:
   level:
     org:
