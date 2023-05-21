@@ -87,6 +87,7 @@ public class PostDto {
         private int likeCount;
         private boolean isLike;
         private boolean isModified;
+        private String email;
 
     }
 

@@ -4,7 +4,7 @@ spring:
 
 #  datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
-#    jdbc:mysql://perpett-database.csukwlthqcnp.ap-northeast-2.rds.amazonaws.com/test?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+#    url: jdbc:mysql://perpett-database.csukwlthqcnp.ap-northeast-2.rds.amazonaws.com/test?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
 #    username: admin
 #    password: 12341234
 

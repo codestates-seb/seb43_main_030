@@ -54,6 +54,7 @@ public interface PostMapper {
     @Mapping(target = "profileImageUrl", source = "post.profile.imageUrl")
     @Mapping(target = "name", source = "post.profile.name")
     @Mapping(target = "like", source = "isToLike")
+    @Mapping(target = "email", source = "post.profile.user.email")
     PostDto.DetailPageResponse postToDetailPageResponse(Post post, boolean isToLike);
     PostDto.getNotification postToGetNotification(Post post);
     List<PostDto.getNotification> postsToGetNotifications(List<Post> posts);

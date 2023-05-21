@@ -100,9 +100,9 @@ public class PostService {
     }
 
     public SingleResponseDto findNotificationPosts(long communityId) {
-        return new SingleResponseDto(
+        return new SingleResponseDto(postMapper.postsToGetNotifications(
                 postRepository.findByCategoryAndCommunityId(
-                        communityService.findCommunity(communityId), Post.Category.NOTIFICATION.toString()));
+                        communityService.findCommunity(communityId), Post.Category.NOTIFICATION.toString())));
     }
 
     public Post findPost(Long postId) {
