@@ -160,7 +160,7 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
             <div className="mb-30 h-full overflow-y-scroll">
               <div className="mt-25 flex items-center border-b-[1px] border-black-070">
                 <div className="mb-24 flex flex-col">
-                  <p className="write-title mb-15 mr-15">프로필 종류</p>
+                  <p className="write-title mb-16 mr-16">프로필 종류</p>
                   <RadioGroup>
                     <Radio
                       id="1"
@@ -187,7 +187,7 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
               </div>
               {/* 닉네임 등록 */}
               <div className="mt-25 flex flex-col border-b-[1px] border-black-070 pb-24">
-                <p className="write-title mb-15 mr-15">닉네임 (필수)</p>
+                <p className="write-title mb-16 mr-16">닉네임 (필수)</p>
                 <div className="flex">
                   <Input
                     placeholder="닉네임을 입력해주세요."
@@ -201,7 +201,7 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
               {/* 견종 선택 */}
               {!person && (
                 <div className="mt-25 flex flex-col pb-24">
-                  <p className="write-title mb-15 mr-15">견종 선택 (필수)</p>
+                  <p className="write-title mb-16 mr-16">견종 선택 (필수)</p>
                   {/* select box */}
                   <div className="relative flex flex-col">
                     <button
