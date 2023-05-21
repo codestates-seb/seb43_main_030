@@ -136,7 +136,7 @@ function Community() {
                 <span>{searchClickState ? postList.length : countPage}</span>
               </p>
               <Link
-                className="flex-center btn-size-l color-yellow flex w-168 rounded-[8px]"
+                className="flex-center btn-size-l color-yellow flex w-168 rounded-[8px] onlyMobile:w-130"
                 to="/write"
               >
                 글쓰기
@@ -155,9 +155,13 @@ function Community() {
                   })}
                 {postList.length === 0 && (
                   <div className="flex-center relative flex-col">
-                    <div className="flex-center mt-40 h-400 w-[100%] max-w-[1440px] flex-col px-80">
-                      <img src={NoList} alt="NoList" className="h-160 w-160" />
-                      <div className="flex-center h-70 text-40 font-black text-yellow-500">
+                    <div className="flex-center mt-40 h-400 w-[100%] max-w-[1440px] flex-col px-80 onlyMobile:px-20">
+                      <img
+                        src={NoList}
+                        alt="NoList"
+                        className="w-160 onlyMobile:w-90"
+                      />
+                      <div className="flex-center h-70 text-40 font-black text-yellow-500 onlyMobile:text-30">
                         어..없네?
                       </div>
                     </div>
