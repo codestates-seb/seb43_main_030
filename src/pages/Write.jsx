@@ -40,7 +40,6 @@ function Write() {
       axios
         .get(`${apiUrl}/community/1/post/${postId}`)
         .then(response => {
-          console.log(response.data.data);
           setTitle(response.data.data.title);
           setContent(response.data.data.content);
           setContents(content);

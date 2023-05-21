@@ -1,16 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import Pagination from '../components/Pagination';
 import { setCategory } from '../actions/areaFilterActions';
 import InputBtn from '../components/InputBtn';
-import Button from '../components/Button/Button';
 import ListCommunity from '../components/List/ListCommunity';
 import Dog from '../images/dog.jpeg';
 import { ReactComponent as Star } from '../images/star-on.svg';
-import { ReactComponent as ArrowNext } from '../images/arrow-next.svg';
-import { ReactComponent as ArrowPrev } from '../images/arrow-prev.svg';
 import NoList from '../images/perpett-nolist.png';
 
 function Community() {
@@ -18,7 +15,6 @@ function Community() {
   const [kinderInfo, setKinderInfo] = useState([]);
   const [page, setPage] = useState(1);
   const [countPage, setCountPage] = useState(0);
-  const [categoryValue, setCategoryValue] = useState();
   const [url, setUrl] = useState('');
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -45,7 +41,7 @@ function Community() {
   useEffect(() => {
     axios
       .get(`${apiUrl}/community/1`)
-      .then(response => setKinderInfo(response.data))
+      .then(response => setKinderInfo(response.data.data))
       .catch(error => console.log(error));
   }, [apiUrl]);
 
@@ -83,18 +79,20 @@ function Community() {
           </div>
           <div className=" absolute bottom-[48px] left-[48px] w-full text-white onlyMobile:bottom-[24px] onlyMobile:left-[20px] onlyMobile:w-[calc(100%-20px)]">
             <p className=" mb-20 max-w-450 text-40 font-bold leading-tight onlyMobile:max-w-[60vw] onlyMobile:text-32 onlyMini:mb-14 onlyMini:max-w-[70vw] onlyMini:text-26">
-              {kinderInfo.data && kinderInfo.data.name.replace(/"/g, '')}
+              {kinderInfo.name && kinderInfo.name.replace(/"/g, '')}
             </p>
             <div className="mb-8 flex items-center onlyMini:mb-2">
               <Star />
-              <span className="text-16 onlyMini:text-14">
-                {kinderInfo.data && kinderInfo.data.ratedReviewsAvg}
+              <span className="mr-2 text-16 onlyMini:text-14">
+                {kinderInfo.ratedReviewsAvg}
               </span>
-              (<span className="text-16 onlyMini:text-14">12</span>)
+              (
+              <span className="text-16 onlyMini:text-14">
+                {kinderInfo.ratedReviewsCount}
+              </span>
+              )
             </div>
-            <p className="onlyMini:text-14">
-              {kinderInfo.data && kinderInfo.data.introduction}
-            </p>
+            <p className="onlyMini:text-14">{kinderInfo.introduction}</p>
           </div>
         </div>
         <InputBtn
