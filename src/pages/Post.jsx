@@ -1,15 +1,16 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import Parser from 'html-react-parser';
+import Button from '../components/Button/Button';
+import Input from '../components/Input/Input';
+import dateCalculate from '../components/dateCalculate';
 import { ReactComponent as View } from '../images/view.svg';
 import LikeOff from '../images/perpett-off.png';
 import LikeOn from '../images/community-like-on.png';
 import Comment from '../components/Comment';
 import profile from '../images/profile.png';
-import Button from '../components/Button/Button';
-import Input from '../components/Input/Input';
-import dateCalculate from '../components/dateCalculate';
 
 function Post() {
   const [post, setPost] = useState([]);
@@ -19,12 +20,12 @@ function Post() {
   const [like, setLike] = useState(false);
   const [countLike, setCountLike] = useState(0);
   const [images, setImages] = useState([]);
-  const [previousPost, setPreviousPost] = useState(null);
-  const [nextPost, setNextPost] = useState(null);
+  const [writerInfo, setWriterInfo] = useState([]);
   const [commentError, setCommentError] = useState('');
   const navigate = useNavigate();
   const { postId } = useParams();
   const apiUrl = process.env.REACT_APP_API_URL;
+  const user = useSelector(state => state.user);
 
   useEffect(() => {
     axios
@@ -81,6 +82,7 @@ function Post() {
         headers: { Authorization: localStorage.getItem('token') },
       })
       .then(response => {
+        setWriterInfo(response.data.data);
         setPost(response.data.data);
         setCountLike(response.data.data.likeCount);
         setLike(response.data.data.like);
@@ -91,22 +93,37 @@ function Post() {
       });
   }, [setPost, postId, apiUrl]);
 
-  const handleDelete = () => {
-    const result = window.confirm('게시물을 삭제하시겠습니까?');
-    if (result) {
-      axios
-        .delete(`${apiUrl}/community/1/post/${postId}`, {
-          headers: { Authorization: localStorage.getItem('token') },
-        })
-        .then(alert('게시물이 삭제되었습니다.'))
-        .then(navigate(`/community`))
-        .catch(error => console.log(error));
-    }
-  };
+  const handleDelete = useCallback(() => {
+    axios
+      .delete(`${apiUrl}/community/1/post/${postId}`, {
+        headers: { Authorization: localStorage.getItem('token') },
+      })
+      .then(() => {
+        const result = window.confirm('게시물을 삭제하시겠습니까?');
+        if (result) {
+          alert('게시물이 삭제되었습니다.');
+          navigate(`/community`);
+        }
+      })
+      .catch(error => {
+        if (error.response && error.response.status === 403) {
+          alert('본인이 작성한 게시물만 삭제할 수 있습니다.');
+        } else {
+          alert(`error! ${error}`);
+        }
+      });
+  }, [apiUrl, navigate, postId]);
 
   const handleEdit = useCallback(() => {
-    navigate(`/write/${postId}`);
-  }, [navigate, postId]);
+    if (
+      writerInfo.email === user[0].email &&
+      user[0].name === writerInfo.name
+    ) {
+      navigate(`/write/${postId}`);
+    } else {
+      alert('본인이 작성한 게시물만 수정할 수 있습니다.');
+    }
+  }, [writerInfo, user, navigate, postId]);
 
   const isLike = () => {
     if (!localStorage.getItem('token')) {

@@ -32,7 +32,6 @@ function ListCommunity(props) {
 
   return (
     <li className="flex items-center" key={post.postId}>
-      {console.log(content)}
       <div className="user-profile mr-24 h-108 w-108 onlyMobile:mr-15 onlyMobile:h-96 onlyMobile:w-96 onlyMini:h-56 onlyMini:w-56">
         {thumbnail ? (
           <img src={thumbnail} alt="img" />
@@ -45,8 +44,8 @@ function ListCommunity(props) {
           <img src={profile} alt="defaultImage" />
         )} */}
       </div>
-      <div className="my-30 w-full onlyMini:my-20 onlyMini:w-[calc(100%-72px)]">
-        <Link to={`/post/${post.postId}`} className="block ">
+      <div className="my-30 w-full onlyMobile:w-[calc(100%-111px)] onlyMini:my-20 onlyMini:w-[calc(100%-72px)] ">
+        <Link to={`/post/${post.postId}`} className="block">
           <p className="list-title">{post.title}</p>
           {Parser(`
           <p className="list-content mt-5 truncate">
