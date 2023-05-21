@@ -12,7 +12,6 @@ import java.util.Optional;
 public interface ImageRepository extends JpaRepository<Image, Long> {
 
     List<Image> findByPost(Post post);
-    List<Image> findByReview(Review review);
 
     // 게시물 대표사진(내림차순 맨위 사진)
     Image findTopByPostOrderByImageIdAsc(Post post);

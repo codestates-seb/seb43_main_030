@@ -13,7 +13,7 @@ import java.util.Map;
 public class ReviewResponseDto {
     private Long reviewId;
     private String content;
-    private List<Image>images;
+    private String reviewImageUrl;
     private Double ratedReview;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;

@@ -25,10 +25,6 @@ public class Image {
     @JoinColumn(name = "postId")
     private Post post;
 
-    @ManyToOne
-    @JoinColumn(name = "reviewId")
-    private Review review;
-
     public enum Location {
         POST("/post/image"),
         KINDERGARTEN("/kindergarten/image"),

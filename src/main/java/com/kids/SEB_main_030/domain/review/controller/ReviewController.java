@@ -35,37 +35,24 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final ReviewMapper reviewMapper;
     private final UserService userService;
-    private final ImageService imageService;
 
 
     @PostMapping("/{kindergarten-id}")
     public ResponseEntity postReview(@PathVariable("kindergarten-id") long kindergartenId,
                                      @Valid @RequestPart(name = "postDto") ReviewPostDto reviewPostDto,
-                                     @RequestPart(required = false) List<MultipartFile> images){
+                                     @RequestPart(required = false) MultipartFile image){
         reviewPostDto.setKindergartenId(kindergartenId);
         reviewPostDto.setProfileId(userService.findCurrentProfileId());
-        Review review = reviewService.createReview(reviewMapper.reviewPostDtoToReview(reviewPostDto));
-        // 이미지 s3 업로드 및 db 저장 로직
-        if (images != null) imageService.imagesUpload(images, review, Image.Location.REVIEW.getLocation());
+        Review review = reviewService.createReview(reviewMapper.reviewPostDtoToReview(reviewPostDto), image);
         URI location = UriCreator.createUri(REVIEW_DEFAULT_URL, review.getReviewId());
         return ResponseEntity.created(location).build();
     }
     @PatchMapping("/{review-id}")
     public ResponseEntity patchReview(@PathVariable("review-id")@Positive long reviewId,
                                       @Valid @RequestPart(name = "patchDto", required = false) ReviewPatchDto reviewPatchDto,
-                                      @RequestPart(required = false) List<MultipartFile> images) throws Throwable {
+                                      @RequestPart(required = false) MultipartFile image) throws Throwable {
         Review review = reviewService.updateReview(
-                reviewMapper.reviewPatchDtoToReview(reviewPatchDto), reviewId);
-
-        // 이미지 삭제 및 업로드 로직
-        if (reviewPatchDto != null && reviewPatchDto.getDeleteImageIds() != null) {
-            List<Image> findImages = imageService.findImagesByImageIds(reviewPatchDto.getDeleteImageIds());
-            imageService.imagesDelete(findImages);
-        }
-        if (images != null) {
-            imageService.imagesUpload(images, review, Image.Location.REVIEW.getLocation());
-        }
-
+                reviewMapper.reviewPatchDtoToReview(reviewPatchDto), reviewId, image);
         URI location = UriCreator.createUri(REVIEW_DEFAULT_URL, reviewId);
         return ResponseEntity.created(location).build();
     }

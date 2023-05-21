@@ -23,6 +23,7 @@ public class Review extends Auditable {
     private String content;
     @Column(nullable = false)
     private Double ratedReview;
+    private String imageUrl;
 //    @Column(nullable = false, updatable = false)
 //    private LocalDateTime createdAt = LocalDateTime.now();
 //    @Column(nullable = false)
@@ -36,6 +37,5 @@ public class Review extends Auditable {
     @ManyToOne
     @JoinColumn(name ="PROFILE_ID")
     private Profile profile;
-    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
-    private List<Image> images;
+
 }

@@ -47,9 +47,6 @@ public class ImageService {
             if (object instanceof Post) {
                 Post post = (Post) object;
                 image.setPost(post);
-            } else if (object instanceof Review) {
-                Review review = (Review) object;
-                image.setReview(review);
             }
             imageRepository.save(image);
         }
@@ -78,9 +75,6 @@ public class ImageService {
     // post 로 이미지 찾기
     public List<Image> findByPost(Post post) {
         return imageRepository.findByPost(post);
-    }
-    public List<Image> findByReview(Review review) {
-        return imageRepository.findByReview(review);
     }
 
     // 게시물 리스트 대표사진 URLS

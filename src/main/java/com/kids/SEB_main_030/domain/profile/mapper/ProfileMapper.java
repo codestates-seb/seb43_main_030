@@ -32,4 +32,6 @@ public interface ProfileMapper {
     CurrentProfileResponseDto profileToCurrentProfileResponseDto(Profile profile);
     List<MyPostResponseDto> postsInMyPage(List<Post> posts);
     List<MyReviewResponseDto> reviewsInMyPage(List<Review> reviews);
+    @Mapping(source = "imageUrl", target = "reviewImageUrl")
+    MyReviewResponseDto reviewInMyPage(Review review);
 }

@@ -10,5 +10,4 @@ import java.util.List;
 public class ReviewPatchDto {
     private String content;
     private Double ratedReview;
-    private List<Long> deleteImageIds = null;
 }
