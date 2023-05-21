@@ -12,7 +12,16 @@ import { ReactComponent as Star } from '../../images/star-on.svg';
 import { ReactComponent as Close } from '../../images/close.svg';
 import { ReactComponent as StarOff } from '../../images/star-off.svg';
 
-function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
+function ConfirmReview(props) {
+  const {
+    offReviewModal,
+    kinderInfo,
+    kindergartenName,
+    kindergartenLocations,
+    kindergartenImageUrl,
+    kindergartenRatedReviewsAvg,
+    kindergartenRatedReviewsCount,
+  } = props;
   const [text, setText] = useState('');
   const apiUrl = process.env.REACT_APP_API_URL;
   const [starIndex, setStarIndex] = useState(0);
@@ -162,24 +171,24 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
             </div>
             <div className="mb-25 flex border-t-[1px] border-black-070 pt-25">
               <div className="user-profile mr-15 h-116 w-116 onlyMobile:h-96 onlyMobile:w-96">
-                {kinderData.imageUrl ? (
-                  <img src={kinderData.imageUrl} alt="img" />
+                {kindergartenImageUrl ? (
+                  <img src={kindergartenImageUrl} alt="img" />
                 ) : (
                   <img src={profile} alt="defaultImage" />
                 )}
               </div>
               <div className="flex flex-col justify-center">
                 <p className="write-title">
-                  {kinderData.name && kinderData.name.slice().replace(/"/g, '')}
+                  {kindergartenName &&
+                    kindergartenName.slice().replace(/"/g, '')}
                 </p>
                 <p className="flex items-center text-14">
                   <Star />
-                  {kinderData?.ratedReviewsAvg?.toFixed(2)}
-                  {kinderData.ratedReviewsCount}
+                  {kindergartenRatedReviewsAvg?.toFixed(2)}
+                  {kindergartenRatedReviewsCount}
                 </p>
                 <p className="mt-6 text-14">
-                  {kinderData.locations &&
-                    kinderData.locations.slice().replace(/"/g, '')}
+                  {kindergartenLocations?.slice().replace(/"/g, '')}
                 </p>
               </div>
             </div>

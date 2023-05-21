@@ -287,7 +287,7 @@ function KinderDetail() {
                       <ListReview
                         key={el.reviewId}
                         post={el}
-                        kinderData={kinderData}
+                        // kinderData={kinderData}
                       />
                     );
                   })}

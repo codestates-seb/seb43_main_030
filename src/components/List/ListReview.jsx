@@ -7,7 +7,7 @@ import ConfirmReview from './ConfirmReview';
 import { ReactComponent as StarOn } from '../../images/star-on.svg';
 import { ReactComponent as StarOff } from '../../images/star-off.svg';
 
-function ListReview({ post, kinderData, className }) {
+function ListReview({ post, className }) {
   // post.ratedReview 따라서 별 보이기
   const [reviewModal, setReviewModal] = useState(false);
   const [kinderInfo, setKinderInfo] = useState([]);
@@ -101,7 +101,11 @@ function ListReview({ post, kinderData, className }) {
               offReviewModal={offReviewModal}
               name={post.profileName}
               kinderInfo={kinderInfo}
-              kinderData={kinderData}
+              kindergartenName={post.kindergartenName}
+              kindergartenLocations={post.kindergartenLocations}
+              // kindergartenImageUrl={post.kindergartenImageUrl}
+              // kindergartenRatedReviewsAvg={post.kindergartenRatedReviewsAvg}
+              // kindergartenRatedReviewsCount={post.kindergartenRatedReviewsCount}
             />
           ) : null}
         </li>
