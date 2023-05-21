@@ -11,7 +11,6 @@ import {
 } from '../actions/areaFilterActions';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
-import DropDownMenu from '../components/DropDownMenu';
 import ListReview from '../components/List/ListReview';
 import Post from '../components/List/ListCommunity';
 import SettingModal from './SettingModal';
@@ -483,7 +482,15 @@ function Mypage() {
                 {value && value.reviews.length !== 0 ? (
                   <div className="flex flex-col gap-8">
                     {value.reviews.map(el => {
-                      return <ListReview key={el.reviewId} post={el} />;
+                      console.log(el);
+                      return (
+                        <ListReview
+                          key={el.reviewId}
+                          post={el}
+                          // kinderData={kinderData}
+                          className="hidden"
+                        />
+                      );
                     })}
                   </div>
                 ) : (
