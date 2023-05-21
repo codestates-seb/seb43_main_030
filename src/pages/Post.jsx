@@ -182,7 +182,7 @@ function Post() {
                   </div>
                 </div>
                 <p className="text-14 text-black-350 onlyMobile:text-12 ">
-                  {dateCalculate(post.modifiedAt)}
+                  {post.modifiedAt && dateCalculate(post.modifiedAt)}
                 </p>
               </div>
             </div>
