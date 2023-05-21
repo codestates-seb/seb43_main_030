@@ -43,7 +43,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         log.info("access Token : " + accessToken);
 
         if (user.getRole().equals(Role.GUEST)){
-            String url = "http://testqjzlt.s3-website.ap-northeast-2.amazonaws.com/login";
+            String url = "http://testqjzlt.s3-website.ap-northeast-2.amazonaws.com/oauthrole";
             // ToDO 카카오 로그인은 이메일이 없으므로 추가정보 페이지로 redirect
             response.setHeader("Authorization", accessToken);
             response.setHeader("email", user.getEmail());
