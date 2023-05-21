@@ -17,6 +17,8 @@ import KinderDetail from './pages/KinderDetail';
 import Mypage from './pages/Mypage';
 import NotFound from './pages/NotFound';
 import FindPw from './pages/FindPw';
+import OauthLogin from './pages/OauthLogin';
+import OauthRole from './pages/OauthRole';
 import { setCurProfile } from './actions/areaFilterActions';
 
 function App() {
@@ -45,6 +47,8 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/write/:postId" element={<Write />} />
         <Route path="/post/:postId" element={<Post />} />
+        <Route path="/oauthlogin" element={<OauthLogin />} />
+        <Route path="/oauthrole" element={<OauthRole />} />
       </Routes>
       {shouldHideFooter ? null : <Footer />}
     </div>
