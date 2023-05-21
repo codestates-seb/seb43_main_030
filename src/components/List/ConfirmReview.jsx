@@ -60,12 +60,10 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
   };
 
   useEffect(() => {
-    if (kinderInfo.images) {
-      if (kinderInfo.images.length !== 0) {
-        setPrevImage(kinderInfo.images[kinderInfo.images.length - 1].imageUrl);
-      }
+    if (kinderInfo.reviewImageUrl) {
+      setPrevImage(kinderInfo.reviewImageUrl);
     }
-  }, [kinderInfo.images]);
+  }, [kinderInfo.image, kinderInfo.reviewImageUrl]);
 
   return (
     <div className="flex w-full justify-center">
@@ -128,14 +126,9 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
               {console.log(kinderInfo)}
 
               <div className="mt-25 flex flex-col pb-25">
-                {kinderInfo.images && kinderInfo.images.length !== 0 ? (
+                {kinderInfo.reviewImageUrl ? (
                   <div className="h-250 w-[100%] flex-col">
-                    <img
-                      src={
-                        kinderInfo.images[kinderInfo.images.length - 1].imageUrl
-                      }
-                      alt="reviewImg"
-                    />
+                    <img src={kinderInfo.reviewImageUrl} alt="reviewImg" />
                   </div>
                 ) : (
                   <div>
