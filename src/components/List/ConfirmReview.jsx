@@ -78,7 +78,7 @@ function ConfirmReview(props) {
     <>
       <div className="flex justify-center">
         <div className="fixed top-[10px] z-40 my-80 h-[calc(100vh-160px)] w-608 rounded-[16px] bg-white onlyMobile:left-0 onlyMobile:top-0 onlyMobile:my-0 onlyMobile:h-full onlyMobile:w-full onlyMobile:rounded-0">
-          <div className="relative flex h-full w-[100%] flex-col p-30">
+          <div className="relative flex h-full w-[100%] flex-col p-30 onlyMobile:p-24">
             <div>
               <div className="relative flex justify-center">
                 <button
@@ -144,7 +144,7 @@ function ConfirmReview(props) {
                 </div>
               </div>
             </div>
-            <div className="absolute bottom-0 z-10 w-548 bg-white">
+            <div className="absolute bottom-0 z-10 w-548 bg-white onlyMobile:w-[calc(100%-48px)]">
               <div className="mr-10 flex flex-col py-12">
                 <div className="flex justify-end">
                   <button
