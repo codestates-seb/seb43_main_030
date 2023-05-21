@@ -28,11 +28,14 @@ public class CommentService {
     private final ProfileService profileService;
     private final UserService userService;
 
-    public Comment createComment(Comment comment) {
+    public Comment createComment(Comment comment, long postId) {
+        comment.setPost(postService.findPost(postId));
         comment.setProfile(postService.getProfile());
         return commentRepository.save(comment);
     }
-    public Comment updateComment(Comment comment) {
+    public Comment updateComment(Comment comment, long postId, long commentId) {
+//        comment.setPost(postService.findPost(postId));
+        comment.setCommentId(commentId);
         identityVerify(comment);
         Comment findComment = findVerifiedComment(comment.getCommentId());
         Optional.ofNullable(comment.getContent())
@@ -46,17 +49,17 @@ public class CommentService {
         return commentRepository.findByPost(findPost);
     }
 
-    public List<Profile> findProfilesByComments(List<Comment> comments) {
-         return comments.stream()
-                .map(comment -> profileService.verifyProfile(comment.getProfile().getProfileId()))
-                .collect(Collectors.toList());
-    }
-
-    public List<User> findUsersByProfiles(List<Profile> profiles) {
-        return profiles.stream()
-                .map(profile -> userService.findVerifiedUser(profile.getUser().getUserId()))
-                .collect(Collectors.toList());
-    }
+//    public List<Profile> findProfilesByComments(List<Comment> comments) {
+//         return comments.stream()
+//                .map(comment -> profileService.verifyProfile(comment.getProfile().getProfileId()))
+//                .collect(Collectors.toList());
+//    }
+//
+//    public List<User> findUsersByProfiles(List<Profile> profiles) {
+//        return profiles.stream()
+//                .map(profile -> userService.findVerifiedUser(profile.getUser().getUserId()))
+//                .collect(Collectors.toList());
+//    }
 
     public void deleteComment(long commentId) {
         Comment findComment = findVerifiedComment(commentId);

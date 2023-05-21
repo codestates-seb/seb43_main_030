@@ -16,6 +16,7 @@ public class CommunityDto {
     @AllArgsConstructor
     public static class Response {
         private String name;
+        private int ratedReviewsCount;
         private double ratedReviewsAvg;
         private String imageUrl;
         private String introduction;

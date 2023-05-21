@@ -1,8 +1,11 @@
 package com.kids.SEB_main_030.domain.post.mapper;
 
+import com.kids.SEB_main_030.domain.like.entity.Like;
 import com.kids.SEB_main_030.domain.post.entity.Post;
 import com.kids.SEB_main_030.global.exception.CustomException;
 import com.kids.SEB_main_030.global.exception.LogicException;
+import org.mapstruct.*;
+
 import com.kids.SEB_main_030.domain.post.dto.PostDto;
 import com.kids.SEB_main_030.domain.profile.entity.Profile;
 import com.kids.SEB_main_030.global.image.entity.Image;
@@ -14,119 +17,49 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface PostMapper {
 
-    PostDto.getNotification postToGetNotification(Post post);
-
-    List<PostDto.getNotification> postsToGetNotifications(List<Post> posts);
-
-    default PostDto.Response postToPostResponseDto(Post post, List<Image> images) {
-        if ( post == null ) {
-            return null;
-        }
-        PostDto.Response response = new PostDto.Response();
-
-        if ( post.getPostId() != null ) {
-            response.setPostId( post.getPostId() );
-        }
-        response.setTitle( post.getTitle() );
-        response.setContent( post.getContent() );
-        response.setViews( post.getViews() );
-
-        response.setImages(imagesToPostImageDtos(images));
-        return response;
-    }
-
-    default Post postPostDtoToPost(PostDto.Post post) {
-        if ( post == null ) {
-            return null;
-        }
-
-        Post post1 = new Post();
-
-        post1.setTitle( post.getTitle() );
-        post1.setContent( post.getContent() );
-        post1.setCategory(categoryToEnum(post.getCategory()));
-
-        return post1;
-    };
-
-
-    default PostDto.DetailPageResponse postToDetailPageResponse(Post post, int likes, boolean isToLike, Profile profile, List<Image> images, String profileImageUrl) {
-        PostDto.DetailPageResponse detailPageResponse = new PostDto.DetailPageResponse();
-        detailPageResponse.setPostId(post.getPostId());
-        detailPageResponse.setTitle(post.getTitle());
-        detailPageResponse.setContent(post.getContent());
-        detailPageResponse.setCategory(post.getCategory().toString());
-        detailPageResponse.setName(profile.getName());
-        detailPageResponse.setLikeCount(likes);
-        detailPageResponse.setModifiedAt(post.getModifiedAt());
-        detailPageResponse.setImages(imagesToPostImageDtos(images));
-        detailPageResponse.setProfileImageUrl(profileImageUrl);
-        detailPageResponse.setViews(post.getViews());
-        detailPageResponse.setProfileId(profile.getProfileId());
-        detailPageResponse.setLike(isToLike);
-        detailPageResponse.setModified(post.isModified());
-        return detailPageResponse;
-    }
-
-    default List<PostDto.Image> imagesToPostImageDtos(List<Image> images) {
-        if (images == null || images.isEmpty()) {
-            return null;
-        }
-        List<PostDto.Image> imageDtos = new ArrayList<>();
-        for (Image image : images) {
-            imageDtos.add(imageToPostImageDto(image));
-        }
-
-        return imageDtos;
-    }
-
-    default PostDto.Image imageToPostImageDto(Image image) {
-        if (image == null) {
-            return null;
-        }
-        PostDto.Image imageDto = new PostDto.Image();
-        imageDto.setImageId(image.getImageId());
-        imageDto.setImageUrl(image.getImageUrl());
-        return imageDto;
-    }
+    @Mapping(target = "category", expression = "java(categoryToEnum(post.getCategory()))")
+    Post postPostDtoToPost(PostDto.Post post);
 
     default Post postPatchDtoToPost(PostDto.Patch patch) {
-        Post post = new Post();
-        if ( patch == null ) {
+            Post post = new Post();
+            if ( patch == null ) {
+                return post;
+            }
+            if ( patch.getCategory() != null ) {
+                post.setCategory( categoryToEnum( patch.getCategory() ) );
+            }
+            post.setTitle( patch.getTitle() );
+            post.setContent( patch.getContent() );
+            post.setDeleteImageIds(patch.getDeleteImageIds());
             return post;
-        }
-        post.setTitle( patch.getTitle() );
-        post.setContent( patch.getContent() );
-        if (patch.getCategory() != null)
-            post.setCategory(categoryToEnum(patch.getCategory()));
-
-        return post;
-    };
-
-    default PostDto.CardViewResponse postToPostCardViewResponseDto(Post post, Profile profile, int likes, String imageUrl) {
-        PostDto.CardViewResponse response = new PostDto.CardViewResponse();
-        response.setPostId(post.getPostId());
-        response.setTitle(post.getTitle());
-        response.setContent(post.getContent());
-        response.setViews(post.getViews());
-        response.setLikeCount(likes);
-        response.setPostImageUrl(imageUrl);
-        response.setName(profile.getName());
-        response.setProfileImageUrl(profile.getImageUrl());
-        response.setModified(post.isModified());
-        response.setModifiedAt(post.getModifiedAt());
-        return response;
     }
 
-    default List<PostDto.CardViewResponse> postsToPostCardViewResponseDtos(List<Post> posts, List<Profile> profiles, List<Integer> likes, List<String> imageUrls) {
-        List<PostDto.CardViewResponse> responses = new ArrayList<>();
-        for (int i = 0; i < posts.size(); i++)
-            responses.add(postToPostCardViewResponseDto(posts.get(i), profiles.get(i), likes.get(i), imageUrls.get(i)));
-        return responses;
-    };
-
-
-    private Post.Category categoryToEnum(String category) {
+    @Mapping(target = "images", expression = "java(imagesToPostImageResponseDtos(post.getImages()))")
+    PostDto.Response postToPostResponseDto(Post post);
+    @Mapping(target = "postImageUrl", source = "postImageUrl")
+    @Mapping(target = "likeCount", source = "post.likeCount")
+    @Mapping(target = "profileImageUrl", source = "post.profile.imageUrl")
+    @Mapping(target = "name", source = "post.profile.name")
+    @Mapping(target = "modified", source = "post.modified")
+    PostDto.CardViewResponse postToPostCardViewResponseDto(Post post, String postImageUrl);
+    default List<PostDto.CardViewResponse> postsToPostCardViewResponseDtos(List<Post> posts, List<String> postImageUrls) {
+        List<PostDto.CardViewResponse> cardViewResponses = new ArrayList<>();
+        for (int i = 0; i < posts.size(); i++) {
+            cardViewResponses.add(postToPostCardViewResponseDto(posts.get(i), postImageUrls.get(i)));
+        }
+        return cardViewResponses;
+    }
+    @Mapping(target = "images", expression = "java(imagesToPostImageResponseDtos(post.getImages()))")
+    @Mapping(target = "profileId", source = "post.profile.profileId")
+    @Mapping(target = "profileImageUrl", source = "post.profile.imageUrl")
+    @Mapping(target = "name", source = "post.profile.name")
+    @Mapping(target = "like", source = "isToLike")
+    PostDto.DetailPageResponse postToDetailPageResponse(Post post, boolean isToLike);
+    PostDto.getNotification postToGetNotification(Post post);
+    List<PostDto.getNotification> postsToGetNotifications(List<Post> posts);
+    List<PostDto.ImageResponse> imagesToPostImageResponseDtos(List<Image> images);
+    PostDto.ImageResponse imageToPostImageResponseDto(Image image);
+    default Post.Category categoryToEnum(String category) {
         switch (category.toUpperCase()) {
             case "NOTIFICATION" : return Post.Category.NOTIFICATION;
             case "COMMUNITY" : return Post.Category.COMMUNITY;

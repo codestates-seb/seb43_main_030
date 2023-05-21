@@ -89,6 +89,7 @@ public class ImageUploader {
         fileValidate.add(".JPG");
         fileValidate.add(".JPEG");
         fileValidate.add(".PNG");
+        fileValidate.add(".jfif");
         String idxFileName = fileName.substring(fileName.lastIndexOf("."));
         if (!fileValidate.contains(idxFileName)) {
             throw new LogicException(CustomException.IMAGE_EXTENSION_WRONG);

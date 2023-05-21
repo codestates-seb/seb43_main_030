@@ -29,14 +29,11 @@ public class CommentController {
     private final static String COMMENT_DEFAULT_URL = "/api/post/{post-id}/comment";
     private final CommentMapper commentMapper;
     private final CommentService commentService;
-    private final PostService postService;
 
     @PostMapping
     public ResponseEntity postComment(@PathVariable("post-id") @Positive long postId,
                                       @Valid @RequestBody CommentDto.Post requestBody) {
-        Comment comment = commentMapper.commentPostDtoToComment(requestBody);
-        comment.setPost(postService.findPost(postId));
-        Comment createComment = commentService.createComment(comment);
+        Comment createComment = commentService.createComment(commentMapper.commentPostDtoToComment(requestBody), postId);
         URI location = UriCreator.createUri(COMMENT_DEFAULT_URL + "/{comment-id}", postId, createComment.getCommentId());
         return ResponseEntity.created(location).build();
     }
@@ -45,10 +42,7 @@ public class CommentController {
     public ResponseEntity patchComment(@PathVariable("post-id") @Positive long postId,
                                        @PathVariable("comment-id") @Positive long commentId,
                                        @Valid @RequestBody CommentDto.Patch requestBody) {
-        Comment comment = commentMapper.commentPatchDtoToComment(requestBody);
-        comment.setPost(postService.findPost(postId));
-        comment.setCommentId(commentId);
-        Comment updateComment = commentService.updateComment(comment);
+        Comment updateComment = commentService.updateComment(commentMapper.commentPatchDtoToComment(requestBody), postId, commentId);
         return new ResponseEntity(
                 new SingleResponseDto(commentMapper.commentToPatchResponseDto(updateComment)), HttpStatus.OK);
     }
@@ -56,11 +50,8 @@ public class CommentController {
     @GetMapping
     public ResponseEntity getComment(@PathVariable("post-id") @Positive long postId) {
         List<Comment> findComments = commentService.findComments(postId);
-        List<Profile> findProfiles = commentService.findProfilesByComments(findComments);
-        List<User> findUsers = commentService.findUsersByProfiles(findProfiles);
         return new ResponseEntity(new SingleResponseDto(
-                commentMapper.commentsAndProfilesAndUsersToCardViewResponseDtos(
-                        findComments, findProfiles, findUsers)), HttpStatus.OK);
+                commentMapper.commentsAndProfilesAndUsersToCardViewResponseDtos(findComments)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{comment-id}")

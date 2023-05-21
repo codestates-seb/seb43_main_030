@@ -17,15 +17,15 @@ public interface CommentMapper {
     Comment commentPatchDtoToComment(CommentDto.Patch patch);
     CommentDto.PatchResponse commentToPatchResponseDto(Comment comment);
 
-    @Mapping(source = "comment.modifiedAt", target = "modifiedAt")
+    @Mapping(target = "name", source = "comment.profile.name")
+    @Mapping(target = "imageUrl", source = "comment.profile.imageUrl")
+    @Mapping(target = "email", source = "comment.profile.user.email")
     CommentDto.CardViewResponse commentAndProfileAndUserToCardViewResponseDto(
-            Comment comment, Profile profile, User user);
-    default List<CommentDto.CardViewResponse> commentsAndProfilesAndUsersToCardViewResponseDtos(
-            List<Comment> comments, List<Profile> profiles, List<User> users) {
+            Comment comment);
+    default List<CommentDto.CardViewResponse> commentsAndProfilesAndUsersToCardViewResponseDtos(List<Comment> comments) {
         List<CommentDto.CardViewResponse> cardViewResponses = new ArrayList<>();
         for (int i = 0; i < comments.size(); i++) {
-            cardViewResponses.add(commentAndProfileAndUserToCardViewResponseDto(
-                    comments.get(i), profiles.get(i), users.get(i)));
+            cardViewResponses.add(commentAndProfileAndUserToCardViewResponseDto(comments.get(i)));
         }
         return cardViewResponses;
     }

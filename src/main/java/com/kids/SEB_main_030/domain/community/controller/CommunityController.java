@@ -31,9 +31,8 @@ public class CommunityController {
     @GetMapping
     public ResponseEntity getCommunity(@PathVariable("community-id") @Positive long communityId) {
         Community findCommunity = communityService.findCommunity(communityId);
-        Kindergarten findKindergarten = kindergartenService.findVerifiedKindergarten(findCommunity.getCommunityId());
         return new ResponseEntity<>(
-                new SingleResponseDto(communityMapper.communityAndKindergartenToResponseDto(findCommunity, findKindergarten)),
-                HttpStatus.OK);
+                new SingleResponseDto(
+                        communityMapper.communityAndKindergartenToResponseDto(communityService.findCommunity(communityId))), HttpStatus.OK);
     }
 }

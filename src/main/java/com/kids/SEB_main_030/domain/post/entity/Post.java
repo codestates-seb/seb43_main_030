@@ -42,6 +42,9 @@ public class Post extends Auditable {
     @Column(nullable = false)
     private boolean isModified = false;
 
+    @Transient
+    private List<Long> deleteImageIds;
+
     @Enumerated(value = EnumType.STRING)
     @Column
     private Category category;

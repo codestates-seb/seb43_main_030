@@ -45,7 +45,7 @@ public class PostDto {
         private String title;
         private String content;
         private Integer views;
-        private List<Image> images;
+        private List<ImageResponse> images;
     }
 
     @Getter
@@ -60,6 +60,7 @@ public class PostDto {
         private String postImageUrl;
         private Integer views;
         private int likeCount;
+        private long profileId;
         private String profileImageUrl;
         private String name;
         private LocalDateTime modifiedAt;
@@ -77,7 +78,7 @@ public class PostDto {
         private String title;
         private String content;
         private String category;
-        private List<Image> images;
+        private List<ImageResponse> images;
         private long profileId;
         private String profileImageUrl;
         private String name;
@@ -93,7 +94,7 @@ public class PostDto {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class Image {
+    public static class ImageResponse {
         private Long imageId;
         private String imageUrl;
     }

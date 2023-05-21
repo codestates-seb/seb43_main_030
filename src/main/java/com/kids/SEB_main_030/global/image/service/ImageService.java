@@ -96,20 +96,8 @@ public class ImageService {
 
     // 게시물 리스트 대표사진 URL
     public Image findTopImage(Post post) {
-        return imageRepository.findTopByPostOrderByImageIdDesc(post);
+        return imageRepository.findTopByPostOrderByImageIdAsc(post);
     }
-
-//    private List<String> imagesToImageUrls(List<Image> images) {
-//        List<String> imageUrls;
-//        if (images != null) {
-//            imageUrls = images.stream()
-//                    .map(image -> image.getImageUrl())
-//                    .collect(Collectors.toList());
-//        } else {
-//            imageUrls = null;
-//        }
-//        return imageUrls;
-//    }
 
     public void imagesDelete(List<Image> images) {
         for (Image image : images) {
@@ -136,9 +124,4 @@ public class ImageService {
         return imageRepository.findById(imageId)
                 .orElseThrow(() -> new LogicException(CustomException.IMAGE_NOT_FOUND));
     }
-    // post로 image 찾기 예외처리
-//    private List<Image> verifyExistsImageByPost(Post post) {
-//        return imageRepository.findByPost(post)
-//                .orElseThrow(() -> new LogicException(CustomException.IMAGE_NOT_FOUND));
-//    }
 }
