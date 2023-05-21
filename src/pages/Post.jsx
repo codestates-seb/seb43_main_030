@@ -24,6 +24,7 @@ function Post() {
   const [commentError, setCommentError] = useState('');
   const navigate = useNavigate();
   const { postId } = useParams();
+  const { id } = useParams();
   const apiUrl = process.env.REACT_APP_API_URL;
   const user = useSelector(state => state.user);
 
@@ -79,7 +80,7 @@ function Post() {
   // 상단 유치원 정보 영역 불러오기
   useEffect(() => {
     axios
-      .get(`${apiUrl}/community/1/post/${postId}`)
+      .get(`${apiUrl}/community/${id}/post/${postId}`)
       .then(response => {
         setWriterInfo(response.data.data);
         setPost(response.data.data);
@@ -90,19 +91,19 @@ function Post() {
       .catch(error => {
         console.log(error);
       });
-  }, [setPost, postId, apiUrl]);
+  }, [setPost, postId, apiUrl, id]);
 
   // 글삭제
   const handleDelete = useCallback(() => {
     axios
-      .delete(`${apiUrl}/community/1/post/${postId}`, {
+      .delete(`${apiUrl}/community/${id}/post/${postId}`, {
         headers: { Authorization: localStorage.getItem('token') },
       })
       .then(() => {
         const result = window.confirm('게시물을 삭제하시겠습니까?');
         if (result) {
           alert('게시물이 삭제되었습니다.');
-          navigate(`/community`);
+          navigate(`/community/${id}`);
         }
       })
       .catch(error => {
@@ -112,7 +113,7 @@ function Post() {
           alert(`error! ${error}`);
         }
       });
-  }, [apiUrl, navigate, postId]);
+  }, [apiUrl, navigate, postId, id]);
 
   // 글수정
   const handleEdit = useCallback(() => {
@@ -120,11 +121,11 @@ function Post() {
       writerInfo.email === user[0].email &&
       user[0].name === writerInfo.name
     ) {
-      navigate(`/write/${postId}`);
+      navigate(`/community/${id}/write/${postId}`);
     } else {
       alert('본인이 작성한 게시물만 수정할 수 있습니다.');
     }
-  }, [writerInfo, user, navigate, postId]);
+  }, [writerInfo, user, navigate, postId, id]);
 
   // 좋아요
   const isLike = () => {
@@ -254,7 +255,7 @@ function Post() {
             </div>
             <div className="flex">
               <Link
-                to="/community"
+                to={`/community/${id}`}
                 className="flex-center btn-size-m border-gray mr-10 flex rounded-md"
               >
                 목록보기

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Dog from '../images/dog.jpeg';
 import RatingStar from '../components/RatingStar';
@@ -31,6 +31,7 @@ function Modal(props) {
     : // eslint-disable-next-line react-hooks/rules-of-hooks
       useState(0);
   const [image, setImage] = useState(null);
+  const { id } = useParams();
 
   const starScore = () => {
     const ratedStar = Math.floor(kinderInfo.ratedReview);
@@ -60,14 +61,14 @@ function Modal(props) {
   // replace
   useEffect(() => {
     axios
-      .get(`${apiUrl}/kindergarten/1`)
+      .get(`${apiUrl}/kindergarten/${id}`)
       .then(response => {
         setKinderInfo(response.data.data);
       })
       .catch(error => {
         console.log(error);
       });
-  }, [apiUrl]);
+  }, [apiUrl, id]);
 
   const submitReview = () => {
     if (!text || !starIndex) {
@@ -119,7 +120,7 @@ function Modal(props) {
       );
 
       axios
-        .post(`${apiUrl}/review/1`, formData, {
+        .post(`${apiUrl}/review/${id}`, formData, {
           headers: {
             Authorization: localStorage.getItem('token'),
             'Content-Type': 'multipart/form-data',

@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import Pagination from '../components/Pagination';
 import { setCategory } from '../actions/areaFilterActions';
 import InputBtn from '../components/InputBtn';
 import ListCommunity from '../components/List/ListCommunity';
-import Dog from '../images/dog.jpeg';
 import { ReactComponent as Star } from '../images/star-on.svg';
 import NoList from '../images/perpett-nolist.png';
 
@@ -17,22 +16,25 @@ function Community() {
   const [countPage, setCountPage] = useState(0);
   const [url, setUrl] = useState('');
   const navigate = useNavigate();
-  const apiUrl = process.env.REACT_APP_API_URL;
+  const { id } = useParams();
   const dispatch = useDispatch();
   const commInputValue = useSelector(state => state.commInputValue);
   const category = useSelector(state => state.category);
   const searchClickState = useSelector(state => state.searchClickState);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // 포스트 리스트와 현재 게시물 수
   useEffect(() => {
     axios
       .get(
-        `${apiUrl}/community/1/post?page=${page}&category=${category}&keyword=${commInputValue}`,
+        `${apiUrl}/community/${id}/post?page=${page}&category=${category}&keyword=${commInputValue}`,
       )
       .then(response => {
         setPostList(response.data.data);
         setCountPage(response.data.pageInfo.totalElements);
-        setUrl(`${apiUrl}/community/1/post?page=${page}&category=${category}`);
+        setUrl(
+          `${apiUrl}/community/${id}/post?page=${page}&category=${category}`,
+        );
       })
       .catch(error => console.log(error));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -40,10 +42,10 @@ function Community() {
 
   useEffect(() => {
     axios
-      .get(`${apiUrl}/community/1`)
+      .get(`${apiUrl}/community/${id}`)
       .then(response => setKinderInfo(response.data.data))
       .catch(error => console.log(error));
-  }, [apiUrl]);
+  }, [apiUrl, id]);
 
   // 탭 선택값 바꿔주기
   const tabSwitch = event => {
@@ -71,7 +73,7 @@ function Community() {
         <div className="relative">
           <div className="relative h-432 overflow-hidden rounded-[16px] onlyMobile:h-300 onlyMobile:rounded-0">
             <img
-              src={Dog}
+              src={kinderInfo.imageUrl}
               alt="예시이미지"
               className="w-full blur-lg onlyMobile:blur-[10px]"
             />
@@ -135,7 +137,7 @@ function Community() {
               </p>
               <Link
                 className="flex-center btn-size-l color-yellow flex w-168 rounded-[8px] onlyMobile:w-130"
-                to="/write"
+                to={`/community/${id}/write`}
               >
                 글쓰기
               </Link>
