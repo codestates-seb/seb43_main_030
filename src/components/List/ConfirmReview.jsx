@@ -75,8 +75,8 @@ function ConfirmReview(props) {
   }, [kinderInfo.image, kinderInfo.reviewImageUrl]);
 
   return (
-    <div className="flex w-full justify-center">
-      <div className="fixed top-[10px] z-[101] my-80 h-[calc(100vh-160px)] w-608 rounded-[16px] bg-white onlyMobile:top-0 onlyMobile:my-0 onlyMobile:h-full onlyMobile:w-full onlyMobile:rounded-0">
+    <div className="flex w-full max-w-608 justify-center py-80">
+      <div className="fixed top-[10px] z-[101] my-80 h-[calc(100vh-160px)] max-w-608 rounded-[16px] bg-white onlyMobile:top-0 onlyMobile:my-0 onlyMobile:h-full onlyMobile:w-full onlyMobile:rounded-0">
         <div className="relative flex h-full w-[100%] flex-col p-30">
           <div className=" w-full shrink-0">
             <div className="relative flex justify-center">
@@ -88,67 +88,63 @@ function ConfirmReview(props) {
                 <Close />
               </button>
             </div>
-            <div className="mt-30 flex w-600">
-              <div className="mr-24 w-full">
-                <div className="flex w-full items-center justify-between">
-                  <div className="flex w-full">
-                    <div className="list-user-image mr-16">
-                      <img
-                        src={kinderInfo.profileImageUrl}
-                        alt="profileImg"
-                        className="rounded-xl"
-                      />
+            <div className="mb-24 mt-30 flex w-600">
+              <div className="flex w-full items-center justify-between">
+                <div className="flex w-full">
+                  <div className="list-user-image mr-16">
+                    <img
+                      src={kinderInfo.profileImageUrl}
+                      alt="profileImg"
+                      className="rounded-xl"
+                    />
+                  </div>
+                  <div className="flex w-full flex-col">
+                    <div className="flex items-center gap-2">
+                      <p className="text-16 font-bold onlyMobile:text-14">
+                        {kinderInfo.profileName}
+                      </p>
+                      <p className="text-14 text-black-350 onlyMobile:text-12">
+                        {kinderInfo.email}
+                      </p>
                     </div>
-                    <div className="flex w-full flex-col">
-                      <div className="flex items-center gap-2">
-                        <p className="text-16 font-bold onlyMobile:text-14">
-                          {kinderInfo.profileName}
-                        </p>
-                        <p className="text-14 text-black-350 onlyMobile:text-12">
-                          {kinderInfo.email}
-                        </p>
-                      </div>
-                      <div className="flex w-full items-center justify-between">
-                        <div className="star flex">{starScore()}</div>
-                        <p className="list-gray-small pr-[10%]">
-                          {dateCalculate(kinderInfo.createdAt)}
-                        </p>
-                      </div>
+                    <div className="flex w-full items-center justify-between">
+                      <div className="star flex">{starScore()}</div>
+                      <p className="list-gray-small pr-[10%]">
+                        {dateCalculate(kinderInfo.createdAt)}
+                      </p>
                     </div>
                   </div>
                 </div>
+              </div>
+              {/* <div className="mr-24 h-[75%] w-full">
                 <p className="list-content h-text-max mt-16 max-h-[50px]">
                   {kinderInfo.contents}
                 </p>
-              </div>
-              {kinderInfo.imageUrl ? (
-                <img src={kinderInfo.imageUrl} alt="img" />
-              ) : (
-                ''
-              )}
+                {kinderInfo.imageUrl ? (
+                  <img src={kinderInfo.imageUrl} alt="img" />
+                ) : (
+                  ''
+                )}
+              </div> */}
             </div>
+            <div className="h-[calc(80vh-160px)]">
+              <div className="flex h-[calc(80vh-160px)] flex-col overflow-auto px-8">
+                <p className="mb-24">{kinderInfo.content}</p>
 
-            <div className="overflow-y-scroll">
-              <div className="mt-25 flex items-center border-b-[1px] border-black-070 pb-25">
-                <p className="mr-15">{kinderInfo.content}</p>
-              </div>
-              {console.log(kinderInfo)}
-
-              <div className="mt-25 flex flex-col pb-25">
                 {kinderInfo.reviewImageUrl ? (
-                  <div className="h-250 w-[100%] flex-col">
+                  <div className="w-[100%] flex-col">
                     <img src={kinderInfo.reviewImageUrl} alt="reviewImg" />
                   </div>
                 ) : (
-                  <div>
-                    <p className="text-black-350">
-                      리뷰에 등록된 사진이 없습니다...🥹
-                    </p>
-                  </div>
+                  <p className="text-black-350">
+                    리뷰에 등록된 사진이 없습니다...🥹
+                  </p>
                 )}
               </div>
             </div>
-            <div className="mr-10 mt-25 flex flex-col pb-40">
+          </div>
+          <div className="absolute bottom-0 z-10 w-548 bg-white">
+            <div className="mr-10 flex flex-col py-12">
               <div className="flex justify-end">
                 <button
                   className="mr-15 text-14 text-black-350 onlyMobile:text-12"
