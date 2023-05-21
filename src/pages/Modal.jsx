@@ -83,7 +83,7 @@ function Modal(props) {
         ratedReview: starIndex,
       };
 
-      formData.append('images', image);
+      formData.append('image', image);
 
       // formData.append(images);
 
@@ -111,7 +111,7 @@ function Modal(props) {
         ratedReview: starIndex,
       };
 
-      formData.append('images', image);
+      formData.append('image', image);
 
       formData.append(
         'postDto',
