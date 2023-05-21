@@ -88,7 +88,6 @@ function Login() {
         setEmailErr('');
         setPwdErr('');
         navi('/');
-        // navi(0);
         localStorage.setItem('token', res.headers.get('Authorization'));
         localStorage.setItem('tokenRefresh', res.headers.get('Refresh'));
       })
@@ -108,59 +107,18 @@ function Login() {
       });
   }
 
-  // const googleLogin = () => {
-  //       localStorage.setItem('token', res.headers.get('Authorization'));
-  //       localStorage.setItem('tokenRefresh', res.headers.get('Refresh'));
+  const googleLogin = async e => {
+    e.preventDefault();
+    const googleAuthUrl = `${process.env.REACT_APP_GOOGLE_OAUTH_URL}/oauth2/authorization/google?redirect_uri=${process.env.REACT_APP_GOOGLE_OAUTH_URL}/login/oauth2/code/google`;
 
-  // };
-
-  // const googleLogin = useGoogleLogin({
-  //   onSuccess: tokenResponse => console.log(tokenResponse),
-  // });
-
-  // const googleLogin = e => {
-  //   e.preventDefault();
-
-  //   // const googleUrl = `${process.env.REACT_APP_OAUTH_URL}/oauth2/authorization/google?redirect_uri=http://localhost:3000/signup`;
-  //   const googleUrl = `${process.env.REACT_APP_OAUTH_URL}/oauth2/authorization/google`;
-  //   // window.location.href = googleUrl;
-  //   axios.post(googleUrl, { code: authorizationCode }).then(res => {
-  //     localStorage.setItem('token', res.headers.Authorization);
-  //   });
-  // };
-
-  // 구글 로그인
-  const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID}&
-  response_type=token&
-  redirect_uri=https://localhost:3000&
-  scope=https://www.googleapis.com/auth/userinfo.email`;
-  const handleGoogle = () => {
-    window.location.assign(googleUrl);
+    window.location.href = googleAuthUrl;
   };
 
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    const { hash } = url;
-    if (hash) {
-      const accessToken = hash.split('=')[1].split('&')[0];
-      axios
-        .get(
-          `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${accessToken}`,
-          {
-            headers: {
-              authorization: `token ${accessToken}`,
-              accept: 'application/json',
-            },
-          },
-        )
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
-  }, []);
+  const kakaoLogin = async e => {
+    e.preventDefault();
+    const googleAuthUrl = `${process.env.REACT_APP_GOOGLE_OAUTH_URL}/oauth2/authorization/kakao?redirect_uri=${process.env.REACT_APP_GOOGLE_OAUTH_URL}/login/oauth2/code/kakao`;
+    window.location.href = googleAuthUrl;
+  };
 
   const login = () => {
     return (
@@ -219,13 +177,16 @@ function Login() {
         </form>
         <div className="login-line">또는</div>
         <div>
-          <Button className="border-gray btn-size-l mb-16 w-full gap-1.5">
+          <Button
+            className="border-gray btn-size-l mb-16 w-full gap-1.5"
+            onClick={kakaoLogin}
+          >
             <Kakao />
             카카오 로그인
           </Button>
           <Button
             className="border-gray btn-size-l w-full gap-1.5"
-            onClick={handleGoogle}
+            onClick={googleLogin}
           >
             <Google />
             구글 로그인
