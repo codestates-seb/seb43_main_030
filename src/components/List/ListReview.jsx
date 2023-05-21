@@ -79,7 +79,7 @@ function ListReview({ post, kinderData, className }) {
                 </div>
               </div>
             </div>
-            <p className="list-content h-text-max mt-16 max-h-[50px]">
+            <p className="list-content h-text-max mt-16 max-h-[50px] onlyMobile:max-h-[40px] onlyMobile:min-w-180">
               {post.content}
             </p>
             <Button
