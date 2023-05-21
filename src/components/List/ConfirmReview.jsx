@@ -162,8 +162,8 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
             </div>
             <div className="mb-25 flex border-t-[1px] border-black-070 pt-25">
               <div className="user-profile mr-15 h-116 w-116 onlyMobile:h-96 onlyMobile:w-96">
-                {kinderData.image ? (
-                  <img src={kinderData.profileImageUrl} alt="img" />
+                {kinderData.imageUrl ? (
+                  <img src={kinderData.imageUrl} alt="img" />
                 ) : (
                   <img src={profile} alt="defaultImage" />
                 )}
