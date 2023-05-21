@@ -32,8 +32,8 @@ const initialState = {
   searchValue: '',
   auth: false,
   activeIndex: 0,
-  category: '',
-  commInputValue: 'notification',
+  category: 'notification',
+  commInputValue: '',
   searchClickState: false,
 };
 

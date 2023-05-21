@@ -35,8 +35,8 @@ function Header() {
   function reload() {
     navi('/');
     window.location.reload();
+    // dispatch(setKinderGartens(null));
     dispatch(setAreaFilter(0));
-    dispatch(setKinderGartens(null));
     dispatch(setInputValue(''));
     dispatch(setSearchValue(''));
   }

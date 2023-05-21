@@ -13,18 +13,37 @@ function ListCommunity(props) {
   const { post, onClick, className } = props;
   const [content, setContent] = useState('');
 
+  // 썸네일용
+  const thumImage = post.content;
+  const regex = /<img src="(.*?)">/i;
+  const matches = thumImage.match(regex);
+  const thumbnail = matches ? matches[1] : null;
+
   useEffect(() => {
-    setContent(post.content.slice(0, 40));
+    // 게시물 미리보기 텍스트
+    const regex = /<p>(.*?)<\/p>/i;
+    const match = post.content.match(regex);
+    let extractedText = '';
+    if (match && match[1]) {
+      extractedText = match[1].slice(0, 40);
+    }
+    setContent(extractedText);
   }, [setContent, post.content]);
 
   return (
     <li className="flex items-center" key={post.postId}>
+      {console.log(content)}
       <div className="user-profile mr-24 h-108 w-108 onlyMobile:mr-15 onlyMobile:h-96 onlyMobile:w-96 onlyMini:h-56 onlyMini:w-56">
-        {post.postImageUrl ? (
-          <img src={post.postImageUrl} alt="img" />
+        {thumbnail ? (
+          <img src={thumbnail} alt="img" />
         ) : (
           <img src={profile} alt="defaultImage" />
         )}
+        {/* {post.postImageUrl ? (
+          <img src={post.postImageUrl} alt="img" />
+        ) : (
+          <img src={profile} alt="defaultImage" />
+        )} */}
       </div>
       <div className="my-30 w-full onlyMini:my-20 onlyMini:w-[calc(100%-72px)]">
         <Link to={`/post/${post.postId}`} className="block ">
