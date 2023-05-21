@@ -77,7 +77,7 @@ function ConfirmReview(props) {
   return (
     <>
       <div className="flex justify-center">
-        <div className="fixed top-[10px] z-40 my-80 h-[calc(100vh-160px)] max-w-608 rounded-[16px] bg-white onlyMobile:top-0 onlyMobile:my-0 onlyMobile:h-full onlyMobile:w-full onlyMobile:rounded-0">
+        <div className="fixed top-[10px] z-40 my-80 h-[calc(100vh-160px)] w-608 rounded-[16px] bg-white onlyMobile:left-0 onlyMobile:top-0 onlyMobile:my-0 onlyMobile:h-full onlyMobile:w-full onlyMobile:rounded-0">
           <div className="relative flex h-full w-[100%] flex-col p-30">
             <div>
               <div className="relative flex justify-center">
