@@ -100,8 +100,7 @@ function Modal(props) {
           },
         })
         .then(response => {
-          // window.location.reload();
-          console.log('dd');
+          window.location.reload();
         })
         .catch(error => console.log(error));
     } else {
