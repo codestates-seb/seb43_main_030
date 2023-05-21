@@ -1,9 +1,8 @@
 import { useMediaQuery } from 'react-responsive';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
+import QuillEditor from '../utils/quillEditor';
 import dateCalculate from '../components/dateCalculate';
 import Button from '../components/Button/Button';
 import Radio from '../components/Radio/Radio';
@@ -44,52 +43,13 @@ function Write() {
           console.log(response.data.data);
           setTitle(response.data.data.title);
           setContent(response.data.data.content);
-          setContents(
-            content,
-            response.data.data.image &&
-              `<figure class=${response.data.data.images[0]}><img src=${response.data.data.images[0]} /></figure>`,
-          );
+          setContents(content);
         })
         .catch(error => {
           console.log(error);
         });
     }
   }, [apiUrl, postId, content]);
-
-  const customUploadAdapter = loader => {
-    return {
-      upload() {
-        return new Promise((resolve, reject) => {
-          loader.file.then(file => {
-            setImg(preImg => [...preImg, file]);
-            // setImg(file);
-            // const formData = new FormData();
-            // formData.append('images', file);
-            // axios
-            //   .post(`${apiUrl}/community/1/post`, formData, {
-            //     headers: {
-            //       Authorization: localStorage.getItem('token'),
-            //       'Content-Type': 'multipart/form-data',
-            //     },
-            //   })
-            //   .then(res => {
-            //     resolve({
-            //       default: res.data.data.uri,
-            //     });
-            //     console.log(res.data.data.uri);
-            //   })
-            //   .catch(err => console.log(err, file));
-          });
-        });
-      },
-    };
-  };
-  function uploadPlugin(editor) {
-    // eslint-disable-next-line no-param-reassign
-    editor.plugins.get('FileRepository').createUploadAdapter = loader => {
-      return customUploadAdapter(loader);
-    };
-  }
 
   const saveCategory = event => {
     setCategory(event.target.value);
@@ -119,10 +79,6 @@ function Write() {
 
     const formData = new FormData();
 
-    img.forEach(image => {
-      formData.append('images', image);
-    });
-
     const headers = {
       headers: {
         Authorization: localStorage.getItem('token'),
@@ -141,8 +97,8 @@ function Write() {
       );
       axios
         .patch(`${apiUrl}/community/1/post/${postId}`, formData, headers)
-        .then(response => console.log(response))
         .then(navigate(`/post/${postId}`))
+        .then(window.location.reload())
         .catch(error => {
           console.log(error);
         });
@@ -158,8 +114,11 @@ function Write() {
       );
       axios
         .post(`${apiUrl}/community/1/post`, formData, headers)
-        .then(response => console.dir(response))
-        .then(navigate(`/community`))
+        .then(response => {
+          const url = response.headers.location;
+          const naviUrl = url.substring(url.lastIndexOf('/') + 1);
+          navigate(`/post/${naviUrl}`);
+        })
         .catch(error => {
           console.log(error);
         });
@@ -264,37 +223,14 @@ function Write() {
             작성하시는 글의 내용을 입력해주세요.
           </p>
           <div>
-            {postId ? (
-              <CKEditor
-                editor={ClassicEditor}
-                config={
-                  ({
-                    placeholder: '내용을 입력해주세요.',
-                  },
-                  { extraPlugins: [uploadPlugin] })
-                }
-                data={contents}
-                onChange={(event, editor) => {
-                  const data = editor.getData();
-                  setContents(data);
-                }}
-              />
-            ) : (
-              <CKEditor
-                editor={ClassicEditor}
-                config={
-                  ({
-                    placeholder: '내용을 입력해주세요.',
-                  },
-                  { extraPlugins: [uploadPlugin] })
-                }
-                data={content}
-                onChange={(event, editor) => {
-                  const data = editor.getData();
-                  setContent(data);
-                }}
-              />
-            )}
+            <QuillEditor
+              setImg={setImg}
+              content={content}
+              setContent={setContent}
+              contents={contents}
+              setContents={setContents}
+              postId={postId}
+            />
           </div>
         </div>
       </div>
