@@ -1,17 +1,13 @@
 package com.kids.SEB_main_030.global.security.oauth2.handler;
 
-import com.kids.SEB_main_030.domain.profile.repository.ProfileRepository;
 import com.kids.SEB_main_030.global.security.jwt.JwtTokenizer;
-import com.kids.SEB_main_030.domain.profile.entity.Profile;
 import com.kids.SEB_main_030.global.security.oauth2.CustomOAuth2User;
 import com.kids.SEB_main_030.domain.user.entity.Role;
 import com.kids.SEB_main_030.domain.user.entity.SocialType;
 import com.kids.SEB_main_030.domain.user.entity.User;
 import com.kids.SEB_main_030.domain.user.repository.UserRepository;
-import com.kids.SEB_main_030.global.utils.RandomCreator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;

@@ -18,9 +18,9 @@ public class MyReviewResponseDto {
     private LocalDateTime modifiedAt;
     private String reviewImageUrl;
 
-    public void setImages(List<ImageInPostResponseDto> images){
-        if (images != null && !images.isEmpty()) {
-            this.reviewImageUrl = images.get(0).getImageUrl();
-        }
-    }
+//    public void setImages(List<ImageInPostResponseDto> images){
+//        if (images != null && !images.isEmpty()) {
+//            this.reviewImageUrl = images.get(0).getImageUrl();
+//        }
+//    }
 }

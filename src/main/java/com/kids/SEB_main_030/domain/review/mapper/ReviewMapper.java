@@ -38,6 +38,7 @@ public interface ReviewMapper {
     @Mapping(source = "profile.imageUrl",target = "profileImageUrl")
     @Mapping(target="reviewImageUrl",source = "imageUrl")
     @Mapping(target="email",expression = "java(review.getProfile().getUser().getEmail())")
+    @Mapping(target = "kindergartenRatedReview", source = "kindergarten.ratedReviewsAvg")
     ReviewResponseDto reviewToReviewResponseDto(Review review);
 
     default List<Image>mapImage(List<Image>images){
