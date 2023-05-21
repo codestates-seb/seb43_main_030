@@ -194,6 +194,7 @@ function Write() {
               value="notification"
               labelClass="text-14 disabled:black-200"
               onChange={saveCategory}
+              disabled
             >
               공지사항
             </Radio>
