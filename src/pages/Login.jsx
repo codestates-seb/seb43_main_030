@@ -2,11 +2,6 @@ import { useMediaQuery } from 'react-responsive';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import {
-  useGoogleLogin,
-  GoogleLogin,
-  GoogleOAuthProvider,
-} from '@react-oauth/google';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setAuth,
@@ -116,8 +111,8 @@ function Login() {
 
   const kakaoLogin = async e => {
     e.preventDefault();
-    const googleAuthUrl = `${process.env.REACT_APP_GOOGLE_OAUTH_URL}/oauth2/authorization/kakao?redirect_uri=${process.env.REACT_APP_GOOGLE_OAUTH_URL}/login/oauth2/code/kakao`;
-    window.location.href = googleAuthUrl;
+    const kakaoAuthUrl = `${process.env.REACT_APP_GOOGLE_OAUTH_URL}/oauth2/authorization/kakao?redirect_uri=${process.env.REACT_APP_GOOGLE_OAUTH_URL}/login/oauth2/code/kakao`;
+    window.location.href = kakaoAuthUrl;
   };
 
   const login = () => {
