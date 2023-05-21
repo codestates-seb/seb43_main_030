@@ -194,24 +194,17 @@ function SignUp() {
     }
   };
 
-  // const googleLogin = useGoogleLogin({
-  //   onSuccess: tokenResponse => console.log(tokenResponse),
-  // });
+  const googleSignup = async e => {
+    e.preventDefault();
+    const googleAuthUrl = `${process.env.REACT_APP_GOOGLE_OAUTH_URL}/oauth2/authorization/google?redirect_uri=${process.env.REACT_APP_GOOGLE_OAUTH_URL}/login/oauth2/code/google`;
+    window.location.href = googleAuthUrl;
+  };
 
-  // const googleSignUp = e => {
-  //   e.preventDefault();
-  //   // const googleUrl = `${process.env.REACT_APP_OAUTH_URL}/oauth2/authorization/google?redirect_uri=http://localhost:3000/signup`;
-  //   const googleUrl = `${process.env.REACT_APP_OAUTH_URL}/oauth2/authorization/google`;
-
-  //   axios
-  //     .get(googleUrl)
-  //     .then(res => {
-  //       console.log(res);
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  // };
+  const kakaoSignup = async e => {
+    e.preventDefault();
+    const googleAuthUrl = `${process.env.REACT_APP_GOOGLE_OAUTH_URL}/oauth2/authorization/kakao?redirect_uri=${process.env.REACT_APP_GOOGLE_OAUTH_URL}/login/oauth2/code/kakao`;
+    window.location.href = googleAuthUrl;
+  };
 
   const signup = () => {
     return (
@@ -304,21 +297,20 @@ function SignUp() {
         </form>
         <div className="login-line">또는</div>
         <div>
-          <Link to="http://ec2-15-165-204-114.ap-northeast-2.compute.amazonaws.com/oauth2/authorization/kakao">
-            <Button className="border-gray btn-size-l mb-16 w-full gap-1.5">
-              <Kakao />
-              카카오 회원가입
-            </Button>
-          </Link>
-          <Link to="http://ec2-15-165-204-114.ap-northeast-2.compute.amazonaws.com/oauth2/authorization/google">
-            <Button
-              className="border-gray btn-size-l w-full gap-1.5"
-              // onClick={googleSignUp}
-            >
-              <Google />
-              구글 회원가입
-            </Button>
-          </Link>
+          <Button
+            className="border-gray btn-size-l mb-16 w-full gap-1.5"
+            onClick={kakaoSignup}
+          >
+            <Kakao />
+            카카오 회원가입
+          </Button>
+          <Button
+            className="border-gray btn-size-l w-full gap-1.5"
+            onClick={googleSignup}
+          >
+            <Google />
+            구글 회원가입
+          </Button>
         </div>
       </>
     );
