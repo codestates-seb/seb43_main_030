@@ -32,7 +32,7 @@ function MHeader() {
     navi('/');
     window.location.reload();
     dispatch(setAreaFilter(0));
-    dispatch(setKinderGartens(null));
+    // dispatch(setKinderGartens(null));
     dispatch(setInputValue(''));
     dispatch(setSearchValue(''));
   }

@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
 import Dog from '../images/dog.jpeg';
 import RatingStar from '../components/RatingStar';
 import TextArea from '../components/TextArea';
@@ -13,8 +12,15 @@ import { ReactComponent as StarOff } from '../images/star-off.svg';
 import { ReactComponent as Close } from '../images/close.svg';
 
 function Modal(props) {
-  const { onClick, prevRatedReview, prevText, prevImages, title, reviewId } =
-    props;
+  const {
+    onClick,
+    prevRatedReview,
+    prevText,
+    prevImage,
+    setPrevImage,
+    title,
+    reviewId,
+  } = props;
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [text, setText] = prevText ? useState(prevText) : useState('');
   const [kinderInfo, setKinderInfo] = useState([]);
@@ -24,7 +30,7 @@ function Modal(props) {
       useState(prevRatedReview)
     : // eslint-disable-next-line react-hooks/rules-of-hooks
       useState(0);
-  const [images, setImages] = useState([]);
+  const [image, setImage] = useState(null);
 
   const starScore = () => {
     const ratedStar = Math.floor(kinderInfo.ratedReview);
@@ -77,9 +83,7 @@ function Modal(props) {
         ratedReview: starIndex,
       };
 
-      for (let i = 0; i < images.length; i += 1) {
-        formData.append('images', images[i]);
-      }
+      formData.append('images', image);
 
       // formData.append(images);
 
@@ -96,8 +100,7 @@ function Modal(props) {
           },
         })
         .then(response => {
-          // window.location.reload();
-          console.log('dd');
+          window.location.reload();
         })
         .catch(error => console.log(error));
     } else {
@@ -108,9 +111,7 @@ function Modal(props) {
         ratedReview: starIndex,
       };
 
-      for (let i = 0; i < images.length; i += 1) {
-        formData.append('images', images[i]);
-      }
+      formData.append('images', image);
 
       formData.append(
         'postDto',
@@ -131,7 +132,7 @@ function Modal(props) {
         .catch(error => console.log(error));
     }
   };
-
+  console.log(prevImage);
   return (
     <>
       <div className="flex justify-center">
@@ -205,24 +206,10 @@ function Modal(props) {
                 <p className="write-title mb-15 mr-15">사진을 등록해주세요.</p>
                 <div className="flex">
                   <UploadImage
-                    image={images}
-                    setImage={setImages}
-                    prevImages={prevImages ? prevImages[0] : null}
-                  />
-                  <UploadImage
-                    image={images}
-                    setImage={setImages}
-                    prevImages={prevImages ? prevImages[1] : null}
-                  />
-                  <UploadImage
-                    image={images}
-                    setImage={setImages}
-                    prevImages={prevImages ? prevImages[2] : null}
-                  />
-                  <UploadImage
-                    image={images}
-                    setImage={setImages}
-                    prevImages={prevImages ? prevImages[3] : null}
+                    image={image}
+                    setImage={setImage}
+                    prevImage={prevImage}
+                    setPrevImage={setPrevImage}
                   />
                 </div>
               </div>

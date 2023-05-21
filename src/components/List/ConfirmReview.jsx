@@ -17,6 +17,7 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [starIndex, setStarIndex] = useState(0);
   const [editModal, setEditModal] = useState(false);
+  const [prevImage, setPrevImage] = useState('');
 
   const starScore = () => {
     const ratedStar = Math.floor(kinderInfo.ratedReview);
@@ -30,14 +31,6 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
       }
     }
     return ratingStar.map(star => star);
-  };
-
-  const handleStarIndexChange = useCallback(index => {
-    setStarIndex(index);
-  }, []);
-
-  const textCount = event => {
-    setText(event.target.value);
   };
 
   const onEditModal = () => {
@@ -66,23 +59,13 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
     }
   };
 
-  const updateReview = () => {
-    axios
-      .delete(`${apiUrl}/review/${kinderInfo.reviewId}`, {
-        headers: {
-          Authorization: localStorage.getItem('token'),
-        },
-      })
-      .then(response => window.location.reload())
-      .catch(error => {
-        if (error.response && error.response.status === 403) {
-          alert('본인이 작성한 리뷰만 수정할 수 있어요❗️');
-        }
-      });
-  };
-
-  const handleEdit = () => {};
-  const handleDelete = () => {};
+  useEffect(() => {
+    if (kinderInfo.images) {
+      if (kinderInfo.images.length !== 0) {
+        setPrevImage(kinderInfo.images[kinderInfo.images.length - 1].imageUrl);
+      }
+    }
+  }, [kinderInfo.images]);
 
   return (
     <div className="flex w-full justify-center">
@@ -146,35 +129,42 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
 
               <div className="mt-25 flex flex-col pb-25">
                 {kinderInfo.images && kinderInfo.images.length !== 0 ? (
-                  <div className="h-200 w-[100%] flex-col">
-                    {kinderInfo.images.map(image => {
-                      return <img src={image.imageUrl} alt="reviewImg" />;
-                    })}
+                  <div className="h-250 w-[100%] flex-col">
+                    <img
+                      src={
+                        kinderInfo.images[kinderInfo.images.length - 1].imageUrl
+                      }
+                      alt="reviewImg"
+                    />
                   </div>
                 ) : (
-                  <div>리뷰에 등록된 사진이 없습니다...🥹</div>
+                  <div>
+                    <p className="text-black-350">
+                      리뷰에 등록된 사진이 없습니다...🥹
+                    </p>
+                  </div>
                 )}
               </div>
-              <div className="mr-10 mt-25 flex flex-col pb-40">
-                <div className="flex justify-end">
-                  <button
-                    className="mr-15 text-14 text-black-350 onlyMobile:text-12"
-                    type="button"
-                    onClick={() => {
-                      // offReviewModal();
-                      onEditModal();
-                    }}
-                  >
-                    수정
-                  </button>
-                  <button
-                    className="text-14 text-black-350 onlyMobile:text-12"
-                    type="button"
-                    onClick={deleteReview}
-                  >
-                    삭제
-                  </button>
-                </div>
+            </div>
+            <div className="mr-10 mt-25 flex flex-col pb-40">
+              <div className="flex justify-end">
+                <button
+                  className="mr-15 text-14 text-black-350 onlyMobile:text-12"
+                  type="button"
+                  onClick={() => {
+                    // offReviewModal();
+                    onEditModal();
+                  }}
+                >
+                  수정
+                </button>
+                <button
+                  className="text-14 text-black-350 onlyMobile:text-12"
+                  type="button"
+                  onClick={deleteReview}
+                >
+                  삭제
+                </button>
               </div>
             </div>
             <div className="mb-25 flex border-t-[1px] border-black-070 pt-25">
@@ -191,7 +181,7 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
                 </p>
                 <p className="flex items-center text-14">
                   <Star />
-                  {kinderData.ratedReviewsAvg.toFixed(1)}
+                  {kinderData?.ratedReviewsAvg?.toFixed(2)}
                   {kinderData.ratedReviewsCount}
                 </p>
                 <p className="mt-6 text-14">
@@ -210,7 +200,8 @@ function ConfirmReview({ offReviewModal, kinderInfo, kinderData }) {
             onClick={offEditModal}
             prevRatedReview={kinderInfo.ratedReview}
             prevText={kinderInfo.content}
-            prevImages={kinderInfo.images}
+            prevImage={prevImage}
+            setPrevImage={setPrevImage}
             reviewId={kinderInfo.reviewId}
           />
         ) : null}
