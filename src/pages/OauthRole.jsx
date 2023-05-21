@@ -73,10 +73,37 @@ function OauthRole() {
         .then(res => {
           navi('/login');
           console.log(res);
+          setIsEmail(false);
         })
         .catch(err => {
           console.log(err);
-          if (err.response && err.response.status === 409) {
+          if (err.response && err.response.status === 500) {
+            setEmailErr('이미 가입되어 있는 이메일입니다.');
+          }
+        });
+    }
+
+    if (userEmail) {
+      axios
+        .patch(
+          `${process.env.REACT_APP_API_URL}/users/oauthInit`,
+          {
+            checkOfficials: officials,
+          },
+          {
+            headers: {
+              Authorization: authorization,
+            },
+          },
+        )
+        .then(res => {
+          navi('/login');
+          console.log(res);
+          setIsEmail(false);
+        })
+        .catch(err => {
+          console.log(err);
+          if (err.response && err.response.status === 500) {
             setEmailErr('이미 가입되어 있는 이메일입니다.');
           }
         });
@@ -124,7 +151,7 @@ function OauthRole() {
               labelText="이메일"
               type="email"
               placeholder="이메일 입력해주세요."
-              // value={userEmail}
+              value={userEmail}
               disabled={userEmail}
             />
           )}
