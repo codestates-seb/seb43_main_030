@@ -227,7 +227,7 @@ function KinderDetail() {
                     {postData.map(el => {
                       return <ListNotice key={el.postId} post={el} />;
                     })}
-                    <Link to="/community">
+                    <Link to={`/community/${id}`}>
                       <Button className="border-gray btn-size-l shrink-0 onlyMobile:mt-16">
                         공지사항 더보기
                       </Button>
@@ -316,7 +316,7 @@ function KinderDetail() {
                     </div>
                     <p>{kinderData.locations.replace(/"/g, '')}</p>
                   </div>
-                  <Link to="/community" className="flex">
+                  <Link to={`/community/${id}`} className="flex">
                     <Button className="color-yellow btn-size-l mt-24 w-full">
                       커뮤니티 가기
                     </Button>

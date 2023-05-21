@@ -45,7 +45,7 @@ function ListCommunity(props) {
         )} */}
       </div>
       <div className="my-30 w-full onlyMobile:w-[calc(100%-111px)] onlyMini:my-20 onlyMini:w-[calc(100%-72px)] ">
-        <Link to={`/post/${post.postId}`} className="block">
+        <Link to={`post/${post.postId}`} className="block">
           <p className="list-title">{post.title}</p>
           {Parser(`
           <p className="list-content mt-5 truncate">

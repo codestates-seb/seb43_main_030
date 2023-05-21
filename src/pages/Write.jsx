@@ -20,6 +20,7 @@ function Write() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
   const navigate = useNavigate();
   const { postId } = useParams();
+  const { id } = useParams();
   const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
@@ -38,7 +39,7 @@ function Write() {
   useEffect(() => {
     if (postId) {
       axios
-        .get(`${apiUrl}/community/1/post/${postId}`)
+        .get(`${apiUrl}/community/${id}/post/${postId}`)
         .then(response => {
           setTitle(response.data.data.title);
           setContent(response.data.data.content);
@@ -48,7 +49,7 @@ function Write() {
           console.log(error);
         });
     }
-  }, [apiUrl, postId, content]);
+  }, [apiUrl, postId, content, id]);
 
   const saveCategory = event => {
     setCategory(event.target.value);
@@ -95,8 +96,8 @@ function Write() {
         new Blob([JSON.stringify(data)], { type: 'application/json' }),
       );
       axios
-        .patch(`${apiUrl}/community/1/post/${postId}`, formData, headers)
-        .then(navigate(`/post/${postId}`))
+        .patch(`${apiUrl}/community/${id}/post/${postId}`, formData, headers)
+        .then(navigate(`/community/${id}/post/${postId}`))
         .then(window.location.reload())
         .catch(error => {
           console.log(error);
@@ -112,11 +113,11 @@ function Write() {
         new Blob([JSON.stringify(data)], { type: 'application/json' }),
       );
       axios
-        .post(`${apiUrl}/community/1/post`, formData, headers)
+        .post(`${apiUrl}/community/${id}/post`, formData, headers)
         .then(response => {
           const url = response.headers.location;
           const naviUrl = url.substring(url.lastIndexOf('/') + 1);
-          navigate(`/post/${naviUrl}`);
+          navigate(`/community/${id}/post/${naviUrl}`);
         })
         .catch(error => {
           console.log(error);
