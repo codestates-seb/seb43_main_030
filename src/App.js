@@ -41,12 +41,12 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/find-password" element={<FindPw />} />
         <Route path="/kindergarten/:id" element={<KinderDetail />} />
-        <Route path="/community" element={<Community />} />
-        <Route path="/write" element={<Write />} />
+        <Route path="/community/:id" element={<Community />} />
+        <Route path="/community/:id/write" element={<Write />} />
         <Route path="/mypage/:id" element={<Mypage />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/write/:postId" element={<Write />} />
-        <Route path="/post/:postId" element={<Post />} />
+        <Route path="/community/:id/write/:postId" element={<Write />} />
+        <Route path="/community/:id/post/:postId" element={<Post />} />
         <Route path="/oauthlogin" element={<OauthLogin />} />
         <Route path="/oauthrole" element={<OauthRole />} />
       </Routes>
