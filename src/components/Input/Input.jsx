@@ -10,6 +10,7 @@ function Input(props) {
     className,
     labelText,
     onChange,
+    disabled,
   } = props;
 
   return (
@@ -29,11 +30,12 @@ function Input(props) {
         type={type}
         value={value}
         className={cls(
-          'h-50 rounded-lg border-[1px] border-solid px-18 py-16 text-14 placeholder:text-black-200 focus:border-yellow-500 focus:outline-none',
+          'h-50 rounded-lg border-[1px] border-solid px-18 py-16 text-14 placeholder:text-black-200 focus:border-yellow-500 focus:outline-none disabled:bg-black-050 disabled:text-black-200',
           className,
         )}
         placeholder={placeholder}
         onChange={onChange}
+        disabled={disabled}
       />{' '}
       {/* 에러 시 isError 완료 시 isComp props에 안내문구 작성  */}
       {isError && <p className="input-text text-red-400">{isError}</p>}
