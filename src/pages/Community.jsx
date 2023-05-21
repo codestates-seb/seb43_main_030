@@ -2,9 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import Pagination from 'react-js-pagination';
-// eslint-disable-next-line import/no-named-as-default, import/no-named-as-default-member
+import Pagination from '../components/Pagination';
 import { setCategory } from '../actions/areaFilterActions';
 import InputBtn from '../components/InputBtn';
 import Button from '../components/Button/Button';
@@ -170,27 +168,10 @@ function Community() {
             <div className="mt-50 flex justify-center">
               <div>
                 <Pagination
-                  activePage={page}
+                  count={searchClickState ? postList.length : countPage}
+                  currentPage={page}
                   itemsCountPerPage={10}
-                  totalItemsCount={
-                    searchClickState ? postList.length : countPage
-                  }
-                  pageRangeDisplayed={5}
                   onChange={handlePageChange}
-                  prevPageText={<ArrowPrev />}
-                  nextPageText={<ArrowNext />}
-                  lastPageText={
-                    <div className="flex">
-                      <ArrowNext className="mr-[-6px]" />
-                      <ArrowNext className="mr-[-3px]" />
-                    </div>
-                  }
-                  firstPageText={
-                    <div className="flex">
-                      <ArrowPrev className="mr-[-6px]" />
-                      <ArrowPrev className="mr-[2px]" />
-                    </div>
-                  }
                 />
               </div>
             </div>
