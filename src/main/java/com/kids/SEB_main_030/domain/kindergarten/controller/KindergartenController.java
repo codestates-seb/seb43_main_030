@@ -42,10 +42,8 @@ public class KindergartenController {
     public ResponseEntity postKindergarten(@Valid @RequestBody KindergartenPostDto kindergartenPostDto)
     {
         Kindergarten kindergarten = kindergartenMapper.kindergartenPostDtoToKindergarten(kindergartenPostDto);
-        kindergarten.setCommunity(communityService.setDefaultCommunity(kindergarten));
         Kindergarten createdKindergarten = kindergartenService.createKindergarten(kindergarten);
         URI location = UriCreator.createUri(KINDERGARTEN_DEFAULT_URL, createdKindergarten.getKindergartenId());
-
         return ResponseEntity.created(location).build();
     }
     @GetMapping("/{kindergarten-id}")
@@ -62,8 +60,7 @@ public class KindergartenController {
     @GetMapping
     public ResponseEntity getKindergartens(@Positive @RequestParam int page,@Positive @RequestParam int size){
         Page<Kindergarten> pageKindergartens=kindergartenService.findKindergartens(page-1,size);
-        List<Kindergarten>kindergartens = pageKindergartens.getContent();
-        List<KindergartenResponseDto>response = kindergartenMapper.kindergartensToKindergartenResponseDtos(kindergartens);
+        List<KindergartenResponseDto>response = kindergartenMapper.kindergartensToKindergartenResponseDtos(pageKindergartens.getContent());
         return new ResponseEntity<>(new MultiResponseDto<>(response,pageKindergartens),HttpStatus.OK);
     }
     @GetMapping("/loc")
@@ -71,8 +68,7 @@ public class KindergartenController {
                                                      @Positive @RequestParam int page,
                                                      @Positive @RequestParam int size){
         Page<Kindergarten> pageKindergartens=kindergartenService.findKindergartensByLocation(locationFilter,page-1,size);
-        List<Kindergarten>kindergartens = pageKindergartens.getContent();
-        List<KindergartenResponseDto>response = kindergartenMapper.kindergartensToKindergartenResponseDtos(kindergartens);
+        List<KindergartenResponseDto>response = kindergartenMapper.kindergartensToKindergartenResponseDtos(pageKindergartens.getContent());
         return new ResponseEntity<>(new MultiResponseDto<>(response,pageKindergartens),HttpStatus.OK);
     }
     @GetMapping("/loc/{category-id}")

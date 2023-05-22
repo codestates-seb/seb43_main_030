@@ -41,9 +41,7 @@ public class ReviewController {
     public ResponseEntity postReview(@PathVariable("kindergarten-id") long kindergartenId,
                                      @Valid @RequestPart(name = "postDto") ReviewPostDto reviewPostDto,
                                      @RequestPart(required = false) MultipartFile image){
-        reviewPostDto.setKindergartenId(kindergartenId);
-        reviewPostDto.setProfileId(userService.findCurrentProfileId());
-        Review review = reviewService.createReview(reviewMapper.reviewPostDtoToReview(reviewPostDto), image);
+        Review review = reviewService.createReview(reviewMapper.reviewPostDtoToReview(reviewPostDto), image,kindergartenId);
         URI location = UriCreator.createUri(REVIEW_DEFAULT_URL, review.getReviewId());
         return ResponseEntity.created(location).build();
     }
@@ -51,8 +49,7 @@ public class ReviewController {
     public ResponseEntity patchReview(@PathVariable("review-id")@Positive long reviewId,
                                       @Valid @RequestPart(name = "patchDto", required = false) ReviewPatchDto reviewPatchDto,
                                       @RequestPart(required = false) MultipartFile image) throws Throwable {
-        Review review = reviewService.updateReview(
-                reviewMapper.reviewPatchDtoToReview(reviewPatchDto), reviewId, image);
+        reviewService.updateReview(reviewMapper.reviewPatchDtoToReview(reviewPatchDto), reviewId, image);
         URI location = UriCreator.createUri(REVIEW_DEFAULT_URL, reviewId);
         return ResponseEntity.created(location).build();
     }

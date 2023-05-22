@@ -21,4 +21,5 @@ public class ReviewListResponseDto {
     private String kindergartenLocations;
     private Long kindergartenId;
     private String email;
+    private String kindergartenImageUrl;
 }

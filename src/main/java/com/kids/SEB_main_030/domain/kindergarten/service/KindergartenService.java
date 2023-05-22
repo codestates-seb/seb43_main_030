@@ -1,5 +1,6 @@
 package com.kids.SEB_main_030.domain.kindergarten.service;
 
+import com.kids.SEB_main_030.domain.community.service.CommunityService;
 import com.kids.SEB_main_030.domain.review.entity.Review;
 import com.kids.SEB_main_030.domain.review.repository.ReviewRepository;
 import com.kids.SEB_main_030.global.exception.CustomException;
@@ -27,10 +28,11 @@ public class KindergartenService {
     private final KindergartenRepository kindergartenRepository;
     private final ReviewRepository reviewRepository;
     private final ImageService imageService;
-
+    private final CommunityService communityService;
 
 
     public Kindergarten createKindergarten(Kindergarten kindergarten) {
+        kindergarten.setCommunity(communityService.setDefaultCommunity(kindergarten));
         kindergarten.setImageUrl(imageService.getDefaultKindergartenImage());
         Kindergarten savedKindergarten = kindergartenRepository.save(kindergarten);
         return savedKindergarten;
@@ -102,6 +104,8 @@ public class KindergartenService {
 
     public Integer findReviewCnt(Kindergarten kindergarten){
         List<Review> reviews = reviewRepository.findByKindergarten_KindergartenId(kindergarten.getKindergartenId());
+        if(reviews.size()==0)
+            return 0;
         return reviews.size();
     }
     public Double findReviewAvg(Kindergarten kindergarten){
