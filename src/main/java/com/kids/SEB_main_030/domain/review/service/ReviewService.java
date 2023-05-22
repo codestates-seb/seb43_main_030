@@ -78,7 +78,9 @@ public class ReviewService {
         Review findReview = findVerifiedReview(reviewId);
         if(findReview.getProfile().getProfileId()== userService.findCurrentProfileId()){
             // s3 이미지 삭제 로직
-            imageService.s3imageDelete(findReview.getImageUrl());
+            if (findReview.getImageUrl() != null){
+                imageService.s3imageDelete(findReview.getImageUrl());
+            }
             reviewRepository.delete(findReview);
         }else throw new LogicException(CustomException.NO_AUTHORITY);
     }
