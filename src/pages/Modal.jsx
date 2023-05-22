@@ -137,7 +137,6 @@ function Modal(props) {
         })
         .then(response => {
           window.location.reload();
-          console.log('dd');
         })
         .catch(error => {
           if (error.response && error.response.status === 403) {
