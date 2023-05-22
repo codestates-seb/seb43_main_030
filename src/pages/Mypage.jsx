@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import axios from 'axios';
 import {
   setCurProfile,
@@ -44,6 +45,7 @@ function Mypage() {
 
   const [profileModal, setProfileModal] = useState(false);
   const [settingModal, setSettingModal] = useState(false);
+  const [reviewModal, setRevieModal] = useState(false);
 
   const getUsers = () => {
     axios
@@ -69,9 +71,13 @@ function Mypage() {
   const modalSettingOnOff = () => {
     setSettingModal(!settingModal);
   };
+  const modalReviewOnOff = () => {
+    setRevieModal(!reviewModal);
+  };
   const modalClose = () => {
     setProfileModal(false);
     setSettingModal(false);
+    setRevieModal(false);
   };
 
   // 로그아웃 함수
@@ -150,7 +156,6 @@ function Mypage() {
       );
       setNameEdit(false);
 
-      console.log('id:', id);
       if (nickname.length > 0) {
         axios
           .patch(
@@ -164,13 +169,10 @@ function Mypage() {
             },
           )
           .then(res => {
-            console.log('프로필 수정 완료');
             const resData = res.data.data.name;
-            console.log(res.data.data);
             dispatch(setCurUser({ ...curUser, name: resData }));
             dispatch(setCurProfile({ ...value, name: resData }));
             getUsers();
-            // navi(0);
           })
           .catch(err => {
             console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
@@ -182,34 +184,42 @@ function Mypage() {
 
   // 프로필 삭제하기
   const handleProfileDelete = (idx, profileId) => {
-    const result = window.confirm('프로필을 삭제하시겠습니까?');
+    Swal.fire({
+      text: '해당 프로필을 삭제하시겠습니까??',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#FFD337',
+      cancelButtonColor: '#ffffff',
+      confirmButtonText: '네',
+      cancelButtonText: '<span style="color:#000000">아니오<span>',
+    }).then(result => {
+      if (result.isConfirmed) {
+        if (idx < activeIndex) {
+          dispatch(setActiveIndex(activeIndex - 1));
+        }
 
-    if (result) {
-      if (idx < activeIndex) {
-        dispatch(setActiveIndex(activeIndex - 1));
-      }
-
-      axios
-        .delete(
-          `${process.env.REACT_APP_API_URL}/api/users/profile/${profileId}`,
-          {
-            headers: {
-              Authorization: localStorage.getItem('token'),
+        axios
+          .delete(
+            `${process.env.REACT_APP_API_URL}/api/users/profile/${profileId}`,
+            {
+              headers: {
+                Authorization: localStorage.getItem('token'),
+              },
             },
-          },
-        )
-        .then(res => {
-          if (user.length === 2) {
-            dispatch(setActiveIndex(user[0]));
-          }
-        })
-        .then(() => {
-          getUsers();
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
+          )
+          .then(res => {
+            if (user.length === 2) {
+              dispatch(setActiveIndex(user[0]));
+            }
+          })
+          .then(() => {
+            getUsers();
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    });
   };
 
   const onChangeImg = e => {
@@ -233,9 +243,6 @@ function Mypage() {
           },
         )
         .then(res => {
-          // setValue(prev => {
-          //   return { ...prev, editName };
-          // });
           const userMap = user.map(e => {
             if (e.profileId === value.profileId) {
               return { ...e, imageUrl: res.data.data.imageUrl };
@@ -490,7 +497,6 @@ function Mypage() {
                         <ListReview
                           key={el.reviewId}
                           post={el}
-                          // kinderData={kinderData}
                           className="hidden"
                         />
                       );
@@ -548,6 +554,7 @@ function Mypage() {
       ) : (
         ''
       )}
+      {/* {reviewModal ? </> : ''} */}
     </div>
   );
 }
