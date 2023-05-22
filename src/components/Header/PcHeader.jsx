@@ -3,10 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  setUser,
-  setCurUser,
+  // setUser,
+  // setCurUser,
   setAuth,
-  setKinderGartens,
+  // setKinderGartens,
   setAreaFilter,
   setInputValue,
   setSearchValue,
@@ -23,7 +23,7 @@ function Header() {
   const dispatch = useDispatch();
 
   const [dropDown, setDropDown] = useState(false);
-  const curUser = useSelector(state => state.curUser);
+  const curProfile = useSelector(state => state.curProfile);
   const auth = useSelector(state => state.auth);
 
   function onDropDown() {
@@ -56,13 +56,13 @@ function Header() {
           <div className="relative mr-12 flex h-48 w-150 items-center justify-between p-8">
             <div className="user-profile h-32 w-32">
               <img
-                src={curUser.imageUrl}
+                src={curProfile.imageUrl}
                 className="min-h-32 min-w-32 rounded-md border"
                 alt="profileImg"
               />
             </div>
             <span className="text-max mx-12 min-w-88 text-center text-14">
-              {curUser.name}
+              {curProfile.name}
             </span>
             {dropDown ? (
               <ArrowClose
