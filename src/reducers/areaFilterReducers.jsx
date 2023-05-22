@@ -14,6 +14,7 @@ import {
   setActiveIndex,
   setCategory,
   setCommInputValue,
+  setTempCommInputValue,
   setSearchClickState,
 } from '../actions/areaFilterActions';
 
@@ -34,6 +35,7 @@ const initialState = {
   activeIndex: 0,
   category: 'notification',
   commInputValue: '',
+  tempCommInputValue: '',
   searchClickState: false,
 };
 
@@ -91,6 +93,13 @@ const commInputValueReducer = createReducer(
   },
 );
 
+const tempCommInputValueReducer = createReducer(
+  initialState.tempCommInputValue,
+  builder => {
+    builder.addCase(setTempCommInputValue, (state, action) => action.payload);
+  },
+);
+
 const searchClickStateReducer = createReducer(
   initialState.searchClickState,
   builder => {
@@ -111,6 +120,7 @@ const rootReducer = combineReducers({
   activeIndex: activeIndexReducer,
   category: categoryReducer,
   commInputValue: commInputValueReducer,
+  tempCommInputValue: tempCommInputValueReducer,
   searchClickState: searchClickStateReducer,
 });
 
@@ -130,6 +140,7 @@ const persistConfig = {
     'activeIndex',
     'category',
     'commInputValue',
+    'tempCommInputValue',
     'searchClickState',
   ], // 유지 할 데이터를 정의해요
 };

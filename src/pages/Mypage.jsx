@@ -133,33 +133,6 @@ function Mypage() {
   };
 
   // dropdown 에서 프로필 선택
-  // const clickedProfile = (idx, id) => {
-  //   dispatch(setCurUser(user[idx]));
-  //   dispatch(setCurProfile(user[idx]));
-  //   // setValue(user[idx]);
-  //   axios
-  //     .get(`${process.env.REACT_APP_API_URL}/api/users/profile/${id}`, {
-  //       headers: {
-  //         Authorization: localStorage.getItem('token'),
-  //       },
-  //     })
-  //     .then(res => {
-  //       dispatch(setCurProfile(res.data.data));
-  //       setDropDown(false);
-  //       dispatch(setActiveIndex(idx));
-  //     });
-
-  //   // axios.post(
-  //   //   `${process.env.REACT_APP_API_URL}/api/users/profile/${profileid}`,
-  //   //   {
-  //   //     headers: {
-  //   //       Authorization: localStorage.getItem('token'),
-  //   //     },
-  //   //   },
-  //   // );
-  // };
-
-  // dropdown 에서 프로필 선택
   function clickedProfile(profileId) {
     axios
       .post(

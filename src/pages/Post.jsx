@@ -26,8 +26,8 @@ function Post() {
   const navigate = useNavigate();
   const { postId } = useParams();
   const { id } = useParams();
-  const apiUrl = process.env.REACT_APP_API_URL;
   const user = useSelector(state => state.user);
+  const auth = useSelector(state => state.auth);
 
   useEffect(() => {
     axios
@@ -38,7 +38,11 @@ function Post() {
         setComments(response.data.data);
       })
       .catch(error => {
-        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          text: `error! ${error}`,
+          confirmButtonColor: '#FFD337',
+        });
         setIsPending(false);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,11 +75,14 @@ function Post() {
           },
         )
         .then(response => {
-          console.log(response.data);
           window.location.reload();
         })
         .catch(error => {
-          console.log(error);
+          Swal.fire({
+            icon: 'error',
+            text: `error! ${error}`,
+            confirmButtonColor: '#FFD337',
+          });
         });
     } else {
       setCommentError('댓글 내용을 입력해주세요.');
@@ -85,7 +92,9 @@ function Post() {
   // 상단 유치원 정보 영역 불러오기
   useEffect(() => {
     axios
-      .get(`${apiUrl}/api/community/${id}/post/${postId}`)
+      .get(
+        `${process.env.REACT_APP_API_URL}/api/community/${id}/post/${postId}`,
+      )
       .then(response => {
         setWriterInfo(response.data.data);
         setPost(response.data.data);
@@ -94,9 +103,13 @@ function Post() {
         setImages(response.data.data.images);
       })
       .catch(error => {
-        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          text: `error! ${error}`,
+          confirmButtonColor: '#FFD337',
+        });
       });
-  }, [setPost, postId, apiUrl, id]);
+  }, [setPost, postId, id]);
 
   // 글삭제
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -110,30 +123,44 @@ function Post() {
       cancelButtonColor: '#ffffff',
       confirmButtonText: '네',
       cancelButtonText: '<span style="color:#000000">아니오<span>',
-    }).then(
-      result => {
-        axios
-          .delete(`${apiUrl}/api/community/${id}/post/${postId}`, {
-            headers: { Authorization: localStorage.getItem('token') },
-          })
-          .then(() => {
-            if (result) {
-              Swal.fire('', '게시글이 삭제되었습니다.').then(result => {
-                navigate(`/community/${id}`);
-              });
-            }
-          })
-          .catch(error => {
-            if (error.response && error.response.status === 403) {
-              alert('본인이 작성한 게시물만 삭제할 수 있습니다.');
-            } else {
-              alert(`error! ${error}`);
-            }
+    })
+      .then(result => {
+        if (result.isConfirmed) {
+          if (auth) {
+            axios.delete(
+              `${process.env.REACT_APP_API_URL}/api/community/${id}/post/${postId}`,
+              {
+                headers: { Authorization: localStorage.getItem('token') },
+              },
+            );
+            Swal.fire('', '게시글이 삭제되었습니다.').then(result => {
+              navigate(`/community/${id}`);
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              text: '본인이 작성한 게시글만 삭제할 수 있어요❗️',
+              confirmButtonColor: '#FFD337',
+            });
+          }
+        }
+      })
+      .catch(error => {
+        if (error.response && error.response.status === 403) {
+          Swal.fire({
+            icon: 'error',
+            text: '본인이 작성한 게시글만 삭제할 수 있어요❗️',
+            confirmButtonColor: '#FFD337',
           });
-      },
-      [apiUrl, navigate, postId, id],
-    );
-  });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            text: `error! ${error}`,
+            confirmButtonColor: '#FFD337',
+          });
+        }
+      });
+  }, [navigate, postId, id, auth]);
 
   // 글수정
   const handleEdit = useCallback(() => {
@@ -141,7 +168,7 @@ function Post() {
       writerInfo.email === user[0].email &&
       user[0].name === writerInfo.name
     ) {
-      navigate(`community/${id}/write/${postId}`);
+      navigate(`/community/${id}/write/${postId}`);
     } else {
       Swal.fire({
         icon: 'error',
@@ -154,7 +181,11 @@ function Post() {
   // 좋아요
   const isLike = () => {
     if (!localStorage.getItem('token')) {
-      alert('비회원은 좋아요가 불가능합니다.');
+      Swal.fire({
+        icon: 'error',
+        text: '비회원은 좋아요가 불가능합니다❗️',
+        confirmButtonColor: '#FFD337',
+      });
       return;
       // navigate(`/login`);
     }
@@ -165,7 +196,7 @@ function Post() {
     setCountLike(updatedLikes);
 
     axios
-      .get(`${apiUrl}/api/post/${postId}/like`, {
+      .get(`${process.env.REACT_APP_API_URL}/api/post/${postId}/like`, {
         headers: {
           Authorization: localStorage.getItem('token'),
         },
@@ -183,11 +214,11 @@ function Post() {
       <div className="w-full max-w-[1280px] px-80 onlyMobile:px-20">
         <div className="border-b border-solid border-black-070 pb-32">
           <div className="text-14 text-black-350 onlyMobile:text-12">
-            <Link to="/" className="hover:underline">
+            <Link to={`/kindergarten/${id}`} className="hover:underline">
               왈독 애견유치원 왈독
             </Link>
             <span> - </span>
-            <Link to="/community" className="hover:underline">
+            <Link to={`/community/${id}`} className="hover:underline">
               커뮤니티
             </Link>
           </div>
@@ -234,7 +265,7 @@ function Post() {
         </div>
         <div className="border-b border-solid border-black-070 pb-24">
           {Parser(
-            `<div className="py-32 onlyMobile:py-24 onlyMobile:text-14">
+            `<div className="py-32 onlyMobile:py-24 onlyMobile:text-14 break-words">
               ${post.content ? post.content : ''}
             </div>`,
           )}

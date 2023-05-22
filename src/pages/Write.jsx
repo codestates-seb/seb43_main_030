@@ -1,9 +1,10 @@
 import { useMediaQuery } from 'react-responsive';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 import axios from 'axios';
 import QuillEditor from '../utils/quillEditor';
-import dateCalculate from '../components/dateCalculate';
 import Button from '../components/Button/Button';
 import Radio from '../components/Radio/Radio';
 import RadioGroup from '../components/Radio/RadioGroup';
@@ -21,35 +22,28 @@ function Write() {
   const navigate = useNavigate();
   const { postId } = useParams();
   const { id } = useParams();
-  const apiUrl = process.env.REACT_APP_API_URL;
-
-  useEffect(() => {
-    axios
-      .get(`${apiUrl}/api/users/profile/currentProfile`, {
-        headers: { Authorization: localStorage.getItem('token') },
-      })
-      .then(response => {
-        setUserProfile(response.data.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [apiUrl]);
+  const curProfile = useSelector(state => state.curProfile);
 
   useEffect(() => {
     if (postId) {
       axios
-        .get(`${apiUrl}/api/community/${id}/post/${postId}`)
+        .get(
+          `${process.env.REACT_APP_API_URL}/api/community/${id}/post/${postId}`,
+        )
         .then(response => {
           setTitle(response.data.data.title);
           setContent(response.data.data.content);
           setContents(content);
         })
         .catch(error => {
-          console.log(error);
+          Swal.fire({
+            icon: 'error',
+            text: `error! ${error}`,
+            confirmButtonColor: '#FFD337',
+          });
         });
     }
-  }, [apiUrl, postId, content, id]);
+  }, [postId, content, id]);
 
   const saveCategory = event => {
     setCategory(event.target.value);
@@ -60,22 +54,31 @@ function Write() {
   };
 
   const handleCancel = () => {
-    const result = window.confirm(
-      '글쓰기를 취소하고 이전 페이지로 돌아가시겠습니까?',
-    );
-    if (result) {
-      navigate(-1);
-    }
+    Swal.fire({
+      text: '글쓰기를 취소하고 이전 페이지로 돌아가시겠습니까?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#FFD337',
+      cancelButtonColor: '#ffffff',
+      confirmButtonText: '네',
+      cancelButtonText: '<span style="color:#000000">아니오<span>',
+    }).then(result => {
+      if (result.isConfirmed) {
+        console.log(result);
+        navigate(-1);
+      }
+    });
   };
 
   const submitData = event => {
     if (!title || !content) {
-      alert('제목과 내용을 입력해주세요.');
+      Swal.fire({
+        icon: 'error',
+        text: '제목과 내용을 입력해주세요❗️',
+        confirmButtonColor: '#FFD337',
+      });
       return;
     }
-
-    const currentDate = new Date();
-    const dateString = dateCalculate(currentDate);
 
     const formData = new FormData();
 
@@ -97,7 +100,7 @@ function Write() {
       );
       axios
         .patch(
-          `${apiUrl}/api/community/${id}/post/${postId}`,
+          `${process.env.REACT_APP_API_URL}/api/community/${id}/post/${postId}`,
           formData,
           headers,
         )
@@ -105,9 +108,17 @@ function Write() {
         .then(window.location.reload())
         .catch(error => {
           if (error.response && error.response.status === 401) {
-            alert('토큰이 만료되었습니다. 재로그인 해주세요.');
+            Swal.fire({
+              icon: 'error',
+              text: '토큰이 만료되었습니다. 재로그인 해주세요.',
+              confirmButtonColor: '#FFD337',
+            });
           } else {
-            console.log(`error! ${error}`);
+            Swal.fire({
+              icon: 'error',
+              text: `error! ${error}`,
+              confirmButtonColor: '#FFD337',
+            });
           }
         });
     } else {
@@ -121,7 +132,11 @@ function Write() {
         new Blob([JSON.stringify(data)], { type: 'application/json' }),
       );
       axios
-        .post(`${apiUrl}/api/community/${id}/post`, formData, headers)
+        .post(
+          `${process.env.REACT_APP_API_URL}/api/community/${id}/post`,
+          formData,
+          headers,
+        )
         .then(response => {
           const url = response.headers.location;
           const naviUrl = url.substring(url.lastIndexOf('/') + 1);
@@ -129,9 +144,17 @@ function Write() {
         })
         .catch(error => {
           if (error.response && error.response.status === 401) {
-            alert('토큰이 만료되었습니다. 재로그인 해주세요.');
+            Swal.fire({
+              icon: 'error',
+              text: '토큰이 만료되었습니다. 재로그인 해주세요.',
+              confirmButtonColor: '#FFD337',
+            });
           } else {
-            console.log(`error! ${error}`);
+            Swal.fire({
+              icon: 'error',
+              text: `error! ${error}`,
+              confirmButtonColor: '#FFD337',
+            });
           }
         });
     }
@@ -169,17 +192,17 @@ function Write() {
           </p>
           <div className="flex">
             <div className="user-profile h-64 w-64">
-              {userProfile.imgageUrl ? (
-                <img src={userProfile.imageUrl} alt="프로필이미지" />
+              {curProfile.imageUrl ? (
+                <img src={curProfile.imageUrl} alt="프로필이미지" />
               ) : (
                 <img src={defaultImg} alt="임시이미지" />
               )}
             </div>
             <div className=" ml-10 flex flex-col items-start justify-center">
               <p className="text-left text-16 font-bold onlyMobile:text-12">
-                {userProfile.name}
+                {curProfile.name}
               </p>
-              <p className="text-10 text-black-350">{userProfile.email}</p>
+              <p className="text-10 text-black-350">{curProfile.email}</p>
             </div>
           </div>
         </div>
