@@ -57,7 +57,7 @@ public class UserController {
 
     @PatchMapping("/oauthInit")
     public ResponseEntity oauthInitUser(@Valid @RequestBody OAuthInitDto oAuthInitDto){
-        User user = userService.oauthUserInit(oAuthInitDto);
+        userService.oauthUserInit(oAuthInitDto);
         return new ResponseEntity(HttpStatus.OK);
     }
 

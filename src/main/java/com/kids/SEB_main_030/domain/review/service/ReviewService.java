@@ -36,7 +36,9 @@ public class ReviewService {
         if (image != null) {
             String imageUrl = imageService.imageUpload(image, Image.Location.REVIEW.getLocation());
             review.setImageUrl(imageUrl);
+            System.out.println("=".repeat(30) + imageUrl);
         }
+
         return reviewRepository.save(review);
     }
     public Review updateReview(Review review,Long reviewId, MultipartFile image){

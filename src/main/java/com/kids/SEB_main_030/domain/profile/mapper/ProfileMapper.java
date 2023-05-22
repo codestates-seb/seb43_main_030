@@ -31,7 +31,14 @@ public interface ProfileMapper {
     @Mapping(target = "socialType", expression = "java(profile.getUser().getSocialType())")
     CurrentProfileResponseDto profileToCurrentProfileResponseDto(Profile profile);
     List<MyPostResponseDto> postsInMyPage(List<Post> posts);
+
     List<MyReviewResponseDto> reviewsInMyPage(List<Review> reviews);
+
+    @Mapping(source = "kindergarten.name", target = "kindergartenName")
+    @Mapping(source = "kindergarten.locations", target = "kindergartenLocations")
+    @Mapping(source = "kindergarten.imageUrl", target = "kindergartenImageUrl")
+    @Mapping(source = "kindergarten.ratedReviewsAvg", target = "kindergartenRatedReviewsAvg")
+    @Mapping(source = "kindergarten.ratedReviewsCount", target = "kindergartenRatedReviewsCount")
     @Mapping(source = "imageUrl", target = "reviewImageUrl")
     MyReviewResponseDto reviewInMyPage(Review review);
 }

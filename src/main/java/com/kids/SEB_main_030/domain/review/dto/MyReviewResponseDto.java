@@ -17,10 +17,10 @@ public class MyReviewResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private String reviewImageUrl;
+    private String kindergartenName;
+    private String kindergartenLocations;
+    private String kindergartenImageUrl;
+    private double kindergartenRatedReviewsAvg;
+    private int kindergartenRatedReviewsCount;
 
-//    public void setImages(List<ImageInPostResponseDto> images){
-//        if (images != null && !images.isEmpty()) {
-//            this.reviewImageUrl = images.get(0).getImageUrl();
-//        }
-//    }
 }
