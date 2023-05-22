@@ -172,7 +172,11 @@ function Write() {
               confirmButtonColor: '#FFD337',
             });
           } else {
-            console.log(`error! ${error}`);
+            Swal.fire({
+              icon: 'error',
+              text: `error! ${error}`,
+              confirmButtonColor: '#FFD337',
+            });
           }
         });
     }
