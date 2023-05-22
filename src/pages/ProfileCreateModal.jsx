@@ -50,7 +50,7 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
   const getUsers = () => {
     if (localStorage.getItem('token')) {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/users/profile`, {
+        .get(`${process.env.REACT_APP_API_URL}/api/users/profile`, {
           headers: {
             Authorization: localStorage.getItem('token'),
           },
@@ -102,7 +102,7 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
 
     if (person && nickname) {
       axios
-        .post(`${process.env.REACT_APP_API_URL}/users/profile`, formData, {
+        .post(`${process.env.REACT_APP_API_URL}/api/users/profile`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: localStorage.getItem('token'),
@@ -120,7 +120,7 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
         });
     } else if (!person && nickname && breed) {
       axios
-        .post(`${process.env.REACT_APP_API_URL}/users/profile`, formData, {
+        .post(`${process.env.REACT_APP_API_URL}/api/users/profile`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: localStorage.getItem('token'),

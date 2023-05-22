@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useMediaQuery } from 'react-responsive';
 import { useCallback, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useHistory } from 'react-router-dom';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import RadioGroup from '../components/Radio/RadioGroup';
@@ -12,6 +12,7 @@ import { ReactComponent as Google } from '../images/logo-google.svg';
 function SignUp() {
   const navi = useNavigate();
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+  const history = useHistory();
 
   const [user, setUser] = useState({
     email: '',
@@ -122,7 +123,7 @@ function SignUp() {
 
     if (isEmail) {
       axios
-        .post(`${process.env.REACT_APP_API_URL}/login/mailConfirm`, {
+        .post(`${process.env.REACT_APP_API_URL}/api/login/mailConfirm`, {
           email: user.email,
         })
         .then(res => {
@@ -171,7 +172,7 @@ function SignUp() {
       setConfirmEmailErr('');
 
       axios
-        .post(`${process.env.REACT_APP_API_URL}/users`, {
+        .post(`${process.env.REACT_APP_API_URL}/api/users`, {
           email: user.email,
           password: user.password,
           checkOfficials: officials,
@@ -191,13 +192,20 @@ function SignUp() {
 
   const googleSignup = async e => {
     e.preventDefault();
-    const googleAuthUrl = `${process.env.REACT_APP_GOOGLE_OAUTH_URL}/oauth2/authorization/google?redirect_uri=${process.env.REACT_APP_GOOGLE_OAUTH_URL}/login/oauth2/code/google`;
+    const googleAuthUrl = `${process.env.REACT_APP_API_URL}/oauth2/authorization/google?redirect_uri=${process.env.REACT_APP_API_URL}/login/oauth2/code/google`;
     window.location.href = googleAuthUrl;
+
+    const res = await axios.get(googleAuthUrl);
+    console.log(res.status);
+
+    // if (errorCondition) {
+    //   history.push('/');
+    // }
   };
 
   const kakaoSignup = async e => {
     e.preventDefault();
-    const kakaoAuthUrl = `${process.env.REACT_APP_GOOGLE_OAUTH_URL}/oauth2/authorization/kakao?redirect_uri=${process.env.REACT_APP_GOOGLE_OAUTH_URL}/login/oauth2/code/kakao`;
+    const kakaoAuthUrl = `${process.env.REACT_APP_API_URL}/oauth2/authorization/kakao?redirect_uri=${process.env.REACT_APP_API_URL}/login/oauth2/code/kakao`;
     window.location.href = kakaoAuthUrl;
   };
 

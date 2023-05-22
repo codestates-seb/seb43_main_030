@@ -38,7 +38,7 @@ function Comment({
 
       axios
         .patch(
-          `${process.env.REACT_APP_API_URL}/post/${postId}/comment/${commentId}`,
+          `${process.env.REACT_APP_API_URL}/api/post/${postId}/comment/${commentId}`,
           {
             postId,
             commenetId: commentId,
@@ -85,7 +85,7 @@ function Comment({
     if (result) {
       axios
         .delete(
-          `${process.env.REACT_APP_API_URL}/post/${postId}/comment/${commentId}`,
+          `${process.env.REACT_APP_API_URL}/api/post/${postId}/comment/${commentId}`,
           {
             headers: {
               Authorization: localStorage.getItem('token'),
@@ -121,7 +121,7 @@ function Comment({
             <More width="16" height="16" onClick={handleClick} />
           </button>
           {moreSelect ? (
-            <ul className="absolute right-[-25px] flex flex w-80 flex-col items-center justify-center rounded-[10px] bg-white p-10 shadow-dropDownShadow">
+            <ul className="absolute right-[-25px] flex w-80 flex-col items-center justify-center rounded-[10px] bg-white p-10 shadow-dropDownShadow">
               <li
                 onClick={() => handleEditClick()}
                 role="presentation"

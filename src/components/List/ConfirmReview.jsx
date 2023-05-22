@@ -54,7 +54,7 @@ function ConfirmReview(props) {
     const result = window.confirm('리뷰를 삭제하시겠습니까?');
     if (result) {
       axios
-        .delete(`${apiUrl}/review/${kinderInfo.reviewId}`, {
+        .delete(`${apiUrl}/api/review/${kinderInfo.reviewId}`, {
           headers: {
             Authorization: localStorage.getItem('token'),
           },

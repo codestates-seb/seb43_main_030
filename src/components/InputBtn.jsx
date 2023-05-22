@@ -45,7 +45,7 @@ function InputBtn(props) {
           console.log(error);
         });
     } else {
-      const url = `${process.env.REACT_APP_API_URL}/kindergarten/name/${inputValue}`;
+      const url = `${process.env.REACT_APP_API_URL}/api/kindergarten/name/${inputValue}`;
       axios
         .get(url)
         .then(response => {

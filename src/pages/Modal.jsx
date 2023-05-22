@@ -61,7 +61,7 @@ function Modal(props) {
   // replace
   useEffect(() => {
     axios
-      .get(`${apiUrl}/kindergarten/${id}`)
+      .get(`${apiUrl}/api/kindergarten/${id}`)
       .then(response => {
         setKinderInfo(response.data.data);
       })
@@ -94,7 +94,7 @@ function Modal(props) {
       );
 
       axios
-        .patch(`${apiUrl}/review/${reviewId}`, formData, {
+        .patch(`${apiUrl}/api/review/${reviewId}`, formData, {
           headers: {
             Authorization: localStorage.getItem('token'),
             'Content-Type': 'multipart/form-data',
@@ -120,7 +120,7 @@ function Modal(props) {
       );
 
       axios
-        .post(`${apiUrl}/review/${id}`, formData, {
+        .post(`${apiUrl}/api/review/${id}`, formData, {
           headers: {
             Authorization: localStorage.getItem('token'),
             'Content-Type': 'multipart/form-data',

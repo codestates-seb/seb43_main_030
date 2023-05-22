@@ -29,9 +29,9 @@ function Main() {
   useEffect(() => {
     let url = ``;
     if (searchValue) {
-      url = `${process.env.REACT_APP_API_URL}/kindergarten/name/${searchValue}`;
+      url = `${process.env.REACT_APP_API_URL}/api/kindergarten/name/${searchValue}`;
     } else {
-      url = `${process.env.REACT_APP_API_URL}/kindergarten/loc/${areaFilter}`;
+      url = `${process.env.REACT_APP_API_URL}/api/kindergarten/loc/${areaFilter}`;
     }
     axios
       .get(url)

@@ -119,7 +119,7 @@ function FindPw() {
 
     if (isEmail) {
       axios
-        .post(`${process.env.REACT_APP_API_URL}/login/findPassword`, {
+        .post(`${process.env.REACT_APP_API_URL}/api/login/findPassword`, {
           email: value.email,
         })
         .then(res => {
@@ -172,7 +172,7 @@ function FindPw() {
       setConfirmComp('');
 
       axios
-        .patch(`${process.env.REACT_APP_API_URL}/users/resetPassword`, {
+        .patch(`${process.env.REACT_APP_API_URL}/api/users/resetPassword`, {
           email: value.email,
           password1: value.password1,
           password2: value.password2,

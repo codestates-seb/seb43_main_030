@@ -27,7 +27,7 @@ function Community() {
   useEffect(() => {
     axios
       .get(
-        `${apiUrl}/community/${id}/post?page=${page}&category=${category}&keyword=${commInputValue}`,
+        `${apiUrl}/api/community/${id}/post?page=${page}&category=${category}&keyword=${commInputValue}`,
       )
       .then(response => {
         setPostList(response.data.data);
@@ -42,7 +42,7 @@ function Community() {
 
   useEffect(() => {
     axios
-      .get(`${apiUrl}/community/${id}`)
+      .get(`${apiUrl}/api/community/${id}`)
       .then(response => setKinderInfo(response.data.data))
       .catch(error => console.log(error));
   }, [apiUrl, id]);
