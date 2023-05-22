@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import Dog from '../images/dog.jpeg';
 import RatingStar from '../components/RatingStar';
 import TextArea from '../components/TextArea';
@@ -103,7 +104,15 @@ function Modal(props) {
         .then(response => {
           window.location.reload();
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+          if (error.response && error.response.status === 403) {
+            Swal.fire({
+              icon: 'error',
+              text: '본인이 작성한 댓글만 수정할 수 있어요❗️',
+              confirmButtonColor: '#FFD337',
+            });
+          }
+        });
     } else {
       const formData = new FormData();
 
@@ -130,7 +139,15 @@ function Modal(props) {
           window.location.reload();
           console.log('dd');
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+          if (error.response && error.response.status === 403) {
+            Swal.fire({
+              icon: 'error',
+              text: '본인이 작성한 댓글만 수정할 수 있어요❗️',
+              confirmButtonColor: '#FFD337',
+            });
+          }
+        });
     }
   };
   console.log(prevImage);

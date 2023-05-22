@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 import axios from 'axios';
 import Parser from 'html-react-parser';
 import { ReactComponent as View } from '../images/view.svg';
@@ -98,26 +99,41 @@ function Post() {
   }, [setPost, postId, apiUrl, id]);
 
   // 글삭제
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleDelete = useCallback(() => {
-    axios
-      .delete(`${apiUrl}/api/community/${id}/post/${postId}`, {
-        headers: { Authorization: localStorage.getItem('token') },
-      })
-      .then(() => {
-        const result = window.confirm('게시물을 삭제하시겠습니까?');
-        if (result) {
-          alert('게시물이 삭제되었습니다.');
-          navigate(`community/${id}`);
-        }
-      })
-      .catch(error => {
-        if (error.response && error.response.status === 403) {
-          alert('본인이 작성한 게시물만 삭제할 수 있습니다.');
-        } else {
-          alert(`error! ${error}`);
-        }
-      });
-  }, [apiUrl, navigate, postId, id]);
+    Swal.fire({
+      // title: '댓글을 삭제하시겠습니까?',
+      text: '게시글을 삭제하시겠습니까?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#FFD337',
+      cancelButtonColor: '#ffffff',
+      confirmButtonText: '네',
+      cancelButtonText: '<span style="color:#000000">아니오<span>',
+    }).then(
+      result => {
+        axios
+          .delete(`${apiUrl}/api/community/${id}/post/${postId}`, {
+            headers: { Authorization: localStorage.getItem('token') },
+          })
+          .then(() => {
+            if (result) {
+              Swal.fire('', '게시글이 삭제되었습니다.').then(result => {
+                navigate(`/community/${id}`);
+              });
+            }
+          })
+          .catch(error => {
+            if (error.response && error.response.status === 403) {
+              alert('본인이 작성한 게시물만 삭제할 수 있습니다.');
+            } else {
+              alert(`error! ${error}`);
+            }
+          });
+      },
+      [apiUrl, navigate, postId, id],
+    );
+  });
 
   // 글수정
   const handleEdit = useCallback(() => {
@@ -127,7 +143,11 @@ function Post() {
     ) {
       navigate(`community/${id}/write/${postId}`);
     } else {
-      alert('본인이 작성한 게시물만 수정할 수 있습니다.');
+      Swal.fire({
+        icon: 'error',
+        text: '본인이 작성한 게시글만 수정할 수 있어요❗️',
+        confirmButtonColor: '#FFD337',
+      });
     }
   }, [writerInfo, user, navigate, postId, id]);
 

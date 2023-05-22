@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { ReactComponent as More } from '../images/more.svg';
 import Dog from '../images/dog.jpeg';
 import Input from './Input/Input';
@@ -56,7 +57,11 @@ function Comment({
         .catch(error => {
           console.log(error);
           if (error.response && error.response.status === 403) {
-            alert('본인이 작성한 댓글만 수정할 수 있어요❗️');
+            Swal.fire({
+              icon: 'error',
+              text: '본인이 작성한 댓글만 수정할 수 있어요❗️',
+              confirmButtonColor: '#FFD337',
+            });
           }
         });
     } else {
@@ -81,27 +86,47 @@ function Comment({
   };
 
   function deleteComment(commentId) {
-    const result = window.confirm('댓글을 삭제하시겠습니까?');
-    if (result) {
-      axios
-        .delete(
-          `${process.env.REACT_APP_API_URL}/api/post/${postId}/comment/${commentId}`,
-          {
-            headers: {
-              Authorization: localStorage.getItem('token'),
+    Swal.fire({
+      // title: '댓글을 삭제하시겠습니까?',
+      text: '댓글을 삭제하시겠습니까?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#FFD337',
+      cancelButtonColor: '#ffffff',
+      confirmButtonText: '네',
+      cancelButtonText: '<span style="color:#000000">아니오<span>',
+    }).then(result => {
+      if (result.isConfirmed) {
+        axios
+          .delete(
+            `${process.env.REACT_APP_API_URL}/api/post/${postId}/comment/${commentId}`,
+            {
+              headers: {
+                Authorization: localStorage.getItem('token'),
+              },
             },
-          },
-        )
-        .then(response => {
-          window.location.reload();
-        })
-        .catch(error => {
-          if (error.response && error.response.status === 403) {
-            setMoreSelect(!moreSelect);
-            alert('본인이 작성한 댓글만 삭제할 수 있어요❗️');
-          }
-        });
-    }
+          )
+          .then(response => {
+            Swal.fire('', '댓글이 삭제되었습니다.').then(() => {
+              if (result) {
+                Swal.fire('', '댓글이 삭제되었습니다.').then(result => {
+                  window.location.reload();
+                });
+              }
+            });
+          })
+          .catch(error => {
+            if (error.response && error.response.status === 403) {
+              setMoreSelect(!moreSelect);
+              Swal.fire({
+                icon: 'error',
+                text: '본인이 작성한 댓글만 삭제할 수 있어요❗️',
+                confirmButtonColor: '#FFD337',
+              });
+            }
+          });
+      }
+    });
   }
 
   return (
