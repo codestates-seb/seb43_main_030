@@ -13,7 +13,7 @@ import {
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import ListReview from '../components/List/ListReview';
-import Post from '../components/List/ListCommunity';
+import ListCommunity from '../components/List/ListCommunity';
 import SettingModal from './SettingModal';
 import ProfileCreateModal from './ProfileCreateModal';
 import { RenderProfile } from '../utils/util';
@@ -562,7 +562,7 @@ function Mypage() {
                   <div className="flex flex-col gap-8">
                     {value?.posts?.map(el => {
                       return (
-                        <Post
+                        <ListCommunity
                           key={el.postId}
                           post={el}
                           className="text-max hidden"
