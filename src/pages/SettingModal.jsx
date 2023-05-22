@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
-
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import axios from 'axios';
 import {
   setCurProfile,
@@ -96,28 +96,37 @@ function SettingModal({ onClick, setSettingModal }) {
     navi('/');
   };
 
+  // 회원탈퇴
   const handleUserDelete = () => {
-    const result = window.confirm('계정을 탈퇴하시겠습니까?');
-
-    if (result) {
-      axios
-        .delete(`${process.env.REACT_APP_API_URL}/api/users`, {
-          headers: {
-            Authorization: localStorage.getItem('token'),
-          },
-        })
-        .then(res => {
-          console.log(res);
-          handleLogout();
-          setSettingModal(false);
-          setCurPwdErr('');
-          setCurPwdErr('');
-          setCurPwdErr('');
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
+    Swal.fire({
+      text: '계정을 탈퇴하시겠습니까?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#FFD337',
+      cancelButtonColor: '#ffffff',
+      confirmButtonText: '네',
+      cancelButtonText: '<span style="color:#000000">아니오<span>',
+    }).then(result => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`${process.env.REACT_APP_API_URL}/api/users`, {
+            headers: {
+              Authorization: localStorage.getItem('token'),
+            },
+          })
+          .then(res => {
+            console.log(res);
+            handleLogout();
+            setSettingModal(false);
+            setCurPwdErr('');
+            setCurPwdErr('');
+            setCurPwdErr('');
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    });
   };
 
   const onCheckCurPwd = useCallback(

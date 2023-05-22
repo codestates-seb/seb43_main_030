@@ -1,6 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
+import {
+  setCurProfile,
+  setAuth,
+  setCurUser,
+  setActiveIndex,
+  setUser,
+} from '../../actions/areaFilterActions';
+
 import Dog from '../../images/dog.jpeg';
 import RatingStar from '../RatingStar';
 import dateCalculate from '../dateCalculate';
@@ -23,6 +32,8 @@ function ConfirmReview(props) {
     kindergartenRatedReviewsAvg,
     kindergartenRatedReviewsCount,
   } = props;
+  const dispatch = useDispatch();
+
   const [text, setText] = useState('');
   const apiUrl = process.env.REACT_APP_API_URL;
   const [starIndex, setStarIndex] = useState(0);
@@ -187,7 +198,7 @@ function ConfirmReview(props) {
               <div className="mb-25 flex border-t-[1px] border-black-070 pt-25">
                 <div className="user-profile mr-15 h-116 w-116 onlyMobile:h-96 onlyMobile:w-96">
                   {kindergartenImageUrl ? (
-                    <img src={kindergartenImageUrl} alt="img" />
+                    <img src={kindergartenImageUrl} alt="유치원이미지" />
                   ) : (
                     <img src={profile} alt="defaultImage" />
                   )}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import axios from 'axios';
 import {
   setCurProfile,
@@ -12,7 +13,7 @@ import {
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import ListReview from '../components/List/ListReview';
-import Post from '../components/List/ListCommunity';
+import ListCommunity from '../components/List/ListCommunity';
 import SettingModal from './SettingModal';
 import ProfileCreateModal from './ProfileCreateModal';
 import { RenderProfile } from '../utils/util';
@@ -44,8 +45,10 @@ function Mypage() {
 
   const [profileModal, setProfileModal] = useState(false);
   const [settingModal, setSettingModal] = useState(false);
+  const [reviewModal, setRevieModal] = useState(false);
 
-  const getUsers = () => {
+  useEffect(() => {
+    // const getUsers = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/users/profile`, {
         headers: {
@@ -53,14 +56,54 @@ function Mypage() {
         },
       })
       .then(res => {
-        // console.log(res.data);
+        console.log(res.data);
         dispatch(setUser(res.data));
+        // dispatch(setCurUser(res.data));
+        // dispatch(setCurProfile(res.data));
         console.log('getUser찍힘');
       })
       .catch(err => {
         console.log(err);
       });
-  };
+
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/users/profile/${id}`, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      })
+      .then(res => {
+        console.log(res.data.data);
+        // dispatch(setUser(res.data));
+        dispatch(setCurUser(res.data.data));
+        dispatch(setCurProfile(res.data.data));
+        console.log('getUser찍힘22');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    // };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // const getUsers = () => {
+  //   axios
+  //     .get(`${process.env.REACT_APP_API_URL}/api/users/profile/${id}`, {
+  //       headers: {
+  //         Authorization: localStorage.getItem('token'),
+  //       },
+  //     })
+  //     .then(res => {
+  //       console.log(res.data);
+  //       dispatch(setUser(res.data));
+  //       dispatch(setCurUser(res.data));
+  //       dispatch(setCurProfile(res.data));
+  //       console.log('getUser찍힘');
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // };
 
   // 모달 관련 함수
   const modalProfileOnOff = () => {
@@ -69,9 +112,13 @@ function Mypage() {
   const modalSettingOnOff = () => {
     setSettingModal(!settingModal);
   };
+  const modalReviewOnOff = () => {
+    setRevieModal(!reviewModal);
+  };
   const modalClose = () => {
     setProfileModal(false);
     setSettingModal(false);
+    setRevieModal(false);
   };
 
   // 로그아웃 함수
@@ -105,7 +152,7 @@ function Mypage() {
   };
 
   // dropdown 에서 프로필 선택
-  const clickedProfile = (idx, id) => {
+  const clickedProfile = (idx, profileid) => {
     dispatch(setCurUser(user[idx]));
     dispatch(setCurProfile(user[idx]));
     // setValue(user[idx]);
@@ -120,6 +167,15 @@ function Mypage() {
         setDropDown(false);
         dispatch(setActiveIndex(idx));
       });
+
+    axios.post(
+      `${process.env.REACT_APP_API_URL}/api/users/profile/${profileid}`,
+      {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      },
+    );
   };
 
   function profileActive(e) {
@@ -150,7 +206,6 @@ function Mypage() {
       );
       setNameEdit(false);
 
-      console.log('id:', id);
       if (nickname.length > 0) {
         axios
           .patch(
@@ -164,13 +219,10 @@ function Mypage() {
             },
           )
           .then(res => {
-            console.log('프로필 수정 완료');
             const resData = res.data.data.name;
-            console.log(res.data.data);
             dispatch(setCurUser({ ...curUser, name: resData }));
             dispatch(setCurProfile({ ...value, name: resData }));
-            getUsers();
-            // navi(0);
+            // getUsers();
           })
           .catch(err => {
             console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
@@ -182,34 +234,43 @@ function Mypage() {
 
   // 프로필 삭제하기
   const handleProfileDelete = (idx, profileId) => {
-    const result = window.confirm('프로필을 삭제하시겠습니까?');
+    Swal.fire({
+      text: '해당 프로필을 삭제하시겠습니까??',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#FFD337',
+      cancelButtonColor: '#ffffff',
+      confirmButtonText: '네',
+      cancelButtonText: '<span style="color:#000000">아니오<span>',
+    }).then(result => {
+      if (result.isConfirmed) {
+        if (idx < activeIndex) {
+          dispatch(setActiveIndex(activeIndex - 1));
+        }
 
-    if (result) {
-      if (idx < activeIndex) {
-        dispatch(setActiveIndex(activeIndex - 1));
-      }
-
-      axios
-        .delete(
-          `${process.env.REACT_APP_API_URL}/api/users/profile/${profileId}`,
-          {
-            headers: {
-              Authorization: localStorage.getItem('token'),
+        axios
+          .delete(
+            `${process.env.REACT_APP_API_URL}/api/users/profile/${profileId}`,
+            {
+              headers: {
+                Authorization: localStorage.getItem('token'),
+              },
             },
-          },
-        )
-        .then(res => {
-          if (user.length === 2) {
-            dispatch(setActiveIndex(user[0]));
-          }
-        })
-        .then(() => {
-          getUsers();
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
+          )
+          .then(res => {
+            if (user.length === 1) {
+              dispatch(setActiveIndex(user[0]));
+              console.log('프로필 삭제 성공');
+            }
+          })
+          // .then(() => {
+          //   getUsers();
+          // })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    });
   };
 
   const onChangeImg = e => {
@@ -233,9 +294,6 @@ function Mypage() {
           },
         )
         .then(res => {
-          // setValue(prev => {
-          //   return { ...prev, editName };
-          // });
           const userMap = user.map(e => {
             if (e.profileId === value.profileId) {
               return { ...e, imageUrl: res.data.data.imageUrl };
@@ -478,19 +536,17 @@ function Mypage() {
               </div>
 
               {/* 작성한 후기 */}
-              <div className="content-line">
+              <div className="content-line w-full">
                 <h5 className="mb-24 text-22 font-bold onlyMobile:mb-16 onlyMobile:text-18">
                   작성한 후기
                 </h5>
-                {value && value.reviews.length !== 0 ? (
+                {value?.reviews?.length !== 0 ? (
                   <div className="flex flex-col gap-8">
-                    {value.reviews.map(el => {
-                      console.log(el);
+                    {value?.reviews?.map(el => {
                       return (
                         <ListReview
                           key={el.reviewId}
                           post={el}
-                          // kinderData={kinderData}
                           className="hidden"
                         />
                       );
@@ -507,16 +563,19 @@ function Mypage() {
               </div>
 
               {/* 작성한 게시글 */}
-              <div className="content-line">
+              <div className="content-line w-[cal(63%-8px)] pl-8">
                 <h5 className="mb-24 text-22 font-bold onlyMobile:mb-16 onlyMobile:text-18">
                   작성한 게시글
                 </h5>
-                {value && value.posts.length !== 0 ? (
+                {value?.posts?.length !== 0 ? (
                   <div className="flex flex-col gap-8">
-                    {value.posts.map(el => {
-                      console.log(el);
+                    {value?.posts?.map(el => {
                       return (
-                        <Post key={el.postId} post={el} className="hidden" />
+                        <ListCommunity
+                          key={el.postId}
+                          post={el}
+                          className="text-max hidden"
+                        />
                       );
                     })}
                   </div>
@@ -548,6 +607,7 @@ function Mypage() {
       ) : (
         ''
       )}
+      {/* {reviewModal ? </> : ''} */}
     </div>
   );
 }

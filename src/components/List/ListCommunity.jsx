@@ -49,7 +49,7 @@ function ListCommunity(props) {
         <Link to={`/community/${id}/post/${post.postId}`} className="block">
           <p className="list-title">{post.title}</p>
           {Parser(`
-          <p className="list-content mt-5 truncate">
+          <p className="list-content mt-5 truncate text-max">
             ${content.replace(/(<([^>]+)>)/gi, '')}
           </p>
           `)}
