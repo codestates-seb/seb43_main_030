@@ -25,16 +25,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class UserControllerMockTest {
+class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private Gson gson;
-
     @MockBean
     private UserService userService;
-
     @Autowired
     private UserMapper mapper;
     private final String DEFAULT_URL = "/api/users";

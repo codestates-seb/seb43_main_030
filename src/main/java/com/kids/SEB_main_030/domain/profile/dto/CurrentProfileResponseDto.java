@@ -15,6 +15,7 @@ public class CurrentProfileResponseDto {
     private String imageUrl;
     private String email;
     private String name;
+    private String breed;
     private int postCount;
     private int reviewsCount;
     private SocialType socialType;
