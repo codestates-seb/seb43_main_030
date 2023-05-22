@@ -53,6 +53,7 @@ function KinderDetail() {
   const center = useSelector(state => state.center);
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
@@ -139,6 +140,16 @@ function KinderDetail() {
 
   const closeModal = () => {
     setisModal(false);
+  };
+
+  const moveCommunity = () => {
+    dispatch(setCategory('community'));
+    navigate(`/community/${id}`);
+  };
+
+  const moveNotification = () => {
+    dispatch(setCategory('notification'));
+    navigate(`/community/${id}`);
   };
 
   return (
@@ -237,11 +248,14 @@ function KinderDetail() {
                     {postData.map(el => {
                       return <ListNotice key={el.postId} post={el} />;
                     })}
-                    <Link to={`/community/${id}`}>
-                      <Button className="border-gray btn-size-l shrink-0 onlyMobile:mt-16">
-                        공지사항 더보기
-                      </Button>
-                    </Link>
+                    {/* <Link to={`/community/${id}`}> */}
+                    <Button
+                      className="border-gray btn-size-l shrink-0 onlyMobile:mt-16"
+                      onClick={moveNotification}
+                    >
+                      공지사항 더보기
+                    </Button>
+                    {/* </Link> */}
                   </>
                 ) : (
                   <div className="flex-center flex-col">
@@ -325,11 +339,14 @@ function KinderDetail() {
                     </div>
                     <p>{kinderData.locations.replace(/"/g, '')}</p>
                   </div>
-                  <Link to={`/community/${id}`} className="flex">
-                    <Button className="color-yellow btn-size-l mt-24 w-full">
+                  <div className="flex">
+                    <Button
+                      className="color-yellow btn-size-l mt-24 w-full"
+                      onClick={moveCommunity}
+                    >
                       커뮤니티 가기
                     </Button>
-                  </Link>
+                  </div>
                 </div>
               )}
             </div>
@@ -380,7 +397,7 @@ function KinderDetail() {
         </div>
         {isMobile ? (
           <div className="fixed bottom-0 left-0 z-10 flex w-full bg-white px-20 py-10 shadow-bottomBoxShadow">
-            <Link to="/community" className="flex w-full">
+            <Link to={`/community/${id}`} className="flex w-full">
               <Button className="btn-size-l color-yellow w-full grow">
                 커뮤니티 가기
               </Button>

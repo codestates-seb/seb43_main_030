@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import axios from 'axios';
 import Pagination from '../components/Pagination';
 import { setCategory } from '../actions/areaFilterActions';
@@ -22,31 +23,42 @@ function Community() {
   const category = useSelector(state => state.category);
   const searchClickState = useSelector(state => state.searchClickState);
   const auth = useSelector(state => state.auth);
-  const apiUrl = process.env.REACT_APP_API_URL;
 
   // 포스트 리스트와 현재 게시물 수
   useEffect(() => {
     axios
       .get(
-        `${apiUrl}/api/community/${id}/post?page=${page}&category=${category}&keyword=${commInputValue}`,
+        `${process.env.REACT_APP_API_URL}/api/community/${id}/post?page=${page}&category=${category}&keyword=${commInputValue}`,
       )
       .then(response => {
         setPostList(response.data.data);
         setCountPage(response.data.pageInfo.totalElements);
         setUrl(
-          `${apiUrl}/community/${id}/post?page=${page}&category=${category}`,
+          `${process.env.REACT_APP_API_URL}/api/community/${id}/post?page=${page}&category=${category}`,
         );
       })
-      .catch(error => console.log(error));
+      .catch(error =>
+        Swal.fire({
+          icon: 'error',
+          text: `error! ${error}`,
+          confirmButtonColor: '#FFD337',
+        }),
+      );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [apiUrl, page, category]);
+  }, [page, category]);
 
   useEffect(() => {
     axios
-      .get(`${apiUrl}/api/community/${id}`)
+      .get(`${process.env.REACT_APP_API_URL}/api/community/${id}`)
       .then(response => setKinderInfo(response.data.data))
-      .catch(error => console.log(error));
-  }, [apiUrl, id]);
+      .catch(error =>
+        Swal.fire({
+          icon: 'error',
+          text: `error! ${error}`,
+          confirmButtonColor: '#FFD337',
+        }),
+      );
+  }, [id]);
 
   // 탭 선택값 바꿔주기
   const tabSwitch = event => {
@@ -73,7 +85,11 @@ function Community() {
     if (auth) {
       navigate(`/community/${id}/write`);
     } else {
-      alert('로그인이 필요합니다.');
+      Swal.fire({
+        icon: 'error',
+        text: '로그인이 필요합니다❗️',
+        confirmButtonColor: '#FFD337',
+      });
     }
   };
 
