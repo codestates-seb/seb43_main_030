@@ -208,8 +208,9 @@ function Mypage() {
             },
           )
           .then(res => {
-            if (user.length === 2) {
+            if (user.length === 1) {
               dispatch(setActiveIndex(user[0]));
+              console.log('프로필 삭제 성공');
             }
           })
           .then(() => {
@@ -485,14 +486,13 @@ function Mypage() {
               </div>
 
               {/* 작성한 후기 */}
-              <div className="content-line">
+              <div className="content-line w-full">
                 <h5 className="mb-24 text-22 font-bold onlyMobile:mb-16 onlyMobile:text-18">
                   작성한 후기
                 </h5>
                 {value && value.reviews.length !== 0 ? (
                   <div className="flex flex-col gap-8">
                     {value.reviews.map(el => {
-                      console.log(el);
                       return (
                         <ListReview
                           key={el.reviewId}
@@ -513,16 +513,19 @@ function Mypage() {
               </div>
 
               {/* 작성한 게시글 */}
-              <div className="content-line">
+              <div className="content-line w-[cal(63%-8px)] pl-8">
                 <h5 className="mb-24 text-22 font-bold onlyMobile:mb-16 onlyMobile:text-18">
                   작성한 게시글
                 </h5>
                 {value && value.posts.length !== 0 ? (
                   <div className="flex flex-col gap-8">
                     {value.posts.map(el => {
-                      console.log(el);
                       return (
-                        <Post key={el.postId} post={el} className="hidden" />
+                        <Post
+                          key={el.postId}
+                          post={el}
+                          className="text-max hidden"
+                        />
                       );
                     })}
                   </div>
