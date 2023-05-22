@@ -115,6 +115,9 @@ function SignUp() {
     if (user.email.length === 0) {
       setEmailErr('이메일을 입력해주세요.');
       setIsEmail(false);
+    } else if (user.email.length > 0) {
+      setEmailErr('');
+      setIsEmail(false);
     } else {
       setEmailErr('');
       setIsEmail(true);
