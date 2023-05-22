@@ -17,7 +17,5 @@ public class DogProfileResponseDto {
     private String breed;
     private String imageUrl;
     private String email;
-    private List<MyPostResponseDto> posts;
-    private List<MyReviewResponseDto> reviews;
 
 }
