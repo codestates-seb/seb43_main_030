@@ -3,10 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import Parser from 'html-react-parser';
 import cls from '../../utils/tailwind';
 import dateCalculate from '../dateCalculate';
-import { ReactComponent as Search } from '../../images/search.svg';
 import { ReactComponent as View } from '../../images/view.svg';
 import { ReactComponent as PerpettOff } from '../../images/perpett-off.svg';
-import Dog from '../../images/dog.jpeg';
 import profile from '../../images/profile.png';
 
 function ListCommunity(props) {
@@ -32,7 +30,7 @@ function ListCommunity(props) {
   }, [setContent, post.content]);
 
   return (
-    <li className="flex items-center" key={post.postId}>
+    <li className="flex w-full items-center" key={post.postId}>
       <div className="user-profile mr-24 h-108 w-108 onlyMobile:mr-15 onlyMobile:h-96 onlyMobile:w-96 onlyMini:h-56 onlyMini:w-56">
         {thumbnail ? (
           <img src={thumbnail} alt="img" />
@@ -45,7 +43,7 @@ function ListCommunity(props) {
           <img src={profile} alt="defaultImage" />
         )} */}
       </div>
-      <div className="my-30 w-full onlyMobile:w-[calc(100%-111px)] onlyMini:my-20 onlyMini:w-[calc(100%-72px)] ">
+      <div className="nlyMini:my-20 isMobile:w-[100%-101px] my-30 w-[calc(100%-132px)]">
         <Link to={`/community/${id}/post/${post.postId}`} className="block">
           <p className="list-title">{post.title}</p>
           {Parser(`
