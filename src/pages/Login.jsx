@@ -5,9 +5,10 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setAuth,
-  setCurUser,
-  setUser,
+  // setCurUser,
+  // setUser,
   setCurProfile,
+  setActiveIndex,
 } from '../actions/areaFilterActions';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
@@ -19,9 +20,10 @@ function Login() {
   const dispatch = useDispatch();
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
   // const curUser = useSelector(state => state.)
-  const user = useSelector(state => state.user);
-  const curUser = useSelector(state => state.curUser);
-  const curProfile = useSelector(state => state.curProfile);
+  // const user = useSelector(state => state.user);
+  // const curUser = useSelector(state => state.curUser);
+  // const activeIndex = useSelector(state => state.activeIndex);
+  // const curProfile = useSelector(state => state.curProfile);
 
   const [loginData, setLoginData] = useState({
     email: '',
@@ -42,15 +44,17 @@ function Login() {
   const getUsers = () => {
     if (localStorage.getItem('token')) {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/api/users/profile`, {
-          headers: {
-            Authorization: localStorage.getItem('token'),
+        .get(
+          `${process.env.REACT_APP_API_URL}/api/users/profile/currentProfile`,
+          {
+            headers: {
+              Authorization: localStorage.getItem('token'),
+            },
           },
-        })
+        )
         .then(res => {
-          dispatch(setUser(res.data));
-          dispatch(setCurUser(res.data[0]));
-          dispatch(setCurProfile(res.data[0]));
+          dispatch(setCurProfile(res.data.data));
+          dispatch(setActiveIndex(res.data.data.profileId));
         })
         .catch(err => {
           console.log(err);
@@ -87,7 +91,6 @@ function Login() {
         localStorage.setItem('tokenRefresh', res.headers.get('Refresh'));
       })
       .then(res => {
-        console.log(res);
         getUsers();
       })
       .catch(err => {

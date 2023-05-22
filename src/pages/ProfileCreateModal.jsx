@@ -3,11 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  setCurProfile,
-  setCurUser,
-  setUser,
-} from '../actions/areaFilterActions';
+import { setUser } from '../actions/areaFilterActions';
 
 import UploadImage from '../components/UploadImage';
 import Button from '../components/Button/Button';
@@ -114,6 +110,7 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
           setNicknameErr('');
           setSelectErr('');
           setProfileModal(false);
+          // setCurProfile()
         })
         .catch(err => {
           console.log(err);

@@ -6,7 +6,6 @@ import axios from 'axios';
 import {
   setCurProfile,
   setAuth,
-  setCurUser,
   setActiveIndex,
   setUser,
 } from '../actions/areaFilterActions';
@@ -89,7 +88,6 @@ function SettingModal({ onClick, setSettingModal }) {
   const handleLogout = () => {
     dispatch(setAuth(false));
     localStorage.removeItem('token');
-    dispatch(setCurUser({}));
     dispatch(setUser([]));
     dispatch(setCurProfile({}));
     dispatch(setActiveIndex(''));

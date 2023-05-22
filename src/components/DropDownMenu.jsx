@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  setCurUser,
+  // setCurUser,
   setCurProfile,
   setAuth,
   setActiveIndex,
@@ -13,65 +13,106 @@ import Profile from '../images/profile.png';
 
 function DropDownMenu({ setDropDown }) {
   const user = useSelector(state => state.user);
-  const curUser = useSelector(state => state.curUser);
+  // const curUser = useSelector(state => state.curUser);
+  const curProfile = useSelector(state => state.curProfile);
   const activeIndex = useSelector(state => state.activeIndex);
   // const [selectProfile, setSelectProfile] = useState(curUser);
 
   const dispatch = useDispatch();
 
-  const handleLogout = () => {
-    dispatch(setAuth(false));
-    localStorage.removeItem('token');
-    dispatch(setCurUser({}));
-    dispatch(setUser([]));
-    dispatch(setCurProfile({}));
-    dispatch(setActiveIndex(''));
-  };
-
-  function clickedProfile(idx, id) {
-    dispatch(setCurUser(user[idx]));
-    dispatch(setCurProfile(user[idx]));
+  useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/api/users/profile/${id}`, {
+      .get(`${process.env.REACT_APP_API_URL}/api/users/profile`, {
         headers: {
           Authorization: localStorage.getItem('token'),
         },
       })
       .then(res => {
-        dispatch(setCurProfile(res.data.data));
-        setDropDown(false);
-        dispatch(setActiveIndex(idx));
+        console.log(res);
+        dispatch(setUser(res.data));
+        // setDropDown(false);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleLogout = () => {
+    dispatch(setAuth(false));
+    localStorage.removeItem('token');
+    // dispatch(setCurUser({}));
+    dispatch(setUser([]));
+    dispatch(setCurProfile({}));
+    dispatch(setActiveIndex(''));
+  };
+
+  console.log('클릭전현재프로필:', curProfile);
+
+  function clickedProfile(profileId) {
+    // dispatch(setCurProfile(user.profileId));
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/api/users/profile/${profileId}`,
+        {},
+        {
+          headers: {
+            Authorization: localStorage.getItem('token'),
+          },
+        },
+      )
+      .then(() => {
+        axios
+          .get(
+            `${process.env.REACT_APP_API_URL}/api/users/profile/currentProfile`,
+            {
+              headers: {
+                Authorization: localStorage.getItem('token'),
+              },
+            },
+          )
+          .then(res => {
+            dispatch(setCurProfile(res.data.data));
+            setDropDown(false);
+            dispatch(setActiveIndex(res.data.data.profileId));
+          })
+          .catch(err => {
+            console.log(err);
+          });
       });
   }
 
-  function profileActive(e) {
-    const classList = e.target.className.split(' ');
-    const indexClass = classList.find(className =>
-      className.startsWith('profile'),
-    );
-    if (indexClass) {
-      const index = parseInt(indexClass.slice(-1), 10);
-      dispatch(setActiveIndex(index));
-    }
-  }
+  console.log('클릭후현재프로필:', curProfile);
+  console.log('클릭후activeIndex:', activeIndex);
+
+  // function profileActive(e) {
+  //   const classList = e.target.className.split(' ');
+  //   const indexClass = classList.find(className =>
+  //     className.startsWith('profile'),
+  //   );
+  //   if (indexClass) {
+  //     const index = parseInt(indexClass.slice(-1), 10);
+  //     dispatch(setActiveIndex(index));
+  //   }
+  // }
+
+  console.log('클릭후profileactive:', activeIndex);
 
   const RenderProfile = () => {
-    return user.map((profile, idx) => {
-      const activeClass = Number(activeIndex) === idx ? 'font-bold' : '';
+    return user.map(profile => {
+      console.log('dropdownActiveIndex: ', activeIndex);
+      const activeClass = profile.profileId === activeIndex ? 'font-bold' : '';
 
       return (
         <li
-          className={`profile flex items-center justify-start${idx} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
+          className={`profile flex items-center justify-start${profile.profileId} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
           onClick={e => {
-            profileActive(e);
-            clickedProfile(idx, profile.profileId);
+            // profileActive(e);
+            clickedProfile(profile.profileId);
           }}
           role="presentation"
           key={profile.profileId}
         >
           <div className="flex w-full justify-between">
             <div className="flex">
-              {Number(activeIndex) === idx && (
+              {profile.profileId === activeIndex && (
                 <div className="user-profile mr-10 inline-block h-24 w-24 rounded-md">
                   <img src={profile.imageUrl || Profile} alt="profileimage" />
                 </div>
@@ -93,7 +134,7 @@ function DropDownMenu({ setDropDown }) {
       </ul>
       <ul className="w-202 text-left onlyMobile:w-[100%]">
         <Link
-          to={`/mypage/${curUser.profileId}`}
+          to={`/mypage/${curProfile.profileId}`}
           onClick={() => setDropDown(false)}
         >
           <li className="flex cursor-pointer items-center justify-start rounded-md px-8 py-12 text-14 hover:bg-black-025">

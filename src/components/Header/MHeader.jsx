@@ -19,7 +19,7 @@ function MHeader() {
   const dispatch = useDispatch();
 
   const [dropDown, setDropDown] = useState(false);
-  const curUser = useSelector(state => state.curUser);
+  const curProfile = useSelector(state => state.curProfile);
   const auth = useSelector(state => state.auth);
 
   function onDropDown() {
@@ -34,7 +34,6 @@ function MHeader() {
     navi('/');
     window.location.reload();
     dispatch(setAreaFilter(0));
-    // dispatch(setKinderGartens(null));
     dispatch(setInputValue(''));
     dispatch(setSearchValue(''));
   }
