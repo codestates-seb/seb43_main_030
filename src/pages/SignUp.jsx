@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useMediaQuery } from 'react-responsive';
 import { useCallback, useState } from 'react';
-import { Link, useNavigate, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import RadioGroup from '../components/Radio/RadioGroup';
@@ -12,7 +12,6 @@ import { ReactComponent as Google } from '../images/logo-google.svg';
 function SignUp() {
   const navi = useNavigate();
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
-  const history = useHistory();
 
   const [user, setUser] = useState({
     email: '',
