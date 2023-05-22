@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import axios from 'axios';
 import Pagination from '../components/Pagination';
 import { setCategory } from '../actions/areaFilterActions';
@@ -36,7 +37,13 @@ function Community() {
           `${process.env.REACT_APP_API_URL}/api/community/${id}/post?page=${page}&category=${category}`,
         );
       })
-      .catch(error => console.log(error));
+      .catch(error =>
+        Swal.fire({
+          icon: 'error',
+          text: `error! ${error}`,
+          confirmButtonColor: '#FFD337',
+        }),
+      );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, category]);
 
@@ -44,7 +51,13 @@ function Community() {
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/community/${id}`)
       .then(response => setKinderInfo(response.data.data))
-      .catch(error => console.log(error));
+      .catch(error =>
+        Swal.fire({
+          icon: 'error',
+          text: `error! ${error}`,
+          confirmButtonColor: '#FFD337',
+        }),
+      );
   }, [id]);
 
   // 탭 선택값 바꿔주기
@@ -72,7 +85,11 @@ function Community() {
     if (auth) {
       navigate(`/community/${id}/write`);
     } else {
-      alert('로그인이 필요합니다.');
+      Swal.fire({
+        icon: 'error',
+        text: '로그인이 필요합니다❗️',
+        confirmButtonColor: '#FFD337',
+      });
     }
   };
 

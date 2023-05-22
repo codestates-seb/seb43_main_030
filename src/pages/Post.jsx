@@ -37,7 +37,11 @@ function Post() {
         setComments(response.data.data);
       })
       .catch(error => {
-        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          text: `error! ${error}`,
+          confirmButtonColor: '#FFD337',
+        });
         setIsPending(false);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -73,7 +77,11 @@ function Post() {
           window.location.reload();
         })
         .catch(error => {
-          console.log(error);
+          Swal.fire({
+            icon: 'error',
+            text: `error! ${error}`,
+            confirmButtonColor: '#FFD337',
+          });
         });
     } else {
       setCommentError('댓글 내용을 입력해주세요.');
@@ -94,7 +102,11 @@ function Post() {
         setImages(response.data.data.images);
       })
       .catch(error => {
-        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          text: `error! ${error}`,
+          confirmButtonColor: '#FFD337',
+        });
       });
   }, [setPost, postId, id]);
 
@@ -120,7 +132,7 @@ function Post() {
             },
           )
           .then(() => {
-            if (result) {
+            if (result.isConfirmed) {
               Swal.fire('', '게시글이 삭제되었습니다.').then(result => {
                 navigate(`/community/${id}`);
               });
@@ -128,9 +140,17 @@ function Post() {
           })
           .catch(error => {
             if (error.response && error.response.status === 403) {
-              alert('본인이 작성한 게시물만 삭제할 수 있습니다.');
+              Swal.fire({
+                icon: 'error',
+                text: '본인이 작성한 게시글만 삭제할 수 있어요❗️',
+                confirmButtonColor: '#FFD337',
+              });
             } else {
-              alert(`error! ${error}`);
+              Swal.fire({
+                icon: 'error',
+                text: `error! ${error}`,
+                confirmButtonColor: '#FFD337',
+              });
             }
           });
       },
@@ -157,7 +177,11 @@ function Post() {
   // 좋아요
   const isLike = () => {
     if (!localStorage.getItem('token')) {
-      alert('비회원은 좋아요가 불가능합니다.');
+      Swal.fire({
+        icon: 'error',
+        text: '비회원은 좋아요가 불가능합니다❗️',
+        confirmButtonColor: '#FFD337',
+      });
       return;
       // navigate(`/login`);
     }
@@ -186,11 +210,11 @@ function Post() {
       <div className="w-full max-w-[1280px] px-80 onlyMobile:px-20">
         <div className="border-b border-solid border-black-070 pb-32">
           <div className="text-14 text-black-350 onlyMobile:text-12">
-            <Link to="/" className="hover:underline">
+            <Link to={`/kindergarten/${id}`} className="hover:underline">
               왈독 애견유치원 왈독
             </Link>
             <span> - </span>
-            <Link to="/community" className="hover:underline">
+            <Link to={`/community/${id}`} className="hover:underline">
               커뮤니티
             </Link>
           </div>
