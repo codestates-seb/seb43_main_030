@@ -47,7 +47,8 @@ function Mypage() {
   const [settingModal, setSettingModal] = useState(false);
   const [reviewModal, setRevieModal] = useState(false);
 
-  const getUsers = () => {
+  useEffect(() => {
+    // const getUsers = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/users/profile`, {
         headers: {
@@ -55,14 +56,54 @@ function Mypage() {
         },
       })
       .then(res => {
-        // console.log(res.data);
+        console.log(res.data);
         dispatch(setUser(res.data));
+        // dispatch(setCurUser(res.data));
+        // dispatch(setCurProfile(res.data));
         console.log('getUser찍힘');
       })
       .catch(err => {
         console.log(err);
       });
-  };
+
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/users/profile/${id}`, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      })
+      .then(res => {
+        console.log(res.data.data);
+        // dispatch(setUser(res.data));
+        dispatch(setCurUser(res.data.data));
+        dispatch(setCurProfile(res.data.data));
+        console.log('getUser찍힘22');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    // };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // const getUsers = () => {
+  //   axios
+  //     .get(`${process.env.REACT_APP_API_URL}/api/users/profile/${id}`, {
+  //       headers: {
+  //         Authorization: localStorage.getItem('token'),
+  //       },
+  //     })
+  //     .then(res => {
+  //       console.log(res.data);
+  //       dispatch(setUser(res.data));
+  //       dispatch(setCurUser(res.data));
+  //       dispatch(setCurProfile(res.data));
+  //       console.log('getUser찍힘');
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // };
 
   // 모달 관련 함수
   const modalProfileOnOff = () => {
@@ -172,7 +213,7 @@ function Mypage() {
             const resData = res.data.data.name;
             dispatch(setCurUser({ ...curUser, name: resData }));
             dispatch(setCurProfile({ ...value, name: resData }));
-            getUsers();
+            // getUsers();
           })
           .catch(err => {
             console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
@@ -213,9 +254,9 @@ function Mypage() {
               console.log('프로필 삭제 성공');
             }
           })
-          .then(() => {
-            getUsers();
-          })
+          // .then(() => {
+          //   getUsers();
+          // })
           .catch(err => {
             console.log(err);
           });
@@ -490,9 +531,9 @@ function Mypage() {
                 <h5 className="mb-24 text-22 font-bold onlyMobile:mb-16 onlyMobile:text-18">
                   작성한 후기
                 </h5>
-                {value && value.reviews.length !== 0 ? (
+                {value?.reviews?.length !== 0 ? (
                   <div className="flex flex-col gap-8">
-                    {value.reviews.map(el => {
+                    {value?.reviews?.map(el => {
                       return (
                         <ListReview
                           key={el.reviewId}
@@ -517,9 +558,9 @@ function Mypage() {
                 <h5 className="mb-24 text-22 font-bold onlyMobile:mb-16 onlyMobile:text-18">
                   작성한 게시글
                 </h5>
-                {value && value.posts.length !== 0 ? (
+                {value?.posts?.length !== 0 ? (
                   <div className="flex flex-col gap-8">
-                    {value.posts.map(el => {
+                    {value?.posts?.map(el => {
                       return (
                         <Post
                           key={el.postId}

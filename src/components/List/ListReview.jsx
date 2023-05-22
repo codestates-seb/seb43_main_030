@@ -103,8 +103,8 @@ function ListReview({ post, className }) {
               kinderInfo={kinderInfo}
               kindergartenName={post.kindergartenName}
               kindergartenLocations={post.kindergartenLocations}
-              // kindergartenImageUrl={post.kindergartenImageUrl}
-              // kindergartenRatedReviewsAvg={post.kindergartenRatedReviewsAvg}
+              kindergartenImageUrl={post.kindergartenImageUrl}
+              kindergartenRatedReviewsAvg={post.kindergartenRatedReviewsAvg}
               // kindergartenRatedReviewsCount={post.kindergartenRatedReviewsCount}
             />
           ) : null}
