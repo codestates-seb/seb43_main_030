@@ -100,7 +100,11 @@ function Write() {
         .then(navigate(`/community/${id}/post/${postId}`))
         .then(window.location.reload())
         .catch(error => {
-          console.log(error);
+          if (error.response && error.response.status === 401) {
+            alert('토큰이 만료되었습니다. 재로그인 해주세요.');
+          } else {
+            console.log(`error! ${error}`);
+          }
         });
     } else {
       const data = {
@@ -120,7 +124,11 @@ function Write() {
           navigate(`/community/${id}/post/${naviUrl}`);
         })
         .catch(error => {
-          console.log(error);
+          if (error.response && error.response.status === 401) {
+            alert('토큰이 만료되었습니다. 재로그인 해주세요.');
+          } else {
+            console.log(`error! ${error}`);
+          }
         });
     }
   };

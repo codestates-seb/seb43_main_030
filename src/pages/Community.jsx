@@ -21,6 +21,7 @@ function Community() {
   const commInputValue = useSelector(state => state.commInputValue);
   const category = useSelector(state => state.category);
   const searchClickState = useSelector(state => state.searchClickState);
+  const auth = useSelector(state => state.auth);
   const apiUrl = process.env.REACT_APP_API_URL;
 
   // 포스트 리스트와 현재 게시물 수
@@ -65,6 +66,15 @@ function Community() {
   // 페이지네이션
   const handlePageChange = page => {
     setPage(page);
+  };
+
+  // 글쓰기 버튼
+  const handleWrite = () => {
+    if (auth) {
+      navigate(`/community/${id}/write`);
+    } else {
+      alert('로그인이 필요합니다.');
+    }
   };
 
   return (
@@ -135,12 +145,13 @@ function Community() {
                 {category === 'notification' ? `공지 ` : '커뮤니티 '}
                 <span>{searchClickState ? postList.length : countPage}</span>
               </p>
-              <Link
+              <button
+                onClick={handleWrite}
                 className="flex-center btn-size-l color-yellow flex w-168 rounded-[8px] onlyMobile:w-130"
-                to={`/community/${id}/write`}
+                type="button"
               >
                 글쓰기
-              </Link>
+              </button>
             </div>
             <div>
               <ul>
