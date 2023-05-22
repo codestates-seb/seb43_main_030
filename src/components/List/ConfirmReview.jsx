@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import Dog from '../../images/dog.jpeg';
 import RatingStar from '../RatingStar';
 import dateCalculate from '../dateCalculate';
@@ -51,21 +52,37 @@ function ConfirmReview(props) {
   };
 
   const deleteReview = () => {
-    const result = window.confirm('리뷰를 삭제하시겠습니까?');
-    if (result) {
+    Swal.fire({
+      // title: '댓글을 삭제하시겠습니까?',
+      text: '후기를 삭제하시겠습니까?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#FFD337',
+      cancelButtonColor: '#ffffff',
+      confirmButtonText: '네',
+      cancelButtonText: '<span style="color:#000000">아니오<span>',
+    }).then(result => {
       axios
         .delete(`${apiUrl}/review/${kinderInfo.reviewId}`, {
           headers: {
             Authorization: localStorage.getItem('token'),
           },
         })
-        .then(response => window.location.reload())
+        .then(response => {
+          Swal.fire('', '후기가 삭제되었습니다.').then(result => {
+            window.location.reload();
+          });
+        })
         .catch(error => {
           if (error.response && error.response.status === 403) {
-            alert('본인이 작성한 리뷰만 삭제할 수 있어요❗️');
+            Swal.fire({
+              icon: 'error',
+              text: '본인이 작성한 후기만 삭제할 수 있어요❗️',
+              confirmButtonColor: '#FFD337',
+            });
           }
         });
-    }
+    });
   };
 
   useEffect(() => {
