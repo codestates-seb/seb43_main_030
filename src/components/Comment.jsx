@@ -107,13 +107,11 @@ function Comment({
             },
           )
           .then(response => {
-            Swal.fire('', '댓글이 삭제되었습니다.').then(() => {
-              if (result) {
-                Swal.fire('', '댓글이 삭제되었습니다.').then(result => {
-                  window.location.reload();
-                });
-              }
-            });
+            if (result) {
+              Swal.fire('', '댓글이 삭제되었습니다.').then(result => {
+                window.location.reload();
+              });
+            }
           })
           .catch(error => {
             if (error.response && error.response.status === 403) {
