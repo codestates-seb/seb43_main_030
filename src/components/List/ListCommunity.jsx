@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Parser from 'html-react-parser';
 import cls from '../../utils/tailwind';
 import dateCalculate from '../dateCalculate';
@@ -12,6 +12,7 @@ import profile from '../../images/profile.png';
 function ListCommunity(props) {
   const { post, onClick, className } = props;
   const [content, setContent] = useState('');
+  const { id } = useParams();
 
   // 썸네일용
   const thumImage = post.content;
@@ -45,7 +46,7 @@ function ListCommunity(props) {
         )} */}
       </div>
       <div className="my-30 w-full onlyMobile:w-[calc(100%-111px)] onlyMini:my-20 onlyMini:w-[calc(100%-72px)] ">
-        <Link to={`post/${post.postId}`} className="block">
+        <Link to={`/community/${id}/post/${post.postId}`} className="block">
           <p className="list-title">{post.title}</p>
           {Parser(`
           <p className="list-content mt-5 truncate">
