@@ -29,7 +29,6 @@ public class UserService {
     @Value("${url.image.profile}")
     private String defaultProfileImage;
     private final UserRepository userRepository;
-    private final ProfileRepository profileRepository;
     private final PasswordEncoder passwordEncoder;
     private final RandomCreator randomCreator;
 

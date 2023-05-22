@@ -35,16 +35,16 @@ public class Profile {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.REMOVE)
     private List<Post> posts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.REMOVE)
     private List<Like> likes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
     public enum type{
@@ -58,31 +58,4 @@ public class Profile {
         }
     }
 
-//    public List<Post> getPostsFromMyPage(){
-//        return posts.stream().map(
-//                post -> {
-//                    Post p = new Post();
-//                    p.setPostId(post.getPostId());
-//                    p.setTitle(post.getTitle());
-//                    p.setContent(post.getContent());
-//                    p.setViews(post.getViews());
-//                    p.setCreatedAt(post.getCreatedAt());
-//                    p.setCategory(post.getCategory());
-//                    p.setLikeCount(post.getLikes().size());
-//
-//                    return p;
-//                }).collect(Collectors.toList());
-//    }
-//
-//    public List<Review> getReviewsFromMyPage(){
-//        return reviews.stream().map(
-//                review -> {
-//                    Review r = new Review();
-//                    r.setReviewId(review.getReviewId());
-//                    r.setContents(review.getContents());
-//                    r.setRatedReview(review.getRatedReview());
-//
-//                    return r;
-//                }).collect(Collectors.toList());
-//    }
 }
