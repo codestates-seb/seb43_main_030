@@ -152,7 +152,7 @@ function Mypage() {
   };
 
   // dropdown 에서 프로필 선택
-  const clickedProfile = (idx, profileid) => {
+  const clickedProfile = (idx, id) => {
     dispatch(setCurUser(user[idx]));
     dispatch(setCurProfile(user[idx]));
     // setValue(user[idx]);
@@ -168,14 +168,14 @@ function Mypage() {
         dispatch(setActiveIndex(idx));
       });
 
-    axios.post(
-      `${process.env.REACT_APP_API_URL}/api/users/profile/${profileid}`,
-      {
-        headers: {
-          Authorization: localStorage.getItem('token'),
-        },
-      },
-    );
+    // axios.post(
+    //   `${process.env.REACT_APP_API_URL}/api/users/profile/${profileid}`,
+    //   {
+    //     headers: {
+    //       Authorization: localStorage.getItem('token'),
+    //     },
+    //   },
+    // );
   };
 
   function profileActive(e) {
