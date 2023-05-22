@@ -12,7 +12,6 @@ import { ReactComponent as Google } from '../images/logo-google.svg';
 function SignUp() {
   const navi = useNavigate();
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
-  // const history = useHistory();
 
   const [user, setUser] = useState({
     email: '',

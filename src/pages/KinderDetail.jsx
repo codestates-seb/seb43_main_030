@@ -142,10 +142,10 @@ function KinderDetail() {
   };
 
   return (
-    <div className="mb-64 flex flex-col items-center pt-130 onlyMobile:pt-64 ">
+    <div className="relative mb-64 flex flex-col items-center pt-130 onlyMobile:pt-64">
       <div className="max-w-[1280px] px-80 onlyMobile:max-w-full onlyMobile:px-0">
         {/* 메인 이미지 */}
-        <div className="relative mb-48 h-432 overflow-hidden rounded-[16px] onlyMobile:mb-24 onlyMobile:h-300 onlyMobile:rounded-0">
+        <div className="mb-48 h-432 overflow-hidden rounded-[16px] onlyMobile:mb-24 onlyMobile:h-300 onlyMobile:rounded-0">
           <img
             src={kinderData.imageUrl}
             alt="유치원대표이미지"
@@ -154,7 +154,7 @@ function KinderDetail() {
         </div>
         <div className="flex">
           {/* 좌측 컨텐츠 영역 */}
-          <div className="relative w-[63%] pl-8 onlyMobile:w-full onlyMobile:px-24">
+          <div className="w-[63%] pl-8 onlyMobile:w-full onlyMobile:px-24">
             <div className="pb-48 onlyMobile:pb-32">
               {/* 유치원 이름 */}
               {kinderData && (
@@ -310,7 +310,7 @@ function KinderDetail() {
 
           {/* 좌측 고정 영역 */}
           {!isMobile ? (
-            <div className="relative z-10 ml-[8.3%] w-[33.3%]">
+            <div className="z-10 ml-[8.3%] w-[33.3%]">
               {kinderData && (
                 <div className="sticky-card top-[128px] mb-48">
                   <h2 className="text-22 font-bold text-black-900">
