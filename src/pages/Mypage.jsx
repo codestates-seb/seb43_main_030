@@ -261,11 +261,11 @@ function Mypage() {
   console.log('user:', user);
 
   return (
-    <div className="flex flex-col items-center pt-130 onlyMobile:pt-88 ">
+    <div className="relative flex flex-col items-center pt-130 onlyMobile:pt-88 ">
       <div className="w-full max-w-[1280px] px-80 onlyMobile:max-w-full onlyMobile:px-24">
         {auth ? (
           <div className="flex onlyMobile:flex-col">
-            <div className="relative mr-[8.3%] w-[33.3%] onlyMobile:mr-0 onlyMobile:w-full">
+            <div className="mr-[8.3%] w-[33.3%] onlyMobile:mr-0 onlyMobile:w-full">
               {/* 좌측 프로필 */}
               <div className="sticky-card">
                 <div className="flex-center flex-col">
@@ -383,7 +383,7 @@ function Mypage() {
             </div>
 
             {/* 우측 정보 */}
-            <div className="relative w-[63%] pl-8 onlyMobile:w-full">
+            <div className="w-[63%] pl-8 onlyMobile:w-full">
               <div className="pb-48 onlyMobile:py-32">
                 <div className="mb-24 flex items-center justify-between onlyMobile:mb-16 ">
                   <h5 className="text-22 font-bold text-black-900 onlyMobile:text-18">
