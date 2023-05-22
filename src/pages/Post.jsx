@@ -26,7 +26,6 @@ function Post() {
   const navigate = useNavigate();
   const { postId } = useParams();
   const { id } = useParams();
-  const apiUrl = process.env.REACT_APP_API_URL;
   const user = useSelector(state => state.user);
 
   useEffect(() => {
@@ -71,7 +70,6 @@ function Post() {
           },
         )
         .then(response => {
-          console.log(response.data);
           window.location.reload();
         })
         .catch(error => {
@@ -85,7 +83,9 @@ function Post() {
   // 상단 유치원 정보 영역 불러오기
   useEffect(() => {
     axios
-      .get(`${apiUrl}/api/community/${id}/post/${postId}`)
+      .get(
+        `${process.env.REACT_APP_API_URL}/api/community/${id}/post/${postId}`,
+      )
       .then(response => {
         setWriterInfo(response.data.data);
         setPost(response.data.data);
@@ -96,7 +96,7 @@ function Post() {
       .catch(error => {
         console.log(error);
       });
-  }, [setPost, postId, apiUrl, id]);
+  }, [setPost, postId, id]);
 
   // 글삭제
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -113,9 +113,12 @@ function Post() {
     }).then(
       result => {
         axios
-          .delete(`${apiUrl}/api/community/${id}/post/${postId}`, {
-            headers: { Authorization: localStorage.getItem('token') },
-          })
+          .delete(
+            `${process.env.REACT_APP_API_URL}/api/community/${id}/post/${postId}`,
+            {
+              headers: { Authorization: localStorage.getItem('token') },
+            },
+          )
           .then(() => {
             if (result) {
               Swal.fire('', '게시글이 삭제되었습니다.').then(result => {
@@ -131,7 +134,7 @@ function Post() {
             }
           });
       },
-      [apiUrl, navigate, postId, id],
+      [navigate, postId, id],
     );
   });
 
@@ -165,7 +168,7 @@ function Post() {
     setCountLike(updatedLikes);
 
     axios
-      .get(`${apiUrl}/api/post/${postId}/like`, {
+      .get(`${process.env.REACT_APP_API_URL}/api/post/${postId}/like`, {
         headers: {
           Authorization: localStorage.getItem('token'),
         },

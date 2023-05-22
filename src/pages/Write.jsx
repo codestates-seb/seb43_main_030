@@ -21,25 +21,29 @@ function Write() {
   const navigate = useNavigate();
   const { postId } = useParams();
   const { id } = useParams();
-  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     axios
-      .get(`${apiUrl}/api/users/profile/currentProfile`, {
-        headers: { Authorization: localStorage.getItem('token') },
-      })
+      .get(
+        `${process.env.REACT_APP_API_URL}/api/users/profile/currentProfile`,
+        {
+          headers: { Authorization: localStorage.getItem('token') },
+        },
+      )
       .then(response => {
         setUserProfile(response.data.data);
       })
       .catch(error => {
         console.log(error);
       });
-  }, [apiUrl]);
+  }, []);
 
   useEffect(() => {
     if (postId) {
       axios
-        .get(`${apiUrl}/api/community/${id}/post/${postId}`)
+        .get(
+          `${process.env.REACT_APP_API_URL}/api/community/${id}/post/${postId}`,
+        )
         .then(response => {
           setTitle(response.data.data.title);
           setContent(response.data.data.content);
@@ -49,7 +53,7 @@ function Write() {
           console.log(error);
         });
     }
-  }, [apiUrl, postId, content, id]);
+  }, [postId, content, id]);
 
   const saveCategory = event => {
     setCategory(event.target.value);
@@ -97,7 +101,7 @@ function Write() {
       );
       axios
         .patch(
-          `${apiUrl}/api/community/${id}/post/${postId}`,
+          `${process.env.REACT_APP_API_URL}/api/community/${id}/post/${postId}`,
           formData,
           headers,
         )
@@ -121,7 +125,11 @@ function Write() {
         new Blob([JSON.stringify(data)], { type: 'application/json' }),
       );
       axios
-        .post(`${apiUrl}/api/community/${id}/post`, formData, headers)
+        .post(
+          `${process.env.REACT_APP_API_URL}/api/community/${id}/post`,
+          formData,
+          headers,
+        )
         .then(response => {
           const url = response.headers.location;
           const naviUrl = url.substring(url.lastIndexOf('/') + 1);
