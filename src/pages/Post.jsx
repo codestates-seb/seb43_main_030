@@ -27,6 +27,7 @@ function Post() {
   const { postId } = useParams();
   const { id } = useParams();
   const user = useSelector(state => state.user);
+  const auth = useSelector(state => state.auth);
 
   useEffect(() => {
     axios
@@ -122,41 +123,44 @@ function Post() {
       cancelButtonColor: '#ffffff',
       confirmButtonText: '네',
       cancelButtonText: '<span style="color:#000000">아니오<span>',
-    }).then(
-      result => {
-        axios
-          .delete(
-            `${process.env.REACT_APP_API_URL}/api/community/${id}/post/${postId}`,
-            {
-              headers: { Authorization: localStorage.getItem('token') },
-            },
-          )
-          .then(() => {
-            if (result.isConfirmed) {
-              Swal.fire('', '게시글이 삭제되었습니다.').then(result => {
-                navigate(`/community/${id}`);
-              });
-            }
-          })
-          .catch(error => {
-            if (error.response && error.response.status === 403) {
-              Swal.fire({
-                icon: 'error',
-                text: '본인이 작성한 게시글만 삭제할 수 있어요❗️',
-                confirmButtonColor: '#FFD337',
-              });
-            } else {
-              Swal.fire({
-                icon: 'error',
-                text: `error! ${error}`,
-                confirmButtonColor: '#FFD337',
-              });
-            }
+    })
+      .then(result => {
+        if (result.isConfirmed) {
+          if (auth) {
+            axios.delete(
+              `${process.env.REACT_APP_API_URL}/api/community/${id}/post/${postId}`,
+              {
+                headers: { Authorization: localStorage.getItem('token') },
+              },
+            );
+            Swal.fire('', '게시글이 삭제되었습니다.').then(result => {
+              navigate(`/community/${id}`);
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              text: '본인이 작성한 게시글만 삭제할 수 있어요❗️',
+              confirmButtonColor: '#FFD337',
+            });
+          }
+        }
+      })
+      .catch(error => {
+        if (error.response && error.response.status === 403) {
+          Swal.fire({
+            icon: 'error',
+            text: '본인이 작성한 게시글만 삭제할 수 있어요❗️',
+            confirmButtonColor: '#FFD337',
           });
-      },
-      [navigate, postId, id],
-    );
-  });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            text: `error! ${error}`,
+            confirmButtonColor: '#FFD337',
+          });
+        }
+      });
+  }, [navigate, postId, id, auth]);
 
   // 글수정
   const handleEdit = useCallback(() => {
