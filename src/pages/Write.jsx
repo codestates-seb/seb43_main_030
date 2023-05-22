@@ -1,10 +1,10 @@
 import { useMediaQuery } from 'react-responsive';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import QuillEditor from '../utils/quillEditor';
-import dateCalculate from '../components/dateCalculate';
 import Button from '../components/Button/Button';
 import Radio from '../components/Radio/Radio';
 import RadioGroup from '../components/Radio/RadioGroup';
@@ -22,26 +22,7 @@ function Write() {
   const navigate = useNavigate();
   const { postId } = useParams();
   const { id } = useParams();
-
-  useEffect(() => {
-    axios
-      .get(
-        `${process.env.REACT_APP_API_URL}/api/users/profile/currentProfile`,
-        {
-          headers: { Authorization: localStorage.getItem('token') },
-        },
-      )
-      .then(response => {
-        setUserProfile(response.data.data);
-      })
-      .catch(error => {
-        Swal.fire({
-          icon: 'error',
-          text: `error! ${error}`,
-          confirmButtonColor: '#FFD337',
-        });
-      });
-  }, []);
+  const curProfile = useSelector(state => state.curProfile);
 
   useEffect(() => {
     if (postId) {
@@ -98,9 +79,6 @@ function Write() {
       });
       return;
     }
-
-    const currentDate = new Date();
-    const dateString = dateCalculate(currentDate);
 
     const formData = new FormData();
 
@@ -214,17 +192,17 @@ function Write() {
           </p>
           <div className="flex">
             <div className="user-profile h-64 w-64">
-              {userProfile.imgageUrl ? (
-                <img src={userProfile.imageUrl} alt="프로필이미지" />
+              {curProfile.imageUrl ? (
+                <img src={curProfile.imageUrl} alt="프로필이미지" />
               ) : (
                 <img src={defaultImg} alt="임시이미지" />
               )}
             </div>
             <div className=" ml-10 flex flex-col items-start justify-center">
               <p className="text-left text-16 font-bold onlyMobile:text-12">
-                {userProfile.name}
+                {curProfile.name}
               </p>
-              <p className="text-10 text-black-350">{userProfile.email}</p>
+              <p className="text-10 text-black-350">{curProfile.email}</p>
             </div>
           </div>
         </div>

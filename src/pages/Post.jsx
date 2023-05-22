@@ -168,7 +168,7 @@ function Post() {
       writerInfo.email === user[0].email &&
       user[0].name === writerInfo.name
     ) {
-      navigate(`community/${id}/write/${postId}`);
+      navigate(`/community/${id}/write/${postId}`);
     } else {
       Swal.fire({
         icon: 'error',
