@@ -175,9 +175,6 @@ function Mypage() {
     setNickname(e.target.value);
     console.log(nickname);
   };
-  const handleErr = () => {
-    return !nickname ? setNameErr('닉네임을 입력해주세요.') : setNameErr('');
-  };
 
   // 닉네임 수정하기
   const handleNameEdit = () => {
