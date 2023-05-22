@@ -26,8 +26,8 @@ function Post() {
   const navigate = useNavigate();
   const { postId } = useParams();
   const { id } = useParams();
-  const user = useSelector(state => state.user);
   const auth = useSelector(state => state.auth);
+  const curProfile = useSelector(state => state.curProfile);
 
   useEffect(() => {
     axios
@@ -165,8 +165,8 @@ function Post() {
   // 글수정
   const handleEdit = useCallback(() => {
     if (
-      writerInfo.email === user[0].email &&
-      user[0].name === writerInfo.name
+      writerInfo.email === curProfile.email &&
+      writerInfo.name === curProfile.name
     ) {
       navigate(`/community/${id}/write/${postId}`);
     } else {
@@ -176,7 +176,7 @@ function Post() {
         confirmButtonColor: '#FFD337',
       });
     }
-  }, [writerInfo, user, navigate, postId, id]);
+  }, [writerInfo, curProfile.name, curProfile.email, navigate, postId, id]);
 
   // 좋아요
   const isLike = () => {
