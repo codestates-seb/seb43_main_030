@@ -32,7 +32,7 @@ function DropDownMenu({ setDropDown }) {
     dispatch(setCurUser(user[idx]));
     dispatch(setCurProfile(user[idx]));
     axios
-      .get(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
+      .get(`${process.env.REACT_APP_API_URL}/api/users/profile/${id}`, {
         headers: {
           Authorization: localStorage.getItem('token'),
         },

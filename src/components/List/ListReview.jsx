@@ -16,7 +16,7 @@ function ListReview({ post, className }) {
   const onReviewModal = () => {
     setReviewModal(true);
     axios
-      .get(`${apiUrl}/review/${post.reviewId}`)
+      .get(`${apiUrl}/api/review/${post.reviewId}`)
       .then(response => {
         console.log(response);
         setKinderInfo(response.data.data);

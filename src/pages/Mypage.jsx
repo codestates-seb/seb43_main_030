@@ -47,7 +47,7 @@ function Mypage() {
 
   const getUsers = () => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/users/profile`, {
+      .get(`${process.env.REACT_APP_API_URL}/api/users/profile`, {
         headers: {
           Authorization: localStorage.getItem('token'),
         },
@@ -110,7 +110,7 @@ function Mypage() {
     dispatch(setCurProfile(user[idx]));
     // setValue(user[idx]);
     axios
-      .get(`${process.env.REACT_APP_API_URL}/users/profile/${id}`, {
+      .get(`${process.env.REACT_APP_API_URL}/api/users/profile/${id}`, {
         headers: {
           Authorization: localStorage.getItem('token'),
         },
@@ -154,7 +154,7 @@ function Mypage() {
       if (nickname.length > 0) {
         axios
           .patch(
-            `${process.env.REACT_APP_API_URL}/users/profile/${value.profileId}`,
+            `${process.env.REACT_APP_API_URL}/api/users/profile/${value.profileId}`,
             formData,
             {
               headers: {
@@ -190,11 +190,14 @@ function Mypage() {
       }
 
       axios
-        .delete(`${process.env.REACT_APP_API_URL}/users/profile/${profileId}`, {
-          headers: {
-            Authorization: localStorage.getItem('token'),
+        .delete(
+          `${process.env.REACT_APP_API_URL}/api/users/profile/${profileId}`,
+          {
+            headers: {
+              Authorization: localStorage.getItem('token'),
+            },
           },
-        })
+        )
         .then(res => {
           if (user.length === 2) {
             dispatch(setActiveIndex(user[0]));
@@ -220,7 +223,7 @@ function Mypage() {
 
       axios
         .patch(
-          `${process.env.REACT_APP_API_URL}/users/profile/${value.profileId}`,
+          `${process.env.REACT_APP_API_URL}/api/users/profile/${value.profileId}`,
           formData,
           {
             headers: {

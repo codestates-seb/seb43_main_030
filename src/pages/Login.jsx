@@ -42,7 +42,7 @@ function Login() {
   const getUsers = () => {
     if (localStorage.getItem('token')) {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/users/profile`, {
+        .get(`${process.env.REACT_APP_API_URL}/api/users/profile`, {
           headers: {
             Authorization: localStorage.getItem('token'),
           },
@@ -74,7 +74,7 @@ function Login() {
     }
 
     axios
-      .post(`${process.env.REACT_APP_API_URL}/login`, {
+      .post(`${process.env.REACT_APP_API_URL}/api/login`, {
         email: loginData.email,
         password: loginData.password,
       })
@@ -104,14 +104,17 @@ function Login() {
 
   const googleLogin = async e => {
     e.preventDefault();
-    const googleAuthUrl = `${process.env.REACT_APP_GOOGLE_OAUTH_URL}/oauth2/authorization/google?redirect_uri=${process.env.REACT_APP_GOOGLE_OAUTH_URL}/login/oauth2/code/google`;
+    const googleAuthUrl = `${process.env.REACT_APP_API_URL}/oauth2/authorization/google?redirect_uri=${process.env.REACT_APP_API_URL}/login/oauth2/code/google`;
 
     window.location.href = googleAuthUrl;
+
+    const res = await axios.get(googleAuthUrl);
+    console.log(res.status);
   };
 
   const kakaoLogin = async e => {
     e.preventDefault();
-    const kakaoAuthUrl = `${process.env.REACT_APP_GOOGLE_OAUTH_URL}/oauth2/authorization/kakao?redirect_uri=${process.env.REACT_APP_GOOGLE_OAUTH_URL}/login/oauth2/code/kakao`;
+    const kakaoAuthUrl = `${process.env.REACT_APP_API_URL}/oauth2/authorization/kakao?redirect_uri=${process.env.REACT_APP_API_URL}/login/oauth2/code/kakao`;
     window.location.href = kakaoAuthUrl;
   };
 

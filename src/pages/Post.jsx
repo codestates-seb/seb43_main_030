@@ -31,7 +31,7 @@ function Post() {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/post/${postId}/comment`)
+      .get(`${process.env.REACT_APP_API_URL}/api/post/${postId}/comment`)
       .then(response => {
         setIsPending(true);
         // setPost(response.data[0]);
@@ -61,11 +61,15 @@ function Post() {
       };
 
       axios
-        .post(`${process.env.REACT_APP_API_URL}/post/${postId}/comment`, data, {
-          headers: {
-            Authorization: localStorage.getItem('token'),
+        .post(
+          `${process.env.REACT_APP_API_URL}/api/post/${postId}/comment`,
+          data,
+          {
+            headers: {
+              Authorization: localStorage.getItem('token'),
+            },
           },
-        })
+        )
         .then(response => {
           console.log(response.data);
           window.location.reload();
@@ -81,7 +85,7 @@ function Post() {
   // 상단 유치원 정보 영역 불러오기
   useEffect(() => {
     axios
-      .get(`${apiUrl}/community/${id}/post/${postId}`)
+      .get(`${apiUrl}/api/community/${id}/post/${postId}`)
       .then(response => {
         setWriterInfo(response.data.data);
         setPost(response.data.data);
@@ -109,7 +113,7 @@ function Post() {
     }).then(
       result => {
         axios
-          .delete(`${apiUrl}/community/${id}/post/${postId}`, {
+          .delete(`${apiUrl}/api/community/${id}/post/${postId}`, {
             headers: { Authorization: localStorage.getItem('token') },
           })
           .then(() => {
@@ -137,7 +141,7 @@ function Post() {
       writerInfo.email === user[0].email &&
       user[0].name === writerInfo.name
     ) {
-      navigate(`/community/${id}/write/${postId}`);
+      navigate(`community/${id}/write/${postId}`);
     } else {
       Swal.fire({
         icon: 'error',
@@ -161,7 +165,7 @@ function Post() {
     setCountLike(updatedLikes);
 
     axios
-      .get(`${apiUrl}/post/${postId}/like`, {
+      .get(`${apiUrl}/api/post/${postId}/like`, {
         headers: {
           Authorization: localStorage.getItem('token'),
         },
@@ -192,7 +196,7 @@ function Post() {
               <p className="text-28 font-bold onlyMobile:text-22">
                 {post.title}
               </p>
-              <div className="mt-12 flex flex w-full items-end justify-between">
+              <div className="mt-12 flex w-full items-end justify-between">
                 <div className="flex flex-col">
                   <div className="mb-12 flex items-center">
                     <div className="user-profile h-24 w-24">

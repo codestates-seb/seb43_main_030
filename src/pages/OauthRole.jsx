@@ -59,7 +59,7 @@ function OauthRole() {
 
       axios
         .patch(
-          `${process.env.REACT_APP_API_URL}/users/oauthInit`,
+          `${process.env.REACT_APP_API_URL}/api/users/oauthInit`,
           {
             email: user.email,
             checkOfficials: officials,
@@ -86,7 +86,7 @@ function OauthRole() {
     if (userEmail) {
       axios
         .patch(
-          `${process.env.REACT_APP_API_URL}/users/oauthInit`,
+          `${process.env.REACT_APP_API_URL}/api/users/oauthInit`,
           {
             checkOfficials: officials,
           },

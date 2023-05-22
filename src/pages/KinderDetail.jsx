@@ -86,11 +86,13 @@ function KinderDetail() {
   useEffect(() => {
     axios
       .all([
-        axios.get(`${process.env.REACT_APP_API_URL}/kindergarten/${id}`),
+        axios.get(`${process.env.REACT_APP_API_URL}/api/kindergarten/${id}`),
         axios.get(
-          `${process.env.REACT_APP_API_URL}/community/${id}/post/notification`,
+          `${process.env.REACT_APP_API_URL}/api/community/${id}/post/notification`,
         ),
-        axios.get(`${process.env.REACT_APP_API_URL}/review/kindergarten/${id}`),
+        axios.get(
+          `${process.env.REACT_APP_API_URL}/api/review/kindergarten/${id}`,
+        ),
       ])
       .then(
         axios.spread((res1, res2, res3) => {
@@ -185,13 +187,13 @@ function KinderDetail() {
                     <Call className="h-24 w-24" />
                     <span>전화번호</span>
                   </div>
-                  <p className="w-full">
-                    {!kinderData?.phoneNumber ? (
-                      <p className="text-black-200">전화번호가 없어요🥺</p>
-                    ) : (
-                      <p className="w-full">{kinderData.phoneNumber}</p>
-                    )}
-                  </p>
+                  {/* <p className="w-full"> */}
+                  {!kinderData?.phoneNumber ? (
+                    <p className="text-black-200">전화번호가 없어요🥺</p>
+                  ) : (
+                    <p className="w-full">{kinderData.phoneNumber}</p>
+                  )}
+                  {/* </p> */}
                 </div>
                 {/* SNS */}
                 <div className="ml-4 flex w-full flex-row gap-2">
@@ -199,13 +201,13 @@ function KinderDetail() {
                     <Sns className="h-24 w-24" />
                     <span>SNS</span>
                   </div>
-                  <p className="w-full">
-                    {!kinderData?.snsUrl ? (
-                      <p className="text-black-200">연결된 SNS가 없어요🥺</p>
-                    ) : (
-                      <p className="w-full">{kinderData.snsUrl}</p>
-                    )}
-                  </p>
+                  {/* <p className="w-full"> */}
+                  {!kinderData?.snsUrl ? (
+                    <p className="text-black-200">연결된 SNS가 없어요🥺</p>
+                  ) : (
+                    <p className="w-full">{kinderData.snsUrl}</p>
+                  )}
+                  {/* </p> */}
                 </div>
                 {/* 운영 시간 */}
                 <div className="ml-4 flex w-full flex-row gap-2">
@@ -213,15 +215,13 @@ function KinderDetail() {
                     <Time className="h-24 w-24" />
                     <span>운영 시간</span>
                   </div>
-                  <p className="w-full">
-                    {!kinderData?.openHours || !kinderData?.closeHours ? (
-                      <p className="text-black-200">
-                        운영 시간 정보가 없어요🥺
-                      </p>
-                    ) : (
-                      <p>{`${kinderData.openHours} - ${kinderData.closeHours}`}</p>
-                    )}
-                  </p>
+                  {/* <p className="w-full"> */}
+                  {!kinderData?.openHours || !kinderData?.closeHours ? (
+                    <p className="text-black-200">운영 시간 정보가 없어요🥺</p>
+                  ) : (
+                    <p className="w-full">{`${kinderData.openHours} - ${kinderData.closeHours}`}</p>
+                  )}
+                  {/* </p> */}
                 </div>
               </div>
             </div>

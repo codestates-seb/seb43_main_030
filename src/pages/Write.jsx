@@ -25,7 +25,7 @@ function Write() {
 
   useEffect(() => {
     axios
-      .get(`${apiUrl}/users/profile/currentProfile`, {
+      .get(`${apiUrl}/api/users/profile/currentProfile`, {
         headers: { Authorization: localStorage.getItem('token') },
       })
       .then(response => {
@@ -39,7 +39,7 @@ function Write() {
   useEffect(() => {
     if (postId) {
       axios
-        .get(`${apiUrl}/community/${id}/post/${postId}`)
+        .get(`${apiUrl}/api/community/${id}/post/${postId}`)
         .then(response => {
           setTitle(response.data.data.title);
           setContent(response.data.data.content);
@@ -96,7 +96,11 @@ function Write() {
         new Blob([JSON.stringify(data)], { type: 'application/json' }),
       );
       axios
-        .patch(`${apiUrl}/community/${id}/post/${postId}`, formData, headers)
+        .patch(
+          `${apiUrl}/api/community/${id}/post/${postId}`,
+          formData,
+          headers,
+        )
         .then(navigate(`/community/${id}/post/${postId}`))
         .then(window.location.reload())
         .catch(error => {
@@ -113,7 +117,7 @@ function Write() {
         new Blob([JSON.stringify(data)], { type: 'application/json' }),
       );
       axios
-        .post(`${apiUrl}/community/${id}/post`, formData, headers)
+        .post(`${apiUrl}/api/community/${id}/post`, formData, headers)
         .then(response => {
           const url = response.headers.location;
           const naviUrl = url.substring(url.lastIndexOf('/') + 1);

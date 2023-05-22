@@ -56,7 +56,7 @@ function SettingModal({ onClick, setSettingModal }) {
     if (isNewPwd && isConfirmPwd) {
       axios
         .patch(
-          `${process.env.REACT_APP_API_URL}/users`,
+          `${process.env.REACT_APP_API_URL}/api/users`,
           {
             curPassword: value.curPassword,
             password1: value.password1,
@@ -101,7 +101,7 @@ function SettingModal({ onClick, setSettingModal }) {
 
     if (result) {
       axios
-        .delete(`${process.env.REACT_APP_API_URL}/users`, {
+        .delete(`${process.env.REACT_APP_API_URL}/api/users`, {
           headers: {
             Authorization: localStorage.getItem('token'),
           },
