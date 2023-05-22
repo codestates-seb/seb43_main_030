@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  // setCurUser,
   setCurProfile,
   setAuth,
   setActiveIndex,
@@ -12,13 +11,11 @@ import {
 import Profile from '../images/profile.png';
 
 function DropDownMenu({ setDropDown }) {
+  const dispatch = useDispatch();
+
   const user = useSelector(state => state.user);
-  // const curUser = useSelector(state => state.curUser);
   const curProfile = useSelector(state => state.curProfile);
   const activeIndex = useSelector(state => state.activeIndex);
-  // const [selectProfile, setSelectProfile] = useState(curUser);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     axios
@@ -30,7 +27,6 @@ function DropDownMenu({ setDropDown }) {
       .then(res => {
         console.log(res);
         dispatch(setUser(res.data));
-        // setDropDown(false);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -38,16 +34,15 @@ function DropDownMenu({ setDropDown }) {
   const handleLogout = () => {
     dispatch(setAuth(false));
     localStorage.removeItem('token');
-    // dispatch(setCurUser({}));
     dispatch(setUser([]));
     dispatch(setCurProfile({}));
     dispatch(setActiveIndex(''));
   };
 
   console.log('클릭전현재프로필:', curProfile);
+  console.log('클릭전activeIndex:', activeIndex);
 
   function clickedProfile(profileId) {
-    // dispatch(setCurProfile(user.profileId));
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/api/users/profile/${profileId}`,

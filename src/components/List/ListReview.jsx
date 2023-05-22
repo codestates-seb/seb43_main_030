@@ -6,6 +6,7 @@ import dateCalculate from '../dateCalculate';
 import ConfirmReview from './ConfirmReview';
 import { ReactComponent as StarOn } from '../../images/star-on.svg';
 import { ReactComponent as StarOff } from '../../images/star-off.svg';
+import imageNull from '../../images/imageNull.png';
 
 function ListReview({ post, className }) {
   // post.ratedReview 따라서 별 보이기
@@ -91,9 +92,9 @@ function ListReview({ post, className }) {
           </div>
           <div className="user-profile ml-24 h-108 w-108 onlyMobile:h-96 onlyMobile:w-96 onlyMini:h-56 onlyMini:w-56">
             {post.reviewImageUrl === null ? (
-              ''
+              <img src={imageNull} alt="이미지가 없습니다." />
             ) : (
-              <img src={post.reviewImageUrl} alt="img" />
+              <img src={post.reviewImageUrl} alt="리뷰이미지" />
             )}
           </div>
           {reviewModal ? (
