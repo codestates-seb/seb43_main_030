@@ -37,12 +37,68 @@ function SignUp() {
   const [isEmail, setIsEmail] = useState(false);
   const [isPwd, setIsPwd] = useState(false);
   const [isConfirmPwd, setIsConfirmPwd] = useState(false);
-  const [isConrirmEmailBtn, setIsConfirmEmailBtn] = useState(false);
+  const [isConfirmEmailBtn, setIsConfirmEmailBtn] = useState(false);
   const [isConfirmEmail, setIsConfirmEmail] = useState(false);
 
   const handleOfficialsClick = value => () => {
+    setUser({ ...user, checkTeacher: value });
     setOfficials(value);
   };
+
+  const onSignup = useCallback(
+    e => {
+      e.preventDefault();
+
+      if (!confirmInput) {
+        setConfirmEmailErr('인증 코드를 입력해주세요.');
+        setIsConfirmEmail(false);
+      }
+
+      if (!user.email) {
+        setEmailErr('이메일을 입력해주세요.');
+      }
+      if (!user.password) {
+        setPwdErr('비밀번호를 입력해주세요.');
+      }
+      // if (!confirmPwd) {
+      //   setConfirmPwdErr('');
+      // }
+
+      if (isEmail && isPwd && isConfirmPwd && isConfirmEmail) {
+        setEmailErr('');
+        setPwdErr('');
+        setConfirmPwdErr('');
+        setConfirmEmailErr('');
+
+        axios
+          .post(`${process.env.REACT_APP_API_URL}/api/users`, {
+            email: user.email,
+            password: user.password,
+            checkOfficials: officials,
+          })
+          .then(res => {
+            navi('/login');
+            console.log(res);
+          })
+          .catch(err => {
+            console.log(err);
+            if (err.response && err.response.status === 409) {
+              setEmailErr('이미 가입되어 있는 이메일입니다.');
+            }
+          });
+      }
+    },
+    [
+      user,
+      officials,
+      navi,
+      isEmail,
+      isPwd,
+      isConfirmPwd,
+      isConfirmEmail,
+      confirmInput,
+    ],
+  );
 
   const handleConfirmEmail = e => {
     setConfirmInput(e.target.value);
@@ -75,49 +131,12 @@ function SignUp() {
     [user],
   );
 
-  const onCheckPwd = useCallback(
-    e => {
-      const valiPwd = /^[^\s]{8,15}$/;
-      const CurrentPwd = e.target.value;
-      setUser({ ...user, password: CurrentPwd });
-
-      if (!CurrentPwd) {
-        setPwdErr('비밀번호를 입력해주세요.');
-        setIsPwd(false);
-      } else if (!valiPwd.test(CurrentPwd)) {
-        setPwdErr('8~15자의 비밀번호를 입력해주세요.');
-        setIsPwd(false);
-      } else {
-        setPwdErr('');
-        setIsPwd(true);
-      }
-    },
-    [user],
-  );
-
-  const onCheckConfirmPwd = useCallback(
-    e => {
-      const CurrentConfirmPwd = e.target.value;
-      setConfirmPwd(CurrentConfirmPwd);
-
-      if (user.password === CurrentConfirmPwd) {
-        setConfirmPwdErr('');
-        setIsConfirmPwd(true);
-      } else {
-        setConfirmPwdErr('비밀번호를 다시 확인해주세요.');
-        setIsConfirmPwd(false);
-      }
-    },
-    [user.password],
-  );
-
   const sendEmail = () => {
     if (user.email.length === 0) {
       setEmailErr('이메일을 입력해주세요.');
       setIsEmail(false);
     } else if (user.email.length > 0) {
       setEmailErr('');
-      setIsEmail(false);
     } else {
       setEmailErr('');
       setIsEmail(true);
@@ -155,42 +174,42 @@ function SignUp() {
     }
   };
 
-  const onSignup = e => {
-    e.preventDefault();
-    onCheckEmail(e);
-    onCheckPwd(e);
-    onCheckConfirmPwd(e);
-    checkEmail(e);
+  const onCheckPwd = useCallback(
+    e => {
+      const valiPwd = /^[^\s]{8,15}$/;
+      const CurrentPwd = e.target.value;
+      setUser({ ...user, password: CurrentPwd });
 
-    if (!confirmInput) {
-      setConfirmEmailErr('인증 코드를 입력해주세요.');
-      setIsConfirmEmail(false);
-    }
+      if (!CurrentPwd) {
+        setPwdErr('비밀번호를 입력해주세요.');
+        setIsPwd(false);
+      } else if (!valiPwd.test(CurrentPwd)) {
+        setPwdErr('8~15자의 비밀번호를 입력해주세요.');
+        setIsPwd(false);
+      } else {
+        setPwdErr('');
+        setIsPwd(true);
+      }
+      console.log(CurrentPwd);
+    },
+    [user],
+  );
 
-    if (isEmail && isPwd && isConfirmPwd && isConfirmEmail) {
-      setEmailErr('');
-      setPwdErr('');
-      setConfirmPwdErr('');
-      setConfirmEmailErr('');
+  const onCheckConfirmPwd = useCallback(
+    e => {
+      const CurrentConfirmPwd = e.target.value;
+      setConfirmPwd(CurrentConfirmPwd);
 
-      axios
-        .post(`${process.env.REACT_APP_API_URL}/api/users`, {
-          email: user.email,
-          password: user.password,
-          checkOfficials: officials,
-        })
-        .then(res => {
-          navi('/login');
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-          if (err.response && err.response.status === 409) {
-            setEmailErr('이미 가입되어 있는 이메일입니다.');
-          }
-        });
-    }
-  };
+      if (user.password === CurrentConfirmPwd) {
+        setConfirmPwdErr('');
+        setIsConfirmPwd(true);
+      } else {
+        setConfirmPwdErr('비밀번호를 다시 확인해주세요.');
+        setIsConfirmPwd(false);
+      }
+    },
+    [user.password],
+  );
 
   const googleSignup = async e => {
     e.preventDefault();
@@ -227,10 +246,10 @@ function SignUp() {
             <Button
               className="color-yellow btn-size-l ml-8 mt-28 h-50 shrink-0 grow-0"
               onClick={() => {
-                setIsConfirmEmailBtn(true);
                 sendEmail();
+                setIsConfirmEmailBtn(true);
               }}
-              disabled={isConrirmEmailBtn}
+              disabled={isConfirmEmailBtn}
             >
               인증하기
             </Button>

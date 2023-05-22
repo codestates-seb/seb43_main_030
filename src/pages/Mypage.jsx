@@ -6,7 +6,7 @@ import axios from 'axios';
 import {
   setCurProfile,
   setAuth,
-  setCurUser,
+  // setCurUser,
   setActiveIndex,
   setUser,
 } from '../actions/areaFilterActions';
@@ -16,7 +16,7 @@ import ListReview from '../components/List/ListReview';
 import ListCommunity from '../components/List/ListCommunity';
 import SettingModal from './SettingModal';
 import ProfileCreateModal from './ProfileCreateModal';
-import { RenderProfile } from '../utils/util';
+import RenderProfile from '../utils/dropdown';
 import Profile from '../images/profile.png';
 import { ReactComponent as ArrowOpen } from '../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
@@ -29,10 +29,10 @@ function Mypage() {
   const navi = useNavigate();
 
   // const [value, setValue] = useState(useSelector(state => state.curProfile));
-  const value = useSelector(state => state.curProfile);
+  const curProfile = useSelector(state => state.curProfile);
   const auth = useSelector(state => state.auth);
   const activeIndex = useSelector(state => state.activeIndex);
-  // const value = useSelector(state => state.curProfile);
+
   const [nickname, setNickname] = useState(
     useSelector(state => state.curProfile.name),
   );
@@ -56,28 +56,23 @@ function Mypage() {
         },
       })
       .then(res => {
-        console.log(res.data);
         dispatch(setUser(res.data));
-        // dispatch(setCurUser(res.data));
-        // dispatch(setCurProfile(res.data));
-        console.log('getUser찍힘');
       })
       .catch(err => {
         console.log(err);
       });
 
     axios
-      .get(`${process.env.REACT_APP_API_URL}/api/users/profile/${id}`, {
-        headers: {
-          Authorization: localStorage.getItem('token'),
+      .get(
+        `${process.env.REACT_APP_API_URL}/api/users/profile/currentProfile`,
+        {
+          headers: {
+            Authorization: localStorage.getItem('token'),
+          },
         },
-      })
+      )
       .then(res => {
-        console.log(res.data.data);
-        // dispatch(setUser(res.data));
-        dispatch(setCurUser(res.data.data));
         dispatch(setCurProfile(res.data.data));
-        console.log('getUser찍힘22');
       })
       .catch(err => {
         console.log(err);
@@ -125,7 +120,7 @@ function Mypage() {
   const handleLogout = () => {
     dispatch(setAuth(false));
     localStorage.removeItem('token');
-    dispatch(setCurUser({}));
+    // dispatch(setCurUser({}));
     dispatch(setUser([]));
     dispatch(setCurProfile({}));
     dispatch(setActiveIndex(''));
@@ -137,57 +132,49 @@ function Mypage() {
     setDropDown(!dropDown);
   };
 
+  // dropdown 에서 프로필 선택
+  function clickedProfile(profileId) {
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/api/users/profile/${profileId}`,
+        {},
+        {
+          headers: {
+            Authorization: localStorage.getItem('token'),
+          },
+        },
+      )
+      .then(() => {
+        axios
+          .get(
+            `${process.env.REACT_APP_API_URL}/api/users/profile/currentProfile`,
+            {
+              headers: {
+                Authorization: localStorage.getItem('token'),
+              },
+            },
+          )
+          .then(res => {
+            dispatch(setCurProfile(res.data.data));
+            setDropDown(false);
+            dispatch(setActiveIndex(res.data.data.profileId));
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      });
+  }
+
   // 닉네임 수정 함수
   const handleNameInput = () => {
     setNameEdit(!nameEdit);
-    setNickname(value.name);
+    setNickname(curProfile.name);
     setNameErr('');
   };
   const handleNameChange = e => {
     setNickname(e.target.value);
     console.log(nickname);
   };
-  const handleErr = () => {
-    return nickname ? setNameErr('닉네임을 입력해주세요.') : setNameErr('');
-  };
-
-  // dropdown 에서 프로필 선택
-  const clickedProfile = (idx, id) => {
-    dispatch(setCurUser(user[idx]));
-    dispatch(setCurProfile(user[idx]));
-    // setValue(user[idx]);
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/api/users/profile/${id}`, {
-        headers: {
-          Authorization: localStorage.getItem('token'),
-        },
-      })
-      .then(res => {
-        dispatch(setCurProfile(res.data.data));
-        setDropDown(false);
-        dispatch(setActiveIndex(idx));
-      });
-
-    // axios.post(
-    //   `${process.env.REACT_APP_API_URL}/api/users/profile/${profileid}`,
-    //   {
-    //     headers: {
-    //       Authorization: localStorage.getItem('token'),
-    //     },
-    //   },
-    // );
-  };
-
-  function profileActive(e) {
-    const classList = e.target.className.split(' ');
-    const indexClass = classList.find(className =>
-      className.startsWith('profile'),
-    );
-    if (indexClass) {
-      const index = parseInt(indexClass.slice(-1), 10);
-      dispatch(setActiveIndex(index));
-    }
-  }
 
   // 닉네임 수정하기
   const handleNameEdit = () => {
@@ -195,6 +182,7 @@ function Mypage() {
       setNameErr('닉네임을 입력해주세요.');
     } else {
       // handleErr();
+      setNameErr('');
 
       const formData = new FormData();
       const data = {
@@ -209,7 +197,7 @@ function Mypage() {
       if (nickname.length > 0) {
         axios
           .patch(
-            `${process.env.REACT_APP_API_URL}/api/users/profile/${value.profileId}`,
+            `${process.env.REACT_APP_API_URL}/api/users/profile/${curProfile.profileId}`,
             formData,
             {
               headers: {
@@ -220,8 +208,8 @@ function Mypage() {
           )
           .then(res => {
             const resData = res.data.data.name;
-            dispatch(setCurUser({ ...curUser, name: resData }));
-            dispatch(setCurProfile({ ...value, name: resData }));
+            // dispatch(setCurUser({ ...curUser, name: resData }));
+            dispatch(setCurProfile({ ...curProfile, name: resData }));
             // getUsers();
           })
           .catch(err => {
@@ -233,7 +221,7 @@ function Mypage() {
   };
 
   // 프로필 삭제하기
-  const handleProfileDelete = (idx, profileId) => {
+  const handleProfileDelete = profileId => {
     Swal.fire({
       text: '해당 프로필을 삭제하시겠습니까??',
       icon: 'warning',
@@ -244,10 +232,6 @@ function Mypage() {
       cancelButtonText: '<span style="color:#000000">아니오<span>',
     }).then(result => {
       if (result.isConfirmed) {
-        if (idx < activeIndex) {
-          dispatch(setActiveIndex(activeIndex - 1));
-        }
-
         axios
           .delete(
             `${process.env.REACT_APP_API_URL}/api/users/profile/${profileId}`,
@@ -260,12 +244,10 @@ function Mypage() {
           .then(res => {
             if (user.length === 1) {
               dispatch(setActiveIndex(user[0]));
-              console.log('프로필 삭제 성공');
+              dispatch(setCurProfile(user[0]));
             }
+            window.location.reload();
           })
-          // .then(() => {
-          //   getUsers();
-          // })
           .catch(err => {
             console.log(err);
           });
@@ -278,13 +260,13 @@ function Mypage() {
 
     if (e.target.files) {
       const uploadFile = e.target.files[0];
-      console.log(uploadFile);
+
       const formData = new FormData();
       formData.append('image', uploadFile);
 
       axios
         .patch(
-          `${process.env.REACT_APP_API_URL}/api/users/profile/${value.profileId}`,
+          `${process.env.REACT_APP_API_URL}/api/users/profile/${curProfile.profileId}`,
           formData,
           {
             headers: {
@@ -294,28 +276,20 @@ function Mypage() {
           },
         )
         .then(res => {
-          const userMap = user.map(e => {
-            if (e.profileId === value.profileId) {
-              return { ...e, imageUrl: res.data.data.imageUrl };
-            }
-            return e;
-          });
+          // const userMap = user.map(e => {
+          //   if (e.profileId === curProfile.profileId) {
+          //     return { ...e, imageUrl: res.data.data.imageUrl };
+          //   }
+          //   return e;
+          // });
           dispatch(setCurProfile(res.data.data));
-          dispatch(
-            setCurUser({ ...curUser, imageUrl: res.data.data.imageUrl }),
-          );
-          dispatch(setUser(userMap));
-          console.log(res);
-          console.log('ㅎㅎ');
-          // window.location.reload();
         })
         .catch(err => {
           console.log(`${err}: 이미지를 수정하지 못했습니다.`);
         });
     }
   };
-  console.log('curProfile:', value);
-  console.log('curUser:', curUser);
+  console.log('curProfile:', curProfile);
   console.log('user:', user);
 
   return (
@@ -328,8 +302,8 @@ function Mypage() {
               <div className="sticky-card">
                 <div className="flex-center flex-col">
                   <div className="user-profile mb-8 h-48 w-48 overflow-hidden rounded-[12px] onlyMobile:h-64 onlyMobile:w-64">
-                    {value.imageUrl ? (
-                      <img src={value.imageUrl} alt="img" />
+                    {curProfile.imageUrl ? (
+                      <img src={curProfile.imageUrl} alt="img" />
                     ) : (
                       <img src={Profile} alt="defaultImage" />
                     )}
@@ -342,7 +316,7 @@ function Mypage() {
                         className="btn-size-s color-white w-full active:bg-black-025 "
                       >
                         <span className="min-w-88 px-8 text-center text-16 font-bold onlyMobile:text-14">
-                          {value.name}
+                          {curProfile.name}
                         </span>
                         <ArrowClose className="h-6 min-w-10 cursor-pointer" />
                       </Button>
@@ -353,7 +327,7 @@ function Mypage() {
                         className="btn-size-s color-white w-full active:bg-black-025"
                       >
                         <span className="min-w-88 px-8 text-center text-16 font-bold onlyMobile:text-14">
-                          {value.name}
+                          {curProfile.name}
                         </span>
                         <ArrowOpen className="h-6 min-w-10 cursor-pointer" />
                       </Button>
@@ -362,7 +336,7 @@ function Mypage() {
                       <div className="dropdown-box top-[128px] z-10 mx-20 w-[90%] px-12 py-16 onlyMobile:top-[148px]">
                         <ul className="profile w-full py-2 text-left">
                           <RenderProfile
-                            profileActive={e => profileActive(e)}
+                            // profileActive={e => profileActive(e)}
                             clickedProfile={(idx, id) =>
                               clickedProfile(idx, id)
                             }
@@ -374,18 +348,20 @@ function Mypage() {
                   </div>
 
                   {/* 내가 쓴 총 후기 및 게시글 */}
-                  <p className="mb-16 text-12 text-black-350">{value.email}</p>
+                  <p className="mb-16 text-12 text-black-350">
+                    {curProfile.email}
+                  </p>
                   <div className="flex-center mb-24 w-full gap-4">
                     <div className="flex-center w-full flex-col">
                       <p className="text-12 text-black-350">후기</p>
                       <p className="text-28 font-bold onlyMobile:text-18">
-                        {value?.reviews?.length}
+                        {curProfile?.reviews?.length}
                       </p>
                     </div>
                     <div className="flex-center w-full flex-col">
                       <p className="text-12 text-black-350">게시글</p>
                       <p className="text-28 font-bold onlyMobile:text-18">
-                        {value?.posts?.length}
+                        {curProfile?.posts?.length}
                       </p>
                     </div>
                   </div>
@@ -470,8 +446,8 @@ function Mypage() {
                     </div>
                   </div>
                   <div className="user-profile h-80 w-80 onlyMobile:h-48 onlyMobile:w-48">
-                    {value.imageUrl ? (
-                      <img src={value.imageUrl} alt="img" />
+                    {curProfile.imageUrl ? (
+                      <img src={curProfile.imageUrl} alt="img" />
                     ) : (
                       <img src={Profile} alt="defaultImage" />
                     )}
@@ -496,7 +472,7 @@ function Mypage() {
 
                   {/* 닉네임 수정 시 인풋 과 버튼 */}
                   {!nameEdit ? (
-                    <p className="onlyMobile:text-14">{value.name}</p>
+                    <p className="onlyMobile:text-14">{curProfile.name}</p>
                   ) : (
                     <div>
                       <div className="flex">
@@ -523,12 +499,12 @@ function Mypage() {
                     </div>
                   )}
                 </div>
-                {value.breed ? (
+                {curProfile.breed ? (
                   <div className="">
                     <p className="mb-4 text-14 text-black-350 onlyMobile:text-12">
                       견종
                     </p>
-                    <p className="onlyMobile:text-14">{value.breed}</p>
+                    <p className="onlyMobile:text-14">{curProfile.breed}</p>
                   </div>
                 ) : (
                   ''
@@ -540,9 +516,9 @@ function Mypage() {
                 <h5 className="mb-24 text-22 font-bold onlyMobile:mb-16 onlyMobile:text-18">
                   작성한 후기
                 </h5>
-                {value?.reviews?.length !== 0 ? (
+                {curProfile?.reviews?.length !== 0 ? (
                   <div className="flex flex-col gap-8">
-                    {value?.reviews?.map(el => {
+                    {curProfile?.reviews?.map(el => {
                       return (
                         <ListReview
                           key={el.reviewId}
@@ -567,9 +543,9 @@ function Mypage() {
                 <h5 className="mb-24 text-22 font-bold onlyMobile:mb-16 onlyMobile:text-18">
                   작성한 게시글
                 </h5>
-                {value?.posts?.length !== 0 ? (
+                {curProfile?.posts?.length !== 0 ? (
                   <div className="flex flex-col gap-8">
-                    {value?.posts?.map(el => {
+                    {curProfile?.posts?.map(el => {
                       return (
                         <ListCommunity
                           key={el.postId}

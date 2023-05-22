@@ -5,9 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import {
   setAuth,
-  setCurUser,
+  // setCurUser,
   setUser,
   setCurProfile,
+  setActiveIndex,
 } from '../actions/areaFilterActions';
 
 function OauthLogin() {
@@ -21,15 +22,17 @@ function OauthLogin() {
   const getUsers = () => {
     if (localStorage.getItem('token')) {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/api/users/profile`, {
+        .get(`${process.env.REACT_APP_API_URL}/api/users/currentProfile`, {
           headers: {
             Authorization: localStorage.getItem('token'),
           },
         })
         .then(res => {
-          dispatch(setUser(res.data));
-          dispatch(setCurUser(res.data[0]));
-          dispatch(setCurProfile(res.data[0]));
+          // dispatch(setUser(res.data));
+          // dispatch(setCurUser(res.data[0]));
+          // dispatch(setCurProfile(res.data[0]));
+          dispatch(setCurProfile(res.data.data));
+          dispatch(setActiveIndex(res.data.data.profileId));
           navi('/');
         })
         .catch(err => {
