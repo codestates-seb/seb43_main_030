@@ -8,6 +8,7 @@ import {
   setInputValue,
   setSearchValue,
   setCommInputValue,
+  setTempCommInputValue,
   setSearchClickState,
 } from '../actions/areaFilterActions';
 import cls from '../utils/tailwind';
@@ -19,10 +20,11 @@ function InputBtn(props) {
   const dispatch = useDispatch();
   const inputValue = useSelector(state => state.inputValue);
   const commInputValue = useSelector(state => state.commInputValue);
+  const tempCommInputValue = useSelector(state => state.tempCommInputValue);
 
   function changeInput(e) {
     if (pageValue === 'community') {
-      dispatch(setCommInputValue(e.target.value));
+      dispatch(setTempCommInputValue(e.target.value));
     } else {
       dispatch(setInputValue(e.target.value));
     }
@@ -30,8 +32,8 @@ function InputBtn(props) {
 
   function searchInput() {
     if (pageValue === 'community') {
-      const url = `${commUrl}&keyword=${commInputValue}`;
-      if (commInputValue) {
+      const url = `${commUrl}&keyword=${tempCommInputValue}`;
+      if (tempCommInputValue) {
         dispatch(setSearchClickState(true));
       } else {
         dispatch(setSearchClickState(false));
@@ -40,6 +42,8 @@ function InputBtn(props) {
         .get(url)
         .then(response => {
           setPostList(response.data.data);
+          dispatch(setCommInputValue(tempCommInputValue));
+          dispatch(setTempCommInputValue(''));
         })
         .catch(error => {
           console.log(error);
@@ -82,7 +86,7 @@ function InputBtn(props) {
           onFocus={() => setFocus(false)}
           onBlur={() => setFocus(true)}
           onChange={e => changeInput(e)}
-          value={pageValue === 'community' ? commInputValue : inputValue}
+          value={pageValue === 'community' ? tempCommInputValue : inputValue}
           onKeyPress={handleKeyPress}
         />
         <button

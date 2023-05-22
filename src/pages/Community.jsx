@@ -44,8 +44,7 @@ function Community() {
           confirmButtonColor: '#FFD337',
         }),
       );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, category]);
+  }, [page, category, id, commInputValue]);
 
   useEffect(() => {
     axios

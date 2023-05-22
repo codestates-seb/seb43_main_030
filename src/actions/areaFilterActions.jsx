@@ -12,6 +12,9 @@ const setAuth = createAction('auth/setAuth');
 const setActiveIndex = createAction('activeIndex/setActiveIndex');
 const setCategory = createAction('category/setCategory');
 const setCommInputValue = createAction('commInputValue/setCommInputValue');
+const setTempCommInputValue = createAction(
+  'tempCommInputValue/setTempCommInputValue',
+);
 const setSearchClickState = createAction(
   'searchClickState/setSearchClickState',
 );
@@ -28,5 +31,6 @@ export {
   setActiveIndex,
   setCategory,
   setCommInputValue,
+  setTempCommInputValue,
   setSearchClickState,
 };
