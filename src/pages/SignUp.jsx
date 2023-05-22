@@ -218,10 +218,6 @@ function SignUp() {
 
     const res = await axios.get(googleAuthUrl);
     console.log(res.status);
-
-    // if (errorCondition) {
-    //   history.push('/');
-    // }
   };
 
   const kakaoSignup = async e => {
