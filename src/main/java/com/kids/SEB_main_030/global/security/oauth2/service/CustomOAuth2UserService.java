@@ -1,5 +1,7 @@
 package com.kids.SEB_main_030.global.security.oauth2.service;
 
+import com.kids.SEB_main_030.global.exception.CustomException;
+import com.kids.SEB_main_030.global.exception.LogicException;
 import com.kids.SEB_main_030.global.security.oauth2.CustomOAuth2User;
 import com.kids.SEB_main_030.global.security.oauth2.OAuthAttributes;
 import com.kids.SEB_main_030.domain.user.entity.SocialType;
@@ -15,6 +17,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Collections;
 import java.util.Map;
@@ -26,8 +29,10 @@ import java.util.Map;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final UserRepository userRepository;
     private static final String KAKAO = "kakao";
+
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
@@ -39,6 +44,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         OAuthAttributes extraAttributes = OAuthAttributes.of(socialType, userNameAttributeName, attributes);
         User user = getUser(extraAttributes, socialType);
+
 
         return new CustomOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(user.getRole().getKey())),

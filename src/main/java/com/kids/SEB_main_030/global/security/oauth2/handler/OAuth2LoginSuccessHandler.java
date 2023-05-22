@@ -42,8 +42,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             getRedirectStrategy().sendRedirect(request, response, createInitURI(accessToken, user.getEmail()).toString());
             return;
         }
-
-
         String refreshToken = delegateRefreshToken(user);
         log.info("refresh Token : " + refreshToken);
         getRedirectStrategy().sendRedirect(request, response, createURI(accessToken, refreshToken).toString());

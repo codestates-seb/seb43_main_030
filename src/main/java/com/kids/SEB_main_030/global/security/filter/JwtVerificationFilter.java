@@ -37,6 +37,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
                 String accessToken = createNewAccessToken(refreshToken);
                 response.setHeader("Authorization", "Bearer " + accessToken);
                 response.getWriter().write("Bearer " + accessToken);
+                response.setStatus(201);
                 return;
             } else { // refresh 토큰까지 만료된 경우
                 response.getWriter().write("모든 토큰이 만료되었습니다. \n다시 로그인 해주세요.");
