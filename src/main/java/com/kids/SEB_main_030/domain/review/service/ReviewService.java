@@ -27,9 +27,10 @@ public class ReviewService {
     private final UserService userService;
     private final ImageService imageService;
 
-    public Review createReview(Review review, MultipartFile image){
-        Kindergarten kindergarten = kindergartenService.findVerifiedKindergarten(review.getKindergarten().getKindergartenId());
+    public Review createReview(Review review, MultipartFile image,long kindergartenId){
+        Kindergarten kindergarten = kindergartenService.findVerifiedKindergarten(kindergartenId);
         review.setKindergarten(kindergarten);
+        review.getProfile().setProfileId(userService.findCurrentProfileId());
         Profile profile = profileService.verifyProfile(review.getProfile().getProfileId());
         review.setProfile(profile);
         // 이미지 업로드 로직
@@ -39,7 +40,10 @@ public class ReviewService {
             System.out.println("=".repeat(30) + imageUrl);
         }
 
-        return reviewRepository.save(review);
+        Review saveReview =reviewRepository.save(review);
+        kindergarten.setRatedReviewsAvg(kindergartenService.findReviewAvg(kindergarten));
+        kindergarten.setRatedReviewsCount(kindergartenService.findReviewCnt(kindergarten));
+        return saveReview;
     }
     public Review updateReview(Review review,Long reviewId, MultipartFile image){
         Review findReview = findVerifiedReview(reviewId);

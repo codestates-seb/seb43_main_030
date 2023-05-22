@@ -95,7 +95,6 @@ public class SchedulerService {
                 kindergartenRepository.save(existKindergarten);
             }
         }
-
     }
     public Kindergarten findVerifiedKindergarten(String placeId){
         Kindergarten findKindergarten = kindergartenRepository.findKindergartenByPlaceId(placeId);
