@@ -6,7 +6,6 @@ import axios from 'axios';
 import {
   setCurProfile,
   setAuth,
-  // setCurUser,
   setActiveIndex,
   setUser,
 } from '../actions/areaFilterActions';
@@ -17,6 +16,8 @@ import ListCommunity from '../components/List/ListCommunity';
 import SettingModal from './SettingModal';
 import ProfileCreateModal from './ProfileCreateModal';
 import RenderProfile from '../utils/dropdown';
+import Toast from '../utils/toast';
+
 import Profile from '../images/profile.png';
 import { ReactComponent as ArrowOpen } from '../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
@@ -46,7 +47,6 @@ function Mypage() {
   const [settingModal, setSettingModal] = useState(false);
 
   useEffect(() => {
-    // const getUsers = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/users/profile`, {
         headers: {
@@ -92,7 +92,6 @@ function Mypage() {
           localStorage.removeItem('token');
         }
       });
-    // };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -210,9 +209,12 @@ function Mypage() {
           )
           .then(res => {
             const resData = res.data.data.name;
-            // dispatch(setCurUser({ ...curUser, name: resData }));
             dispatch(setCurProfile({ ...curProfile, name: resData }));
-            // getUsers();
+            Toast.fire({
+              title: '닉네임 변경이 완료되었습니다.',
+              background: '#25B865',
+              color: 'white',
+            });
           })
           .catch(err => {
             // console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
@@ -222,6 +224,11 @@ function Mypage() {
                 text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
                 confirmButtonColor: '#FFD337',
               });
+              // Toast.fire({
+              //   title: '토큰이 만료되었습니다. 재로그인 후 시도해주세요.',
+              //   background: '#DE4F54',
+              //   color: 'white',
+              // });
               dispatch(setAuth(false));
               localStorage.removeItem('token');
             }
@@ -258,6 +265,13 @@ function Mypage() {
             }
             window.location.reload();
           })
+          .then(
+            Toast.fire({
+              title: '프로필 삭제가 완료되었습니다.',
+              background: '#25B865',
+              color: 'white',
+            }),
+          )
           .catch(err => {
             if (err.response && err.response.status === 401) {
               Swal.fire({
@@ -294,13 +308,12 @@ function Mypage() {
           },
         )
         .then(res => {
-          // const userMap = user.map(e => {
-          //   if (e.profileId === curProfile.profileId) {
-          //     return { ...e, imageUrl: res.data.data.imageUrl };
-          //   }
-          //   return e;
-          // });
           dispatch(setCurProfile(res.data.data));
+          Toast.fire({
+            title: '프로필 사진 변경이 완료되었습니다.',
+            background: '#25B865',
+            color: 'white',
+          });
         })
         .catch(err => {
           // console.log(`${err}: 이미지를 수정하지 못했습니다.`);
@@ -316,8 +329,6 @@ function Mypage() {
         });
     }
   };
-  console.log('curProfile:', curProfile);
-  console.log('user:', user);
 
   return (
     <div className="relative flex flex-col items-center pt-130 onlyMobile:pt-88 ">
