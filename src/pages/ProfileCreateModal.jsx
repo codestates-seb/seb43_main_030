@@ -10,6 +10,7 @@ import Button from '../components/Button/Button';
 import RadioGroup from '../components/Radio/RadioGroup';
 import Radio from '../components/Radio/Radio';
 import Input from '../components/Input/Input';
+import Toast from '../utils/toast';
 import { ReactComponent as ArrowOpen } from '../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
 import { ReactComponent as Close } from '../images/close.svg';
@@ -111,6 +112,11 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
           setNicknameErr('');
           setSelectErr('');
           setProfileModal(false);
+          Toast.fire({
+            title: '프로필 생성이 완료되었습니다.',
+            background: '#25B865',
+            color: 'white',
+          });
         })
         .catch(err => {
           if (err.response?.status === 401) {
@@ -139,6 +145,12 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
           setNicknameErr('');
           setSelectErr('');
           setProfileModal(false);
+          Toast.fire({
+            // icon: 'success',
+            title: '프로필 생성이 완료되었습니다.',
+            background: '#25B865',
+            color: 'white',
+          });
         })
         .catch(err => {
           if (err.response && err.response.status === 401) {
