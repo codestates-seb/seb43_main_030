@@ -91,9 +91,17 @@ function Post() {
 
   // 게시글 정보
   useEffect(() => {
+    window.scroll(0, 0);
+    const headers = {
+      headers: {
+        Authorization: localStorage.getItem('token'),
+        'Content-Type': 'multipart/form-data',
+      },
+    };
     axios
       .get(
         `${process.env.REACT_APP_API_URL}/api/community/${id}/post/${postId}`,
+        auth && headers,
       )
       .then(response => {
         setWriterInfo(response.data.data);
@@ -109,7 +117,7 @@ function Post() {
           confirmButtonColor: '#FFD337',
         });
       });
-  }, [setPost, postId, id]);
+  }, [setPost, postId, id, auth]);
 
   // 글삭제
   const handleDelete = useCallback(() => {

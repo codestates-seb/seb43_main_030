@@ -27,6 +27,7 @@ function Community() {
 
   // 포스트 리스트와 현재 게시물 수
   useEffect(() => {
+    window.scroll(0, 0);
     axios
       .get(
         `${process.env.REACT_APP_API_URL}/api/community/${id}/post?page=${page}&category=${category}&keyword=${commInputValue}`,

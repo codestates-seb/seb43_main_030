@@ -25,6 +25,7 @@ function Write() {
   const curProfile = useSelector(state => state.curProfile);
 
   useEffect(() => {
+    window.scroll(0, 0);
     if (postId) {
       axios
         .get(
