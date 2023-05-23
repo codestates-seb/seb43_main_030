@@ -170,8 +170,9 @@ function Modal(props) {
               {/* 유치원 정보 */}
               <div className="mt-25 flex border-b-[1px] border-black-070 pb-25">
                 <div className="user-profile mr-15 h-116 w-116 onlyMobile:h-96 onlyMobile:w-96">
-                  {kinderInfo.image ? (
-                    <img src={kinderInfo.profileImageUrl} alt="img" />
+                  {console.log(kinderInfo)}
+                  {kinderInfo.imageUrl ? (
+                    <img src={kinderInfo.imageUrl} alt="img" />
                   ) : (
                     <img src={profile} alt="defaultImage" />
                   )}
