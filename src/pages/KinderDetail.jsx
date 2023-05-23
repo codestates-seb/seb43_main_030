@@ -37,14 +37,12 @@ const containerStyle = {
 
 function KinderDetail() {
   const { id } = useParams();
-  const category = useSelector(state => state.category);
 
   // 유치원 정보
   const [kinderData, setKinderData] = useState('');
   const [postData, setPostData] = useState('');
 
   const [reviewData, setReviewData] = useState('');
-  const [list, setList] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentReview, setCurrentReview] = useState([]);
 
@@ -85,6 +83,8 @@ function KinderDetail() {
   }, []);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     axios
       .all([
         axios.get(`${process.env.REACT_APP_API_URL}/api/kindergarten/${id}`),
@@ -170,7 +170,7 @@ function KinderDetail() {
                   {kinderData.name.replace(/"/g, '')}
                 </h2>
               )}
-              <p className="onlyMobile:text-14">유치원 소개 내용 입력</p>
+              <p className="onlyMobile:text-14">{kinderData.kinderIntro}</p>
             </div>
 
             {/* 유치원 정보 */}
@@ -195,7 +195,6 @@ function KinderDetail() {
                     <Call className="h-24 w-24" />
                     <span>전화번호</span>
                   </div>
-                  {/* <p className="w-full"> */}
                   {!kinderData?.phoneNumber ? (
                     <p className="text-black-200">전화번호가 없어요🥺</p>
                   ) : (
@@ -209,7 +208,6 @@ function KinderDetail() {
                     <Sns className="h-24 w-24" />
                     <span>SNS</span>
                   </div>
-                  {/* <p className="w-full"> */}
                   {!kinderData?.snsUrl ? (
                     <p className="text-black-200">연결된 SNS가 없어요🥺</p>
                   ) : (
@@ -223,13 +221,11 @@ function KinderDetail() {
                     <Time className="h-24 w-24" />
                     <span>운영 시간</span>
                   </div>
-                  {/* <p className="w-full"> */}
                   {!kinderData?.openHours || !kinderData?.closeHours ? (
                     <p className="text-black-200">운영 시간 정보가 없어요🥺</p>
                   ) : (
                     <p className="w-full">{`${kinderData.openHours} - ${kinderData.closeHours}`}</p>
                   )}
-                  {/* </p> */}
                 </div>
               </div>
             </div>
@@ -240,12 +236,11 @@ function KinderDetail() {
                 유치원 공지사항
               </h5>
               <div className="flex flex-col gap-8 onlyMobile:gap-6">
-                {postData ? (
+                {postData?.length !== 0 ? (
                   <>
                     {postData.map(el => {
                       return <ListNotice key={el.postId} post={el} />;
                     })}
-                    {/* <Link to={`/community/${id}`}> */}
                     <Button
                       className="border-gray btn-size-l shrink-0 onlyMobile:mt-16"
                       onClick={moveNotification}
@@ -290,16 +285,10 @@ function KinderDetail() {
                   </Link>
                 )}
               </div>
-              {currentReview ? (
+              {currentReview?.length !== 0 ? (
                 <div className="flex flex-col gap-8">
                   {currentReview.map(el => {
-                    return (
-                      <ListReview
-                        key={el.reviewId}
-                        post={el}
-                        // kinderData={kinderData}
-                      />
-                    );
+                    return <ListReview key={el.reviewId} post={el} />;
                   })}
                 </div>
               ) : (
@@ -358,9 +347,6 @@ function KinderDetail() {
             <h5 className="w-full text-22 font-bold onlyMobile:text-18">
               유치원 지도보기
             </h5>
-            {/* <Button className="border-gray btn-size-l shrink-0">
-              지도보기
-            </Button> */}
           </div>
           {kinderData && (
             <p className="mb-16">{kinderData.locations.replace(/"/g, '')}</p>
