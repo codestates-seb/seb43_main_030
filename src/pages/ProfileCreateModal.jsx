@@ -110,7 +110,6 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
           setNicknameErr('');
           setSelectErr('');
           setProfileModal(false);
-          // setCurProfile()
         })
         .catch(err => {
           console.log(err);

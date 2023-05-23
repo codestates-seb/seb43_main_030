@@ -606,7 +606,7 @@ function Mypage() {
         ''
       )}
       {settingModal ? (
-        <SettingModal onClick={modalClose} setSettingModal={setProfileModal} />
+        <SettingModal onClick={modalClose} setSettingModal={setSettingModal} />
       ) : (
         ''
       )}
