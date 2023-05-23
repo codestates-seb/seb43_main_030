@@ -22,12 +22,10 @@ function Community() {
   const commInputValue = useSelector(state => state.commInputValue);
   const category = useSelector(state => state.category);
   const searchClickState = useSelector(state => state.searchClickState);
-  const tempCommInputValue = useSelector(state => state.tempCommInputValue);
   const auth = useSelector(state => state.auth);
 
   // 포스트 리스트와 현재 게시물 수
   useEffect(() => {
-    window.scroll(0, 0);
     axios
       .get(
         `${process.env.REACT_APP_API_URL}/api/community/${id}/post?page=${page}&category=${category}&keyword=${commInputValue}`,
@@ -49,6 +47,7 @@ function Community() {
   }, [page, category, id, commInputValue]);
 
   useEffect(() => {
+    window.scroll(0, 0);
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/community/${id}`)
       .then(response => setKinderInfo(response.data.data))
