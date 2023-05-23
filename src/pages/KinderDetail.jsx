@@ -196,7 +196,7 @@ function KinderDetail() {
                     <span>전화번호</span>
                   </div>
                   {!kinderData?.phoneNumber ? (
-                    <p className="text-black-200">전화번호가 없어요🥺</p>
+                    <p className="w-full text-black-200">전화번호가 없어요🥺</p>
                   ) : (
                     <p className="w-full">{kinderData.phoneNumber}</p>
                   )}
@@ -209,7 +209,9 @@ function KinderDetail() {
                     <span>SNS</span>
                   </div>
                   {!kinderData?.snsUrl ? (
-                    <p className="text-black-200">연결된 SNS가 없어요🥺</p>
+                    <p className="w-full text-black-200">
+                      연결된 SNS가 없어요🥺
+                    </p>
                   ) : (
                     <p className="w-full">{kinderData.snsUrl}</p>
                   )}
@@ -222,7 +224,9 @@ function KinderDetail() {
                     <span>운영 시간</span>
                   </div>
                   {!kinderData?.openHours || !kinderData?.closeHours ? (
-                    <p className="text-black-200">운영 시간 정보가 없어요🥺</p>
+                    <p className="w-full text-black-200">
+                      운영 시간 정보가 없어요🥺
+                    </p>
                   ) : (
                     <p className="w-full">{`${kinderData.openHours} - ${kinderData.closeHours}`}</p>
                   )}
