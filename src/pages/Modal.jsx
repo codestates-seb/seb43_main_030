@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import Dog from '../images/dog.jpeg';
+import { setAuth } from '../actions/areaFilterActions';
 import RatingStar from '../components/RatingStar';
 import TextArea from '../components/TextArea';
 import UploadImage from '../components/UploadImage';
@@ -25,6 +26,7 @@ function Modal(props) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [text, setText] = prevText ? useState(prevText) : useState('');
   const [kinderInfo, setKinderInfo] = useState([]);
+  const dispatch = useDispatch();
   const apiUrl = process.env.REACT_APP_API_URL;
   const [starIndex, setStarIndex] = prevRatedReview
     ? // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -111,6 +113,14 @@ function Modal(props) {
               text: '본인이 작성한 후기만 수정할 수 있어요❗️',
               confirmButtonColor: '#FFD337',
             });
+          } else if (error.response && error.response.status === 401) {
+            Swal.fire({
+              icon: 'error',
+              text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+              confirmButtonColor: '#FFD337',
+            });
+            dispatch(setAuth(false));
+            localStorage.removeItem('token');
           }
         });
     } else {
@@ -145,6 +155,14 @@ function Modal(props) {
               text: '본인이 작성한 후기만 수정할 수 있어요❗️',
               confirmButtonColor: '#FFD337',
             });
+          } else if (error.response && error.response.status === 401) {
+            Swal.fire({
+              icon: 'error',
+              text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+              confirmButtonColor: '#FFD337',
+            });
+            dispatch(setAuth(false));
+            localStorage.removeItem('token');
           }
         });
     }
@@ -170,8 +188,9 @@ function Modal(props) {
               {/* 유치원 정보 */}
               <div className="mt-25 flex border-b-[1px] border-black-070 pb-25">
                 <div className="user-profile mr-15 h-116 w-116 onlyMobile:h-96 onlyMobile:w-96">
-                  {kinderInfo.image ? (
-                    <img src={kinderInfo.profileImageUrl} alt="img" />
+                  {console.log(kinderInfo)}
+                  {kinderInfo.imageUrl ? (
+                    <img src={kinderInfo.imageUrl} alt="img" />
                   ) : (
                     <img src={profile} alt="defaultImage" />
                   )}

@@ -57,7 +57,16 @@ function Mypage() {
         dispatch(setUser(res.data));
       })
       .catch(err => {
-        console.log(err);
+        if (err.response && err.response.status === 401) {
+          Swal.fire({
+            icon: 'error',
+            text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+            confirmButtonColor: '#FFD337',
+          });
+          dispatch(setAuth(false));
+          localStorage.removeItem('token');
+          navi('/login');
+        }
       });
 
     axios
@@ -73,7 +82,15 @@ function Mypage() {
         dispatch(setCurProfile(res.data.data));
       })
       .catch(err => {
-        console.log(err);
+        if (err.response && err.response.status === 401) {
+          Swal.fire({
+            icon: 'error',
+            text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+            confirmButtonColor: '#FFD337',
+          });
+          dispatch(setAuth(false));
+          localStorage.removeItem('token');
+        }
       });
     // };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -137,7 +154,15 @@ function Mypage() {
             navi(`/mypage/${res.data.data.profileId}`);
           })
           .catch(err => {
-            console.log(err);
+            if (err.response && err.response.status === 401) {
+              Swal.fire({
+                icon: 'error',
+                text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+                confirmButtonColor: '#FFD337',
+              });
+              dispatch(setAuth(false));
+              localStorage.removeItem('token');
+            }
           });
       });
   }
@@ -190,8 +215,16 @@ function Mypage() {
             // getUsers();
           })
           .catch(err => {
-            console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
-            console.log(err);
+            // console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
+            if (err.response && err.response.status === 401) {
+              Swal.fire({
+                icon: 'error',
+                text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+                confirmButtonColor: '#FFD337',
+              });
+              dispatch(setAuth(false));
+              localStorage.removeItem('token');
+            }
           });
       }
     }
@@ -226,7 +259,15 @@ function Mypage() {
             window.location.reload();
           })
           .catch(err => {
-            console.log(err);
+            if (err.response && err.response.status === 401) {
+              Swal.fire({
+                icon: 'error',
+                text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+                confirmButtonColor: '#FFD337',
+              });
+              dispatch(setAuth(false));
+              localStorage.removeItem('token');
+            }
           });
       }
     });
@@ -262,7 +303,16 @@ function Mypage() {
           dispatch(setCurProfile(res.data.data));
         })
         .catch(err => {
-          console.log(`${err}: 이미지를 수정하지 못했습니다.`);
+          // console.log(`${err}: 이미지를 수정하지 못했습니다.`);
+          if (err.response && err.response.status === 401) {
+            Swal.fire({
+              icon: 'error',
+              text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+              confirmButtonColor: '#FFD337',
+            });
+            dispatch(setAuth(false));
+            localStorage.removeItem('token');
+          }
         });
     }
   };

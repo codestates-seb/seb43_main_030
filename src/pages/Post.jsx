@@ -1,9 +1,10 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import Parser from 'html-react-parser';
+import { setAuth } from '../actions/areaFilterActions';
 import { ReactComponent as View } from '../images/view.svg';
 import LikeOff from '../images/perpett-off.png';
 import LikeOn from '../images/community-like-on.png';
@@ -28,6 +29,8 @@ function Post() {
   const { id } = useParams();
   const auth = useSelector(state => state.auth);
   const curProfile = useSelector(state => state.curProfile);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     axios
@@ -78,11 +81,15 @@ function Post() {
           window.location.reload();
         })
         .catch(error => {
-          Swal.fire({
-            icon: 'error',
-            text: `error! ${error}`,
-            confirmButtonColor: '#FFD337',
-          });
+          if (error.response && error.response.status === 401) {
+            Swal.fire({
+              icon: 'error',
+              text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+              confirmButtonColor: '#FFD337',
+            });
+            dispatch(setAuth(false));
+            localStorage.removeItem('token');
+          }
         });
     } else {
       setCommentError('댓글 내용을 입력해주세요.');
@@ -162,6 +169,14 @@ function Post() {
             text: '본인이 작성한 게시글만 삭제할 수 있어요❗️',
             confirmButtonColor: '#FFD337',
           });
+        } else if (error.response && error.response.status === 401) {
+          Swal.fire({
+            icon: 'error',
+            text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+            confirmButtonColor: '#FFD337',
+          });
+          dispatch(setAuth(false));
+          localStorage.removeItem('token');
         } else {
           Swal.fire({
             icon: 'error',
@@ -171,14 +186,15 @@ function Post() {
         }
       });
   }, [
-    navigate,
-    curProfile.email,
-    curProfile.name,
+    auth,
     writerInfo.email,
     writerInfo.name,
-    postId,
+    curProfile.email,
+    curProfile.name,
     id,
-    auth,
+    postId,
+    navigate,
+    dispatch,
   ]);
 
   // 글수정

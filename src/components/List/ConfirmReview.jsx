@@ -94,6 +94,14 @@ function ConfirmReview(props) {
               text: '본인이 작성한 후기만 삭제할 수 있어요❗️',
               confirmButtonColor: '#FFD337',
             });
+          } else if (error.response && error.response.status === 401) {
+            Swal.fire({
+              icon: 'error',
+              text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+              confirmButtonColor: '#FFD337',
+            });
+            dispatch(setAuth(false));
+            localStorage.removeItem('token');
           }
         });
     });
