@@ -31,16 +31,17 @@ function OauthRole() {
 
   const onCheckEmail = useCallback(
     e => {
-      const valiEmail =
-        /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+      const valiEmail = /^[a-zA-Z0-9_.-]+$/;
       const CurrentEmail = e.target.value;
+      const lastCharactor = CurrentEmail.slice(-1);
       setUser({ ...user, email: CurrentEmail });
 
       if (user.email.length === 0) {
         setEmailErr('이메일을 입력해주세요.');
         setIsEmail(false);
-      } else if (!valiEmail.test(CurrentEmail)) {
-        setEmailErr('이메일 형식이 올바르지 않습니다.');
+      } else if (!valiEmail.test(lastCharactor)) {
+        e.target.value = CurrentEmail.slice(0, -1);
+        setEmailErr('영문, 숫자, _, -, . 만 입력이 가능합니다.');
         setIsEmail(false);
       } else {
         setEmailErr('');
@@ -61,7 +62,7 @@ function OauthRole() {
         .patch(
           `${process.env.REACT_APP_API_URL}/api/users/oauthInit`,
           {
-            email: user.email,
+            email: `${user.email}@kakao.com`,
             checkOfficials: officials,
           },
           {
@@ -139,13 +140,26 @@ function OauthRole() {
         </div>
         <div className="mb-24">
           {!userEmail ? (
-            <Input
-              labelText="이메일"
-              type="email"
-              placeholder="이메일 입력해주세요."
-              onChange={onCheckEmail}
-              isError={emailErr}
-            />
+            <>
+              <div className="flex grow gap-2">
+                <Input
+                  labelText="이메일"
+                  type="email"
+                  placeholder="이메일 입력해주세요."
+                  onChange={onCheckEmail}
+                />
+                <Input
+                  className="mt-26"
+                  value="@kakao.com"
+                  disabled="@kakao.com"
+                />
+              </div>
+              {emailErr ? (
+                <p className="input-text text-red-400">{emailErr}</p>
+              ) : (
+                ''
+              )}
+            </>
           ) : (
             <Input
               labelText="이메일"
