@@ -27,36 +27,19 @@ public class ImageUploader {
 
     private final AmazonS3Client s3Client;
     @Value("${url.image.profile}")
-    private String defaultProfileImage;
+    private String cfProfileImage;
+    @Value("${url.s3.profile}")
+    private String s3ProfileImage;
     @Value("${url.image.kindergarten}")
-    private String defaultKindergartenImage;
+    private String cfKindergartenImage;
+    @Value("${url.s3.kindergarten}")
+    private String s3KindergartenImage;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
     @Value("${cloud.aws.cloud-front}")
     private String cloudFrontUrl;
 
 
-    // 다중 이미지 업로드(kindergarten, post) S3
-//    public List<String> upload(List<MultipartFile> multipartFile, String location) {
-//        List<String> imgUrlList = new ArrayList<>();
-//
-//        // forEach 구문을 통해 multipartFile로 넘어온 파일들 하나씩 fileNameList에 추가
-//        for (MultipartFile file : multipartFile) {
-//            String fileName = createFileName(file.getOriginalFilename());
-//            ObjectMetadata objectMetadata = new ObjectMetadata();
-//            objectMetadata.setContentLength(file.getSize());
-//            objectMetadata.setContentType(file.getContentType());
-//
-//            try(InputStream inputStream = file.getInputStream()) {
-//                s3Client.putObject(new PutObjectRequest(bucket + location, fileName, inputStream, objectMetadata)
-//                        .withCannedAcl(CannedAccessControlList.PublicRead));
-//                imgUrlList.add(s3Client.getUrl(bucket + location, fileName).toString());
-//            } catch(IOException e) {
-//                throw new LogicException(CustomException.IMAGE_UPLOAD_ERROR);
-//            }
-//        }
-//        return imgUrlList;
-//    }
 
     // S3 이미지 업로드
     public List<String> upload(List<MultipartFile> multipartFile, String location) {
@@ -88,9 +71,9 @@ public class ImageUploader {
     }
 
     public void delete(String imageUrl) {
-        if (imageUrl.equals(defaultProfileImage) || imageUrl.equals(defaultKindergartenImage))
+        if (imageUrl.equals(s3ProfileImage) || imageUrl.equals(s3KindergartenImage)
+        || imageUrl.equals(cfProfileImage) || imageUrl.equals(cfKindergartenImage))
             return;
-
         String fileName = imageUrl;
         for (int i = 0; i < 2; i++) {
             fileName = fileName.substring(0, fileName.lastIndexOf('/'));
