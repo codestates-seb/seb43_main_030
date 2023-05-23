@@ -120,7 +120,7 @@ function Main() {
         <div className="flex-center sticky bottom-10 left-0 w-[100%] text-white">
           <Link to="/map">
             <Button
-              className="color-black flex-center z-20 h-50 w-190"
+              className="color-black flex-center z-20 h-50 w-190 onlyMini:w-140"
               icon="map"
             >
               지도보기
