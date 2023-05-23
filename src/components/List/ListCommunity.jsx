@@ -44,7 +44,7 @@ function ListCommunity(props) {
           <img src={profile} alt="defaultImage" />
         )} */}
       </div>
-      <div className="nlyMini:my-20 isMobile:w-[100%-101px] my-30 w-[calc(100%-132px)]">
+      <div className="my-30 w-[calc(100%-132px)] onlyMobile:w-[calc(100%-101px)] onlyMini:my-20 onlyMini:w-[calc(100%-71px)]">
         <Link to={`/community/${id}/post/${post.postId}`} className="block">
           <p className="list-title truncate">{post.title}</p>
           {Parser(`
