@@ -99,7 +99,6 @@ function DropDownMenu({ setDropDown }) {
         <li
           className={`profile flex items-center justify-start${profile.profileId} cursor-pointer px-8 py-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
           onClick={e => {
-            // profileActive(e);
             clickedProfile(profile.profileId);
           }}
           role="presentation"

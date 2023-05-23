@@ -23,6 +23,7 @@ function Header() {
   const dispatch = useDispatch();
 
   const [dropDown, setDropDown] = useState(false);
+
   const curProfile = useSelector(state => state.curProfile);
   const auth = useSelector(state => state.auth);
 
