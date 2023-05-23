@@ -68,7 +68,7 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
   };
 
   const handleChange = e => {
-    setNickname(e.target.value);
+    setNickname(e.target.value.trim());
   };
 
   const handleCheckPerson = isPerson => {

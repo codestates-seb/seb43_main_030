@@ -173,8 +173,7 @@ function Mypage() {
     setNameErr('');
   };
   const handleNameChange = e => {
-    setNickname(e.target.value);
-    console.log(nickname);
+    setNickname(e.target.value.trim());
   };
 
   // 닉네임 수정하기
