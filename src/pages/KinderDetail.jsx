@@ -37,6 +37,9 @@ const containerStyle = {
 
 function KinderDetail() {
   const { id } = useParams();
+  const navi = useNavigate();
+  const dispatch = useDispatch();
+  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
   // 유치원 정보
   const [kinderData, setKinderData] = useState('');
@@ -50,10 +53,6 @@ function KinderDetail() {
   const [isModal, setisModal] = useState(false);
   const center = useSelector(state => state.center);
   const auth = useSelector(state => state.auth);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
   // 지도
   const { isLoaded } = useJsApiLoader({
@@ -141,12 +140,12 @@ function KinderDetail() {
 
   const moveCommunity = () => {
     dispatch(setCategory('community'));
-    navigate(`/community/${id}`);
+    navi(`/community/${id}`);
   };
 
   const moveNotification = () => {
     dispatch(setCategory('notification'));
-    navigate(`/community/${id}`);
+    navi(`/community/${id}`);
   };
 
   return (

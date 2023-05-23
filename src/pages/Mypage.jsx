@@ -334,7 +334,7 @@ function Mypage() {
   };
 
   return (
-    <div className="relative flex flex-col items-center pt-130 onlyMobile:pt-88 ">
+    <div className="relative flex h-[80vh] min-h-[1000px] flex-col items-center pt-130 onlyMobile:pt-88">
       <div className="w-full max-w-[1280px] px-80 onlyMobile:max-w-full onlyMobile:px-24">
         {auth ? (
           <div className="flex onlyMobile:flex-col">
