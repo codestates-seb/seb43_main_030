@@ -24,6 +24,7 @@ function Post() {
   const [images, setImages] = useState([]);
   const [writerInfo, setWriterInfo] = useState([]);
   const [commentError, setCommentError] = useState('');
+  const [kinderName, setKinderName] = useState([]);
   const navigate = useNavigate();
   const { postId } = useParams();
   const { id } = useParams();
@@ -95,6 +96,15 @@ function Post() {
       setCommentError('댓글 내용을 입력해주세요.');
     }
   }
+
+  // 유치원 정보
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/community/${id}`)
+      .then(response => {
+        setKinderName(response.data.data);
+      });
+  }, [id]);
 
   // 게시글 정보
   useEffect(() => {
@@ -278,7 +288,7 @@ function Post() {
         <div className="border-b border-solid border-black-070 pb-32">
           <div className="text-14 text-black-350 onlyMobile:text-12">
             <Link to={`/kindergarten/${id}`} className="hover:underline">
-              왈독 애견유치원 왈독
+              {kinderName.name && kinderName.name.replace(/"/g, '')}
             </Link>
             <span> - </span>
             <Link to={`/community/${id}`} className="hover:underline">
