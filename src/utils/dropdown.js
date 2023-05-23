@@ -30,14 +30,12 @@ function RenderProfile({ clickedProfile, handleDelete }) {
     return user.map(profile => {
       const activeClass = profile.profileId === activeIndex ? 'font-bold' : '';
       const shouldDisplayButton = profile.profileId !== activeIndex;
-      // const shouldDisplayButton = Number(activeIndex) !== idx;
-      // const selectedClass = selectProfile === idx ? 'font-bold' : '';
+
       return (
         <li className="flex w-full" key={profile.profileId}>
           <div
             className={`profile flex items-center justify-start${profile.profileId} cursor-pointer px-8 py-12 text-14 ${activeClass} w-full rounded-lg hover:bg-black-025`}
             onClick={e => {
-              // profileActive(e);
               clickedProfile(profile.profileId);
             }}
             role="presentation"
