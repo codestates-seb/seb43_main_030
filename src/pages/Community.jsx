@@ -22,6 +22,7 @@ function Community() {
   const commInputValue = useSelector(state => state.commInputValue);
   const category = useSelector(state => state.category);
   const searchClickState = useSelector(state => state.searchClickState);
+  const tempCommInputValue = useSelector(state => state.tempCommInputValue);
   const auth = useSelector(state => state.auth);
 
   // 포스트 리스트와 현재 게시물 수
@@ -111,7 +112,8 @@ function Community() {
             <div className="mb-8 flex items-center onlyMini:mb-2">
               <Star />
               <span className="mr-2 text-16 onlyMini:text-14">
-                {kinderInfo.ratedReviewsAvg.toFixed(2)}
+                {kinderInfo.ratedReviewsAvg &&
+                  kinderInfo.ratedReviewsAvg.toFixed(2)}
               </span>
               (
               <span className="text-16 onlyMini:text-14">

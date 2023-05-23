@@ -46,7 +46,7 @@ function ListCommunity(props) {
       </div>
       <div className="nlyMini:my-20 isMobile:w-[100%-101px] my-30 w-[calc(100%-132px)]">
         <Link to={`/community/${id}/post/${post.postId}`} className="block">
-          <p className="list-title">{post.title}</p>
+          <p className="list-title truncate">{post.title}</p>
           {Parser(`
           <p className="list-content mt-5 truncate text-max">
             ${content.replace(/(<([^>]+)>)/gi, '')}

@@ -26,8 +26,8 @@ function Post() {
   const navigate = useNavigate();
   const { postId } = useParams();
   const { id } = useParams();
-  const user = useSelector(state => state.user);
   const auth = useSelector(state => state.auth);
+  const curProfile = useSelector(state => state.curProfile);
 
   useEffect(() => {
     axios
@@ -89,7 +89,7 @@ function Post() {
     }
   }
 
-  // 상단 유치원 정보 영역 불러오기
+  // 게시글 정보
   useEffect(() => {
     axios
       .get(
@@ -112,10 +112,8 @@ function Post() {
   }, [setPost, postId, id]);
 
   // 글삭제
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleDelete = useCallback(() => {
     Swal.fire({
-      // title: '댓글을 삭제하시겠습니까?',
       text: '게시글을 삭제하시겠습니까?',
       icon: 'warning',
       showCancelButton: true,
@@ -126,17 +124,26 @@ function Post() {
     })
       .then(result => {
         if (result.isConfirmed) {
-          if (auth) {
+          if (!auth) {
+            Swal.fire({
+              icon: 'error',
+              text: '본인이 작성한 게시글만 삭제할 수 있어요❗️',
+              confirmButtonColor: '#FFD337',
+            });
+          }
+
+          if (
+            auth &&
+            writerInfo.email === curProfile.email &&
+            writerInfo.name === curProfile.name
+          ) {
             axios.delete(
               `${process.env.REACT_APP_API_URL}/api/community/${id}/post/${postId}`,
               {
                 headers: { Authorization: localStorage.getItem('token') },
               },
             );
-            Swal.fire({
-              confirmButtonColor: '#FFD337',
-              text: '게시글이 삭제되었습니다.',
-            }).then(result => {
+            Swal.fire('', '게시글이 삭제되었습니다.').then(result => {
               navigate(`/community/${id}`);
             });
           } else {
@@ -163,13 +170,22 @@ function Post() {
           });
         }
       });
-  }, [navigate, postId, id, auth]);
+  }, [
+    navigate,
+    curProfile.email,
+    curProfile.name,
+    writerInfo.email,
+    writerInfo.name,
+    postId,
+    id,
+    auth,
+  ]);
 
   // 글수정
   const handleEdit = useCallback(() => {
     if (
-      writerInfo.email === user[0].email &&
-      user[0].name === writerInfo.name
+      writerInfo.email === curProfile.email &&
+      writerInfo.name === curProfile.name
     ) {
       navigate(`/community/${id}/write/${postId}`);
     } else {
@@ -179,7 +195,7 @@ function Post() {
         confirmButtonColor: '#FFD337',
       });
     }
-  }, [writerInfo, user, navigate, postId, id]);
+  }, [writerInfo, curProfile, navigate, postId, id]);
 
   // 좋아요
   const isLike = () => {
@@ -190,7 +206,6 @@ function Post() {
         confirmButtonColor: '#FFD337',
       });
       return;
-      // navigate(`/login`);
     }
     const updatedLike = !like;
     const updatedLikes = updatedLike ? countLike + 1 : countLike - 1;

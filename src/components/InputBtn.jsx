@@ -32,7 +32,7 @@ function InputBtn(props) {
 
   function searchInput() {
     if (pageValue === 'community') {
-      const url = `${commUrl}&keyword=${tempCommInputValue}`;
+      const url = `${commUrl}&keyword=${commInputValue}`;
       if (tempCommInputValue) {
         dispatch(setSearchClickState(true));
       } else {
@@ -41,9 +41,8 @@ function InputBtn(props) {
       axios
         .get(url)
         .then(response => {
-          setPostList(response.data.data);
           dispatch(setCommInputValue(tempCommInputValue));
-          dispatch(setTempCommInputValue(''));
+          setPostList(response.data.data);
         })
         .catch(error => {
           console.log(error);
