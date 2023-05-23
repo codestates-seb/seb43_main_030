@@ -133,7 +133,10 @@ function Post() {
                 headers: { Authorization: localStorage.getItem('token') },
               },
             );
-            Swal.fire('', '게시글이 삭제되었습니다.').then(result => {
+            Swal.fire({
+              confirmButtonColor: '#FFD337',
+              text: '게시글이 삭제되었습니다.',
+            }).then(result => {
               navigate(`/community/${id}`);
             });
           } else {
