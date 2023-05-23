@@ -82,3 +82,6 @@ url:
   image:
     profile: "https://d1prvajctafd3i.cloudfront.net/default/profile/default_profile_image.png"
     kindergarten: "https://d1prvajctafd3i.cloudfront.net/default/kindergarten/default_kindergarten_image.jfif"
+  s3:
+    profile: "https://perpett.s3.ap-northeast-2.amazonaws.com/default/profile/default_profile_image.png"
+    kindergarten: "https://perpett.s3.ap-northeast-2.amazonaws.com/default/kindergarten/default_kindergarten_image.jfif"
