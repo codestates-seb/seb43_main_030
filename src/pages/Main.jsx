@@ -9,6 +9,7 @@ import NoList from '../images/perpett-nolist.png';
 import MainCard from '../components/Card/MainCard';
 import Button from '../components/Button/Button';
 import InputSelectBox from '../components/Input/InputSelectBox';
+import { ReactComponent as Top } from '../images/top.svg';
 
 function Main() {
   const [isPending, setIsPending] = useState(false);
@@ -63,6 +64,10 @@ function Main() {
 
     return () => clearTimeout(timerId);
   }, [inView, isPending, kinderGartens]);
+
+  const toTop = () => {
+    window.scrollTo(0, 0);
+  };
 
   return (
     <div className="flex-center relative flex-col">
@@ -121,6 +126,15 @@ function Main() {
               지도보기
             </Button>
           </Link>
+        </div>
+        <div className="flex-center sticky bottom-10 left-0 w-[100%] text-white">
+          <Button
+            className="flex-center absolute bottom-0 right-0 z-20 h-50 w-50 rounded-[50%] bg-yellow-500 hover:bg-yellow-600"
+            icon="toTop"
+            onClick={() => toTop()}
+          >
+            <Top />
+          </Button>
         </div>
       </div>
       {isPending && page.current < kinderGartens.length ? (
