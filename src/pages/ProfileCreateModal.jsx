@@ -16,6 +16,7 @@ import { ReactComponent as Close } from '../images/close.svg';
 
 function ProfileCreateModal({ onClick, setProfileModal }) {
   const dispatch = useDispatch();
+  const navi = useNavigate();
 
   const [nickname, setNickname] = useState('');
   const [person, setPerson] = useState(true);
@@ -112,16 +113,17 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
           setProfileModal(false);
         })
         .catch(err => {
-          if (err.response && err.response.status === 401) {
+          if (err.response?.status === 401) {
             Swal.fire({
+              toast: true,
               icon: 'error',
               text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
               confirmButtonColor: '#FFD337',
             });
             dispatch(setAuth(false));
             localStorage.removeItem('token');
+            navi('/login');
           }
-          console.log(err);
           setProfileModal(true);
         });
     } else if (!person && nickname && breed) {
@@ -147,6 +149,7 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
             });
             dispatch(setAuth(false));
             localStorage.removeItem('token');
+            navi('/login');
           }
           setProfileModal(true);
         });

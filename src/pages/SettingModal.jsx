@@ -74,13 +74,16 @@ function SettingModal({ onClick, setSettingModal }) {
           setSettingModal(false);
         })
         .catch(err => {
-          console.log(err);
-          if (err.response && err.response.status === 400) {
+          if (err.response?.status === 400) {
+            setCurPwdErr(
+              '새 비밀번호와 새 비밀번호 확인 영역이 일치하지 않습니다.',
+            );
+          } else if (err.response?.status === 405) {
             setCurPwdErr('현재 비밀번호와 일치하지 않습니다.');
-          } else if (err.response && err.response.status === 401) {
+          } else if (err.response?.status === 401) {
             Swal.fire({
               icon: 'error',
-              text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+              text: '토큰이 만료되었습니다. 재로그인 후 시도해주세요❗️',
               confirmButtonColor: '#FFD337',
             });
             dispatch(setAuth(false));
@@ -122,16 +125,16 @@ function SettingModal({ onClick, setSettingModal }) {
           })
           .then(res => {
             handleLogout();
+            setCurPwdErr('');
+            setCurPwdErr('');
+            setCurPwdErr('');
             setSettingModal(false);
-            setCurPwdErr('');
-            setCurPwdErr('');
-            setCurPwdErr('');
           })
           .catch(err => {
             if (err.response && err.response.status === 401) {
               Swal.fire({
                 icon: 'error',
-                text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+                text: '토큰이 만료되었습니다. 재로그인 후 시도해주세요❗️',
                 confirmButtonColor: '#FFD337',
               });
               dispatch(setAuth(false));
@@ -244,8 +247,6 @@ function SettingModal({ onClick, setSettingModal }) {
                   </div>
                   <Button
                     className="color-yellow btn-size-l mt-16 w-full"
-                    // onClick={() => handleChangePwd()}
-                    // onClick={onChangePwd}
                     onClick={handleChangePwd}
                   >
                     비밀번호 변경
