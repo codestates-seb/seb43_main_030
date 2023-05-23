@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
@@ -33,7 +33,6 @@ function Header() {
   function reload() {
     navi('/');
     window.location.reload();
-    // dispatch(setKinderGartens(null));
     dispatch(setAreaFilter(0));
     dispatch(setInputValue(''));
     dispatch(setSearchValue(''));
