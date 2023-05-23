@@ -27,6 +27,7 @@ function Main() {
   const curProfile = useSelector(state => state.curProfile);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     let url = ``;
     if (searchValue) {
       url = `${process.env.REACT_APP_API_URL}/api/kindergarten/name/${searchValue}`;
