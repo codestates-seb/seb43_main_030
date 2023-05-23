@@ -12,6 +12,8 @@ import {
 
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
+import Toast from '../utils/toast';
+
 import { ReactComponent as Close } from '../images/close.svg';
 
 function SettingModal({ onClick, setSettingModal }) {
@@ -72,6 +74,11 @@ function SettingModal({ onClick, setSettingModal }) {
           setNewPwdErr('');
           setIsConfirmPwd('');
           setSettingModal(false);
+          Toast.fire({
+            title: '비밀번호 변경이 완료되었습니다.',
+            background: '#25B865',
+            color: 'white',
+          });
         })
         .catch(err => {
           if (err.response?.status === 400) {
@@ -108,7 +115,7 @@ function SettingModal({ onClick, setSettingModal }) {
   // 회원탈퇴
   const handleUserDelete = () => {
     Swal.fire({
-      text: '계정을 탈퇴하시겠습니까?',
+      text: '탈퇴하시는 경우 동일한 이메일로 회원가입이 불가능합니다. 계정 탈퇴를 진행하시겠습니까?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#FFD337',
