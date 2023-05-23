@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
+import { setAuth } from '../actions/areaFilterActions';
 import { ReactComponent as More } from '../images/more.svg';
 import Dog from '../images/dog.jpeg';
 import Input from './Input/Input';
@@ -17,11 +19,12 @@ function Comment({
   profileImg,
 }) {
   const [moreSelect, setMoreSelect] = useState(false);
-
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedText, setEditedText] = useState(text);
   const [onDelete, setOnDelete] = useState(false);
   const [commentError, setCommentError] = useState('');
+
+  const dispatch = useDispatch();
 
   const onDeleteModal = () => {
     setOnDelete(true);
@@ -61,6 +64,14 @@ function Comment({
               text: '본인이 작성한 댓글만 수정할 수 있어요❗️',
               confirmButtonColor: '#FFD337',
             });
+          } else if (error.response && error.response.status === 401) {
+            Swal.fire({
+              icon: 'error',
+              text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+              confirmButtonColor: '#FFD337',
+            });
+            dispatch(setAuth(false));
+            localStorage.removeItem('token');
           }
         });
     } else {
@@ -123,6 +134,14 @@ function Comment({
                 text: '본인이 작성한 댓글만 삭제할 수 있어요❗️',
                 confirmButtonColor: '#FFD337',
               });
+            } else if (error.response && error.response.status === 401) {
+              Swal.fire({
+                icon: 'error',
+                text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+                confirmButtonColor: '#FFD337',
+              });
+              dispatch(setAuth(false));
+              localStorage.removeItem('token');
             }
           });
       }
