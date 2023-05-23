@@ -1,6 +1,7 @@
 package com.kids.SEB_main_030.domain.user;
 
 import com.google.gson.Gson;
+import com.kids.SEB_main_030.domain.user.dto.UserPatchDto;
 import com.kids.SEB_main_030.domain.user.dto.UserPostDto;
 import com.kids.SEB_main_030.domain.user.entity.User;
 import com.kids.SEB_main_030.domain.user.mapper.UserMapper;
@@ -18,7 +19,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -55,5 +56,26 @@ class UserControllerTest {
         actions
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", is(startsWith(DEFAULT_URL))));
+    }
+
+    @Test
+    void patchUserTest() throws Exception{
+        // given
+        UserPostDto userPostDto = new UserPostDto("test@naver.com", "123123123", true);
+        User user = mapper.userPostDtoToUser(userPostDto);
+        user.setUserId(1L);
+        Mockito.doNothing().when(userService).createUser(Mockito.any(User.class), Mockito.anyBoolean());
+        String content = gson.toJson(userPostDto);
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                patch(DEFAULT_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(content)
+        );
+
+        // then
+        actions
+                .andExpect(status().isOk());
     }
 }
