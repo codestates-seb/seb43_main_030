@@ -6,6 +6,7 @@ import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import RadioGroup from '../components/Radio/RadioGroup';
 import Radio from '../components/Radio/Radio';
+import Toast from '../utils/toast';
 
 function OauthRole() {
   const navi = useNavigate();
@@ -73,13 +74,17 @@ function OauthRole() {
         )
         .then(res => {
           navi('/login');
-          console.log(res);
           setIsEmail(false);
         })
         .catch(err => {
-          console.log(err);
           if (err.response && err.response.status === 500) {
             setEmailErr('이미 가입되어 있는 이메일입니다.');
+          } else {
+            Toast.fire({
+              title: '계정 저장을 다시 시도해주세요.',
+              background: '#DE4F54',
+              color: 'white',
+            });
           }
         });
     }

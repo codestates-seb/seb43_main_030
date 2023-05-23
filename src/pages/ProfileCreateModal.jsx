@@ -129,8 +129,14 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
             dispatch(setAuth(false));
             localStorage.removeItem('token');
             navi('/login');
+          } else {
+            Toast.fire({
+              title: '프로필 생성을 다시 시도해주세요.',
+              background: '#DE4F54',
+              color: 'white',
+            });
+            setProfileModal(true);
           }
-          setProfileModal(true);
         });
     } else if (!person && nickname && breed) {
       axios
@@ -146,7 +152,6 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
           setSelectErr('');
           setProfileModal(false);
           Toast.fire({
-            // icon: 'success',
             title: '프로필 생성이 완료되었습니다.',
             background: '#25B865',
             color: 'white',
@@ -162,8 +167,14 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
             dispatch(setAuth(false));
             localStorage.removeItem('token');
             navi('/login');
+          } else {
+            Toast.fire({
+              title: '프로필 생성을 다시 시도해주세요.',
+              background: '#DE4F54',
+              color: 'white',
+            });
+            setProfileModal(true);
           }
-          setProfileModal(true);
         });
     }
   };

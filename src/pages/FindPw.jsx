@@ -4,6 +4,7 @@ import { useEffect, useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
+import Toast from '../utils/toast';
 
 function FindPw() {
   const navi = useNavigate();
@@ -123,14 +124,24 @@ function FindPw() {
           email: value.email,
         })
         .then(res => {
-          setEmailSendComp('이메일을 전송하였습니다.');
+          setEmailSendComp('인증 코드 전송이 완료되었습니다.');
           setConfirmEmail(res.data);
+          Toast.fire({
+            title: '인증 코드 전송이 완료되었습니다.',
+            background: '#25B865',
+            color: 'white',
+          });
         })
         .catch(err => {
-          console.log(err);
           setIsConfirmEmailBtn(false);
           if (err.response && err.response.status === 404) {
             setEmailErr(err.response.message);
+          } else {
+            Toast.fire({
+              title: '인증 코드 전송을 다시 시도해주세요.',
+              background: '#DE4F54',
+              color: 'white',
+            });
           }
         });
     }

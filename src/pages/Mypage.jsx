@@ -181,7 +181,6 @@ function Mypage() {
     if (!nickname) {
       setNameErr('닉네임을 입력해주세요.');
     } else {
-      // handleErr();
       setNameErr('');
 
       const formData = new FormData();
@@ -216,20 +215,20 @@ function Mypage() {
             });
           })
           .catch(err => {
-            // console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
             if (err.response && err.response.status === 401) {
               Swal.fire({
                 icon: 'error',
                 text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
                 confirmButtonColor: '#FFD337',
               });
-              // Toast.fire({
-              //   title: '토큰이 만료되었습니다. 재로그인 후 시도해주세요.',
-              //   background: '#DE4F54',
-              //   color: 'white',
-              // });
               dispatch(setAuth(false));
               localStorage.removeItem('token');
+            } else {
+              Toast.fire({
+                title: '닉네임 수정을 다시 시도해주세요.',
+                background: '#DE4F54',
+                color: 'white',
+              });
             }
           });
       }
@@ -315,7 +314,6 @@ function Mypage() {
           });
         })
         .catch(err => {
-          // console.log(`${err}: 이미지를 수정하지 못했습니다.`);
           if (err.response && err.response.status === 401) {
             Swal.fire({
               icon: 'error',
@@ -324,6 +322,12 @@ function Mypage() {
             });
             dispatch(setAuth(false));
             localStorage.removeItem('token');
+          } else {
+            Toast.fire({
+              title: '사진 변경을 다시 시도해주세요.',
+              background: '#DE4F54',
+              color: 'white',
+            });
           }
         });
     }
