@@ -16,6 +16,4 @@ public class PersonProfileResponseDto {
     private String name;
     private String imageUrl;
     private String email;
-    private List<MyPostResponseDto> posts;
-    private List<MyReviewResponseDto> reviews;
 }
