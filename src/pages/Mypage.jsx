@@ -65,6 +65,7 @@ function Mypage() {
           });
           dispatch(setAuth(false));
           localStorage.removeItem('token');
+          navi('/login');
         }
       });
 

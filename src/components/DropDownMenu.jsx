@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -64,9 +65,18 @@ function DropDownMenu({ setDropDown }) {
             setDropDown(false);
             dispatch(setActiveIndex(res.data.data.profileId));
           })
-          .catch(err => {
-            console.log(err);
+          .catch(err => {});
+      })
+      .catch(err => {
+        if (err.response && err.response.status === 401) {
+          Swal.fire({
+            icon: 'error',
+            text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+            confirmButtonColor: '#FFD337',
           });
+          dispatch(setAuth(false));
+          localStorage.removeItem('token');
+        }
       });
   }
 
