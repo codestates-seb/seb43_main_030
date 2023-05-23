@@ -17,7 +17,6 @@ function Write() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [contents, setContents] = useState('');
-  const [userProfile, setUserProfile] = useState({});
   const [img, setImg] = useState([]);
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
   const navigate = useNavigate();
@@ -255,7 +254,7 @@ function Write() {
           <div>
             <TextArea
               value={title}
-              maxLength="80"
+              maxLength="40"
               placeholder="제목을 입력해주세요."
               onChange={saveTitle}
               textClass="box-border h-20 w-full overflow-x-auto my-15"
