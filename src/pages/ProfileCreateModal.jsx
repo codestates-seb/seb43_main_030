@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUser } from '../actions/areaFilterActions';
+import { setUser, setAuth } from '../actions/areaFilterActions';
 
 import UploadImage from '../components/UploadImage';
 import Button from '../components/Button/Button';
@@ -112,6 +112,15 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
           setProfileModal(false);
         })
         .catch(err => {
+          if (err.response && err.response.status === 401) {
+            Swal.fire({
+              icon: 'error',
+              text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+              confirmButtonColor: '#FFD337',
+            });
+            dispatch(setAuth(false));
+            localStorage.removeItem('token');
+          }
           console.log(err);
           setProfileModal(true);
         });
@@ -130,7 +139,15 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
           setProfileModal(false);
         })
         .catch(err => {
-          console.log(err);
+          if (err.response && err.response.status === 401) {
+            Swal.fire({
+              icon: 'error',
+              text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+              confirmButtonColor: '#FFD337',
+            });
+            dispatch(setAuth(false));
+            localStorage.removeItem('token');
+          }
           setProfileModal(true);
         });
     }

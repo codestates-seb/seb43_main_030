@@ -77,6 +77,15 @@ function SettingModal({ onClick, setSettingModal }) {
           console.log(err);
           if (err.response && err.response.status === 400) {
             setCurPwdErr('현재 비밀번호와 일치하지 않습니다.');
+          } else if (err.response && err.response.status === 401) {
+            Swal.fire({
+              icon: 'error',
+              text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+              confirmButtonColor: '#FFD337',
+            });
+            dispatch(setAuth(false));
+            localStorage.removeItem('token');
+            navi('/login');
           }
           setSettingModal(true);
         });
@@ -119,7 +128,16 @@ function SettingModal({ onClick, setSettingModal }) {
             setCurPwdErr('');
           })
           .catch(err => {
-            console.log(err);
+            if (err.response && err.response.status === 401) {
+              Swal.fire({
+                icon: 'error',
+                text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+                confirmButtonColor: '#FFD337',
+              });
+              dispatch(setAuth(false));
+              localStorage.removeItem('token');
+              navi('/login');
+            }
           });
       }
     });
