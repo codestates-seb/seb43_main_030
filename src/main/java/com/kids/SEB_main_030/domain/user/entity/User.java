@@ -31,16 +31,4 @@ public class User{
     public User(String email) {
         this.email = email;
     }
-
-//    public enum UserStatus{
-//        USER_ACTIVE("활동중"),
-//        USER_WITHDRAWAL("회원 탈퇴");
-//
-//        @Getter
-//        private String status;
-//
-//        UserStatus(String status) {
-//            this.status = status;
-//        }
-//    }
 }
