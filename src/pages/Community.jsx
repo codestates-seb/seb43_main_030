@@ -111,7 +111,7 @@ function Community() {
             <div className="mb-8 flex items-center onlyMini:mb-2">
               <Star />
               <span className="mr-2 text-16 onlyMini:text-14">
-                {kinderInfo.ratedReviewsAvg}
+                {kinderInfo.ratedReviewsAvg.toFixed(2)}
               </span>
               (
               <span className="text-16 onlyMini:text-14">

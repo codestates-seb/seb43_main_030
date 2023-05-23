@@ -104,9 +104,6 @@ function KinderDetail() {
           setPostData(resPost);
           setReviewData(resReview.sort((a, b) => b.reviewId - a.reviewId));
           setCurrentReview(resReview.slice(0, 5));
-          // console.log(res1.data.data);
-          // console.log(res2.data.data);
-          // console.log(res3.data);
 
           if (res1.data) {
             dispatch(
@@ -291,13 +288,7 @@ function KinderDetail() {
               {currentReview?.length !== 0 ? (
                 <div className="flex flex-col gap-8">
                   {currentReview.map(el => {
-                    return (
-                      <ListReview
-                        key={el.reviewId}
-                        post={el}
-                        // kinderData={kinderData}
-                      />
-                    );
+                    return <ListReview key={el.reviewId} post={el} />;
                   })}
                 </div>
               ) : (

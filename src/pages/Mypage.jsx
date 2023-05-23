@@ -79,25 +79,6 @@ function Mypage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // const getUsers = () => {
-  //   axios
-  //     .get(`${process.env.REACT_APP_API_URL}/api/users/profile/${id}`, {
-  //       headers: {
-  //         Authorization: localStorage.getItem('token'),
-  //       },
-  //     })
-  //     .then(res => {
-  //       console.log(res.data);
-  //       dispatch(setUser(res.data));
-  //       dispatch(setCurUser(res.data));
-  //       dispatch(setCurProfile(res.data));
-  //       console.log('getUser찍힘');
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  // };
-
   // 모달 관련 함수
   const modalProfileOnOff = () => {
     setProfileModal(!profileModal);

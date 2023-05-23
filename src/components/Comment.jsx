@@ -55,7 +55,6 @@ function Comment({
           window.location.reload();
         })
         .catch(error => {
-          console.log(error);
           if (error.response && error.response.status === 403) {
             Swal.fire({
               icon: 'error',
@@ -108,7 +107,10 @@ function Comment({
           )
           .then(response => {
             if (result) {
-              Swal.fire('', '댓글이 삭제되었습니다.').then(result => {
+              Swal.fire({
+                confirmButtonColor: '#FFD337',
+                text: '댓글이 삭제되었습니다.',
+              }).then(result => {
                 window.location.reload();
               });
             }

@@ -112,7 +112,6 @@ function Login() {
     window.location.href = googleAuthUrl;
 
     const res = await axios.get(googleAuthUrl);
-    console.log(res.status);
   };
 
   const kakaoLogin = async e => {

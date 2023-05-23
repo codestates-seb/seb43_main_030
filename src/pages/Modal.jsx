@@ -108,7 +108,7 @@ function Modal(props) {
           if (error.response && error.response.status === 403) {
             Swal.fire({
               icon: 'error',
-              text: '본인이 작성한 댓글만 수정할 수 있어요❗️',
+              text: '본인이 작성한 후기만 수정할 수 있어요❗️',
               confirmButtonColor: '#FFD337',
             });
           }
@@ -142,14 +142,13 @@ function Modal(props) {
           if (error.response && error.response.status === 403) {
             Swal.fire({
               icon: 'error',
-              text: '본인이 작성한 댓글만 수정할 수 있어요❗️',
+              text: '본인이 작성한 후기만 수정할 수 있어요❗️',
               confirmButtonColor: '#FFD337',
             });
           }
         });
     }
   };
-  console.log(prevImage);
   return (
     <>
       <div className="flex justify-center">
