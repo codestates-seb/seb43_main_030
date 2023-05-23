@@ -60,9 +60,6 @@ function SignUp() {
       if (!user.password) {
         setPwdErr('비밀번호를 입력해주세요.');
       }
-      // if (!confirmPwd) {
-      //   setConfirmPwdErr('');
-      // }
 
       if (isEmail && isPwd && isConfirmPwd && isConfirmEmail) {
         setEmailErr('');
@@ -78,7 +75,6 @@ function SignUp() {
           })
           .then(res => {
             navi('/login');
-            console.log(res);
           })
           .catch(err => {
             console.log(err);
@@ -148,7 +144,6 @@ function SignUp() {
           email: user.email,
         })
         .then(res => {
-          console.log('메일전송:', res);
           setEmailSendComp('이메일을 전송하였습니다.');
           setConfirmEmail(res.data);
         })
@@ -190,7 +185,6 @@ function SignUp() {
         setPwdErr('');
         setIsPwd(true);
       }
-      console.log(CurrentPwd);
     },
     [user],
   );
@@ -217,7 +211,6 @@ function SignUp() {
     window.location.href = googleAuthUrl;
 
     const res = await axios.get(googleAuthUrl);
-    console.log(res.status);
   };
 
   const kakaoSignup = async e => {

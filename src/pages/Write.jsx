@@ -64,7 +64,6 @@ function Write() {
       cancelButtonText: '<span style="color:#000000">아니오<span>',
     }).then(result => {
       if (result.isConfirmed) {
-        console.log(result);
         navigate(-1);
       }
     });

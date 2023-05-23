@@ -123,7 +123,6 @@ function FindPw() {
           email: value.email,
         })
         .then(res => {
-          console.log('메일전송:', res);
           setEmailSendComp('이메일을 전송하였습니다.');
           setConfirmEmail(res.data);
         })
@@ -162,8 +161,6 @@ function FindPw() {
     }
 
     if (isEmail && isPwd && isConfirmPwd && isConfirmEmail) {
-      console.log(value);
-
       setEmailErr('');
       setPwdErr('');
       setConfirmPwdErr('');
@@ -179,7 +176,6 @@ function FindPw() {
         })
         .then(res => {
           navi('/login');
-          console.log(res);
         })
         .catch(err => {
           console.log(err);

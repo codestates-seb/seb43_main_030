@@ -19,7 +19,6 @@ function ListReview({ post, className }) {
     axios
       .get(`${apiUrl}/api/review/${post.reviewId}`)
       .then(response => {
-        console.log(response);
         setKinderInfo(response.data.data);
       })
       .catch(error => {
@@ -28,7 +27,6 @@ function ListReview({ post, className }) {
   };
 
   const offReviewModal = () => {
-    console.log('dd');
     setReviewModal(false);
   };
 

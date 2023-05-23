@@ -68,7 +68,6 @@ function SettingModal({ onClick, setSettingModal }) {
           },
         )
         .then(res => {
-          console.log(res);
           setCurPwdErr('');
           setNewPwdErr('');
           setIsConfirmPwd('');
@@ -113,7 +112,6 @@ function SettingModal({ onClick, setSettingModal }) {
             },
           })
           .then(res => {
-            console.log(res);
             handleLogout();
             setSettingModal(false);
             setCurPwdErr('');

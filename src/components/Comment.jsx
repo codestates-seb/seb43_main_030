@@ -55,7 +55,6 @@ function Comment({
           window.location.reload();
         })
         .catch(error => {
-          console.log(error);
           if (error.response && error.response.status === 403) {
             Swal.fire({
               icon: 'error',

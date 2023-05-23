@@ -25,7 +25,6 @@ function DropDownMenu({ setDropDown }) {
         },
       })
       .then(res => {
-        console.log(res);
         dispatch(setUser(res.data));
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -38,9 +37,6 @@ function DropDownMenu({ setDropDown }) {
     dispatch(setCurProfile({}));
     dispatch(setActiveIndex(''));
   };
-
-  console.log('클릭전현재프로필:', curProfile);
-  console.log('클릭전activeIndex:', activeIndex);
 
   function clickedProfile(profileId) {
     axios
@@ -74,9 +70,6 @@ function DropDownMenu({ setDropDown }) {
       });
   }
 
-  console.log('클릭후현재프로필:', curProfile);
-  console.log('클릭후activeIndex:', activeIndex);
-
   // function profileActive(e) {
   //   const classList = e.target.className.split(' ');
   //   const indexClass = classList.find(className =>
@@ -88,11 +81,8 @@ function DropDownMenu({ setDropDown }) {
   //   }
   // }
 
-  console.log('클릭후profileactive:', activeIndex);
-
   const RenderProfile = () => {
     return user.map(profile => {
-      console.log('dropdownActiveIndex: ', activeIndex);
       const activeClass = profile.profileId === activeIndex ? 'font-bold' : '';
 
       return (

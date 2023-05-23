@@ -149,7 +149,6 @@ function Modal(props) {
         });
     }
   };
-  console.log(prevImage);
   return (
     <>
       <div className="flex justify-center">

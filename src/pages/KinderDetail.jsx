@@ -104,9 +104,6 @@ function KinderDetail() {
           setPostData(resPost);
           setReviewData(resReview.sort((a, b) => b.reviewId - a.reviewId));
           setCurrentReview(resReview.slice(0, 5));
-          console.log(res1.data.data);
-          console.log(res2.data);
-          console.log(res3.data);
 
           if (res1.data) {
             dispatch(
