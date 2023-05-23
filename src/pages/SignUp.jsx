@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useMediaQuery } from 'react-responsive';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
@@ -12,7 +12,8 @@ import { ReactComponent as Google } from '../images/logo-google.svg';
 function SignUp() {
   const navi = useNavigate();
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
-
+  const signUpBtnRef = useRef(null);
+  const emailVerifyBtnRef = useRef(null);
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -46,7 +47,7 @@ function SignUp() {
   };
 
   const onSignup = useCallback(
-    e => {
+    async e => {
       e.preventDefault();
 
       if (!confirmInput) {
@@ -61,27 +62,29 @@ function SignUp() {
         setPwdErr('비밀번호를 입력해주세요.');
       }
 
-      if (isEmail && isPwd && isConfirmPwd && isConfirmEmail) {
+      if (
+        isEmail &&
+        isPwd &&
+        isConfirmPwd &&
+        isConfirmEmail &&
+        signUpBtnRef.current
+      ) {
         setEmailErr('');
         setPwdErr('');
         setConfirmPwdErr('');
         setConfirmEmailErr('');
-
-        axios
-          .post(`${process.env.REACT_APP_API_URL}/api/users`, {
+        try {
+          await axios.post(`${process.env.REACT_APP_API_URL}/api/users`, {
             email: user.email,
             password: user.password,
             checkOfficials: officials,
-          })
-          .then(res => {
-            navi('/login');
-          })
-          .catch(err => {
-            console.log(err);
-            if (err.response && err.response.status === 409) {
-              setEmailErr('이미 가입되어 있는 이메일입니다.');
-            }
           });
+          navi('/login');
+        } catch (error) {
+          setEmailErr(error.response.data.message);
+        } finally {
+          signUpBtnRef.current.disabled = false;
+        }
       }
     },
     [
@@ -127,7 +130,7 @@ function SignUp() {
     [user],
   );
 
-  const sendEmail = () => {
+  const sendEmail = async () => {
     if (user.email.length === 0) {
       setEmailErr('이메일을 입력해주세요.');
       setIsEmail(false);
@@ -139,21 +142,25 @@ function SignUp() {
     }
 
     if (isEmail) {
-      axios
-        .post(`${process.env.REACT_APP_API_URL}/api/login/mailConfirm`, {
-          email: user.email,
-        })
-        .then(res => {
+      if (emailVerifyBtnRef.current) {
+        emailVerifyBtnRef.current.disabled = true;
+        try {
+          const response = await axios.post(
+            `${process.env.REACT_APP_API_URL}/api/login/mailConfirm`,
+            {
+              email: user.email,
+            },
+          );
           setEmailSendComp('이메일을 전송하였습니다.');
-          setConfirmEmail(res.data);
-        })
-        .catch(err => {
-          console.log(err);
+          setConfirmEmail(response.data);
+        } catch (error) {
+          setEmailErr(error.response.data.message);
+          throw error;
+        } finally {
+          emailVerifyBtnRef.current.disabled = false;
           setIsConfirmEmailBtn(false);
-          if (err.response && err.response.status === 409) {
-            setEmailErr('이미 가입되어 있는 이메일입니다.');
-          }
-        });
+        }
+      }
     }
   };
 
@@ -234,9 +241,10 @@ function SignUp() {
             />
             <Button
               className="color-yellow btn-size-l ml-8 mt-28 h-50 shrink-0 grow-0"
+              ref={emailVerifyBtnRef}
               onClick={() => {
                 sendEmail();
-                setIsConfirmEmailBtn(true);
+                // setIsConfirmEmailBtn(true); sendEmail 함수 안에서 처리 가능, state로 관리하지않아도 됨!
               }}
               disabled={isConfirmEmailBtn}
             >
@@ -302,6 +310,7 @@ function SignUp() {
           </div>
           <Button
             className="color-yellow btn-size-l w-full"
+            ref={signUpBtnRef}
             // disabled={!(isEmail && isPwd && isConfirmPwd && isConfirmEmail)}
             onClick={onSignup}
           >

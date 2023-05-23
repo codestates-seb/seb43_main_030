@@ -3,6 +3,7 @@ import './styles/utilities.css';
 import { useMediaQuery } from 'react-responsive';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useState } from 'react';
+import { hot } from 'react-hot-loader/root';
 import MHeader from './components/Header/MHeader';
 import Footer from './components/Footer';
 import Main from './pages/Main';
@@ -55,4 +56,4 @@ function App() {
   );
 }
 
-export default App;
+export default process.env.NODE_ENV === 'development' ? hot(App) : App;

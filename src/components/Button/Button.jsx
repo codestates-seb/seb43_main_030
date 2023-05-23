@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import cls from '../../utils/tailwind';
 import { ReactComponent as Search } from '../../images/search.svg';
 import { ReactComponent as Map } from '../../images/map.svg';
@@ -7,11 +7,12 @@ import { ReactComponent as Plus } from '../../images/plus.svg';
 import { ReactComponent as Setting } from '../../images/setting.svg';
 import { ReactComponent as Logout } from '../../images/logout.svg';
 
-function Button(props) {
+const Button = forwardRef((props, ref) => {
   const { className, onClick, children, icon, disabled } = props;
 
   return (
     <button
+      ref={ref}
       type="button"
       onClick={onClick}
       className={cls('flex-center rounded-md', className)}
@@ -26,6 +27,6 @@ function Button(props) {
       {children}
     </button>
   );
-}
+});
 
 export default Button;
