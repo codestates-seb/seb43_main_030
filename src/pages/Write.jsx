@@ -1,9 +1,10 @@
 import { useMediaQuery } from 'react-responsive';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { setAuth } from '../actions/areaFilterActions';
 import QuillEditor from '../utils/quillEditor';
 import Button from '../components/Button/Button';
 import Radio from '../components/Radio/Radio';
@@ -23,6 +24,11 @@ function Write() {
   const { postId } = useParams();
   const { id } = useParams();
   const curProfile = useSelector(state => state.curProfile);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
 
   useEffect(() => {
     if (postId) {
@@ -112,6 +118,9 @@ function Write() {
               text: '토큰이 만료되었습니다. 재로그인 해주세요.',
               confirmButtonColor: '#FFD337',
             });
+            dispatch(setAuth(false));
+            localStorage.removeItem('token');
+            navigate(`community/${id}`);
           } else {
             Swal.fire({
               icon: 'error',
@@ -148,6 +157,9 @@ function Write() {
               text: '토큰이 만료되었습니다. 재로그인 해주세요.',
               confirmButtonColor: '#FFD337',
             });
+            dispatch(setAuth(false));
+            localStorage.removeItem('token');
+            navigate(`community/${id}`);
           } else {
             Swal.fire({
               icon: 'error',
