@@ -6,6 +6,7 @@ import dateCalculate from '../dateCalculate';
 import { ReactComponent as View } from '../../images/view.svg';
 import { ReactComponent as PerpettOff } from '../../images/perpett-off.svg';
 import profile from '../../images/profile.png';
+import imageNull from '../../images/imageNull.png';
 
 function ListCommunity(props) {
   const { post, onClick, className } = props;
@@ -35,7 +36,7 @@ function ListCommunity(props) {
         {thumbnail ? (
           <img src={thumbnail} alt="img" />
         ) : (
-          <img src={profile} alt="defaultImage" />
+          <img src={imageNull} alt="이미지가 없습니다." />
         )}
         {/* {post.postImageUrl ? (
           <img src={post.postImageUrl} alt="img" />

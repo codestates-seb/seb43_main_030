@@ -80,7 +80,10 @@ function ConfirmReview(props) {
           },
         })
         .then(response => {
-          Swal.fire('', '후기가 삭제되었습니다.').then(result => {
+          Swal.fire({
+            confirmButtonColor: '#FFD337',
+            text: '후기가 삭제되었습니다.',
+          }).then(result => {
             window.location.reload();
           });
         })

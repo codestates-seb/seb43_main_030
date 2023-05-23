@@ -108,7 +108,10 @@ function Comment({
           )
           .then(response => {
             if (result) {
-              Swal.fire('', '댓글이 삭제되었습니다.').then(result => {
+              Swal.fire({
+                confirmButtonColor: '#FFD337',
+                text: '댓글이 삭제되었습니다.',
+              }).then(result => {
                 window.location.reload();
               });
             }

@@ -3,6 +3,7 @@ import { PulseLoader } from 'react-spinners';
 import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import {
   setAuth,
   // setCurUser,
@@ -15,6 +16,10 @@ function OauthLogin() {
   const navi = useNavigate();
   const dispatch = useDispatch();
 
+  const user = useSelector(state => state.user);
+  const curProfile = useSelector(state => state.curProfile);
+  const activeIndex = useSelector(state => state.activeIndex);
+
   const url = new URL(window.location.href);
   const authorization = url.searchParams.get('Authorization');
   const refresh = url.searchParams.get('Refresh');
@@ -22,18 +27,32 @@ function OauthLogin() {
   const getUsers = () => {
     if (localStorage.getItem('token')) {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/api/users/currentProfile`, {
+        .get(`${process.env.REACT_APP_API_URL}/api/users/profile`, {
           headers: {
             Authorization: localStorage.getItem('token'),
           },
         })
         .then(res => {
-          // dispatch(setUser(res.data));
-          // dispatch(setCurUser(res.data[0]));
-          // dispatch(setCurProfile(res.data[0]));
-          dispatch(setCurProfile(res.data.data));
-          dispatch(setActiveIndex(res.data.data.profileId));
-          navi('/');
+          console.log('user:', res);
+          dispatch(setUser(res.data));
+          dispatch(setCurProfile(res.data[0]));
+          // dispatch(setActiveIndex(res.data[0].profileId));
+          // navi('/');
+          axios
+            .get(
+              `${process.env.REACT_APP_API_URL}/api/users/profile/currentProfile`,
+              {
+                headers: {
+                  Authorization: localStorage.getItem('token'),
+                },
+              },
+            )
+            .then(res => {
+              console.log('curprofile:', res);
+              dispatch(setCurProfile(res.data.data));
+              dispatch(setActiveIndex(res.data.data.profileId));
+              navi('/');
+            });
         })
         .catch(err => {
           console.log(err);
@@ -51,8 +70,13 @@ function OauthLogin() {
     getUsers();
     // if 만약 role 이 guest면 모달이던 그걸 띄워 그래서 아이디랑 이걸 입력하게 하는거야
     // 근데 role이 guest가 아니면 걍 메인으로 가
-  } else {
-    alert('로그인에 실패했습니다.');
+  } else if (!authorization) {
+    // Swal.fire({
+    //   icon: 'error',
+    //   text: '로그인에 실패했습니다.',
+    //   confirmButtonColor: '#FFD337',
+    // });
+    // alert('로그인에 실패했습니다.');
     navi('/login');
   }
 

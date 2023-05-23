@@ -41,11 +41,9 @@ function Mypage() {
   const [nameErr, setNameErr] = useState('');
 
   const [dropDown, setDropDown] = useState(false);
-  const curUser = useSelector(state => state.curUser);
 
   const [profileModal, setProfileModal] = useState(false);
   const [settingModal, setSettingModal] = useState(false);
-  const [reviewModal, setRevieModal] = useState(false);
 
   useEffect(() => {
     // const getUsers = () => {
@@ -107,13 +105,9 @@ function Mypage() {
   const modalSettingOnOff = () => {
     setSettingModal(!settingModal);
   };
-  const modalReviewOnOff = () => {
-    setRevieModal(!reviewModal);
-  };
   const modalClose = () => {
     setProfileModal(false);
     setSettingModal(false);
-    setRevieModal(false);
   };
 
   // 로그아웃 함수
@@ -130,6 +124,7 @@ function Mypage() {
   // 프로필 변경 드롭다운 함수
   const handleDropdown = () => {
     setDropDown(!dropDown);
+    // dispatch(setActiveIndex(curProfile.profileId));
   };
 
   // dropdown 에서 프로필 선택
@@ -158,6 +153,7 @@ function Mypage() {
             dispatch(setCurProfile(res.data.data));
             setDropDown(false);
             dispatch(setActiveIndex(res.data.data.profileId));
+            navi(`/mypage/${res.data.data.profileId}`);
           })
           .catch(err => {
             console.log(err);
@@ -539,7 +535,7 @@ function Mypage() {
               </div>
 
               {/* 작성한 게시글 */}
-              <div className="content-line w-[cal(63%-8px)] pl-8">
+              <div className="content-line w-[cal(63%-8px)]">
                 <h5 className="mb-24 text-22 font-bold onlyMobile:mb-16 onlyMobile:text-18">
                   작성한 게시글
                 </h5>
