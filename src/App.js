@@ -19,6 +19,7 @@ import NotFound from './pages/NotFound';
 import FindPw from './pages/FindPw';
 import OauthLogin from './pages/OauthLogin';
 import OauthRole from './pages/OauthRole';
+import OauthFail from './pages/OauthFail';
 import { setCurProfile } from './actions/areaFilterActions';
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
         <Route path="/community/:id/post/:postId" element={<Post />} />
         <Route path="/oauthlogin" element={<OauthLogin />} />
         <Route path="/oauthrole" element={<OauthRole />} />
+        <Route path="/oauthfail" element={<OauthFail />} />
       </Routes>
       {shouldHideFooter ? null : <Footer />}
     </div>

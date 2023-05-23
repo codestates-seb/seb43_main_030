@@ -10,12 +10,14 @@ import Button from '../components/Button/Button';
 import RadioGroup from '../components/Radio/RadioGroup';
 import Radio from '../components/Radio/Radio';
 import Input from '../components/Input/Input';
+import Toast from '../utils/toast';
 import { ReactComponent as ArrowOpen } from '../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
 import { ReactComponent as Close } from '../images/close.svg';
 
 function ProfileCreateModal({ onClick, setProfileModal }) {
   const dispatch = useDispatch();
+  const navi = useNavigate();
 
   const [nickname, setNickname] = useState('');
   const [person, setPerson] = useState(true);
@@ -66,7 +68,7 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
   };
 
   const handleChange = e => {
-    setNickname(e.target.value);
+    setNickname(e.target.value.trim());
   };
 
   const handleCheckPerson = isPerson => {
@@ -110,20 +112,31 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
           setNicknameErr('');
           setSelectErr('');
           setProfileModal(false);
-          // setCurProfile()
+          Toast.fire({
+            title: '프로필 생성이 완료되었습니다.',
+            background: '#25B865',
+            color: 'white',
+          });
         })
         .catch(err => {
-          if (err.response && err.response.status === 401) {
+          if (err.response?.status === 401) {
             Swal.fire({
+              toast: true,
               icon: 'error',
               text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
               confirmButtonColor: '#FFD337',
             });
             dispatch(setAuth(false));
             localStorage.removeItem('token');
+            navi('/login');
+          } else {
+            Toast.fire({
+              title: '프로필 생성을 다시 시도해주세요.',
+              background: '#DE4F54',
+              color: 'white',
+            });
+            setProfileModal(true);
           }
-          console.log(err);
-          setProfileModal(true);
         });
     } else if (!person && nickname && breed) {
       axios
@@ -138,6 +151,11 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
           setNicknameErr('');
           setSelectErr('');
           setProfileModal(false);
+          Toast.fire({
+            title: '프로필 생성이 완료되었습니다.',
+            background: '#25B865',
+            color: 'white',
+          });
         })
         .catch(err => {
           if (err.response && err.response.status === 401) {
@@ -148,8 +166,15 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
             });
             dispatch(setAuth(false));
             localStorage.removeItem('token');
+            navi('/login');
+          } else {
+            Toast.fire({
+              title: '프로필 생성을 다시 시도해주세요.',
+              background: '#DE4F54',
+              color: 'white',
+            });
+            setProfileModal(true);
           }
-          setProfileModal(true);
         });
     }
   };

@@ -6,7 +6,6 @@ import axios from 'axios';
 import {
   setCurProfile,
   setAuth,
-  // setCurUser,
   setActiveIndex,
   setUser,
 } from '../actions/areaFilterActions';
@@ -17,6 +16,8 @@ import ListCommunity from '../components/List/ListCommunity';
 import SettingModal from './SettingModal';
 import ProfileCreateModal from './ProfileCreateModal';
 import RenderProfile from '../utils/dropdown';
+import Toast from '../utils/toast';
+
 import Profile from '../images/profile.png';
 import { ReactComponent as ArrowOpen } from '../images/arrow-open.svg';
 import { ReactComponent as ArrowClose } from '../images/arrow-close.svg';
@@ -46,7 +47,6 @@ function Mypage() {
   const [settingModal, setSettingModal] = useState(false);
 
   useEffect(() => {
-    // const getUsers = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/users/profile`, {
         headers: {
@@ -92,7 +92,6 @@ function Mypage() {
           localStorage.removeItem('token');
         }
       });
-    // };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -174,8 +173,7 @@ function Mypage() {
     setNameErr('');
   };
   const handleNameChange = e => {
-    setNickname(e.target.value);
-    console.log(nickname);
+    setNickname(e.target.value.trim());
   };
 
   // 닉네임 수정하기
@@ -183,7 +181,6 @@ function Mypage() {
     if (!nickname) {
       setNameErr('닉네임을 입력해주세요.');
     } else {
-      // handleErr();
       setNameErr('');
 
       const formData = new FormData();
@@ -210,12 +207,14 @@ function Mypage() {
           )
           .then(res => {
             const resData = res.data.data.name;
-            // dispatch(setCurUser({ ...curUser, name: resData }));
             dispatch(setCurProfile({ ...curProfile, name: resData }));
-            // getUsers();
+            Toast.fire({
+              title: '닉네임 변경이 완료되었습니다.',
+              background: '#25B865',
+              color: 'white',
+            });
           })
           .catch(err => {
-            // console.log(`${err}: 닉네임을 수정하지 못했습니다.`);
             if (err.response && err.response.status === 401) {
               Swal.fire({
                 icon: 'error',
@@ -224,6 +223,12 @@ function Mypage() {
               });
               dispatch(setAuth(false));
               localStorage.removeItem('token');
+            } else {
+              Toast.fire({
+                title: '닉네임 수정을 다시 시도해주세요.',
+                background: '#DE4F54',
+                color: 'white',
+              });
             }
           });
       }
@@ -258,6 +263,13 @@ function Mypage() {
             }
             window.location.reload();
           })
+          .then(
+            Toast.fire({
+              title: '프로필 삭제가 완료되었습니다.',
+              background: '#25B865',
+              color: 'white',
+            }),
+          )
           .catch(err => {
             if (err.response && err.response.status === 401) {
               Swal.fire({
@@ -294,16 +306,14 @@ function Mypage() {
           },
         )
         .then(res => {
-          // const userMap = user.map(e => {
-          //   if (e.profileId === curProfile.profileId) {
-          //     return { ...e, imageUrl: res.data.data.imageUrl };
-          //   }
-          //   return e;
-          // });
           dispatch(setCurProfile(res.data.data));
+          Toast.fire({
+            title: '프로필 사진 변경이 완료되었습니다.',
+            background: '#25B865',
+            color: 'white',
+          });
         })
         .catch(err => {
-          // console.log(`${err}: 이미지를 수정하지 못했습니다.`);
           if (err.response && err.response.status === 401) {
             Swal.fire({
               icon: 'error',
@@ -312,15 +322,19 @@ function Mypage() {
             });
             dispatch(setAuth(false));
             localStorage.removeItem('token');
+          } else {
+            Toast.fire({
+              title: '사진 변경을 다시 시도해주세요.',
+              background: '#DE4F54',
+              color: 'white',
+            });
           }
         });
     }
   };
-  console.log('curProfile:', curProfile);
-  console.log('user:', user);
 
   return (
-    <div className="relative flex flex-col items-center pt-130 onlyMobile:pt-88 ">
+    <div className="relative flex h-[80vh] min-h-[1000px] flex-col items-center pt-130 onlyMobile:pt-88">
       <div className="w-full max-w-[1280px] px-80 onlyMobile:max-w-full onlyMobile:px-24">
         {auth ? (
           <div className="flex onlyMobile:flex-col">
@@ -606,7 +620,7 @@ function Mypage() {
         ''
       )}
       {settingModal ? (
-        <SettingModal onClick={modalClose} setSettingModal={setProfileModal} />
+        <SettingModal onClick={modalClose} setSettingModal={setSettingModal} />
       ) : (
         ''
       )}

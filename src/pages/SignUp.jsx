@@ -6,6 +6,7 @@ import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import RadioGroup from '../components/Radio/RadioGroup';
 import Radio from '../components/Radio/Radio';
+import Toast from '../utils/toast';
 import { ReactComponent as Kakao } from '../images/logo-kakao.svg';
 import { ReactComponent as Google } from '../images/logo-google.svg';
 
@@ -75,11 +76,21 @@ function SignUp() {
           })
           .then(res => {
             navi('/login');
+            Toast.fire({
+              title: '회원가입이 완료되었습니다.',
+              background: '#25B865',
+              color: 'white',
+            });
           })
           .catch(err => {
-            console.log(err);
             if (err.response && err.response.status === 409) {
               setEmailErr('이미 가입되어 있는 이메일입니다.');
+            } else {
+              Toast.fire({
+                title: '회원가입을 다시 시도해주세요.',
+                background: '#DE4F54',
+                color: 'white',
+              });
             }
           });
       }
@@ -144,14 +155,24 @@ function SignUp() {
           email: user.email,
         })
         .then(res => {
-          setEmailSendComp('이메일을 전송하였습니다.');
+          setEmailSendComp('인증 코드 전송이 완료되었습니다.');
           setConfirmEmail(res.data);
+          Toast.fire({
+            title: '인증 코드 전송이 완료되었습니다.',
+            background: '#25B865',
+            color: 'white',
+          });
         })
         .catch(err => {
-          console.log(err);
           setIsConfirmEmailBtn(false);
           if (err.response && err.response.status === 409) {
             setEmailErr('이미 가입되어 있는 이메일입니다.');
+          } else {
+            Toast.fire({
+              title: '인증 코드 전송을 다시 시도해주세요.',
+              background: '#DE4F54',
+              color: 'white',
+            });
           }
         });
     }

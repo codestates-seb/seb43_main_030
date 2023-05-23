@@ -94,7 +94,6 @@ function Login() {
         getUsers();
       })
       .catch(err => {
-        console.log(err);
         dispatch(setAuth(false));
         setCheck(false);
         if (err.response && err.response.status === 500) {

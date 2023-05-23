@@ -12,6 +12,8 @@ import {
 
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
+import Toast from '../utils/toast';
+
 import { ReactComponent as Close } from '../images/close.svg';
 
 function SettingModal({ onClick, setSettingModal }) {
@@ -72,15 +74,23 @@ function SettingModal({ onClick, setSettingModal }) {
           setNewPwdErr('');
           setIsConfirmPwd('');
           setSettingModal(false);
+          Toast.fire({
+            title: '비밀번호 변경이 완료되었습니다.',
+            background: '#25B865',
+            color: 'white',
+          });
         })
         .catch(err => {
-          console.log(err);
-          if (err.response && err.response.status === 400) {
+          if (err.response?.status === 400) {
+            setCurPwdErr(
+              '새 비밀번호와 새 비밀번호 확인 영역이 일치하지 않습니다.',
+            );
+          } else if (err.response?.status === 405) {
             setCurPwdErr('현재 비밀번호와 일치하지 않습니다.');
-          } else if (err.response && err.response.status === 401) {
+          } else if (err.response?.status === 401) {
             Swal.fire({
               icon: 'error',
-              text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+              text: '토큰이 만료되었습니다. 재로그인 후 시도해주세요❗️',
               confirmButtonColor: '#FFD337',
             });
             dispatch(setAuth(false));
@@ -105,7 +115,7 @@ function SettingModal({ onClick, setSettingModal }) {
   // 회원탈퇴
   const handleUserDelete = () => {
     Swal.fire({
-      text: '계정을 탈퇴하시겠습니까?',
+      text: '탈퇴하시는 경우 동일한 이메일로 회원가입이 불가능합니다. 계정 탈퇴를 진행하시겠습니까?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#FFD337',
@@ -122,16 +132,16 @@ function SettingModal({ onClick, setSettingModal }) {
           })
           .then(res => {
             handleLogout();
+            setCurPwdErr('');
+            setCurPwdErr('');
+            setCurPwdErr('');
             setSettingModal(false);
-            setCurPwdErr('');
-            setCurPwdErr('');
-            setCurPwdErr('');
           })
           .catch(err => {
             if (err.response && err.response.status === 401) {
               Swal.fire({
                 icon: 'error',
-                text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+                text: '토큰이 만료되었습니다. 재로그인 후 시도해주세요❗️',
                 confirmButtonColor: '#FFD337',
               });
               dispatch(setAuth(false));
@@ -244,8 +254,6 @@ function SettingModal({ onClick, setSettingModal }) {
                   </div>
                   <Button
                     className="color-yellow btn-size-l mt-16 w-full"
-                    // onClick={() => handleChangePwd()}
-                    // onClick={onChangePwd}
                     onClick={handleChangePwd}
                   >
                     비밀번호 변경
