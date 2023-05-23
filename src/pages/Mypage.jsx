@@ -29,7 +29,6 @@ function Mypage() {
   const dispatch = useDispatch();
   const navi = useNavigate();
 
-  // const [value, setValue] = useState(useSelector(state => state.curProfile));
   const curProfile = useSelector(state => state.curProfile);
   const auth = useSelector(state => state.auth);
   const activeIndex = useSelector(state => state.activeIndex);
@@ -121,7 +120,6 @@ function Mypage() {
   // 프로필 변경 드롭다운 함수
   const handleDropdown = () => {
     setDropDown(!dropDown);
-    // dispatch(setActiveIndex(curProfile.profileId));
   };
 
   // dropdown 에서 프로필 선택
@@ -334,7 +332,7 @@ function Mypage() {
   };
 
   return (
-    <div className="relative flex h-[80vh] min-h-[1000px] flex-col items-center pt-130 onlyMobile:pt-88">
+    <div className="relative flex flex-col items-center pt-130 onlyMobile:pt-88">
       <div className="w-full max-w-[1280px] px-80 onlyMobile:max-w-full onlyMobile:px-24">
         {auth ? (
           <div className="flex onlyMobile:flex-col">
@@ -377,7 +375,6 @@ function Mypage() {
                       <div className="dropdown-box top-[128px] z-10 mx-20 w-[90%] px-12 py-16 onlyMobile:top-[148px]">
                         <ul className="profile w-full py-2 text-left">
                           <RenderProfile
-                            // profileActive={e => profileActive(e)}
                             clickedProfile={(idx, id) =>
                               clickedProfile(idx, id)
                             }
@@ -624,7 +621,6 @@ function Mypage() {
       ) : (
         ''
       )}
-      {/* {reviewModal ? </> : ''} */}
     </div>
   );
 }

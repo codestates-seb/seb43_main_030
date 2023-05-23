@@ -285,16 +285,6 @@ function FindPw() {
         ) : (
           <div>{findPassword()}</div>
         )}
-        {/* <div className="flex-center mt-32">
-          <p className="mr-24 text-14 text-black-200 onlyMobile:text-12">
-            비밀번호가 생각나셨나요?
-          </p>
-          <Link to="/login">
-            <p className="text-14 text-black-900 onlyMobile:text-12">
-              로그인 바로가기
-            </p>
-          </Link>
-        </div> */}
       </div>
     </div>
   );

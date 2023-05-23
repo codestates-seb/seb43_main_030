@@ -230,8 +230,6 @@ function SignUp() {
     e.preventDefault();
     const googleAuthUrl = `${process.env.REACT_APP_API_URL}/oauth2/authorization/google?redirect_uri=${process.env.REACT_APP_API_URL}/login/oauth2/code/google`;
     window.location.href = googleAuthUrl;
-
-    const res = await axios.get(googleAuthUrl);
   };
 
   const kakaoSignup = async e => {

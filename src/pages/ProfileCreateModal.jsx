@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setUser, setAuth } from '../actions/areaFilterActions';
 
 import UploadImage from '../components/UploadImage';
@@ -23,7 +23,6 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
   const [person, setPerson] = useState(true);
   const [breed, setBreed] = useState(null);
   const [image, setImage] = useState('');
-  // const fileInput = useRef(null);
 
   // 오류 메시지
   const [nicknameErr, setNicknameErr] = useState('');
@@ -36,8 +35,6 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
   const [activeIndex, setActiveIndex] = useState(null);
   const [selectType, setSelectType] = useState('견종을 선택해주세요.');
   const [focus, setFocus] = useState(false);
-
-  // const [selectFile, setSelectFile] = useState(null);
 
   const typeActive = index => {
     setActiveIndex(index);
@@ -267,7 +264,6 @@ function ProfileCreateModal({ onClick, setProfileModal }) {
 
                             return (
                               <li
-                                // key={`profile${idx}`}
                                 id={idx}
                                 className={`li profile${idx} w-full cursor-pointer p-12 text-14 ${activeClass} rounded-lg hover:bg-black-025`}
                                 onClick={() => typeActive(idx)}

@@ -177,7 +177,6 @@ function OauthRole() {
         </div>
         <Button
           className="color-yellow btn-size-l w-full"
-          // disabled={!(isEmail && isPwd && isConfirmPwd && isConfirmEmail)}
           onClick={onRoleChange}
         >
           계정 정보 저장하기

@@ -1,6 +1,5 @@
 import Swal from 'sweetalert2';
 
-// function Toast() {
 const Toast = Swal.mixin({
   toast: true,
   position: 'top',
@@ -10,10 +9,6 @@ const Toast = Swal.mixin({
   customClass: {
     content: 'text-white',
   },
-  // didOpen: (toast) => {
-  //   toast.addEventListener('mouseenter', Swal.stopTimer)
-  // }
 });
-// }
 
 export default Toast;

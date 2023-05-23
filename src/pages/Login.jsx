@@ -5,8 +5,6 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setAuth,
-  // setCurUser,
-  // setUser,
   setCurProfile,
   setActiveIndex,
 } from '../actions/areaFilterActions';
@@ -19,11 +17,6 @@ function Login() {
   const navi = useNavigate();
   const dispatch = useDispatch();
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
-  // const curUser = useSelector(state => state.)
-  // const user = useSelector(state => state.user);
-  // const curUser = useSelector(state => state.curUser);
-  // const activeIndex = useSelector(state => state.activeIndex);
-  // const curProfile = useSelector(state => state.curProfile);
 
   const [loginData, setLoginData] = useState({
     email: '',
@@ -109,8 +102,6 @@ function Login() {
     const googleAuthUrl = `${process.env.REACT_APP_API_URL}/oauth2/authorization/google?redirect_uri=${process.env.REACT_APP_API_URL}/login/oauth2/code/google`;
 
     window.location.href = googleAuthUrl;
-
-    const res = await axios.get(googleAuthUrl);
   };
 
   const kakaoLogin = async e => {
