@@ -108,7 +108,7 @@ function Post() {
     axios
       .get(
         `${process.env.REACT_APP_API_URL}/api/community/${id}/post/${postId}`,
-        auth && headers,
+        localStorage.getItem('token') && headers,
       )
       .then(response => {
         setWriterInfo(response.data.data);
@@ -118,13 +118,23 @@ function Post() {
         setImages(response.data.data.images);
       })
       .catch(error => {
-        Swal.fire({
-          icon: 'error',
-          text: `error! ${error}`,
-          confirmButtonColor: '#FFD337',
-        });
+        if (error.response && error.response.status === 401) {
+          Swal.fire({
+            icon: 'error',
+            text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+            confirmButtonColor: '#FFD337',
+          });
+          dispatch(setAuth(false));
+          localStorage.removeItem('token');
+        } else {
+          Swal.fire({
+            icon: 'error',
+            text: `error! ${error}`,
+            confirmButtonColor: '#FFD337',
+          });
+        }
       });
-  }, [setPost, postId, id, auth]);
+  }, [setPost, postId, id, auth, dispatch]);
 
   // 글삭제
   const handleDelete = useCallback(() => {
@@ -142,9 +152,11 @@ function Post() {
           if (!auth) {
             Swal.fire({
               icon: 'error',
-              text: '본인이 작성한 게시글만 삭제할 수 있어요❗️',
+              text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
               confirmButtonColor: '#FFD337',
             });
+            dispatch(setAuth(false));
+            localStorage.removeItem('token');
           }
 
           if (
@@ -158,7 +170,10 @@ function Post() {
                 headers: { Authorization: localStorage.getItem('token') },
               },
             );
-            Swal.fire('', '게시글이 삭제되었습니다.').then(result => {
+            Swal.fire({
+              text: '게시글이 삭제되었습니다.',
+              confirmButtonColor: '#FFD337',
+            }).then(result => {
               navigate(`/community/${id}`);
             });
           } else {
@@ -207,6 +222,14 @@ function Post() {
 
   // 글수정
   const handleEdit = useCallback(() => {
+    if (!auth) {
+      Swal.fire({
+        icon: 'error',
+        text: '비회원은 글수정이 불가능합니다❗️',
+        confirmButtonColor: '#FFD337',
+      });
+      return;
+    }
     if (
       writerInfo.email === curProfile.email &&
       writerInfo.name === curProfile.name
@@ -219,7 +242,7 @@ function Post() {
         confirmButtonColor: '#FFD337',
       });
     }
-  }, [writerInfo, curProfile, navigate, postId, id]);
+  }, [writerInfo, curProfile, navigate, postId, id, auth]);
 
   // 좋아요
   const isLike = () => {
