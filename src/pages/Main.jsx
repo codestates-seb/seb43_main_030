@@ -5,11 +5,12 @@ import axios from 'axios';
 import { PulseLoader } from 'react-spinners';
 import { Link } from 'react-router-dom';
 import { setKinderGartens } from '../actions/areaFilterActions';
-import NoList from '../images/perpett-nolist.png';
 import MainCard from '../components/Card/MainCard';
 import Button from '../components/Button/Button';
 import InputSelectBox from '../components/Input/InputSelectBox';
 import { ReactComponent as Top } from '../images/top.svg';
+import NoList from '../images/perpett-nolist.png';
+import PerpettBanner from '../images/banner.png';
 
 function Main() {
   const [isPending, setIsPending] = useState(false);
@@ -71,11 +72,18 @@ function Main() {
 
   return (
     <div className="flex-center relative flex-col">
-      <div className="flex-center mt-80 w-[100%] max-w-[1440px] flex-col px-80 onlyMobile:px-24">
-        <div className="mt-56 h-304 w-[100%] rounded-2xl bg-yellow-500">
+      <div className="flex-center mt-80 w-[100%] max-w-[1440px] flex-col px-80 onlyMobile:mt-64 onlyMobile:px-24">
+        {/* <div className="mt-56 h-304 w-[100%] rounded-2xl bg-yellow-500">
           안냐세여
+        </div> */}
+        <div className="user-profile mt-56 h-432 overflow-hidden rounded-[16px] onlyMobile:mt-24 onlyMobile:h-300 ">
+          <img
+            className="h-full w-full"
+            src={PerpettBanner}
+            alt="강아지유치원 어디가 좋을까?"
+          />
         </div>
-        <div className="mb-24 mt-48 flex w-[100%] justify-between text-28 font-bold onlyMobile:flex-col">
+        <div className="mb-24 mt-48 flex w-[100%] justify-between text-28 font-bold onlyMobile:flex-col onlyMobile:text-22">
           <span>
             {searchValue ? `"${searchValue}"에 대한 검색결과` : '유치원 리스트'}
           </span>
