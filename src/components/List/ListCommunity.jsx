@@ -21,11 +21,16 @@ function ListCommunity(props) {
 
   useEffect(() => {
     // 게시물 미리보기 텍스트
-    const regex = /<p>(.*?)<\/p>/i;
-    const match = post.content.match(regex);
+    const regex = /<p>(.*?)<\/p>/gi;
+    const matches = post.content.match(regex);
     let extractedText = '';
-    if (match && match[1]) {
-      extractedText = match[1].slice(0, 40);
+
+    if (matches) {
+      extractedText = matches
+        .map(match => match.replace(/<\/?p>/g, ''))
+        .filter(text => text.includes('<img') === false)
+        .slice(0, 40)
+        .join(' ');
     }
     setContent(extractedText);
   }, [setContent, post.content]);
