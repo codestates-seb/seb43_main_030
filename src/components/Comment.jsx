@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { setAuth } from '../actions/areaFilterActions';
 import { ReactComponent as More } from '../images/more.svg';
 import Dog from '../images/dog.jpeg';
@@ -23,6 +24,8 @@ function Comment({
   const [editedText, setEditedText] = useState(text);
   const [onDelete, setOnDelete] = useState(false);
   const [commentError, setCommentError] = useState('');
+  const auth = useSelector(state => state.auth);
+  const navi = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -36,6 +39,15 @@ function Comment({
   };
 
   const handleSaveClick = postId => {
+    if (!auth) {
+      Swal.fire({
+        icon: 'error',
+        text: '로그인을 먼저 해주세요❗️',
+        confirmButtonColor: '#FFD337',
+      }).then(res => {
+        navi('/login');
+      });
+    }
     if (text.length !== 0) {
       setEditedText(text);
       setIsEditMode(false);
@@ -96,6 +108,15 @@ function Comment({
   };
 
   function deleteComment(commentId) {
+    if (!auth) {
+      Swal.fire({
+        icon: 'error',
+        text: '로그인을 먼저 해주세요❗️',
+        confirmButtonColor: '#FFD337',
+      }).then(res => {
+        navi('/login');
+      });
+    }
     Swal.fire({
       // title: '댓글을 삭제하시겠습니까?',
       text: '댓글을 삭제하시겠습니까?',

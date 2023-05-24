@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { setAuth } from '../actions/areaFilterActions';
@@ -35,6 +35,8 @@ function Modal(props) {
       useState(0);
   const [image, setImage] = useState(null);
   const { id } = useParams();
+  const auth = useSelector(state => state.auth);
+  const navi = useNavigate();
 
   const starScore = () => {
     const ratedStar = Math.floor(kinderInfo.ratedReview);
@@ -74,6 +76,15 @@ function Modal(props) {
   }, [apiUrl, id]);
 
   const submitReview = () => {
+    if (!auth) {
+      Swal.fire({
+        icon: 'error',
+        text: '로그인을 먼저 해주세요❗️',
+        confirmButtonColor: '#FFD337',
+      }).then(res => {
+        navi('/login');
+      });
+    }
     if (!text || !starIndex) {
       alert('내용과 별점을 입력해주세요.');
       return;

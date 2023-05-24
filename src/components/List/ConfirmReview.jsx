@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import {
@@ -39,6 +40,8 @@ function ConfirmReview(props) {
   const [starIndex, setStarIndex] = useState(0);
   const [editModal, setEditModal] = useState(false);
   const [prevImage, setPrevImage] = useState('');
+  const auth = useSelector(state => state.auth);
+  const navi = useNavigate();
 
   const starScore = () => {
     const ratedStar = Math.floor(kinderInfo.ratedReview);
@@ -63,6 +66,15 @@ function ConfirmReview(props) {
   };
 
   const deleteReview = () => {
+    if (!auth) {
+      Swal.fire({
+        icon: 'error',
+        text: '로그인을 먼저 해주세요❗️',
+        confirmButtonColor: '#FFD337',
+      }).then(res => {
+        navi('/login');
+      });
+    }
     Swal.fire({
       // title: '댓글을 삭제하시겠습니까?',
       text: '후기를 삭제하시겠습니까?',
