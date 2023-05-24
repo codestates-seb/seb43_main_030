@@ -157,11 +157,11 @@
   }
 
   .community-tab-on {
-    @apply mr-20 border-b-[4px] border-yellow-500 pb-16 text-20 font-bold onlyMobile:text-18 onlyMini:text-16;
+    @apply mr-20 border-b-[4px] border-yellow-500 pb-14 text-20 font-bold onlyMobile:pb-10 onlyMobile:text-18 onlyMini:text-16;
   }
 
   .community-tab-off {
-    @apply mr-20 pb-16 text-20 text-black-350 onlyMobile:text-18 onlyMini:text-16;
+    @apply mr-20 pb-14 text-20 text-black-350 onlyMobile:pb-10 onlyMobile:text-18 onlyMini:text-16;
   }
 
   /* login line 생성 */

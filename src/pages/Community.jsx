@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import axios from 'axios';
@@ -106,10 +106,13 @@ function Community() {
             <div className="absolute left-0 top-0 h-full w-full bg-black opacity-50" />
           </div>
           <div className=" absolute bottom-[48px] left-[48px] w-full text-white onlyMobile:bottom-[24px] onlyMobile:left-[20px] onlyMobile:w-[calc(100%-20px)]">
-            <p className=" mb-20 max-w-450 text-40 font-bold leading-tight onlyMobile:max-w-[60vw] onlyMobile:text-32 onlyMini:mb-14 onlyMini:max-w-[70vw] onlyMini:text-26">
+            <Link
+              to={`/kindergarten/${id}`}
+              className=" max-w-450 text-40 font-bold leading-tight onlyMobile:max-w-[60vw] onlyMobile:text-32 onlyMini:max-w-[70vw] onlyMini:text-26"
+            >
               {kinderInfo.name && kinderInfo.name.replace(/"/g, '')}
-            </p>
-            <div className="mb-8 flex items-center onlyMini:mb-2">
+            </Link>
+            <div className="mb-8 mt-20 flex items-center onlyMobile:mt-14 onlyMini:mb-2">
               <Star />
               <span className="mr-2 text-16 onlyMini:text-14">
                 {kinderInfo.ratedReviewsAvg &&
