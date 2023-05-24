@@ -3,7 +3,7 @@
 <br/>
 
 <div  align="center">
-  <img width="80%" src="https://content.presspage.com/uploads/2658/c1920_logo-stackoverflow-banner.jpg?64224" alt="roobits">
+  <img width="961" alt="Frame_238" src="https://github.com/codestates-seb/seb43_main_030/assets/77611460/20e3c68d-4ec2-454d-870a-f04b63f72477">
 </div>
 
 </br>
@@ -19,9 +19,10 @@
 ## 🧑‍💻 Member
 
 
-| [김지은<br>(FE, 팀장)] | [김미리<br>(FE)] | [문혜린<br>(FE)]| [박기훈<br>(BE, 팀장)] | [김태진<br>(BE)] | [정승현<br>(BE)] |
+| 김지은<br>(FE, 팀장) | 김미리<br>(FE) | 문혜린<br>(FE)| 박기훈<br>(BE, 팀장) | 김태진<br>(BE) | 정승현<br>(BE) |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-|<img src="https://user-images.githubusercontent.com/77611460/231422765-ef24ec68-6325-473f-85e6-47c4c760c77a.jpg" alt="jieun" width="120">| <img src="https://user-images.githubusercontent.com/77611460/231429581-4ef417fa-5720-4d00-9ed3-58b51d11b525.jpeg" alt="miri" width="110">| <img src="https://user-images.githubusercontent.com/77611460/231429591-9f53ecd2-bfaa-4c18-a6d8-56cec1138c88.png" alt="dakyung" width="90">| <img src="https://user-images.githubusercontent.com/77611460/231429574-905d745f-283a-4f48-b7ce-47aba042ccde.jpg" alt="doyeol" width="110">| <img src="https://user-images.githubusercontent.com/77611460/231429579-695eac59-f86e-4354-a2a8-03a674c6a343.jpg" alt="taejin" width="110">| <img src="https://user-images.githubusercontent.com/77611460/231439519-312c1842-9e81-4524-919c-88a7f062c238.png" alt="yejin" width="130">
+|<img src="https://github.com/codestates-seb/seb43_main_030/assets/77611460/5fa9ada5-1586-4098-9565-11bd6b38445e" alt="jieun" width="110">| <img src="https://github.com/codestates-seb/seb43_main_030/assets/77611460/1414a009-dcc6-46e1-9e3f-e03093671a56" alt="miri" width="110">| <img src="https://github.com/codestates-seb/seb43_main_030/assets/77611460/f8c8f032-b231-4685-b7b9-9b441824b556" alt="hyelin" width="110">| <img src="https://github.com/codestates-seb/seb43_main_030/assets/77611460/01377985-0f15-4413-8ad3-142a627a3413" alt="gihoon" width="110">| <img src="https://github.com/codestates-seb/seb43_main_030/assets/77611460/8c4ea452-4aac-426b-a65f-c5eb0a108a3d" alt="taejin" width="110">| <img src="https://github.com/codestates-seb/seb43_main_030/assets/77611460/b5fba650-7f0c-4a1f-a468-cbe81f2a166c" alt="seunghyun" width="110">
+| 메인, 지도, 헤더,</br>  댓글CRUD, 리뷰CRUD | 커뮤니티, 게시글CRUD</br> 에디터Quill, 좋아요 기능 | 디자인, 유치원 상세,</br> 마이페이지, 로그인</br> 회원가입 | :---: | :---: | :---: |
 
 
 
@@ -37,7 +38,7 @@
 ### <span style=""> 🖥 **Front-end** </span>
 | Html | CSS | JavaScript | React | Axios | Redux | Tailwind CSS |
 | :---: | :---: | :---: | :---: | :---: | :---: |  :---: |
-| <img alt="Html" src ="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/440px-HTML5_logo_and_wordmark.svg.png" width="65" height="65" /> | <img src="https://user-images.githubusercontent.com/111227745/210204643-4c3d065c-59ec-481d-ac13-cea795730835.png" alt="CSS" width="50" height="65" /> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/js-icon.svg" alt="icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/react-icon.svg" alt="icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://axios-http.com/assets/logo.svg" width="65" height="65"/></div> | <img src="https://techstack-generator.vercel.app/redux-icon.svg" alt="icon" width="65" height="65" /> | <div style="display: flex; align-items: flex-start;"><img src="https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2Fd%2Fd5%2FTailwind_CSS_Logo.svg%2F2048px-Tailwind_CSS_Logo.svg.png" width="100" height="100"/></div> |
+| <img alt="Html" src ="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/440px-HTML5_logo_and_wordmark.svg.png" width="65" height="65" /> | <img src="https://user-images.githubusercontent.com/111227745/210204643-4c3d065c-59ec-481d-ac13-cea795730835.png" alt="CSS" width="50" height="65" /> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/js-icon.svg" alt="icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/react-icon.svg" alt="icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://axios-http.com/assets/logo.svg" width="65" height="65"/></div> | <img src="https://techstack-generator.vercel.app/redux-icon.svg" alt="icon" width="65" height="65" /> | <div style="display: flex; align-items: flex-start;"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" width="100" height="100"/></div> |
 
 <br/>
 
