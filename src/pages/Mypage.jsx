@@ -310,6 +310,7 @@ function Mypage() {
             background: '#25B865',
             color: 'white',
           });
+          window.location.reload();
         })
         .catch(err => {
           if (err.response && err.response.status === 401) {
