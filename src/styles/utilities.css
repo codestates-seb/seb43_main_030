@@ -64,23 +64,6 @@
     @apply bg-yellow-100 text-yellow-200;
   }
 
-  /* ToDo : 컬러 + 사이즈 조합으로 변경함, 협의 후 삭제 */
-  /* .btn-small-default {
-    @apply h-32 bg-yellow-500 bg-yellow-500 p-8 text-14 hover:bg-yellow-800 disabled:bg-yellow-200;
-  }
-
-  .btn-medium-default {
-    @apply h-40 bg-yellow-500 bg-yellow-500 p-12 text-14 hover:bg-yellow-800 disabled:bg-yellow-200;
-  }
-
-  .btn-large-default {
-    @apply h-48 bg-yellow-500 px-18 py-14 text-16 hover:bg-yellow-800 disabled:bg-yellow-200;
-  }
-
-  .btn-border-medium {
-    @apply border border-solid border-black-070 p-12 text-14 hover:bg-black-025 disabled:text-black-070;
-  }  */
-
   .btn-pagination-default {
     @apply h-24 w-24 bg-white px-8 py-3 text-black-500 hover:bg-black-025 active:bg-yellow-500 active:font-normal active:text-black-900 onlyMobile:text-13;
   }
@@ -174,11 +157,11 @@
   }
 
   .community-tab-on {
-    @apply mr-20 border-b-[4px] border-yellow-500 text-20 font-bold onlyMobile:text-18 onlyMini:text-16;
+    @apply mr-20 border-b-[4px] border-yellow-500 pb-14 text-20 font-bold onlyMobile:pb-10 onlyMobile:text-18 onlyMini:text-16;
   }
 
   .community-tab-off {
-    @apply mr-20 text-20 text-black-350 onlyMobile:text-18 onlyMini:text-16;
+    @apply mr-20 pb-14 text-20 text-black-350 onlyMobile:pb-10 onlyMobile:text-18 onlyMini:text-16;
   }
 
   /* login line 생성 */
