@@ -2,6 +2,7 @@ package com.kids.SEB_main_030.domain.kindergarten.entity;
 
 import com.kids.SEB_main_030.domain.community.entity.Community;
 import com.kids.SEB_main_030.domain.review.entity.Review;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+
 public class Kindergarten {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +26,14 @@ public class Kindergarten {
     private Double latitude;
     @Column(nullable = false)
     private Double longitude;
+
+    public Kindergarten(Long kindergartenId, String name, Double latitude, Double longitude) {
+        this.kindergartenId = kindergartenId;
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     private String snsUrl;
     private Double ratedReviewsAvg;
     private Integer ratedReviewsCount;
