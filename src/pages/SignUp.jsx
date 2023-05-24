@@ -166,7 +166,7 @@ function SignUp() {
         .catch(err => {
           setIsConfirmEmailBtn(false);
           if (err.response && err.response.status === 409) {
-            setEmailErr('이미 가입되어 있는 이메일입니다.');
+            setEmailErr('이미 가입되어 있거나 탈퇴한 이메일입니다.');
           } else {
             Toast.fire({
               title: '인증 코드 전송을 다시 시도해주세요.',

@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import axios, { HttpStatusCode } from 'axios';
 import {
   setCurProfile,
   setAuth,
@@ -87,6 +87,8 @@ function SettingModal({ onClick, setSettingModal }) {
             );
           } else if (err.response?.status === 405) {
             setCurPwdErr('현재 비밀번호와 일치하지 않습니다.');
+          } else if (err.response?.status === 403) {
+            setCurPwdErr('간편 회원가입 유저는 비밀번호 수정이 불가능합니다.');
           } else if (err.response?.status === 401) {
             Swal.fire({
               icon: 'error',
