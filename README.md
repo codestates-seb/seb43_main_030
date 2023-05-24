@@ -53,7 +53,7 @@
 ### <span style="">⌛ **Deployment** </span>
 | S3 | RDS | EC2 |
 | :---: | :---: | :---: |
-| <img src="https://github.com/codestates-seb/seb43_main_030/assets/66734464/5e43c67e-90e1-43dd-a5dc-274e3069e0d0" alt="S3logo" width="65" height="65"> | <img src="https://github.com/codestates-seb/seb43_main_030/assets/66734464/cc062572-84e0-403e-8747-0266371ca477" alt="RDSlogo" width="65" height="65"> | <img src="https://github.com/codestates-seb/seb43_main_030/assets/66734464/ee90b199-8120-45e9-919e-95caeca8fa97" alt="EC2logo" width="65" height="65"> |
+| <img src="https://github.com/codestates-seb/seb43_main_030/assets/66734464/dec123c9-eaca-42b6-a1f6-e535e3fccae7" alt="S3logo" width="65" height="65"> | <img src="https://github.com/codestates-seb/seb43_main_030/assets/98097195/1cc58e13-94e3-4965-967c-b61c65b03455" alt="RDSlogo" width="65" height="65"> | <img src="https://github.com/codestates-seb/seb43_main_030/assets/66734464/ee90b199-8120-45e9-919e-95caeca8fa97" alt="EC2logo" width="65" height="65"> |
 
 <br/>
 
