@@ -43,7 +43,7 @@
 <br/>
 
 ### <span style="">🔒  **Back-end** </span>
-| Java |  MySQL | Spring<br>Boot | JWT | Spring<br/>Security | OAUTH2.0 | Cloud Front | Spring QUARTZ | JAVA MAIL |
+| Java |  MySQL | Spring<br>Boot | JWT | Spring<br/>Security | OAUTH2.0 | Cloud Front | Spring<br/>QUARTZ | JAVA MAIL |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | 
 | <img src="https://techstack-generator.vercel.app/java-icon.svg" alt="icon" width="65" height="65" /> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/aws-icon.svg" alt="icon" width="65" height="65" /></div> | <img alt="spring-boot logo" src="https://t1.daumcdn.net/cfile/tistory/27034D4F58E660F616" width="65" height="65" > | <img alt="JWT logo" src="https://play-lh.googleusercontent.com/3C-hB-KWoyWzZjUnRsXUPu-bqB3HUHARMLjUe9OmPoHa6dQdtJNW30VrvwQ1m7Pln3A" width="65" height="65" >| <img alt="spring-Security logo" src="https://github.com/codestates-seb/seb43_main_030/assets/66734464/2d671127-343c-41a3-8deb-91f8e8c137f0" width="65" height="65" >| <img alt="OAUTH logo" src="https://github.com/codestates-seb/seb43_main_030/assets/66734464/91a5deb8-2085-4a02-a70e-3199f2338c20" width="65" height="65">|<img alt="cloud front logo" src="https://github.com/codestates-seb/seb43_main_030/assets/98097195/da23c6f0-67b4-4896-b746-81f7bab10d1e" width="65" height="65">| <img alt="quartz logo" src="https://github.com/codestates-seb/seb43_main_030/assets/66734464/0e1d7ce2-5fee-49c1-aaf4-83e619066ddf" width="65" height="65">| <img alt="JAVAMAIL logo" src="https://github.com/codestates-seb/seb43_main_030/assets/98097195/c9353e5a-d50c-4940-8deb-643a2589a3fe" width="65" height="65"> |
 
