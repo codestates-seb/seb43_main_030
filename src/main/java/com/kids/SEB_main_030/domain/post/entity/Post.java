@@ -21,6 +21,15 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Post extends Auditable {
+    public Post(Long postId, String title, String content, Integer views, boolean isModified, Category category, int likeCount) {
+        this.postId = postId;
+        this.title = title;
+        this.content = content;
+        this.views = views;
+        this.isModified = isModified;
+        this.category = category;
+        this.likeCount = likeCount;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
