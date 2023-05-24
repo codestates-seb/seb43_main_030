@@ -6,6 +6,9 @@ import com.kids.SEB_main_030.domain.user.dto.UserPostDto;
 import com.kids.SEB_main_030.domain.user.entity.User;
 import com.kids.SEB_main_030.domain.user.mapper.UserMapper;
 import com.kids.SEB_main_030.domain.user.service.UserService;
+import com.kids.SEB_main_030.global.tokenizer.JwtTokenUtil;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,8 @@ class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+    @Autowired
     private Gson gson;
     @MockBean
     private UserService userService;
@@ -36,6 +41,7 @@ class UserControllerTest {
     private final String DEFAULT_URL = "/api/users";
 
     @Test
+    @DisplayName("유저 등록 테스트")
     void postUserTest() throws Exception {
         // given
         UserPostDto userPostDto = new UserPostDto("test@naver.com", "123123123", true);
@@ -59,23 +65,39 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("유저 비밀번호 수정 테스트")
     void patchUserTest() throws Exception{
         // given
-        UserPostDto userPostDto = new UserPostDto("test@naver.com", "123123123", true);
-        User user = mapper.userPostDtoToUser(userPostDto);
-        user.setUserId(1L);
-        Mockito.doNothing().when(userService).createUser(Mockito.any(User.class), Mockito.anyBoolean());
-        String content = gson.toJson(userPostDto);
+        UserPatchDto userPatchDto = new UserPatchDto("123123123","123","123");
+        String accessToken = jwtTokenUtil.getAccessToken("test@naver.com");
+        Mockito.doNothing().when(userService).modifyPassword(Mockito.any(UserPatchDto.class));
 
         // when
         ResultActions actions = mockMvc.perform(
                 patch(DEFAULT_URL)
+                        .header("Authorization", "Bearer " + accessToken)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(content)
+                        .content(gson.toJson(userPatchDto))
         );
-
         // then
         actions
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("유저 회원탈퇴 테스트")
+    void removeUserTest() throws Exception{
+        // given
+        String accessToken = jwtTokenUtil.getAccessToken("test@naver.com");
+        Mockito.doNothing().when(userService).removeUser();
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                delete(DEFAULT_URL)
+                        .header("Authorization", "Bearer " + accessToken));
+
+        //then
+        actions
+                .andExpect(status().isNoContent());
     }
 }

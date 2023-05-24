@@ -1,5 +1,6 @@
 package com.kids.SEB_main_030.global.email.service;
 
+import com.kids.SEB_main_030.domain.user.entity.User;
 import com.kids.SEB_main_030.domain.user.repository.UserRepository;
 import com.kids.SEB_main_030.global.exception.CustomException;
 import com.kids.SEB_main_030.global.exception.LogicException;
@@ -32,8 +33,11 @@ public class EmailService {
         authCode = randomCreator.createAuthCode();
         MimeMessage message = null;
         if (s.equals("password")){
-             message = createPasswordForm(email);
-             userRepository.findByEmail(email).orElseThrow(() -> new LogicException(CustomException.USER_NOT_FOUND));
+            User user = userRepository.findByEmail(email).orElseThrow(() -> new LogicException(CustomException.USER_NOT_FOUND));
+            if (user.getSocialType() != null){
+                throw  new LogicException(CustomException.OAUTH_CANNOT_ACTION);
+            }
+            message = createPasswordForm(email);
         }
         if (s.equals("auth")) {
             message = createMessageForm(email);

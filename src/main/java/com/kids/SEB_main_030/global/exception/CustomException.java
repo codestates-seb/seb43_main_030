@@ -13,6 +13,7 @@ public enum CustomException {
     PROFILE_CANNOT_ADD(405,"프로필을 더이상 추가할 수 없습니다."),
     CURRENT_NOT_MATCH(405, "현재 비밀번호와 틀립니다."),
     INPUT_NOT_EQUALS(400, "입력 정보가 다릅니다."),
+    OAUTH_CANNOT_ACTION(403, "일반 회원가입유저만 비밀번호를 수정할 수 있습니다."),
     KINDERGARTEN_NOT_FOUND(404,"유치원을 찾을 수 없습니다."),
     COMMUNITY_CATEGORY_BAD_REQUEST(400, "카테고리 값이 다릅니다."),
     POST_NOT_FOUND(404, "게시물을 찾을 수 없습니다."),

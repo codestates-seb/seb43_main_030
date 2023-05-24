@@ -25,6 +25,6 @@ public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private void logExceptionMessage(AuthenticationException authException, Exception e){
         String message = e != null ? e.getMessage() : authException.getMessage();
-        log.warn("Unauthorized error happened : {}", message);
+        log.warn("인증 요청 : {}", message);
     }
 }

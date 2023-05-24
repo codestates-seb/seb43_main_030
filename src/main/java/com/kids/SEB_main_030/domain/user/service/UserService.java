@@ -58,6 +58,9 @@ public class UserService {
     public void modifyPassword(UserPatchDto patchDto){
         long userId = findSecurityContextHolderUserId();
         User findUser = findVerifiedUser(userId);
+        if (findUser.getSocialType() != null){
+            throw new LogicException(CustomException.OAUTH_CANNOT_ACTION);
+        }
         // 현재 비밀번호와 다르거나 비밀번호 확인란이 다른 경우
         if (!passwordEncoder.matches(patchDto.getCurPassword(), findUser.getPassword())) {
             throw new LogicException(CustomException.CURRENT_NOT_MATCH);

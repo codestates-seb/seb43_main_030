@@ -18,6 +18,6 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        log.info("# Authenticated successfully!");
+        log.info("인증에 성공했습니다 !");
     }
 }
