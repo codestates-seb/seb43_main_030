@@ -4,7 +4,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import { setAuth } from '../actions/areaFilterActions';
+import {
+  setAuth,
+  setCommInputValue,
+  setTempCommInputValue,
+} from '../actions/areaFilterActions';
 import QuillEditor from '../utils/quillEditor';
 import Button from '../components/Button/Button';
 import Radio from '../components/Radio/Radio';
@@ -59,6 +63,10 @@ function Write() {
   };
 
   const handleCancel = () => {
+    // 검색어 초기화
+    dispatch(setCommInputValue(''));
+    dispatch(setTempCommInputValue(''));
+
     Swal.fire({
       text: '글쓰기를 취소하고 이전 페이지로 돌아가시겠습니까?',
       icon: 'warning',
@@ -75,6 +83,10 @@ function Write() {
   };
 
   const submitData = event => {
+    // 검색어 초기화
+    dispatch(setCommInputValue(''));
+    dispatch(setTempCommInputValue(''));
+
     if (!title || !content) {
       Swal.fire({
         icon: 'error',
