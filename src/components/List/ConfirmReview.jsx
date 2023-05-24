@@ -74,49 +74,50 @@ function ConfirmReview(props) {
       }).then(res => {
         navi('/login');
       });
-    }
-    Swal.fire({
-      // title: '댓글을 삭제하시겠습니까?',
-      text: '후기를 삭제하시겠습니까?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#FFD337',
-      cancelButtonColor: '#ffffff',
-      confirmButtonText: '네',
-      cancelButtonText: '<span style="color:#000000">아니오<span>',
-    }).then(result => {
-      axios
-        .delete(`${apiUrl}/api/review/${kinderInfo.reviewId}`, {
-          headers: {
-            Authorization: localStorage.getItem('token'),
-          },
-        })
-        .then(response => {
-          Swal.fire({
-            confirmButtonColor: '#FFD337',
-            text: '후기가 삭제되었습니다.',
-          }).then(result => {
-            window.location.reload();
+    } else {
+      Swal.fire({
+        // title: '댓글을 삭제하시겠습니까?',
+        text: '후기를 삭제하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#FFD337',
+        cancelButtonColor: '#ffffff',
+        confirmButtonText: '네',
+        cancelButtonText: '<span style="color:#000000">아니오<span>',
+      }).then(result => {
+        axios
+          .delete(`${apiUrl}/api/review/${kinderInfo.reviewId}`, {
+            headers: {
+              Authorization: localStorage.getItem('token'),
+            },
+          })
+          .then(response => {
+            Swal.fire({
+              confirmButtonColor: '#FFD337',
+              text: '후기가 삭제되었습니다.',
+            }).then(result => {
+              window.location.reload();
+            });
+          })
+          .catch(error => {
+            if (error.response && error.response.status === 403) {
+              Swal.fire({
+                icon: 'error',
+                text: '본인이 작성한 후기만 삭제할 수 있어요❗️',
+                confirmButtonColor: '#FFD337',
+              });
+            } else if (error.response && error.response.status === 401) {
+              Swal.fire({
+                icon: 'error',
+                text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+                confirmButtonColor: '#FFD337',
+              });
+              dispatch(setAuth(false));
+              localStorage.removeItem('token');
+            }
           });
-        })
-        .catch(error => {
-          if (error.response && error.response.status === 403) {
-            Swal.fire({
-              icon: 'error',
-              text: '본인이 작성한 후기만 삭제할 수 있어요❗️',
-              confirmButtonColor: '#FFD337',
-            });
-          } else if (error.response && error.response.status === 401) {
-            Swal.fire({
-              icon: 'error',
-              text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
-              confirmButtonColor: '#FFD337',
-            });
-            dispatch(setAuth(false));
-            localStorage.removeItem('token');
-          }
-        });
-    });
+      });
+    }
   };
 
   useEffect(() => {

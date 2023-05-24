@@ -84,98 +84,99 @@ function Modal(props) {
       }).then(res => {
         navi('/login');
       });
-    }
-    if (!text || !starIndex) {
-      alert('내용과 별점을 입력해주세요.');
-      return;
-    }
-
-    if (prevText) {
-      const formData = new FormData();
-
-      const data = {
-        content: text,
-        ratedReview: starIndex,
-      };
-
-      formData.append('image', image);
-
-      // formData.append(images);
-
-      formData.append(
-        'patchDto',
-        new Blob([JSON.stringify(data)], { type: 'application/json' }),
-      );
-
-      axios
-        .patch(`${apiUrl}/api/review/${reviewId}`, formData, {
-          headers: {
-            Authorization: localStorage.getItem('token'),
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-        .then(response => {
-          window.location.reload();
-        })
-        .catch(error => {
-          if (error.response && error.response.status === 403) {
-            Swal.fire({
-              icon: 'error',
-              text: '본인이 작성한 후기만 수정할 수 있어요❗️',
-              confirmButtonColor: '#FFD337',
-            });
-          } else if (error.response && error.response.status === 401) {
-            Swal.fire({
-              icon: 'error',
-              text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
-              confirmButtonColor: '#FFD337',
-            });
-            dispatch(setAuth(false));
-            localStorage.removeItem('token');
-          }
-        });
     } else {
-      const formData = new FormData();
+      if (!text || !starIndex) {
+        alert('내용과 별점을 입력해주세요.');
+        return;
+      }
 
-      const data = {
-        content: text,
-        ratedReview: starIndex,
-      };
+      if (prevText) {
+        const formData = new FormData();
 
-      formData.append('image', image);
+        const data = {
+          content: text,
+          ratedReview: starIndex,
+        };
 
-      formData.append(
-        'postDto',
-        new Blob([JSON.stringify(data)], { type: 'application/json' }),
-      );
+        formData.append('image', image);
 
-      axios
-        .post(`${apiUrl}/api/review/${id}`, formData, {
-          headers: {
-            Authorization: localStorage.getItem('token'),
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-        .then(response => {
-          window.location.reload();
-        })
-        .catch(error => {
-          if (error.response && error.response.status === 403) {
-            Swal.fire({
-              icon: 'error',
-              text: '본인이 작성한 후기만 수정할 수 있어요❗️',
-              confirmButtonColor: '#FFD337',
-            });
-          } else if (error.response && error.response.status === 401) {
-            Swal.fire({
-              icon: 'error',
-              text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
-              confirmButtonColor: '#FFD337',
-            });
-            dispatch(setAuth(false));
-            localStorage.removeItem('token');
-          }
-        });
+        // formData.append(images);
+
+        formData.append(
+          'patchDto',
+          new Blob([JSON.stringify(data)], { type: 'application/json' }),
+        );
+
+        axios
+          .patch(`${apiUrl}/api/review/${reviewId}`, formData, {
+            headers: {
+              Authorization: localStorage.getItem('token'),
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+          .then(response => {
+            window.location.reload();
+          })
+          .catch(error => {
+            if (error.response && error.response.status === 403) {
+              Swal.fire({
+                icon: 'error',
+                text: '본인이 작성한 후기만 수정할 수 있어요❗️',
+                confirmButtonColor: '#FFD337',
+              });
+            } else if (error.response && error.response.status === 401) {
+              Swal.fire({
+                icon: 'error',
+                text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+                confirmButtonColor: '#FFD337',
+              });
+              dispatch(setAuth(false));
+              localStorage.removeItem('token');
+            }
+          });
+      } else {
+        const formData = new FormData();
+
+        const data = {
+          content: text,
+          ratedReview: starIndex,
+        };
+
+        formData.append('image', image);
+
+        formData.append(
+          'postDto',
+          new Blob([JSON.stringify(data)], { type: 'application/json' }),
+        );
+
+        axios
+          .post(`${apiUrl}/api/review/${id}`, formData, {
+            headers: {
+              Authorization: localStorage.getItem('token'),
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+          .then(response => {
+            window.location.reload();
+          })
+          .catch(error => {
+            if (error.response && error.response.status === 403) {
+              Swal.fire({
+                icon: 'error',
+                text: '본인이 작성한 후기만 수정할 수 있어요❗️',
+                confirmButtonColor: '#FFD337',
+              });
+            } else if (error.response && error.response.status === 401) {
+              Swal.fire({
+                icon: 'error',
+                text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+                confirmButtonColor: '#FFD337',
+              });
+              dispatch(setAuth(false));
+              localStorage.removeItem('token');
+            }
+          });
+      }
     }
   };
   return (
