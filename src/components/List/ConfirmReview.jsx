@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import {
@@ -39,6 +40,8 @@ function ConfirmReview(props) {
   const [starIndex, setStarIndex] = useState(0);
   const [editModal, setEditModal] = useState(false);
   const [prevImage, setPrevImage] = useState('');
+  const auth = useSelector(state => state.auth);
+  const navi = useNavigate();
 
   const starScore = () => {
     const ratedStar = Math.floor(kinderInfo.ratedReview);
@@ -63,48 +66,58 @@ function ConfirmReview(props) {
   };
 
   const deleteReview = () => {
-    Swal.fire({
-      // title: '댓글을 삭제하시겠습니까?',
-      text: '후기를 삭제하시겠습니까?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#FFD337',
-      cancelButtonColor: '#ffffff',
-      confirmButtonText: '네',
-      cancelButtonText: '<span style="color:#000000">아니오<span>',
-    }).then(result => {
-      axios
-        .delete(`${apiUrl}/api/review/${kinderInfo.reviewId}`, {
-          headers: {
-            Authorization: localStorage.getItem('token'),
-          },
-        })
-        .then(response => {
-          Swal.fire({
-            confirmButtonColor: '#FFD337',
-            text: '후기가 삭제되었습니다.',
-          }).then(result => {
-            window.location.reload();
+    if (!auth) {
+      Swal.fire({
+        icon: 'error',
+        text: '로그인을 먼저 해주세요❗️',
+        confirmButtonColor: '#FFD337',
+      }).then(res => {
+        navi('/login');
+      });
+    } else {
+      Swal.fire({
+        // title: '댓글을 삭제하시겠습니까?',
+        text: '후기를 삭제하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#FFD337',
+        cancelButtonColor: '#ffffff',
+        confirmButtonText: '네',
+        cancelButtonText: '<span style="color:#000000">아니오<span>',
+      }).then(result => {
+        axios
+          .delete(`${apiUrl}/api/review/${kinderInfo.reviewId}`, {
+            headers: {
+              Authorization: localStorage.getItem('token'),
+            },
+          })
+          .then(response => {
+            Swal.fire({
+              confirmButtonColor: '#FFD337',
+              text: '후기가 삭제되었습니다.',
+            }).then(result => {
+              window.location.reload();
+            });
+          })
+          .catch(error => {
+            if (error.response && error.response.status === 403) {
+              Swal.fire({
+                icon: 'error',
+                text: '본인이 작성한 후기만 삭제할 수 있어요❗️',
+                confirmButtonColor: '#FFD337',
+              });
+            } else if (error.response && error.response.status === 401) {
+              Swal.fire({
+                icon: 'error',
+                text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+                confirmButtonColor: '#FFD337',
+              });
+              dispatch(setAuth(false));
+              localStorage.removeItem('token');
+            }
           });
-        })
-        .catch(error => {
-          if (error.response && error.response.status === 403) {
-            Swal.fire({
-              icon: 'error',
-              text: '본인이 작성한 후기만 삭제할 수 있어요❗️',
-              confirmButtonColor: '#FFD337',
-            });
-          } else if (error.response && error.response.status === 401) {
-            Swal.fire({
-              icon: 'error',
-              text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
-              confirmButtonColor: '#FFD337',
-            });
-            dispatch(setAuth(false));
-            localStorage.removeItem('token');
-          }
-        });
-    });
+      });
+    }
   };
 
   useEffect(() => {

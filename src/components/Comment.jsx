@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { setAuth } from '../actions/areaFilterActions';
 import { ReactComponent as More } from '../images/more.svg';
 import Dog from '../images/dog.jpeg';
@@ -23,6 +24,8 @@ function Comment({
   const [editedText, setEditedText] = useState(text);
   const [onDelete, setOnDelete] = useState(false);
   const [commentError, setCommentError] = useState('');
+  const auth = useSelector(state => state.auth);
+  const navi = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -36,6 +39,15 @@ function Comment({
   };
 
   const handleSaveClick = postId => {
+    if (!auth) {
+      Swal.fire({
+        icon: 'error',
+        text: '로그인을 먼저 해주세요❗️',
+        confirmButtonColor: '#FFD337',
+      }).then(res => {
+        navi('/login');
+      });
+    }
     if (text.length !== 0) {
       setEditedText(text);
       setIsEditMode(false);
@@ -96,56 +108,66 @@ function Comment({
   };
 
   function deleteComment(commentId) {
-    Swal.fire({
-      // title: '댓글을 삭제하시겠습니까?',
-      text: '댓글을 삭제하시겠습니까?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#FFD337',
-      cancelButtonColor: '#ffffff',
-      confirmButtonText: '네',
-      cancelButtonText: '<span style="color:#000000">아니오<span>',
-    }).then(result => {
-      if (result.isConfirmed) {
-        axios
-          .delete(
-            `${process.env.REACT_APP_API_URL}/api/post/${postId}/comment/${commentId}`,
-            {
-              headers: {
-                Authorization: localStorage.getItem('token'),
+    if (!auth) {
+      Swal.fire({
+        icon: 'error',
+        text: '로그인을 먼저 해주세요❗️',
+        confirmButtonColor: '#FFD337',
+      }).then(res => {
+        navi('/login');
+      });
+    } else {
+      Swal.fire({
+        // title: '댓글을 삭제하시겠습니까?',
+        text: '댓글을 삭제하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#FFD337',
+        cancelButtonColor: '#ffffff',
+        confirmButtonText: '네',
+        cancelButtonText: '<span style="color:#000000">아니오<span>',
+      }).then(result => {
+        if (result.isConfirmed) {
+          axios
+            .delete(
+              `${process.env.REACT_APP_API_URL}/api/post/${postId}/comment/${commentId}`,
+              {
+                headers: {
+                  Authorization: localStorage.getItem('token'),
+                },
               },
-            },
-          )
-          .then(response => {
-            if (result) {
-              Swal.fire({
-                confirmButtonColor: '#FFD337',
-                text: '댓글이 삭제되었습니다.',
-              }).then(result => {
-                window.location.reload();
-              });
-            }
-          })
-          .catch(error => {
-            if (error.response && error.response.status === 403) {
-              setMoreSelect(!moreSelect);
-              Swal.fire({
-                icon: 'error',
-                text: '본인이 작성한 댓글만 삭제할 수 있어요❗️',
-                confirmButtonColor: '#FFD337',
-              });
-            } else if (error.response && error.response.status === 401) {
-              Swal.fire({
-                icon: 'error',
-                text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
-                confirmButtonColor: '#FFD337',
-              });
-              dispatch(setAuth(false));
-              localStorage.removeItem('token');
-            }
-          });
-      }
-    });
+            )
+            .then(response => {
+              if (result) {
+                Swal.fire({
+                  confirmButtonColor: '#FFD337',
+                  text: '댓글이 삭제되었습니다.',
+                }).then(result => {
+                  window.location.reload();
+                });
+              }
+            })
+            .catch(error => {
+              if (error.response && error.response.status === 403) {
+                setMoreSelect(!moreSelect);
+                Swal.fire({
+                  icon: 'error',
+                  text: '본인이 작성한 댓글만 삭제할 수 있어요❗️',
+                  confirmButtonColor: '#FFD337',
+                });
+              } else if (error.response && error.response.status === 401) {
+                Swal.fire({
+                  icon: 'error',
+                  text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+                  confirmButtonColor: '#FFD337',
+                });
+                dispatch(setAuth(false));
+                localStorage.removeItem('token');
+              }
+            });
+        }
+      });
+    }
   }
 
   return (

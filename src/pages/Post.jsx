@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useNavigate, Link, useParams } from 'react-router-dom';
+import { useNavigate, Link, useParams, useNavigation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import axios from 'axios';
@@ -32,6 +32,7 @@ function Post() {
   const curProfile = useSelector(state => state.curProfile);
 
   const dispatch = useDispatch();
+  const navi = useNavigate();
 
   useEffect(() => {
     axios
@@ -62,6 +63,15 @@ function Post() {
   }
 
   function postComment() {
+    if (!auth) {
+      Swal.fire({
+        icon: 'error',
+        text: '로그인을 먼저 해주세요❗️',
+        confirmButtonColor: '#FFD337',
+      }).then(res => {
+        navi('/login');
+      });
+    }
     if (commentInput.length !== 0) {
       const data = {
         postId,
