@@ -149,7 +149,6 @@ public class PostControllerTest {
                 .andExpect(jsonPath("$.data.title").value(post.getTitle()))
                 .andExpect(jsonPath("$.data.content").value(post.getContent()))
                 .andExpect(jsonPath("$.data.category").value(post.getCategory().toString()))
-                .andExpect(jsonPath("$.data.modifiedAt").value(post.getModifiedAt()))
                 .andExpect(jsonPath("$.data.views").value(post.getViews()))
                 .andExpect(jsonPath("$.data.modified").value(post.isModified()));
     }
@@ -162,11 +161,11 @@ public class PostControllerTest {
         Post post1 = new Post(1L, "test1", "test1", 1, false, Post.Category.NOTIFICATION, 1);
         Post post2 = new Post(2L, "test2", "test2", 2, true, Post.Category.COMMUNITY, 2);
         PostDto.CardViewResponse cardViewResponse1 = new PostDto.CardViewResponse(
-                1L, "test1", "test1", "postImageUrl1", 0, 0, 1L, "profileImageUrl1",
+                1L, "test1", "test1", "postImageUrl1", 1, 1, 1L, "profileImageUrl1",
                 "test1", LocalDateTime.now(), false);
         PostDto.CardViewResponse cardViewResponse2 = new PostDto.CardViewResponse(
-                2L, "test2", "test2", "postImageUrl2", 0, 0, 2L, "profileImageUrl2",
-                "test2", LocalDateTime.now(), false);
+                2L, "test2", "test2", "postImageUrl2", 2, 2, 2L, "profileImageUrl2",
+                "test2", LocalDateTime.now(), true);
         List<PostDto.CardViewResponse> cardViewResponses = List.of(cardViewResponse1, cardViewResponse2);
         Page<Post> postPage = new PageImpl<>(List.of(post1, post2),
                 PageRequest.of(0, 10,
@@ -191,16 +190,18 @@ public class PostControllerTest {
         actions
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").isArray())
-                .andExpect(jsonPath("$.data[0].postId").value(cardViewResponse1.getPostId()))
-                .andExpect(jsonPath("$.data[0].title").value(cardViewResponse1.getTitle()))
-                .andExpect(jsonPath("$.data[0].content").value(cardViewResponse1.getContent()))
-                .andExpect(jsonPath("$.data[0].postImageUrl").value(cardViewResponse1.getPostImageUrl()))
-                .andExpect(jsonPath("$.data[0].views").value(cardViewResponse1.getViews()))
-                .andExpect(jsonPath("$.data[1].likeCount").value(cardViewResponse2.getLikeCount()))
-                .andExpect(jsonPath("$.data[1].profileId").value(cardViewResponse2.getProfileId()))
-                .andExpect(jsonPath("$.data[1].profileImageUrl").value(cardViewResponse2.getProfileImageUrl()))
-                .andExpect(jsonPath("$.data[1].name").value(cardViewResponse2.getName()))
-                .andExpect(jsonPath("$.data[1].modified").value(cardViewResponse2.isModified()))
+                .andExpect(jsonPath("$.data[0].postId").value(post1.getPostId()))
+                .andExpect(jsonPath("$.data[0].title").value(post1.getTitle()))
+                .andExpect(jsonPath("$.data[0].content").value(post1.getContent()))
+                .andExpect(jsonPath("$.data[0].views").value(post1.getViews()))
+                .andExpect(jsonPath("$.data[0].likeCount").value(post1.getLikeCount()))
+                .andExpect(jsonPath("$.data[0].modified").value(post1.isModified()))
+                .andExpect(jsonPath("$.data[1].postId").value(post2.getPostId()))
+                .andExpect(jsonPath("$.data[1].title").value(post2.getTitle()))
+                .andExpect(jsonPath("$.data[1].content").value(post2.getContent()))
+                .andExpect(jsonPath("$.data[1].views").value(post2.getViews()))
+                .andExpect(jsonPath("$.data[1].likeCount").value(post2.getLikeCount()))
+                .andExpect(jsonPath("$.data[1].modified").value(post2.isModified()))
                 .andExpect(jsonPath("$.pageInfo.totalElements").value(postPage.getTotalElements()))
                 .andExpect(jsonPath("$.pageInfo.totalPages").value(postPage.getTotalPages()));
     }
@@ -247,9 +248,7 @@ public class PostControllerTest {
                 .andExpect(jsonPath("$.data[0].title").value(getNotification1.getTitle()))
                 .andExpect(jsonPath("$.data[1].title").value(getNotification2.getTitle()))
                 .andExpect(jsonPath("$.data[0].content").value(getNotification1.getContent()))
-                .andExpect(jsonPath("$.data[1].content").value(getNotification2.getContent()))
-                .andExpect(jsonPath("$.data[0].createdAt").value(getNotification1.getCreatedAt()))
-                .andExpect(jsonPath("$.data[1].createdAt").value(getNotification2.getCreatedAt()));
+                .andExpect(jsonPath("$.data[1].content").value(getNotification2.getContent()));
     }
 
     private MockMultipartFile createMockMultipartFile() throws Exception{

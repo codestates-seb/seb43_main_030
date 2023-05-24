@@ -1,10 +1,7 @@
 package com.kids.SEB_main_030.domain.community.controller;
 
-import com.kids.SEB_main_030.domain.community.entity.Community;
 import com.kids.SEB_main_030.domain.community.mapper.CommunityMapper;
 import com.kids.SEB_main_030.domain.community.service.CommunityService;
-import com.kids.SEB_main_030.domain.kindergarten.entity.Kindergarten;
-import com.kids.SEB_main_030.domain.kindergarten.service.KindergartenService;
 import com.kids.SEB_main_030.global.dto.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,12 +22,10 @@ public class CommunityController {
 
     private final CommunityMapper communityMapper;
     private final CommunityService communityService;
-    private final KindergartenService kindergartenService;
 
     // 커뮤니티 게시판 유치원 정보 출력
     @GetMapping
     public ResponseEntity getCommunity(@PathVariable("community-id") @Positive long communityId) {
-        Community findCommunity = communityService.findCommunity(communityId);
         return new ResponseEntity<>(
                 new SingleResponseDto(
                         communityMapper.communityAndKindergartenToResponseDto(communityService.findCommunity(communityId))), HttpStatus.OK);
