@@ -31,7 +31,7 @@
 ### <span style=""> ⚙️ **Tools** </span>
 | Github | Discord | Notion | Figma | KaKaoTalk |
 | :---: | :---: | :---: | :---: | :---: |
-| <img alt="github logo" src="https://techstack-generator.vercel.app/github-icon.svg" width="65" height="65"> | <img alt="Discord logo" src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/62595384e89d1d54d704ece7_3437c10597c1526c3dbd98c737c2bcae.svg" height="65" width="65"> |<img alt="Notion logo" src="https://www.notion.so/cdn-cgi/image/format=auto,width=640,quality=100/front-static/shared/icons/notion-app-icon-3d.png" height="65" width="65">| :---: | :---: |
+| <img alt="github logo" src="https://techstack-generator.vercel.app/github-icon.svg" width="65" height="65"> | <img alt="Discord logo" src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/62595384e89d1d54d704ece7_3437c10597c1526c3dbd98c737c2bcae.svg" height="65" width="65"> |<img alt="Notion logo" src="https://www.notion.so/cdn-cgi/image/format=auto,width=640,quality=100/front-static/shared/icons/notion-app-icon-3d.png" height="65" width="65">| <img alt="Figma logo" src="https://github.com/codestates-seb/seb43_main_030/assets/83762088/ad4a4d0e-a51d-4b12-b8e1-fe7db0e71726" height="65" width="65" | <img alt="KaKao logo" src="https://github.com/codestates-seb/seb43_main_030/assets/83762088/af3074de-d48e-41cb-ace1-fc2cf0e9ee4d" height="65" width"65" |
 
 <br/>
 
@@ -43,13 +43,17 @@
 <br/>
 
 ### <span style="">🔒  **Back-end** </span>
-| Java |  MySQL | Spring<br>Boot | JWT | Spring<br/>Security | 
-| :---: | :---: | :---: | :---: | :---: | 
+| Java |  MySQL | Spring<br>Boot | JWT | Spring<br/>Security | OAUTH2.0 | Cloud Front | Spring QUARTZ | JAVA MAIL |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | 
 | <img src="https://techstack-generator.vercel.app/java-icon.svg" alt="icon" width="65" height="65" /> 
 | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/aws-icon.svg" alt="icon" width="65" height="65" /></div> 
 | <img alt="spring-boot logo" src="https://t1.daumcdn.net/cfile/tistory/27034D4F58E660F616" width="65" height="65" > 
 | <img alt="spring-boot logo" src="https://play-lh.googleusercontent.com/3C-hB-KWoyWzZjUnRsXUPu-bqB3HUHARMLjUe9OmPoHa6dQdtJNW30VrvwQ1m7Pln3A" width="65" height="65" >
-| <img alt="spring-boot logo" src="https://blog.kakaocdn.net/dn/dIQDQP/btqZ09ESd8T/0ibqtotW52OaJS8HznXDQK/img.png" width="65" height="65" >|
+| <img alt="spring-boot logo" src="https://blog.kakaocdn.net/dn/dIQDQP/btqZ09ESd8T/0ibqtotW52OaJS8HznXDQK/img.png" width="65" height="65" >
+| 
+|
+|
+|  |
 
 
 <br/>
