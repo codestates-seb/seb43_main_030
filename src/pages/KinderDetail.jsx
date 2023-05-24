@@ -4,7 +4,12 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 import { GoogleMap, useJsApiLoader, MarkerF } from '@react-google-maps/api';
-import { setCenter, setCategory } from '../actions/areaFilterActions';
+import {
+  setCenter,
+  setCategory,
+  setCommInputValue,
+  setTempCommInputValue,
+} from '../actions/areaFilterActions';
 import Modal from './Modal';
 import ConfirmReview from '../components/List/ConfirmReview';
 import ListNotice from '../components/List/ListNotice';
@@ -140,11 +145,15 @@ function KinderDetail() {
 
   const moveCommunity = () => {
     dispatch(setCategory('community'));
+    dispatch(setCommInputValue(''));
+    dispatch(setTempCommInputValue(''));
     navi(`/community/${id}`);
   };
 
   const moveNotification = () => {
     dispatch(setCategory('notification'));
+    dispatch(setCommInputValue(''));
+    dispatch(setTempCommInputValue(''));
     navi(`/community/${id}`);
   };
 

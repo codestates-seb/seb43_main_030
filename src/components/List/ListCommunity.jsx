@@ -27,11 +27,14 @@ function ListCommunity(props) {
 
     if (matches) {
       extractedText = matches
-        .map(match => match.replace(/<\/?p>/g, ''))
-        .filter(text => text.includes('<img') === false)
-        .slice(0, 40)
+        .map(match => {
+          const text = match.replace(/<\/?p>/g, '');
+          const textWithoutImg = text.replace(/<img.*?>/, '');
+          return textWithoutImg.trim();
+        })
         .join(' ');
     }
+
     setContent(extractedText);
   }, [setContent, post.content]);
 
@@ -43,11 +46,6 @@ function ListCommunity(props) {
         ) : (
           <img src={imageNull} alt="이미지가 없습니다." />
         )}
-        {/* {post.postImageUrl ? (
-          <img src={post.postImageUrl} alt="img" />
-        ) : (
-          <img src={profile} alt="defaultImage" />
-        )} */}
       </div>
       <div className="my-30 w-[calc(100%-132px)] onlyMobile:w-[calc(100%-101px)] onlyMini:my-20 onlyMini:w-[calc(100%-71px)]">
         <Link to={`/community/${id}/post/${post.postId}`} className="block">
