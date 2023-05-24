@@ -22,7 +22,7 @@
 | 김지은<br>(FE, 팀장) | 김미리<br>(FE) | 문혜린<br>(FE)| 박기훈<br>(BE, 팀장) | 김태진<br>(BE) | 정승현<br>(BE) |
 | :---: | :---: | :---: | :---: | :---: | :---: |
 |<img src="https://github.com/codestates-seb/seb43_main_030/assets/77611460/5fa9ada5-1586-4098-9565-11bd6b38445e" alt="jieun" width="110">| <img src="https://github.com/codestates-seb/seb43_main_030/assets/77611460/1414a009-dcc6-46e1-9e3f-e03093671a56" alt="miri" width="110">| <img src="https://github.com/codestates-seb/seb43_main_030/assets/77611460/f8c8f032-b231-4685-b7b9-9b441824b556" alt="hyelin" width="110">| <img src="https://github.com/codestates-seb/seb43_main_030/assets/77611460/01377985-0f15-4413-8ad3-142a627a3413" alt="gihoon" width="110">| <img src="https://github.com/codestates-seb/seb43_main_030/assets/77611460/8c4ea452-4aac-426b-a65f-c5eb0a108a3d" alt="taejin" width="110">| <img src="https://github.com/codestates-seb/seb43_main_030/assets/77611460/b5fba650-7f0c-4a1f-a468-cbe81f2a166c" alt="seunghyun" width="110">
-| 메인, 지도, 헤더,</br>  댓글CRUD, 리뷰CRUD | 커뮤니티, 게시글CRUD</br> 에디터Quill, 좋아요 기능 | 디자인, 유치원 상세,</br> 마이페이지, 로그인</br> 회원가입 | :---: | 커뮤니티, 게시글CRUD</br>, 댓글 CRUD,</br> 좋아요 기능</br>, s3이미지 업로드</br>, cloud-front(cdn) 구현 | Spring Security + Jwt</br> OAuht2, Email Sender</br> 회원CRUD, 프로필CRUD</br> 마이페이지  |
+| 메인, 지도, 헤더,</br>  댓글CRUD, 리뷰CRUD,</br>리덕스 상태관리 | 커뮤니티, 게시글CRUD</br> 에디터Quill, 좋아요 기능 | 디자인, 유치원 상세,</br> 마이페이지, 로그인</br> 회원가입 | :---: | 커뮤니티, 게시글CRUD</br>, 댓글 CRUD,</br> 좋아요 기능</br>, s3이미지 업로드</br>, cloud-front(cdn) 구현 | Spring Security + Jwt</br> OAuht2, Email Sender</br> 회원CRUD, 프로필CRUD</br> 마이페이지  |
 
 
 
