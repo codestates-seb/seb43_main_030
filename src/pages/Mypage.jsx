@@ -96,8 +96,6 @@ function Mypage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(curProfile);
-
   // 모달 관련 함수
   const modalProfileOnOff = () => {
     setProfileModal(!profileModal);
