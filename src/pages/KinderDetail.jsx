@@ -159,7 +159,7 @@ function KinderDetail() {
 
   return (
     <div className="relative mb-64 flex flex-col items-center pt-130 onlyMobile:pt-64">
-      <div className="max-w-[1280px] px-80 onlyMobile:max-w-full onlyMobile:px-0">
+      <div className="w-full max-w-[1280px] px-80 onlyMobile:max-w-full onlyMobile:px-0">
         {/* 메인 이미지 */}
         <div
           className="mb-48 h-432 overflow-hidden rounded-[16px] bg-cover bg-center onlyMobile:mb-24 onlyMobile:h-300 onlyMobile:rounded-0"
