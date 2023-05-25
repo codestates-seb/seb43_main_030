@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import { useMediaQuery } from 'react-responsive';
 import { GoogleMap, useJsApiLoader, MarkerF } from '@react-google-maps/api';
 import {
@@ -132,6 +133,16 @@ function KinderDetail() {
 
   const handlePageChange = e => {
     setCurrentPage(e);
+  };
+
+  const onAlert = () => {
+    Swal.fire({
+      icon: 'error',
+      text: '로그인을 먼저 해주세요❗️',
+      confirmButtonColor: '#FFD337',
+    }).then(res => {
+      navi('/login');
+    });
   };
 
   // 모달 관련 함수
@@ -295,11 +306,12 @@ function KinderDetail() {
                     후기쓰기
                   </Button>
                 ) : (
-                  <Link to="/login">
-                    <Button className="color-yellow btn-size-l w-[160px]">
-                      후기쓰기
-                    </Button>
-                  </Link>
+                  <Button
+                    className="color-yellow btn-size-l w-[160px]"
+                    onClick={onAlert}
+                  >
+                    후기쓰기
+                  </Button>
                 )}
               </div>
               {currentReview?.length !== 0 ? (
