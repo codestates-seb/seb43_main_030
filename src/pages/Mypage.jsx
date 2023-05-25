@@ -63,10 +63,11 @@ function Mypage() {
             icon: 'error',
             text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
             confirmButtonColor: '#FFD337',
+          }).then(res => {
+            navi('/login');
           });
           dispatch(setAuth(false));
           localStorage.removeItem('token');
-          navi('/login');
         }
       });
 
@@ -88,6 +89,8 @@ function Mypage() {
             icon: 'error',
             text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
             confirmButtonColor: '#FFD337',
+          }).then(res => {
+            navi('/login');
           });
           dispatch(setAuth(false));
           localStorage.removeItem('token');
@@ -158,6 +161,8 @@ function Mypage() {
                 icon: 'error',
                 text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
                 confirmButtonColor: '#FFD337',
+              }).then(res => {
+                navi('/login');
               });
               dispatch(setAuth(false));
               localStorage.removeItem('token');
@@ -220,6 +225,8 @@ function Mypage() {
                 icon: 'error',
                 text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
                 confirmButtonColor: '#FFD337',
+              }).then(res => {
+                navi('/login');
               });
               dispatch(setAuth(false));
               localStorage.removeItem('token');
@@ -276,6 +283,8 @@ function Mypage() {
                 icon: 'error',
                 text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
                 confirmButtonColor: '#FFD337',
+              }).then(res => {
+                navi('/login');
               });
               dispatch(setAuth(false));
               localStorage.removeItem('token');
@@ -321,6 +330,8 @@ function Mypage() {
               icon: 'error',
               text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
               confirmButtonColor: '#FFD337',
+            }).then(res => {
+              navi('/login');
             });
             dispatch(setAuth(false));
             localStorage.removeItem('token');

@@ -86,7 +86,11 @@ function Modal(props) {
       });
     } else {
       if (!text || !starIndex) {
-        alert('내용과 별점을 입력해주세요.');
+        Swal.fire({
+          icon: 'error',
+          text: '내용과 별점을 입력해주세요❗️',
+          confirmButtonColor: '#FFD337',
+        });
         return;
       }
 
@@ -99,8 +103,6 @@ function Modal(props) {
         };
 
         formData.append('image', image);
-
-        // formData.append(images);
 
         formData.append(
           'patchDto',
@@ -213,7 +215,7 @@ function Modal(props) {
                       kinderInfo.name.slice().replace(/"/g, '')}
                   </p>
                   <p className="flex items-center text-14">
-                    <Star /> {kinderInfo.ratedReviewsAvg} (
+                    <Star /> {kinderInfo?.ratedReviewsAvg?.toFixed(2)} (
                     {kinderInfo.ratedReviewsCount})
                   </p>
                   <p className="mt-6 text-14">
