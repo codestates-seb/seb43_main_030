@@ -160,7 +160,6 @@ function SignUp() {
           email: user.email,
         })
         .then(res => {
-          console.log(res);
           setEmailSendComp('인증 코드 전송이 완료되었습니다.');
           setConfirmEmail(res.data);
           Toast.fire({
