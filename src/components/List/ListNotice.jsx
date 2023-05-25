@@ -1,8 +1,31 @@
+import { useEffect, useState } from 'react';
+import Parser from 'html-react-parser';
 import dateCalculate from '../dateCalculate';
 import profile from '../../images/profile.png';
 
 function ListNotice(props) {
   const { post, onClick } = props;
+  const [content, setContent] = useState('');
+
+  useEffect(() => {
+    // 게시물 미리보기 텍스트
+    const regex = /<p>(.*?)<\/p>/gi;
+    const matches = post.content.match(regex);
+    let extractedText = '';
+
+    if (matches) {
+      extractedText = matches
+        .map(match => {
+          const text = match.replace(/<\/?p>/g, '');
+          const textWithoutImg = text.replace(/<img.*?>/, '');
+          return textWithoutImg.trim();
+        })
+        .join(' ');
+    }
+
+    setContent(extractedText);
+  }, [setContent, post.content]);
+
   return (
     <div>
       <ul>
@@ -11,9 +34,12 @@ function ListNotice(props) {
             <p className="list-title h-text-max mb-8 max-h-[30px]">
               {post.title}
             </p>
-            <p className="list-content h-text-max max-h-[50px] onlyMobile:max-h-[40px] onlyMobile:min-w-180">
-              {post.content}
-            </p>
+            {Parser(`
+           <p className="list-content h-text-max max-h-[50px] onlyMobile:max-h-[38px] onlyMobile:min-w-180">
+          ${content}
+          </p>
+          `)}
+
             <span className="list-gray-small mt-16">
               {dateCalculate(post.createdAt)}
             </span>
