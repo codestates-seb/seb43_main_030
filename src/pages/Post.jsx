@@ -166,79 +166,60 @@ function Post() {
       cancelButtonColor: '#ffffff',
       confirmButtonText: '네',
       cancelButtonText: '<span style="color:#000000">아니오<span>',
-    })
-      .then(result => {
-        if (result.isConfirmed) {
-          if (!auth) {
-            Swal.fire({
-              icon: 'error',
-              text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
-              confirmButtonColor: '#FFD337',
-            });
-            dispatch(setAuth(false));
-            localStorage.removeItem('token');
-          }
+    }).then(result => {
+      if (result.isConfirmed) {
+        if (!auth) {
+          Swal.fire({
+            icon: 'error',
+            text: '비회원은 글삭제가 불가능합니다❗️',
+            confirmButtonColor: '#FFD337',
+          });
+          return;
+        }
 
-          if (
-            auth &&
-            writerInfo.email === curProfile.email &&
-            writerInfo.name === curProfile.name
-          ) {
-            axios.delete(
-              `${process.env.REACT_APP_API_URL}/api/community/${id}/post/${postId}`,
-              {
-                headers: { Authorization: localStorage.getItem('token') },
-              },
-            );
+        axios
+          .delete(
+            `${process.env.REACT_APP_API_URL}/api/community/${id}/post/${postId}`,
+            {
+              headers: { Authorization: localStorage.getItem('token') },
+            },
+          )
+          .then(response => {
             Swal.fire({
               text: '게시글이 삭제되었습니다.',
               confirmButtonColor: '#FFD337',
             }).then(result => {
               navigate(`/community/${id}`);
             });
-          } else {
-            Swal.fire({
-              icon: 'error',
-              text: '본인이 작성한 게시글만 삭제할 수 있어요❗️',
-              confirmButtonColor: '#FFD337',
-            });
-          }
-        }
-      })
-      .catch(error => {
-        if (error.response && error.response.status === 403) {
-          Swal.fire({
-            icon: 'error',
-            text: '본인이 작성한 게시글만 삭제할 수 있어요❗️',
-            confirmButtonColor: '#FFD337',
+          })
+          .catch(error => {
+            // 에러 처리
+            console.log(error);
+            if (error.response && error.response.status === 403) {
+              Swal.fire({
+                icon: 'error',
+                text: '본인이 작성한 게시글만 삭제할 수 있어요❗️',
+                confirmButtonColor: '#FFD337',
+              });
+            } else if (error.response && error.response.status === 401) {
+              Swal.fire({
+                icon: 'error',
+                text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
+                confirmButtonColor: '#FFD337',
+              });
+              dispatch(setAuth(false));
+              localStorage.removeItem('token');
+            } else {
+              Swal.fire({
+                icon: 'error',
+                text: `error! ${error}`,
+                confirmButtonColor: '#FFD337',
+              });
+            }
           });
-        } else if (error.response && error.response.status === 401) {
-          Swal.fire({
-            icon: 'error',
-            text: '토큰이 만료되었습니다. 재로그인 해주세요❗️',
-            confirmButtonColor: '#FFD337',
-          });
-          dispatch(setAuth(false));
-          localStorage.removeItem('token');
-        } else {
-          Swal.fire({
-            icon: 'error',
-            text: `error! ${error}`,
-            confirmButtonColor: '#FFD337',
-          });
-        }
-      });
-  }, [
-    auth,
-    writerInfo.email,
-    writerInfo.name,
-    curProfile.email,
-    curProfile.name,
-    id,
-    postId,
-    navigate,
-    dispatch,
-  ]);
+      }
+    });
+  }, [id, postId, dispatch, auth, navigate]);
 
   // 글수정
   const handleEdit = useCallback(() => {
