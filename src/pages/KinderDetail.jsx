@@ -161,13 +161,10 @@ function KinderDetail() {
     <div className="relative mb-64 flex flex-col items-center pt-130 onlyMobile:pt-64">
       <div className="max-w-[1280px] px-80 onlyMobile:max-w-full onlyMobile:px-0">
         {/* 메인 이미지 */}
-        <div className="mb-48 h-432 overflow-hidden rounded-[16px] onlyMobile:mb-24 onlyMobile:h-300 onlyMobile:rounded-0">
-          <img
-            src={kinderData.imageUrl}
-            alt="유치원대표이미지"
-            className="w-full"
-          />
-        </div>
+        <div
+          className="mb-48 h-432 overflow-hidden rounded-[16px] bg-cover bg-center onlyMobile:mb-24 onlyMobile:h-300 onlyMobile:rounded-0"
+          style={{ backgroundImage: `url(${kinderData.imageUrl})` }}
+        />
         <div className="flex">
           {/* 좌측 컨텐츠 영역 */}
           <div className="w-[63%] pl-8 onlyMobile:w-full onlyMobile:px-24">
@@ -221,7 +218,15 @@ function KinderDetail() {
                       연결된 SNS가 없어요🥺
                     </p>
                   ) : (
-                    <p className="w-full">{kinderData.snsUrl}</p>
+                    // <p className="w-full">{kinderData.snsUrl}</p>
+                    <a
+                      className="w-full"
+                      href={kinderData.snsUrl}
+                      target="blank"
+                      rel="noopener noreferrer"
+                    >
+                      {kinderData.snsUrl}
+                    </a>
                   )}
                   {/* </p> */}
                 </div>
