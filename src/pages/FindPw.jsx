@@ -189,9 +189,10 @@ function FindPw() {
           navi('/login');
         })
         .catch(err => {
-          console.log(err);
           if (err.response && err.response.status === 404) {
             setEmailErr(err.response.message);
+          } else if (err.response && err.response.status === 403) {
+            setEmailErr('간편 회원가입 유저는 비밀번호 수정이 불가능합니다.');
           }
         });
     }

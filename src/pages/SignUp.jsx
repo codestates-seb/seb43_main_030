@@ -55,6 +55,11 @@ function SignUp() {
         setIsConfirmEmail(false);
       }
 
+      if (!isConfirmEmail) {
+        setConfirmEmailErr('인증 완료 버튼을 눌러주세요.');
+        setIsConfirmEmail(false);
+      }
+
       if (!user.email) {
         setEmailErr('이메일을 입력해주세요.');
       }
@@ -155,6 +160,7 @@ function SignUp() {
           email: user.email,
         })
         .then(res => {
+          console.log(res);
           setEmailSendComp('인증 코드 전송이 완료되었습니다.');
           setConfirmEmail(res.data);
           Toast.fire({
@@ -166,7 +172,7 @@ function SignUp() {
         .catch(err => {
           setIsConfirmEmailBtn(false);
           if (err.response && err.response.status === 409) {
-            setEmailErr('이미 가입되어 있는 이메일입니다.');
+            setEmailErr('이미 가입되어 있거나 탈퇴한 이메일입니다.');
           } else {
             Toast.fire({
               title: '인증 코드 전송을 다시 시도해주세요.',

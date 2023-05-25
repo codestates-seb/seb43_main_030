@@ -1,3 +1,4 @@
+import { useMediaQuery } from 'react-responsive';
 import { useState, useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +12,7 @@ import InputSelectBox from '../components/Input/InputSelectBox';
 import { ReactComponent as Top } from '../images/top.svg';
 import NoList from '../images/perpett-nolist.png';
 import PerpettBanner from '../images/banner.png';
+import PerpettBannerMobile from '../images/m-banner.png';
 
 function Main() {
   const [isPending, setIsPending] = useState(false);
@@ -20,6 +22,7 @@ function Main() {
   const page = useRef(8);
   const [print, setPrint] = useState([]);
   const dispatch = useDispatch();
+  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
   const areaFilter = useSelector(state => state.areaFilter);
   const kinderGartens = useSelector(state => state.kinderGartens);
@@ -72,17 +75,21 @@ function Main() {
 
   return (
     <div className="flex-center relative flex-col">
-      <div className="flex-center mt-80 w-[100%] max-w-[1440px] flex-col px-80 onlyMobile:mt-64 onlyMobile:px-24">
-        {/* <div className="mt-56 h-304 w-[100%] rounded-2xl bg-yellow-500">
-          안냐세여
-        </div> */}
-        <div className="user-profile mt-56 h-432 overflow-hidden rounded-[16px] onlyMobile:mt-24 onlyMobile:h-300 ">
-          <img
-            className="h-full w-full"
-            src={PerpettBanner}
-            alt="강아지유치원 어디가 좋을까?"
+      <div className="flex-center mt-80 w-[100%] max-w-[1440px] flex-col px-80 onlyMobile:mt-64 onlyMobile:px-0">
+        {!isMobile ? (
+          <div
+            className="flex-center mb-24 mt-56 h-432 w-[100%] max-w-[1440px] overflow-hidden rounded-[16px] bg-cover bg-center"
+            style={{ backgroundImage: `url(${PerpettBanner})` }}
           />
-        </div>
+        ) : (
+          <div
+            className="flex-center h-300 w-[100%] overflow-hidden bg-cover bg-center"
+            style={{ backgroundImage: `url(${PerpettBannerMobile})` }}
+          />
+        )}
+      </div>
+
+      <div className="flex-center w-[100%] max-w-[1440px] flex-col px-80 onlyMobile:px-24">
         <div className="mb-24 mt-48 flex w-[100%] justify-between text-28 font-bold onlyMobile:flex-col onlyMobile:text-22">
           <span>
             {searchValue ? `"${searchValue}"에 대한 검색결과` : '유치원 리스트'}

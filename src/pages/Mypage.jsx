@@ -46,6 +46,8 @@ function Mypage() {
   const [settingModal, setSettingModal] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/users/profile`, {
         headers: {
@@ -93,6 +95,8 @@ function Mypage() {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  console.log(curProfile);
 
   // 모달 관련 함수
   const modalProfileOnOff = () => {
@@ -310,6 +314,8 @@ function Mypage() {
             background: '#25B865',
             color: 'white',
           });
+          dispatch(setCurProfile(res.data.data));
+          window.location.reload();
         })
         .catch(err => {
           if (err.response && err.response.status === 401) {
@@ -389,7 +395,7 @@ function Mypage() {
                   <p className="mb-16 text-12 text-black-350">
                     {curProfile.email}
                   </p>
-                  <div className="flex-center mb-24 w-full gap-4">
+                  <div className="flex-center mb-24 w-full gap-4 onlyMobile:mb-16">
                     <div className="flex-center w-full flex-col">
                       <p className="text-12 text-black-350">후기</p>
                       <p className="text-28 font-bold onlyMobile:text-18">
@@ -406,7 +412,7 @@ function Mypage() {
                 </div>
 
                 {/* 프로필 추가, 설정, 로그아웃 버튼 */}
-                <div className="flex justify-between border-t-[1px] border-black-070 pt-24 text-16 onlyMobile:py-32 onlyMobile:text-14">
+                <div className="flex justify-between border-t-[1px] border-black-070 pt-24 text-16 onlyMobile:pt-20 onlyMobile:text-14">
                   <div className="flex w-full flex-col items-center">
                     {user && user.length < 4 ? (
                       <>
