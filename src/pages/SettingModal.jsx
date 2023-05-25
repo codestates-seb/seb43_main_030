@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import axios, { HttpStatusCode } from 'axios';
 import {
@@ -19,6 +19,8 @@ import { ReactComponent as Close } from '../images/close.svg';
 function SettingModal({ onClick, setSettingModal }) {
   const navi = useNavigate();
   const dispatch = useDispatch();
+
+  const curProfile = useSelector(state => state.curProfile);
 
   const [value, setValue] = useState({
     curPassword: '',
@@ -223,17 +225,45 @@ function SettingModal({ onClick, setSettingModal }) {
             </div>
 
             {/* 비밀번호 변경 */}
+            {/* {curProfile?.socialType !== null ? (
+
+            ) : (
+
+            )} */}
             <div className="mb-30 overflow-y-scroll">
               <div className="mt-25 flex flex-col border-b-[1px] border-black-070 pb-25">
                 <p className="write-title mb-15 mr-15">비밀번호 변경</p>
                 <form onSubmit={e => e.preventDefault()}>
                   <div className="mb-24">
+                    {/* {curProfile?.socialType !== null ? (
+                      <Input
+                        labelText="현재 비밀번호"
+                        placeholder="비밀번호를 입력해주세요."
+                        type="password"
+                        onChange={onCheckCurPwd}
+                        isError={curPwdErr}
+                        disabled="간편 가입은 비밀번호 변경이 불가능합니다."
+                      />
+                    ) : (
+                      <Input
+                        labelText="현재 비밀번호"
+                        placeholder="비밀번호를 입력해주세요."
+                        type="password"
+                        onChange={onCheckCurPwd}
+                        isError={curPwdErr}
+                        // {curProfile?.socialType !== null ? (disabled="간편 가입은 비밀번호 변경이 불가능합니다.") : ''}
+                      />
+                    )} */}
                     <Input
                       labelText="현재 비밀번호"
                       placeholder="비밀번호를 입력해주세요."
                       type="password"
                       onChange={onCheckCurPwd}
                       isError={curPwdErr}
+                      disabled={
+                        curProfile?.socialType !== null &&
+                        '간편 가입은 비밀번호 변경이 불가능합니다.'
+                      }
                     />
                   </div>
                   <div className="mb-24">
@@ -243,6 +273,10 @@ function SettingModal({ onClick, setSettingModal }) {
                       type="password"
                       onChange={onCheckNewPwd}
                       isError={newPwdErr}
+                      disabled={
+                        curProfile?.socialType !== null &&
+                        '간편 가입은 비밀번호 변경이 불가능합니다.'
+                      }
                     />
                   </div>
                   <div className="mb-24">
@@ -252,17 +286,23 @@ function SettingModal({ onClick, setSettingModal }) {
                       type="password"
                       onChange={onCheckConfirmPwd}
                       isError={confirmPwdErr}
+                      disabled={
+                        curProfile?.socialType !== null &&
+                        '간편 가입은 비밀번호 변경이 불가능합니다.'
+                      }
                     />
                   </div>
                   <Button
                     className="color-yellow btn-size-l mt-16 w-full"
                     onClick={handleChangePwd}
+                    disabled={curProfile?.socialType !== null}
                   >
                     비밀번호 변경
                   </Button>
                 </form>
               </div>
-              {/* 사진등록 */}
+
+              {/* 회원탈퇴 */}
               <div className="mt-25 flex flex-col  pb-25">
                 <Button
                   className="btn-text-default text-black-350"
