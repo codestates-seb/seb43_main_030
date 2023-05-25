@@ -46,6 +46,8 @@ function Mypage() {
   const [settingModal, setSettingModal] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/users/profile`, {
         headers: {
@@ -93,6 +95,8 @@ function Mypage() {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  console.log(curProfile);
 
   // 모달 관련 함수
   const modalProfileOnOff = () => {
