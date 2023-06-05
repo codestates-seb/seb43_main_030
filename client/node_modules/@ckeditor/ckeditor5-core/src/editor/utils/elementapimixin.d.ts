@@ -1,0 +1,31 @@
+/**
+ * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ */
+/**
+ * @module core/editor/utils/elementapimixin
+ */
+import { type Constructor, type Mixed } from '@ckeditor/ckeditor5-utils';
+import type Editor from '../editor';
+/**
+ * Implementation of the {@link module:core/editor/utils/elementapimixin~ElementApi}.
+ */
+export default function ElementApiMixin<Base extends Constructor<Editor>>(base: Base): Mixed<Base, ElementApi>;
+/**
+ * Interface describing an editor that replaced a DOM element (was "initialized on an element").
+ *
+ * Such an editor should provide a method to
+ * {@link module:core/editor/utils/elementapimixin~ElementApi#updateSourceElement update the replaced element with the current data}.
+ */
+export interface ElementApi {
+    /**
+     * The element on which the editor has been initialized.
+     *
+     * @readonly
+     */
+    sourceElement: HTMLElement | undefined;
+    /**
+     * Updates the {@link #sourceElement editor source element}'s content with the data.
+     */
+    updateSourceElement(data?: string): void;
+}
