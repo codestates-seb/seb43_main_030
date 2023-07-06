@@ -1,0 +1,87 @@
+spring:
+  profiles:
+    include: oauth
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://perpett-database.csukwlthqcnp.ap-northeast-2.rds.amazonaws.com:3306/test?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: admin
+    password: 12341234
+
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2
+#  datasource:
+#    url: jdbc:h2:mem:test
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  sql:
+    init:
+      data-locations: classpath*:db/h2/data.sql
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: net1645@gmail.com
+    password: qftnclmrtmllwpro
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  servlet:
+    multipart:
+      maxFileSize: 10MB
+      maxRequestSize: 10MB
+
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG
+server:
+  servlet:
+    encoding:
+      force-response: true
+
+
+jwt:
+  key: kevin1234123412341234123412341234
+  access-token-expiration-minutes: 60
+  refresh-token-expiration-minutes: 11760
+
+mail:
+  address:
+    admin: admin@gmail.com
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    s3:
+      bucket: perpett
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    cloud-front: "https://d1prvajctafd3i.cloudfront.net"
+
+url:
+  image:
+    profile: "https://d1prvajctafd3i.cloudfront.net/default/profile/default_profile_image.png"
+    kindergarten: "https://d1prvajctafd3i.cloudfront.net/default/kindergarten/default_kindergarten_image.jfif"
+  s3:
+    profile: "https://perpett.s3.ap-northeast-2.amazonaws.com/default/profile/default_profile_image.png"
+    kindergarten: "https://perpett.s3.ap-northeast-2.amazonaws.com/default/kindergarten/default_kindergarten_image.jfif"
